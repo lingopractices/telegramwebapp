@@ -63,6 +63,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/no-undef': 'off',
+    'unused-imports/no-unused-imports': 'warn',
     'arrow-body-style': 'warn',
     'react/function-component-definition': 'off',
     'no-bitwise': ['error', { allow: ['|'] }],

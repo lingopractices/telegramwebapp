@@ -1,7 +1,4 @@
 dist
-
 node_modules
-
-*.cjs
-
 vite.config.ts
+*.cjs
