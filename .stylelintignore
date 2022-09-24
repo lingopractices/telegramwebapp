@@ -1,0 +1,11 @@
+node_modules
+obj
+dist
+*.tsx
+*.jsx
+*.ts
+*.js
+*.cjs
+*.md
+*.svg
+*.html
