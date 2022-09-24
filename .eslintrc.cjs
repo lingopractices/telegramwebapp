@@ -30,6 +30,7 @@ module.exports = {
     ...a11yOff,
     'react/jsx-filename-extension': ['error', { extensions: ['.tsx'] }],
     'react-hooks/exhaustive-deps': 'warn',
+    'prefer-const': 'warn',
     '@typescript-eslint/no-explicit-any': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     '@typescript-eslint/no-unused-vars': 'off',

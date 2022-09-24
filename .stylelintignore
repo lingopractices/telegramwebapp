@@ -8,3 +8,4 @@ dist
 *.cjs
 *.md
 *.svg
+*.html
