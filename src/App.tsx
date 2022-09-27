@@ -1,5 +1,11 @@
 import React from 'react';
 
-const App = () => <div>Hellow world</div>;
+import SignWithGoogle from '@components/SignWithGoogle/SignWithGoogle';
+
+const App = () => (
+  <div>
+    <SignWithGoogle />
+  </div>
+);
 
 export default App;
