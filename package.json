@@ -2,7 +2,6 @@
   "name": "telegram-web-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://tg.lingopractices.com",
   "dependencies": {
     "@reduxjs/toolkit": "1.8.1",
     "@types/node": "17.0.25",
@@ -10,7 +9,6 @@
     "@types/react-dom": "18.0.2",
     "axios": "0.27.2",
     "classnames": "2.3.2",
-    "gh-pages": "4.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "8.0.1",
