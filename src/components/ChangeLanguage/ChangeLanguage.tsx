@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import RadioItem from '@components/RadioItem';
-import SearchBox from '@components/SearchBox';
+import RadioItem from '@components/RadioItem/RadioItem';
+import SearchBox from '@components/SearchBox/SearchBox';
 
 const ChageLanguage = () => {
   const languages = ['English', 'Spanish', 'Belarussian'];
@@ -11,7 +11,7 @@ const ChageLanguage = () => {
 
   const handleChangeLanguage = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setCurrentLanguage(getClearString(event.target.value));
+      setCurrentLanguage(event.target.value);
     },
     [setCurrentLanguage],
   );
@@ -30,7 +30,7 @@ const ChageLanguage = () => {
   }, [currentLanguage, setSearchStringText]);
 
   useEffect(() => {
-    setFilteredLanguages(languages.filter((item) => getClearString(item).includes(searchStringText)));
+    setFilteredLanguages(languages.filter((item) => getClearString(item).includes(getClearString(searchStringText))));
   }, [searchStringText]);
 
   return (

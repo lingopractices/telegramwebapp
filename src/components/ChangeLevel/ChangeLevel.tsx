@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
-import RadioItem from '@components/RadioItem';
+import RadioItem from '@components/RadioItem/RadioItem';
 
 const ChangeLevel = () => {
   const levels = ['Beginer', 'Pre-intemediate', 'Intermediate'];
