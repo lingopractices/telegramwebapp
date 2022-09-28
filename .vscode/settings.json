@@ -1,0 +1,10 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+
+  "stylelint.useLocal": true,
+  "stylelint.autoFixOnSave": true,
+
+  "cSpell.language": "en",
+  "cSpell.words": []
+}

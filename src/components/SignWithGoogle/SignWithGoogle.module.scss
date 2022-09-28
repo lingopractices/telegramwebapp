@@ -1,0 +1,78 @@
+.container {
+  padding: 0 1em;
+}
+
+.logoWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.logo {
+  width: 150px;
+  height: 150px;
+}
+
+.content {
+  margin-bottom: 10px;
+  font-family: Rubik, sans-serif;
+  letter-spacing: 1px;
+  word-spacing: 4px;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+p {
+  text-indent: 30px;
+}
+
+.noWrap {
+  white-space: nowrap;
+}
+
+.googleButton {
+  width: 90%;
+  height: 40px;
+  padding: 0;
+  border-width: 0;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 1px 1px 0 1px rgb(0 0 0 / 5%);
+  color: #737373;
+  transition-duration: 150ms;
+  transition-property: background-color, box-shadow;
+  transition-timing-function: ease-in-out;
+  white-space: nowrap;
+
+  &:focus,
+  &:hover {
+    box-shadow: 1px 4px 5px 1px rgb(0 0 0 / 10%);
+  }
+
+  &:active {
+    background-color: #e5e5e5;
+    box-shadow: none;
+    transition-duration: 10ms;
+  }
+}
+
+.googleButtonIcon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  margin: 8px 0 8px 8px;
+  vertical-align: middle;
+}
+
+.googleButtonText {
+  display: inline-block;
+  padding: 0 24px;
+  font-family: Roboto, arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  vertical-align: middle;
+}
