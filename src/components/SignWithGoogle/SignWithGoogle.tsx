@@ -25,7 +25,7 @@ const SignWithGoogle = () => {
 
   const handleRedirectToGoogle = useCallback(() => {
     if (redirectUrl) {
-      window.open(redirectUrl);
+      window.open(redirectUrl, '_blank');
 
       if (timeIdRef.current) clearTimeout(timeIdRef.current);
       timeIdRef.current = setTimeout(() => {
