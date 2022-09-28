@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './styles.module.scss';
+import styles from './SearchBox.module.scss';
 
 interface ISearchBoxProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;

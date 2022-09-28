@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import RadioItem from '@components/RadioItem/RadioItem';
-import SearchBox from '@components/SearchBox/SearchBox';
+import RadioItem from '@components/RadioItem';
+import SearchBox from '@components/SearchBox';
 
 const ChageLanguage = () => {
   const languages = ['English', 'Spanish', 'Belarussian'];

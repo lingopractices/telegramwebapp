@@ -6,6 +6,7 @@ import styles from './SignWithGoogle.module.scss';
 
 const SignWithGoogle = () => {
   const [redirectUrl, setRedirectUrl] = useState('');
+  const timeIdRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const getToken = async () => {
@@ -24,11 +25,13 @@ const SignWithGoogle = () => {
 
   const handleRedirectToGoogle = useCallback(() => {
     if (redirectUrl) {
-      window.open(redirectUrl);
+      window.open(redirectUrl, '_blank');
+
+      if (timeIdRef.current) clearTimeout(timeIdRef.current);
+      timeIdRef.current = setTimeout(() => {
+        window.Telegram.WebApp.close();
+      }, 2000);
     }
-    const idTimout = setTimeout(() => {
-      window.Telegram.WebApp.close();
-    }, 2000);
   }, [redirectUrl]);
 
   return (
