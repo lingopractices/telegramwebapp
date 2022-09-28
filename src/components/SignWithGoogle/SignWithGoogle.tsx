@@ -23,12 +23,10 @@ const SignWithGoogle = () => {
   }, []);
 
   const handleRedirectToGoogle = useCallback(() => {
-    let idTimout: ReturnType<typeof setTimeout>;
-
     if (redirectUrl) {
       window.open(redirectUrl);
     }
-    idTimout = setTimeout(() => {
+    const idTimout = setTimeout(() => {
       window.Telegram.WebApp.close();
     }, 2000);
   }, [redirectUrl]);
