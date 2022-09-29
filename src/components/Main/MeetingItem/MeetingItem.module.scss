@@ -1,0 +1,22 @@
+.container {
+  width: 100%;
+  padding: 0.3em;
+  border: none;
+  box-shadow: 0 0 3px rgb(124 124 211);
+  cursor: pointer;
+  text-decoration: none;
+
+  &:not(:last-of-type) {
+    margin-bottom: 10px;
+  }
+}
+
+.defaultText {
+  display: block;
+  font-size: xx-small;
+  text-align: left;
+}
+
+.date {
+  text-align: left;
+}

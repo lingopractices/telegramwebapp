@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
-import TimeItem from '@components/DateAndTime/ChangeTime/TimeItem/TimeItem';
+import TimeItem from '@components/DateAndTime/Time/TimeItem/TimeItem';
 
 import styles from './ChangeTime.module.scss';
 
-interface IChangeTimeProps {
+interface ITimeProps {
   selectedTime: string;
   onChange: (time: string) => void;
 }
 
-const ChangeTime: React.FC<IChangeTimeProps> = ({ selectedTime, onChange }) => {
+const Time: React.FC<ITimeProps> = ({ selectedTime, onChange }) => {
   const [times, setTimes] = useState<string[]>([]);
 
   useEffect(() => {
@@ -35,4 +35,4 @@ const ChangeTime: React.FC<IChangeTimeProps> = ({ selectedTime, onChange }) => {
   );
 };
 
-export default ChangeTime;
+export default Time;
