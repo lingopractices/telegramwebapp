@@ -5,12 +5,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import dayjs, { Dayjs } from 'dayjs';
 
-interface IChangeDateProps {
+interface IDateProps {
   date: Dayjs | null;
   onChange: (newDate: Dayjs | null) => void;
 }
 
-const ChangeDate: React.FC<IChangeDateProps> = ({ date, onChange }) => (
+const Date: React.FC<IDateProps> = ({ date, onChange }) => (
   <div>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <StaticDatePicker
@@ -24,4 +24,4 @@ const ChangeDate: React.FC<IChangeDateProps> = ({ date, onChange }) => (
     </LocalizationProvider>
   </div>
 );
-export default ChangeDate;
+export default Date;
