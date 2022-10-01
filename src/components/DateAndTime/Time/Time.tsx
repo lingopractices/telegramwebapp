@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import TimeItem from '@components/DateAndTime/Time/TimeItem/TimeItem';
 
-import styles from './ChangeTime.module.scss';
+import styles from './Time.module.scss';
 
 interface ITimeProps {
   selectedTime: string;
