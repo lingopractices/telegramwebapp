@@ -11,8 +11,6 @@ const mapRoutes = (routes: RouteObject[]) =>
       props: { element: PageComponent, children },
     } = route;
 
-    console.log(route);
-
     return (
       <Route key={path} path={path} element={<PageComponent />}>
         {children}
