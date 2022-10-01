@@ -52,7 +52,7 @@ export const TopicList = () => {
 
   useEffect(() => {
     setFilteredTopics(topis.filter((item) => item.trim().toLocaleLowerCase().includes(searchStringText)));
-  }, [searchStringText, setFilteredTopics]);
+  }, [searchStringText, topis, setFilteredTopics]);
 
   useEffect(() => {
     let idTimout: ReturnType<typeof setTimeout>;

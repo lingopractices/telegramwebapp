@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { ReactComponent as LingoLogo } from '@assets/lingo-logo.svg';
+import { Link } from 'react-router-dom';
+import { ACCOUNT_PATH, CREATE_PATH, JOIN_PATH } from 'routing/routing.constants';
 
 import MeetingItem from './MeetingItem/MeetingItem';
 
@@ -15,17 +17,17 @@ const Main = () => {
 
   return (
     <div className={styles.container}>
-      <button type='button' className={styles.account}>
+      <Link to={ACCOUNT_PATH} className={styles.account}>
         account
-      </button>
+      </Link>
       <LingoLogo className={styles.logo} />
       <div className={styles.buttonWrapper}>
-        <button type='button' className={styles.button}>
+        <Link to={CREATE_PATH} className={styles.button}>
           create meeting
-        </button>
-        <button type='button' className={styles.button}>
+        </Link>
+        <Link to={JOIN_PATH} className={styles.button}>
           joing meeting
-        </button>
+        </Link>
       </div>
       {meetings.map((meeting) => (
         <MeetingItem key={meeting.label} date={meeting.date} />

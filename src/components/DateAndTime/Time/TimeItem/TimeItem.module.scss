@@ -6,12 +6,12 @@
   margin: 3px;
   cursor: pointer;
   text-align: center;
+
+  input {
+    display: none;
+  }
 }
 
 .selected {
   background-color: burlywood;
-}
-
-input {
-  display: none;
 }

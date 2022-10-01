@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import SignWithGoogle from '@components/SignWithGoogle/SignWithGoogle';
+import MainRouter from 'routing/routers/MainRouter';
 
-const App = () => (
-  <div>
-    <SignWithGoogle />
-  </div>
-);
+const App = () => {
+  const routing = useMemo(() => <MainRouter />, []);
+
+  return <div>{routing}</div>;
+};
 
 export default App;

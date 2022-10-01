@@ -1,0 +1,17 @@
+export const MAIN_PATH = '/';
+export const INSTANT_MAIN_PATH = '/main';
+export const MEETING_PATH = '/meeting/:id';
+export const CREATE_PATH = '/create';
+export const CREATE_LANGUAGES_PATH = `${CREATE_PATH}/languages`;
+export const CREATE_LEVELS_PATH = `${CREATE_PATH}/levels`;
+export const CREATE_TOPICS_PATH = `${CREATE_PATH}/topics`;
+export const CREATE_PARTICIPANTS_PATH = `${CREATE_PATH}/participants`;
+export const CREATE_DATE_PATH = `${CREATE_PATH}/date`;
+export const JOIN_PATH = '/join';
+export const JOIN_LANGUAGES_PATH = `${JOIN_PATH}/languages`;
+export const JOIN_LEVELS_PATH = `${JOIN_PATH}/levels`;
+export const JOIN_DATE_PATH = `${JOIN_PATH}/date`;
+export const ACCOUNT_PATH = '/account';
+export const ACCOUNT_LANGUAGES_PATH = `${ACCOUNT_PATH}/languages`;
+export const ACCOUNT_INTERFACE_LANGUAGES_PATH = `${ACCOUNT_PATH}/interaface-languages`;
+export const ACCOUNT_LEVELS_PATH = `${ACCOUNT_PATH}/levels`;
