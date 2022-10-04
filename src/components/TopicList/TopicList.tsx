@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 
 import RadioItem from '@components/RadioItem/RadioItem';
 import SearchBox from '@components/SearchBox/SearchBox';
@@ -6,29 +6,32 @@ import SearchBox from '@components/SearchBox/SearchBox';
 import styles from './TopicList.module.scss';
 
 export const TopicList = () => {
-  const topis = [
-    'Art',
-    'Cinema',
-    'Sport',
-    'Family',
-    'Pets',
-    'Test1',
-    'Test2',
-    'Test3',
-    'Test4',
-    'Test5',
-    'Test6',
-    'Test7',
-    'elventh',
-    'twelves',
-    'fourteenth',
-    'fivteents',
-    'sexteenth',
-    'seveteenth',
-    'eighteenth',
-    'ninteeth',
-    'twenteenth',
-  ];
+  const topis = useMemo(
+    () => [
+      'Art',
+      'Cinema',
+      'Sport',
+      'Family',
+      'Pets',
+      'Test1',
+      'Test2',
+      'Test3',
+      'Test4',
+      'Test5',
+      'Test6',
+      'Test7',
+      'elventh',
+      'twelves',
+      'fourteenth',
+      'fivteents',
+      'sexteenth',
+      'seveteenth',
+      'eighteenth',
+      'ninteeth',
+      'twenteenth',
+    ],
+    [],
+  );
   const [filteredTopics, setFilteredTopics] = useState(topis);
   const [currentTopic, setCurrentTopic] = useState('');
   const [searchStringText, setSearchStringText] = useState('');

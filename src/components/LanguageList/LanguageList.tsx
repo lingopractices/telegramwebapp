@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import RadioItem from '@components/RadioItem/RadioItem';
 import SearchBox from '@components/SearchBox/SearchBox';
 
 const LanguageList = () => {
-  const languages = ['English', 'Spanish', 'Belarussian'];
+  const languages = useMemo(() => ['English', 'Spanish', 'Belarussian'], []);
   const [currentLanguage, setCurrentLanguage] = useState('');
   const [searchStringText, setSearchStringText] = useState('');
   const [filteredLanguages, setFilteredLanguages] = useState(languages);
@@ -31,7 +31,7 @@ const LanguageList = () => {
 
   useEffect(() => {
     setFilteredLanguages(languages.filter((item) => getClearString(item).includes(getClearString(searchStringText))));
-  }, [searchStringText]);
+  }, [searchStringText, languages]);
 
   return (
     <div>
