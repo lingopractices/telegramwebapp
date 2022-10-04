@@ -28,9 +28,12 @@ const Time: React.FC<ITimeProps> = ({ selectedTime, onChange }) => {
 
   return (
     <div className={styles.container}>
-      {times.map((item) => (
-        <TimeItem key={item} label={item} isSelected={selectedTime === item} onClick={onChange} />
-      ))}
+      <h2>{'choose meeting time'.toUpperCase()}</h2>
+      <div className={styles.wrapper}>
+        {times.map((item) => (
+          <TimeItem key={item} label={item} isSelected={selectedTime === item} onClick={onChange} />
+        ))}
+      </div>
     </div>
   );
 };

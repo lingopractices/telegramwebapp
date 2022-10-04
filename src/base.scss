@@ -1,8 +1,11 @@
 body {
+  margin: 0;
   font-family: Rubik, -apple-system, 'Apple Color Emoji', 'Helvetica Neue', Arial, sans-serif;
 }
 
 * {
+
+  box-sizing: border-box;
   padding: 0;
   margin: 0;
   font-family: inherit;
@@ -25,6 +28,15 @@ body {
     width: 4px;
     border-radius: 6px;
   }
+}
+
+h2 {
+  margin: 20px 0;
+  color: var(--base-color);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: left;
 }
 
 button {
@@ -72,5 +84,6 @@ input {
   // primary colors
 
   --base-color: #033dba;
+  --bg-color: white;
   --secondary-color: rgb(3 61 186 / 60%);
 }
