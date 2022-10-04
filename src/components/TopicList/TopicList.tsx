@@ -51,7 +51,9 @@ export const TopicList = () => {
   );
 
   useEffect(() => {
-    setFilteredTopics(topis.filter((item) => item.trim().toLocaleLowerCase().includes(searchStringText)));
+    setFilteredTopics(
+      topis.filter((item) => item.trim().toLocaleLowerCase().includes(searchStringText)),
+    );
   }, [searchStringText, topis, setFilteredTopics]);
 
   useEffect(() => {
@@ -61,7 +63,18 @@ export const TopicList = () => {
       setSearchStringText('');
 
       idTimout = setTimeout(() => {
-        setQuestions(['first', 'second', 'third', 'fourth', 'fivth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth']);
+        setQuestions([
+          'first',
+          'second',
+          'third',
+          'fourth',
+          'fivth',
+          'sixth',
+          'seventh',
+          'eighth',
+          'ninth',
+          'tenth',
+        ]);
       }, Math.floor(Math.random() * (800 - 200 + 1) + 200));
     }
     return () => clearTimeout(idTimout);
@@ -79,7 +92,12 @@ export const TopicList = () => {
       <SearchBox value={searchStringText} onChange={handleChangeSearchString} />
       {filteredTopics.map((topic) => (
         <div key={topic}>
-          <RadioItem radioGroupName='languages' label={topic} onChange={handleChangeTopic} isSelected={topic === currentTopic} />
+          <RadioItem
+            radioGroupName='languages'
+            label={topic}
+            onChange={handleChangeTopic}
+            isSelected={topic === currentTopic}
+          />
           {currentTopic === topic && (
             <ul>
               {questions.map((question) => (

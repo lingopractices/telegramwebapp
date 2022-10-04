@@ -5,7 +5,13 @@ import AccountRouter from 'routing/routers/AccountRouter';
 import CreateMeetingRouter from 'routing/routers/CreateMeetingRouter';
 import JoinMeetingRouter from 'routing/routers/JoinMeetingRouter';
 
-import { ACCOUNT_PATH, CREATE_PATH, INSTANT_MAIN_PATH, JOIN_PATH, MEETING_PATH } from '../routing.constants';
+import {
+  ACCOUNT_PATH,
+  CREATE_PATH,
+  INSTANT_MAIN_PATH,
+  JOIN_PATH,
+  MEETING_PATH,
+} from '../routing.constants';
 import { MainRoutesEnum, MainRoutesObject } from '../routing.types';
 
 const MainRoutes: MainRoutesObject = {

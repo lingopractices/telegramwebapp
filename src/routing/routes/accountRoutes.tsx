@@ -1,7 +1,12 @@
 import LanguagesPage from 'pages/LanguagePage/LanguagePage';
 import LevelPage from 'pages/LevelPage/LevelPage';
 import { Route } from 'react-router-dom';
-import { ACCOUNT_INTERFACE_LANGUAGES_PATH, ACCOUNT_LANGUAGES_PATH, ACCOUNT_LEVELS_PATH, ACCOUNT_PATH } from 'routing/routing.constants';
+import {
+  ACCOUNT_INTERFACE_LANGUAGES_PATH,
+  ACCOUNT_LANGUAGES_PATH,
+  ACCOUNT_LEVELS_PATH,
+  ACCOUNT_PATH,
+} from 'routing/routing.constants';
 import deleteLineFromPath from 'routing/utils/deleteLineFromPath';
 
 import { AccountRoutesEnum, AccountRoutesObject } from '../routing.types';

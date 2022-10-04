@@ -2,7 +2,12 @@ import DateAndTimePage from 'pages/DateAndTimePage/DateAndTimePage';
 import LanguagesPage from 'pages/LanguagePage/LanguagePage';
 import LevelPage from 'pages/LevelPage/LevelPage';
 import { Route } from 'react-router-dom';
-import { JOIN_DATE_PATH, JOIN_LANGUAGES_PATH, JOIN_LEVELS_PATH, JOIN_PATH } from 'routing/routing.constants';
+import {
+  JOIN_DATE_PATH,
+  JOIN_LANGUAGES_PATH,
+  JOIN_LEVELS_PATH,
+  JOIN_PATH,
+} from 'routing/routing.constants';
 import deleteLineFromPath from 'routing/utils/deleteLineFromPath';
 
 import { JoinRoutesEnum, JoinRoutesObject } from '../routing.types';
