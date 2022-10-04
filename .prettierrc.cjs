@@ -8,7 +8,7 @@ module.exports = {
   endOfLine: 'auto',
   arrowParens: 'always',
   bracketSpacing: true,
-  printWidth: 150,
+  printWidth: 100,
   jsxSingleQuote: true,
   jsxBracketSameLine: true,
   proseWrap: 'never',
