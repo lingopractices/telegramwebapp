@@ -9,7 +9,7 @@ export class GetProfileSuccess {
 
   static get reducer() {
     return (draft: IProfileState, { payload }: ReturnType<typeof GetProfileSuccess.action>) => {
-      draft.isLoading = false;
+      draft.requests.getProfileInfoPending = false;
       draft.profileInfo = { ...payload };
 
       return draft;

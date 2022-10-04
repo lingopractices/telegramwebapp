@@ -2,5 +2,8 @@ import { IUser } from 'lingopractices-models';
 
 export interface IProfileState {
   profileInfo?: IUser;
-  isLoading: boolean;
+  requests: {
+    getProfileInfoPending: boolean;
+    updateProfilePending: boolean;
+  };
 }

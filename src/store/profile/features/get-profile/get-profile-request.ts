@@ -18,7 +18,7 @@ export class GetProfileRequest {
 
   static get reducer() {
     return (draft: IProfileState) => {
-      draft.isLoading = true;
+      draft.requests.getProfileInfoPending = true;
     };
   }
 

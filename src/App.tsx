@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react';
 
+import { getMeetingsAction } from '@store/meetings/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import MainRouter from 'routing/routers/MainRouter';
 import { getProfileRequestAction, UpdateProfileRequestAction } from 'store/profile/actions';
@@ -10,6 +11,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getProfileRequestAction());
+
     dispatch(
       UpdateProfileRequestAction({
         userId: 81,
@@ -18,6 +20,19 @@ const App = () => {
         practiceLanguageId: 'ru',
         interfaceLanguageId: 'ru',
         languageLevel: 5,
+      }),
+    );
+
+    dispatch(
+      getMeetingsAction({
+        languageId: 'en',
+        languageLevel: 3,
+        from: '2022-10-24T14:15:22Z',
+        userId: 81,
+        page: {
+          offset: 0,
+          limit: 20,
+        },
       }),
     );
   }, [dispatch]);

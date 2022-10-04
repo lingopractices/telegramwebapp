@@ -8,7 +8,10 @@ import { IProfileState } from './types';
 
 const initialState: IProfileState = {
   profileInfo: undefined,
-  isLoading: false,
+  requests: {
+    getProfileInfoPending: false,
+    updateProfilePending: false,
+  },
 };
 
 const reducer = createReducer<IProfileState>(initialState, (builder) => {

@@ -20,7 +20,7 @@ export class UpdateProfileRequest {
   }
 
   static get saga() {
-    return function* updateProfileRequestSaga({
+    return function* updateProfileSaga({
       payload,
     }: ReturnType<typeof UpdateProfileRequest.action>) {
       yield call(() => UpdateProfileRequest.httpRequest.generator(payload));
