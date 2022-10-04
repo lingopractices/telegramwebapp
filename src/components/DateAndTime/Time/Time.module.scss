@@ -1,5 +1,9 @@
 .container {
+  padding: 0 16px;
+}
+
+.wrapper {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-flow: row wrap;
+  gap: 18px;
 }
