@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ReactComponent as LingoLogo } from '@assets/lingo-logo.svg';
 import { Link } from 'react-router-dom';
-import { ACCOUNT_PATH, CREATE_PATH, JOIN_PATH } from 'routing/routing.constants';
+import { ACCOUNT_PATH, CREATE_LANGUAGES_PATH, JOIN_LANGUAGES_PATH } from 'routing/routing.constants';
 
 import MeetingItem from './MeetingItem/MeetingItem';
 
@@ -22,10 +22,10 @@ const Main = () => {
       </Link>
       <LingoLogo className={styles.logo} />
       <div className={styles.buttonWrapper}>
-        <Link to={CREATE_PATH} className={styles.button}>
+        <Link to={CREATE_LANGUAGES_PATH} className={styles.button}>
           create meeting
         </Link>
-        <Link to={JOIN_PATH} className={styles.button}>
+        <Link to={JOIN_LANGUAGES_PATH} className={styles.button}>
           joing meeting
         </Link>
       </div>
