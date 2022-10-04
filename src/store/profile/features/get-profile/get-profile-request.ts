@@ -11,7 +11,7 @@ import { replaceInUrl } from 'utils/replace-in-url';
 
 import { GetProfileSuccess } from './get-profile-success';
 
-export class GetProfile {
+export class GetProfileRequest {
   static get action() {
     return createAction('profile/GET_PROFILE');
   }
@@ -25,7 +25,7 @@ export class GetProfile {
   static get saga() {
     return function* getProfileSaga(): SagaIterator {
       const { data }: AxiosResponse<IUser> = yield call(
-        () => GetProfile.httpRequest.generator(390447649), // temporary id placeholder
+        () => GetProfileRequest.httpRequest.generator(390447649), // temporary id placeholder
       );
 
       yield put(GetProfileSuccess.action(data));

@@ -1,3 +1,5 @@
-import { GetProfile } from './features/get-profile/get-profile';
+import { GetProfileRequest } from './features/get-profile/get-profile-request';
+import { UpdateProfileRequest } from './features/update-profile/update-profile-request';
 
-export const getProfileAction = GetProfile.action;
+export const getProfileRequestAction = GetProfileRequest.action;
+export const UpdateProfileRequestAction = UpdateProfileRequest.action;
