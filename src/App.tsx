@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
-import SignWithGoogle from '@components/SignWithGoogle/SignWithGoogle';
 import { useDispatch, useSelector } from 'react-redux';
+import MainRouter from 'routing/routers/MainRouter';
 import { getProfileAction } from 'store/profile/actions';
 import { getProfileDataSelector } from 'store/profile/selectors';
 
@@ -14,10 +14,11 @@ const App = () => {
 
   const profileData = useSelector(getProfileDataSelector);
 
+  const routing = useMemo(() => <MainRouter />, []);
+
   return (
     <div>
-      <pre>{JSON.stringify(profileData)}</pre>
-      <SignWithGoogle />
+      <div>{routing}</div>
     </div>
   );
 };
