@@ -1,6 +1,23 @@
 .container {
   display: flex;
-  padding: 0.5em;
-  border-bottom: 1px solid black;
+  height: 40px;
+  align-items: center;
+  padding: 9px 0;
   cursor: pointer;
+  gap: 8px;
+
+  input {
+    display: none;
+  }
+}
+
+.radioWrapper {
+  position: relative;
+}
+
+.radioFill {
+  position: absolute;
+  z-index: 1;
+  top: 4px;
+  left: 4px;
 }

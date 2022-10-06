@@ -4,7 +4,6 @@ body {
 }
 
 * {
-
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -28,15 +27,6 @@ body {
     width: 4px;
     border-radius: 6px;
   }
-}
-
-h2 {
-  margin: 20px 0;
-  color: var(--base-color);
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
-  text-align: left;
 }
 
 button {
@@ -84,6 +74,7 @@ input {
   // primary colors
 
   --base-color: #033dba;
-  --bg-color: white;
   --secondary-color: rgb(3 61 186 / 60%);
+  --bg-color: white;
+  --bg-search: rgb(118 118 128 / 12%);
 }

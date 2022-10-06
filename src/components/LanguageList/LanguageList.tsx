@@ -3,6 +3,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import RadioItem from '@components/RadioItem/RadioItem';
 import SearchBox from '@components/SearchBox/SearchBox';
 
+import styles from './LanguageList.module.scss';
+
 const LanguageList = () => {
   const languages = ['English', 'Spanish', 'Belarussian'];
   const [currentLanguage, setCurrentLanguage] = useState('');
@@ -34,12 +36,14 @@ const LanguageList = () => {
   }, [searchStringText]);
 
   return (
-    <div>
-      <h3>change language</h3>
-      <SearchBox onChange={handleChangeSearchString} value={searchStringText} />
-      {filteredLanguages.map((lang) => (
-        <RadioItem key={lang} radioGroupName='languages' label={lang} onChange={handleChangeLanguage} isSelected={lang === currentLanguage} />
-      ))}
+    <div className={styles.container}>
+      <h2>{'choose meeting language'.toUpperCase()}</h2>
+      <SearchBox onChange={handleChangeSearchString} value={searchStringText} containerClassname={styles.search} />
+      <div className={styles.wrapper}>
+        {filteredLanguages.map((lang) => (
+          <RadioItem key={lang} radioGroupName='languages' label={lang} onChange={handleChangeLanguage} isSelected={lang === currentLanguage} />
+        ))}
+      </div>
     </div>
   );
 };
