@@ -1,5 +1,18 @@
 .container {
+  padding: 0 16px;
+
+  h2 {
+    margin: 20px 0;
+    color: var(--base-color);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: left;
+  }
+}
+
+.wrapper {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-flow: row wrap;
+  gap: 16px;
 }

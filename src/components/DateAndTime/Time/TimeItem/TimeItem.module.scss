@@ -1,11 +1,15 @@
 .container {
-  width: 80px;
-  justify-content: space-between;
-  padding: 0.2em 0.1em;
-  border: 1px solid black;
-  margin: 3px;
+  display: flex;
+  height: 40px;
+  flex-basis: 72px;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: 1px solid var(--base-color);
+  border-radius: 8px;
+  color: var(--base-color);
   cursor: pointer;
-  text-align: center;
 
   input {
     display: none;
@@ -13,5 +17,6 @@
 }
 
 .selected {
-  background-color: burlywood;
+  background-color: var(--base-color);
+  color: var(--bg-color);
 }
