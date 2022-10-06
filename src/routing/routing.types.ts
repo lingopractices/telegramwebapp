@@ -38,6 +38,7 @@ export enum JoinRoutesEnum {
   LANAGUAGES_JOIN = 'LANAGUAGES_JOIN',
   LEVELS_JOIN = 'LEVELS_JOIN',
   DATE_JOIN = 'DATE_JOIN',
+  MEETING_LIST = 'MEETING_LIST',
 }
 
 export type MainRoutesObject = {

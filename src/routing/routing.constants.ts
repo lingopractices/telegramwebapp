@@ -11,6 +11,7 @@ export const JOIN_PATH = '/join';
 export const JOIN_LANGUAGES_PATH = `${JOIN_PATH}/languages`;
 export const JOIN_LEVELS_PATH = `${JOIN_PATH}/levels`;
 export const JOIN_DATE_PATH = `${JOIN_PATH}/date`;
+export const JOIN_MEETINGS_PATH = `${JOIN_PATH}/meetings`;
 export const ACCOUNT_PATH = '/account';
 export const ACCOUNT_LANGUAGES_PATH = `${ACCOUNT_PATH}/languages`;
 export const ACCOUNT_INTERFACE_LANGUAGES_PATH = `${ACCOUNT_PATH}/interaface-languages`;
