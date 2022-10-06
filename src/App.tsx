@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import MainRouter from 'routing/routers/MainRouter';
 import { getProfileAction } from 'store/profile/actions';
 import { getProfileDataSelector } from 'store/profile/selectors';
+import 'base.scss';
 
 const App = () => {
   const dispatch = useDispatch();
