@@ -15,10 +15,13 @@ interface ITopicItemProps {
 const TopicItem: React.FC<ITopicItemProps> = ({ label, isSelected, onChange }) => {
   const handleClick = useCallback(() => {
     onChange(label);
-  }, [onChange]);
+  }, [onChange, label]);
 
   return (
-    <li onClick={handleClick} className={classNames(styles.container, { [styles.selectedTopic]: isSelected })}>
+    <li
+      onClick={handleClick}
+      className={classNames(styles.container, { [styles.selectedTopic]: isSelected })}
+    >
       <span>{label}</span>
       {isSelected ? <UpArrow /> : <DownArrow />}
     </li>
