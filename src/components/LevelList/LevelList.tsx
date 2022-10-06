@@ -11,7 +11,6 @@ const LevelList = () => {
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setCurrentLevel(event.target.value);
-      console.log(event.target.value);
     },
     [setCurrentLevel],
   );
