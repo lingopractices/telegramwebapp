@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 
+import QuestionItem from '@components/QuestionItem/QuestionItem';
 import SearchBox from '@components/SearchBox/SearchBox';
 
 import TopicItem from './TopicItem/TopicItem';
@@ -69,23 +70,32 @@ export const TopicList = () => {
   );
 
   useEffect(() => {
-    if (searchStringText) setFilteredTopics(topis.filter((item) => item.trim().toLocaleLowerCase().includes(searchStringText)));
+    if (searchStringText)
+      setFilteredTopics(
+        topis.filter((item) => item.trim().toLocaleLowerCase().includes(searchStringText)),
+      );
   }, [searchStringText, topis, setFilteredTopics]);
 
   return (
     <div className={styles.container}>
       <h2>{'choose meeting topic'.toUpperCase()}</h2>
-      <SearchBox value={searchStringText} onChange={handleChangeSearchString} containerClassname={styles.search} />
+      <SearchBox
+        value={searchStringText}
+        onChange={handleChangeSearchString}
+        containerClassname={styles.search}
+      />
       <div className={styles.wrapperList}>
         {filteredTopics.map((topic) => (
           <div key={topic}>
-            <TopicItem label={topic} isSelected={topic === currentTopic} onChange={handleChangeTopic} />
+            <TopicItem
+              label={topic}
+              isSelected={topic === currentTopic}
+              onChange={handleChangeTopic}
+            />
             {currentTopic === topic && (
               <ul className={styles.questions}>
                 {questions.map((question) => (
-                  <li ref={questionsRef} key={question}>
-                    {question}
-                  </li>
+                  <QuestionItem label={question} />
                 ))}
               </ul>
             )}

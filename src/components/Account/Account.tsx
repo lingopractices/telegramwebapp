@@ -9,29 +9,44 @@ const Account = () => {
 
   return (
     <div className={styles.container}>
-      <h2>Account</h2>
-      <div>
-        <span>Practice language: {language}</span>
-        <button type='button'>change</button>
-      </div>
-      <div>
-        <span>Current level: {level}</span>
-        <button type='button'>change</button>
-      </div>
-      <div>
-        <span>Interface language: {interfaceLanguage}</span>
-        <button type='button'>change</button>
-      </div>
-      <div>
-        <span>Your gender is: </span>
-        <label>
-          male
-          <input type='radio' name='gender' />
-        </label>
-        <label>
-          female
-          <input type='radio' name='gender' />
-        </label>
+      <h2>{'my account'.toUpperCase()}</h2>
+      <div className={styles.warpper}>
+        <div className={styles.itemBox}>
+          <span className={styles.header}>{'practice language'.toUpperCase()}</span>
+          <div className={styles.bottomWrapper}>
+            <span className={styles.value}>{language}</span>
+            <button type='button' className={styles.change}>
+              Change
+            </button>
+          </div>
+        </div>
+        <div className={styles.itemBox}>
+          <span className={styles.header}>{'level'.toUpperCase()}</span>
+          <div className={styles.bottomWrapper}>
+            <span className={styles.value}>{level}</span>
+            <button type='button' className={styles.change}>
+              Change
+            </button>
+          </div>
+        </div>
+        <div className={styles.itemBox}>
+          <span className={styles.header}>{'interface language'.toUpperCase()}</span>
+          <div className={styles.bottomWrapper}>
+            <span className={styles.value}>{interfaceLanguage}</span>
+            <button type='button' className={styles.change}>
+              Change
+            </button>
+          </div>
+        </div>
+        <div className={styles.itemBox}>
+          <span className={styles.header}>{'location'.toUpperCase()}</span>
+          <div className={styles.bottomWrapper}>
+            <span className={styles.value}>Belarus</span>
+            <button type='button' className={styles.change}>
+              Change
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
