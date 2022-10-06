@@ -11,4 +11,5 @@ export const MAIN_API = {
   GET_USER_BY_TELEGRAM_USER_ID: `${ROOT_API}/user/:telegramUserId`,
   UPDATE_USER: `${ROOT_API}/user`,
   GET_LANGUAGES: `${ROOT_API}/languages`,
+  CREATE_MEETING: `${ROOT_API}/meeting`,
 };
