@@ -1,0 +1,74 @@
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 0 16px;
+
+  * {
+    color: var(--base-color);
+  }
+
+  span {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    line-height: 22px;
+  }
+
+  h2 {
+    margin: 20px 0;
+    color: var(--base-color);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: left;
+    text-align: center;
+  }
+
+  button {
+    padding: 8px 0;
+    border-radius: 8px;
+    font-weight: 600;
+    line-height: 24px;
+  }
+}
+
+.content {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 24px 16px;
+  border: 1px solid var(--base-color);
+  margin-bottom: 24px;
+  border-radius: 16px;
+  gap: 8px;
+}
+
+.data {
+  color: var(--secondary-color);
+}
+
+.timeLine {
+  display: flex;
+  height: 24px;
+  justify-content: space-between;
+}
+
+.buttons {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 16px;
+}
+
+.join {
+  background-color: var(--base-color);
+  color: var(--bg-color);
+}
+
+.leave {
+  border: 1px solid var(--base-color);
+}
+
+.arrow {
+  width: 10.56px;
+  margin-left: 6.72px;
+  stroke: var(--secondary-color);
+}

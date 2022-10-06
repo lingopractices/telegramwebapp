@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ReactComponent as RightArrow } from '@assets/icons/right-arrow-icon.svg';
+import { ReactComponent as RightArrow } from '@assets/icons/right-arrow.svg';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { Link } from 'react-router-dom';
 import { MEETING_PATH } from 'routing/routing.constants';

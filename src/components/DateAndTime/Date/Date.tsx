@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
 
-import { ReactComponent as DownArrow } from '@assets/icons/down-arrow-picker.svg';
-import { ReactComponent as LeftIcon } from '@assets/icons/left-arrow-icon.svg';
-import { ReactComponent as LeftDisableIcon } from '@assets/icons/left-disable-arrow-icon.svg';
-import { ReactComponent as RightIcon } from '@assets/icons/right-arrow-icon.svg';
+import { ReactComponent as DownArrow } from '@assets/icons/down-arrow.svg';
+import { ReactComponent as LeftIcon } from '@assets/icons/left-arrow.svg';
+import { ReactComponent as LeftDisableIcon } from '@assets/icons/left-disabled-arrow.svg';
+import { ReactComponent as RightIcon } from '@assets/icons/right-arrow.svg';
 import { createTheme } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
