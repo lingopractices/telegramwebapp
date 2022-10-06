@@ -14,4 +14,9 @@
 .wrapper {
   display: flex;
   flex-flow: column nowrap;
+  gap: 16px;
+}
+
+.paddingContainer {
+  padding: 9px 0;
 }

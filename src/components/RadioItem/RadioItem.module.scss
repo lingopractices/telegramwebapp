@@ -1,23 +1,20 @@
 .container {
   display: flex;
-  height: 40px;
+  box-sizing: border-box;
+  flex-grow: 1;
   align-items: center;
-  padding: 9px 0;
+  justify-content: center;
+  border: 1px solid var(--base-color);
+  border-radius: 8px;
+  color: var(--base-color);
   cursor: pointer;
-  gap: 8px;
 
   input {
     display: none;
   }
 }
 
-.radioWrapper {
-  position: relative;
-}
-
-.radioFill {
-  position: absolute;
-  z-index: 1;
-  top: 4px;
-  left: 4px;
+.selected {
+  background-color: var(--base-color);
+  color: var(--bg-color);
 }

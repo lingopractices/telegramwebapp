@@ -13,9 +13,16 @@
 
 .wrapper {
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: row wrap;
+
+  gap: 15px;
 }
 
 .search {
   margin-bottom: 16px;
+}
+
+.paddingContainer {
+  flex-basis: 164px;
+  padding: 10px 0;
 }

@@ -20,7 +20,14 @@ const LevelList = () => {
       <h2>{'choose meeting language level'.toUpperCase()}</h2>
       <div className={styles.wrapper}>
         {levels.map((level) => (
-          <RadioItem key={level} radioGroupName='languages' label={level} onChange={handleChange} isSelected={level === currentLevel} />
+          <RadioItem
+            key={level}
+            radioGroupName='languages'
+            label={level}
+            onChange={handleChange}
+            isSelected={level === currentLevel}
+            paddingClass={styles.paddingContainer}
+          />
         ))}
       </div>
     </div>
