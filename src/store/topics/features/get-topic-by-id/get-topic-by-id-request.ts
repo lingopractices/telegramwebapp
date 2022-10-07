@@ -6,9 +6,9 @@ import { ITopicsState } from '@store/topics/types';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { call, put } from 'redux-saga/effects';
 
-import { GetTopicSuccess } from './get-topic-success';
+import { GetTopicByIdSuccess } from './get-topic-by-id-success';
 
-export class GetTopicRequest {
+export class GetTopicByIdRequest {
   static get action() {
     return createAction<number>('topics/GET_TOPIC_REQUEST');
   }
@@ -22,11 +22,11 @@ export class GetTopicRequest {
   }
 
   static get saga() {
-    return function* getTopicById({ payload }: ReturnType<typeof GetTopicRequest.action>) {
-      const { data } = yield call(() => GetTopicRequest.httpRequest.generator(payload));
+    return function* getTopicById({ payload }: ReturnType<typeof GetTopicByIdRequest.action>) {
+      const { data } = yield call(() => GetTopicByIdRequest.httpRequest.generator(payload));
 
       if (data) {
-        yield put(GetTopicSuccess.action(data));
+        yield put(GetTopicByIdSuccess.action(data));
       }
     };
   }

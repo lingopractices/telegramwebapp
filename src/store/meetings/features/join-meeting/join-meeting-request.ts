@@ -24,7 +24,7 @@ export class JoinMeetingRequest {
   static get saga() {
     return function* joinMeeting({ payload }: ReturnType<typeof JoinMeetingRequest.action>) {
       const { data } = yield call(() => JoinMeetingRequest.httpRequest.generator(payload));
-      if (!data) {
+      if (data) {
         yield put(JoinMeetingSuccess.action(data));
       }
     };
