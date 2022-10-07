@@ -9,5 +9,6 @@ export interface IMeetingsState {
     getMeetingDaysPending: boolean;
     getSelectedMeetingPending: boolean;
     createMeetingPending: boolean;
+    joinMeetingPending: boolean;
   };
 }
