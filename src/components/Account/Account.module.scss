@@ -15,39 +15,6 @@
 
 .warpper {
   display: flex;
-  flex-flow: column nowrap;
-  gap: 16px;
-}
-
-.itemBox {
-  display: flex;
-  flex-flow: column nowrap;
-  padding: 8px;
-  border: 1px solid var(--base-color);
-  border-radius: 8px;
-}
-
-.bottomWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.header {
-  margin-bottom: 8px;
-  font-weight: 600;
-  line-height: 22px;
-}
-
-.value {
-  font-weight: 400;
-}
-
-.change {
-  width: 70px;
-  height: 40px;
-  padding: 8px;
-  background-color: var(--base-color);
-  border-radius: 8px;
-  color: var(--bg-color);
+  flex-flow: row wrap;
+  gap: 13px;
 }
