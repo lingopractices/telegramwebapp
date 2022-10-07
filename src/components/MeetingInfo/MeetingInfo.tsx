@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { ReactComponent as DownArrow } from '@assets/icons/down-arrow.svg';
 import { ReactComponent as UpArrow } from '@assets/icons/up-arrow.svg';
 import QuestionItem from '@components/QuestionItem/QuestionItem';
+import useTgBackButton from 'hooks/useTgBackButton';
+import useTgMainButton from 'hooks/useTgMainButton';
 import useToggledState from 'hooks/useToggleState';
+import { useNavigate } from 'react-router-dom';
+import { MAIN_PATH } from 'routing/routing.constants';
 
 import styles from './MeetingInfo.module.scss';
 
@@ -14,6 +18,28 @@ const MeetingInfo = () => {
   const [questions, setQuestions] = useState(['asd1', 'asd2', 'asd3']);
 
   const [isOpenQuestions, , , toggleOpenQuestions] = useToggledState(false);
+
+  const navigate = useNavigate();
+
+  const { setBackButtonOnClick } = useTgBackButton(true);
+
+  const { setMainButtonOnClick } = useTgMainButton(true, true, 'SUBMIT');
+
+  const handleBack = useCallback(() => {
+    navigate(MAIN_PATH);
+  }, [navigate]);
+
+  const handleForward = useCallback(() => {
+    navigate(MAIN_PATH);
+  }, [navigate]);
+
+  useEffect(() => {
+    setBackButtonOnClick(handleBack);
+  }, [handleBack, setBackButtonOnClick]);
+
+  useEffect(() => {
+    setMainButtonOnClick(handleForward);
+  }, [handleForward, setMainButtonOnClick]);
 
   return (
     <div className={styles.container}>
