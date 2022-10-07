@@ -233,7 +233,7 @@ interface MainButton {
   setParams(params: MainButtonParams): MainButton;
 }
 
-interface MainButtonParams {
+export interface MainButtonParams {
   /**
    * Button text.
    */
