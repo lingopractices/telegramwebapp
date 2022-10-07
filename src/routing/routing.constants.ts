@@ -7,6 +7,7 @@ export const CREATE_LEVELS_PATH = `${CREATE_PATH}/levels`;
 export const CREATE_TOPICS_PATH = `${CREATE_PATH}/topics`;
 export const CREATE_PARTICIPANTS_PATH = `${CREATE_PATH}/participants`;
 export const CREATE_DATE_PATH = `${CREATE_PATH}/date`;
+export const CREATE_INFO = `${CREATE_PATH}/info`;
 export const JOIN_PATH = '/join';
 export const JOIN_LANGUAGES_PATH = `${JOIN_PATH}/languages`;
 export const JOIN_LEVELS_PATH = `${JOIN_PATH}/levels`;

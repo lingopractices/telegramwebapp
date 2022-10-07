@@ -2,10 +2,12 @@ import DateAndTimePage from 'pages/DateAndTimePage/DateAndTimePage';
 import LanguagesPage from 'pages/LanguagePage/LanguagePage';
 import LevelPage from 'pages/LevelPage/LevelPage';
 import ParticpinatsCountPage from 'pages/ParticpinatsCountPage/ParticpinatsCount';
+import ResultInfoPage from 'pages/ResultInfoPage/ResultInfoPage';
 import TopicPage from 'pages/TopicPage/TopicPage';
 import { Route } from 'react-router-dom';
 import {
   CREATE_DATE_PATH,
+  CREATE_INFO,
   CREATE_LANGUAGES_PATH,
   CREATE_LEVELS_PATH,
   CREATE_PARTICIPANTS_PATH,
@@ -55,6 +57,14 @@ const CreateRoutes: CreateRoutesObject = {
     props: {
       element: DateAndTimePage,
       children: <Route path='*' element={<DateAndTimePage />} />,
+    },
+  },
+  [CreateRoutesEnum.INFO_CREATE]: {
+    path: `${deleteLineFromPath(CREATE_INFO, `${CREATE_PATH}/`)}`,
+    pageName: 'Info',
+    props: {
+      element: ResultInfoPage,
+      children: <Route path='*' element={<ResultInfoPage />} />,
     },
   },
 };

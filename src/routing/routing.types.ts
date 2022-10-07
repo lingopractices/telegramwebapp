@@ -32,6 +32,7 @@ export enum CreateRoutesEnum {
   TOPICS_CREATE = 'TOPICS_CREATE',
   PARTICIPIANTS_CREATE = 'PARTICIPIANTS_CREATE',
   DATE_CREATE = 'DATE_CREATE',
+  INFO_CREATE = 'INFO_CREATE',
 }
 
 export enum JoinRoutesEnum {
