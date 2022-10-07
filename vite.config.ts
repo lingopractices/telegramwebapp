@@ -14,10 +14,10 @@ export default defineConfig({
     react(),
     viteTsconfigPaths(),
     svgrPlugin(),
-    // linterPlugin({
-    //   include: ['./src/**/*.ts', './src/**/*.tsx'],
-    //   linters: [new EsLinter(), new TypeScriptLinter()],
-    // }),
+    linterPlugin({
+      include: ['./src/**/*.ts', './src/**/*.tsx'],
+      linters: [new EsLinter(), new TypeScriptLinter()],
+    }),
     eslint({ emitWarning: false, failOnError: true }),
   ],
 });
