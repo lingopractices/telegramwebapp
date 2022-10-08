@@ -48,7 +48,7 @@ const DatePicker = () => {
     if (date) {
       setMainButtonParams({ text: 'SUBMIT', is_active: true });
     } else {
-      setMainButtonParams({ text: 'CHOOSE A DATE', is_active: false });
+      setMainButtonParams({ is_active: false });
     }
   }, [date, setMainButtonParams]);
 

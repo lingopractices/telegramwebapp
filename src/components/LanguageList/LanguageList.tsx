@@ -82,7 +82,7 @@ const LanguageList = () => {
     if (currentLanguage) {
       setMainButtonParams({ text: 'SUBMIT', is_active: true });
     } else {
-      setMainButtonParams({ text: 'CHOOSE A LANGUAGE', is_active: false });
+      setMainButtonParams({ is_active: false });
     }
   }, [currentLanguage, setMainButtonParams]);
 

@@ -81,7 +81,7 @@ export const TopicList = () => {
     if (currentTopic) {
       setMainButtonParams({ text: 'SUBMIT', is_active: true });
     } else {
-      setMainButtonParams({ text: 'CHOOSE A TOPIC', is_active: false });
+      setMainButtonParams({ is_active: false });
     }
   }, [currentTopic, setMainButtonParams]);
 

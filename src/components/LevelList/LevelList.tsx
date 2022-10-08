@@ -67,7 +67,7 @@ const LevelList = () => {
     if (currentLevel) {
       setMainButtonParams({ text: 'SUBMIT', is_active: true });
     } else {
-      setMainButtonParams({ text: 'CHOOSE A LEVEL', is_active: false });
+      setMainButtonParams({ is_active: false });
     }
   }, [currentLevel, setMainButtonParams]);
 

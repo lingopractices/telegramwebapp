@@ -39,7 +39,7 @@ const ParticipantsCount = () => {
     if (currentCount) {
       setMainButtonParams({ text: 'SUBMIT', is_active: true });
     } else {
-      setMainButtonParams({ text: 'CHOOSE A NUMBER', is_active: false });
+      setMainButtonParams({ is_active: false });
     }
   }, [currentCount, setMainButtonParams]);
 

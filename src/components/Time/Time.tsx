@@ -41,7 +41,7 @@ const Time = () => {
     if (time) {
       setMainButtonParams({ text: 'SUBMIT', is_active: true });
     } else {
-      setMainButtonParams({ text: 'CHOOSE A TIME', is_active: false });
+      setMainButtonParams({ is_active: false });
     }
   }, [time, setMainButtonParams]);
 
