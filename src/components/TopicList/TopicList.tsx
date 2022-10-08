@@ -1,7 +1,11 @@
-import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 
 import QuestionItem from '@components/QuestionItem/QuestionItem';
 import SearchBox from '@components/SearchBox/SearchBox';
+import useTgBackButton from 'hooks/useTgBackButton';
+import useTgMainButton from 'hooks/useTgMainButton';
+import { useNavigate } from 'react-router-dom';
+import { BACK_PATH, CREATE_PARTICIPANTS_PATH } from 'routing/routing.constants';
 
 import TopicItem from './TopicItem/TopicItem';
 
@@ -49,7 +53,37 @@ export const TopicList = () => {
     'ninth',
     'tenth',
   ]);
-  const questionsRef = useRef<HTMLLIElement>(null);
+  const navigate = useNavigate();
+  const { setBackButtonOnClick } = useTgBackButton(true);
+  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(
+    true,
+    false,
+    'CHOOSE A TOPIC',
+  );
+
+  const handleBack = useCallback(() => {
+    navigate(BACK_PATH);
+  }, [navigate]);
+
+  const handleForward = useCallback(() => {
+    navigate(CREATE_PARTICIPANTS_PATH);
+  }, [navigate]);
+
+  useEffect(() => {
+    setMainButtonOnClick(handleForward);
+  }, [handleForward, setMainButtonOnClick]);
+
+  useEffect(() => {
+    setBackButtonOnClick(handleBack);
+  }, [handleBack, setBackButtonOnClick]);
+
+  useEffect(() => {
+    if (currentTopic) {
+      setMainButtonParams({ text: 'SUBMIT', is_active: true });
+    } else {
+      setMainButtonParams({ is_active: false });
+    }
+  }, [currentTopic, setMainButtonParams]);
 
   const handleChangeTopic = useCallback(
     (label: string) => {
@@ -95,7 +129,7 @@ export const TopicList = () => {
             {currentTopic === topic && (
               <ul className={styles.questions}>
                 {questions.map((question) => (
-                  <QuestionItem label={question} />
+                  <QuestionItem key={question} label={question} />
                 ))}
               </ul>
             )}

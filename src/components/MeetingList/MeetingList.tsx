@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import MeetingItem from '@components/MeetingItem/MeetingItem';
+import useTgBackButton from 'hooks/useTgBackButton';
+import { useNavigate } from 'react-router-dom';
+import { BACK_PATH } from 'routing/routing.constants';
 
 import styles from './MeetingList.module.scss';
 
@@ -10,6 +13,18 @@ const MeetingList = () => {
     { id: 1, label: 'meeting2', date: 'date2' },
     { id: 2, label: 'meeting3', date: 'date3' },
   ]);
+
+  const navigate = useNavigate();
+
+  const { setBackButtonOnClick } = useTgBackButton(true);
+
+  const handleBack = useCallback(() => {
+    navigate(BACK_PATH);
+  }, [navigate]);
+
+  useEffect(() => {
+    setBackButtonOnClick(handleBack);
+  }, [handleBack, setBackButtonOnClick]);
 
   return (
     <div className={styles.container}>

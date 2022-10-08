@@ -2,6 +2,20 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import RadioItem from '@components/RadioItem/RadioItem';
 import SearchBox from '@components/SearchBox/SearchBox';
+import useTgBackButton from 'hooks/useTgBackButton';
+import useTgMainButton from 'hooks/useTgMainButton';
+import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  ACCOUNT_INTERFACE_LANGUAGES_PATH,
+  ACCOUNT_LANGUAGES_PATH,
+  ACCOUNT_PATH,
+  BACK_PATH,
+  CREATE_LANGUAGES_PATH,
+  CREATE_LEVELS_PATH,
+  JOIN_LANGUAGES_PATH,
+  JOIN_LEVELS_PATH,
+  MAIN_PATH,
+} from 'routing/routing.constants';
 
 import styles from './LanguageList.module.scss';
 
@@ -18,6 +32,60 @@ const LanguageList = () => {
   const [currentLanguage, setCurrentLanguage] = useState('');
   const [searchStringText, setSearchStringText] = useState('');
   const [filteredLanguages, setFilteredLanguages] = useState(languages);
+  const [forwardPath, setForwardPath] = useState('');
+
+  const navigate = useNavigate();
+  const { setBackButtonOnClick } = useTgBackButton(true);
+  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(
+    true,
+    false,
+    'CHOOSE A LANGUAGE',
+  );
+  const location = useLocation();
+
+  const handleBack = useCallback(() => {
+    navigate(BACK_PATH);
+  }, [navigate]);
+
+  const handleForward = useCallback(() => {
+    navigate(forwardPath);
+  }, [forwardPath, navigate]);
+
+  useEffect(() => {
+    setMainButtonOnClick(handleForward);
+  }, [handleForward, setMainButtonOnClick]);
+
+  useEffect(() => {
+    setBackButtonOnClick(handleBack);
+  }, [handleBack, setBackButtonOnClick]);
+
+  useEffect(() => {
+    switch (location.pathname) {
+      case CREATE_LANGUAGES_PATH:
+        setForwardPath(CREATE_LEVELS_PATH);
+        break;
+      case JOIN_LANGUAGES_PATH:
+        setForwardPath(JOIN_LEVELS_PATH);
+        break;
+      case ACCOUNT_LANGUAGES_PATH:
+        setForwardPath(ACCOUNT_PATH);
+        break;
+      case ACCOUNT_INTERFACE_LANGUAGES_PATH:
+        setForwardPath(ACCOUNT_PATH);
+        break;
+      default:
+        setForwardPath(MAIN_PATH);
+        break;
+    }
+  }, [location.pathname, setForwardPath]);
+
+  useEffect(() => {
+    if (currentLanguage) {
+      setMainButtonParams({ text: 'SUBMIT', is_active: true });
+    } else {
+      setMainButtonParams({ is_active: false });
+    }
+  }, [currentLanguage, setMainButtonParams]);
 
   const handleChangeLanguage = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
