@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { useNavigate } from 'react-router-dom';
+import { BACK_PATH } from 'routing/routing.constants';
 
 import styles from './MeetingList.module.scss';
 
@@ -18,7 +19,7 @@ const MeetingList = () => {
   const { setBackButtonOnClick } = useTgBackButton(true);
 
   const handleBack = useCallback(() => {
-    navigate(-1);
+    navigate(BACK_PATH);
   }, [navigate]);
 
   useEffect(() => {

@@ -7,7 +7,7 @@ import {
   ACCOUNT_INTERFACE_LANGUAGES_PATH,
   ACCOUNT_LANGUAGES_PATH,
   ACCOUNT_LEVELS_PATH,
-  MAIN_PATH,
+  BACK_PATH,
 } from 'routing/routing.constants';
 
 import styles from './Account.module.scss';
@@ -22,7 +22,7 @@ const Account = () => {
   const { setBackButtonOnClick } = useTgBackButton(true);
 
   const handleBack = useCallback(() => {
-    navigate(MAIN_PATH);
+    navigate(BACK_PATH);
   }, [navigate]);
 
   useEffect(() => {

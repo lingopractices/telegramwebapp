@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import {
   ACCOUNT_LEVELS_PATH,
   ACCOUNT_PATH,
+  BACK_PATH,
   CREATE_LEVELS_PATH,
   CREATE_TOPICS_PATH,
   JOIN_LEVELS_PATH,
@@ -31,7 +32,7 @@ const LevelList = () => {
   const location = useLocation();
 
   const handleBack = useCallback(() => {
-    navigate(-1);
+    navigate(BACK_PATH);
   }, [navigate]);
 
   const handleForward = useCallback(() => {

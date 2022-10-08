@@ -11,7 +11,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { useNavigate } from 'react-router-dom';
-import { CREATE_TIME_PATH } from 'routing/routing.constants';
+import { BACK_PATH, CREATE_TIME_PATH } from 'routing/routing.constants';
 
 import styles from './DatePicker.module.scss';
 
@@ -29,7 +29,7 @@ const DatePicker = () => {
   );
 
   const handleBack = useCallback(() => {
-    navigate(-1);
+    navigate(BACK_PATH);
   }, [navigate]);
 
   const handleForward = useCallback(() => {

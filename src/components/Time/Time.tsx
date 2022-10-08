@@ -4,7 +4,7 @@ import TimeItem from '@components/Time/TimeItem/TimeItem';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { useNavigate } from 'react-router-dom';
-import { CREATE_INFO } from 'routing/routing.constants';
+import { BACK_PATH, CREATE_INFO } from 'routing/routing.constants';
 
 import styles from './Time.module.scss';
 
@@ -22,7 +22,7 @@ const Time = () => {
   );
 
   const handleBack = useCallback(() => {
-    navigate(-1);
+    navigate(BACK_PATH);
   }, [navigate]);
 
   const handleForward = useCallback(() => {

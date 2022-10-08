@@ -9,6 +9,7 @@ import {
   ACCOUNT_INTERFACE_LANGUAGES_PATH,
   ACCOUNT_LANGUAGES_PATH,
   ACCOUNT_PATH,
+  BACK_PATH,
   CREATE_LANGUAGES_PATH,
   CREATE_LEVELS_PATH,
   JOIN_LANGUAGES_PATH,
@@ -43,7 +44,7 @@ const LanguageList = () => {
   const location = useLocation();
 
   const handleBack = useCallback(() => {
-    navigate(-1);
+    navigate(BACK_PATH);
   }, [navigate]);
 
   const handleForward = useCallback(() => {
