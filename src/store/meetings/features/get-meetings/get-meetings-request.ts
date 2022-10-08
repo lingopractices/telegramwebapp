@@ -3,7 +3,8 @@ import { httpRequestFactory } from '@store/common/http-request-factory';
 import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
 import { IMeetingsState } from '@store/meetings/types';
-import { IGetMeetingsRequest } from 'lingopractices-models';
+import { AxiosResponse } from 'axios';
+import { IGetMeetingsRequest, IMeeting } from 'lingopractices-models';
 import { call, put } from 'redux-saga/effects';
 
 import { GetMeetingsSuccess } from './get-meetings-success';
@@ -22,13 +23,18 @@ export class GetMeetingsRequest {
 
   static get saga() {
     return function* getMeetingsSaga({ payload }: ReturnType<typeof GetMeetingsRequest.action>) {
-      const { data } = yield call(() => GetMeetingsRequest.httpRequest.generator(payload));
+      const { data }: AxiosResponse<IMeeting[]> = yield call(() =>
+        GetMeetingsRequest.httpRequest.generator(payload),
+      );
 
       yield put(GetMeetingsSuccess.action(data));
     };
   }
 
   static get httpRequest() {
-    return httpRequestFactory(MAIN_API.SEARCH_MEETINGS, HttpRequestMethod.Post);
+    return httpRequestFactory<IGetMeetingsRequest>(
+      MAIN_API.SEARCH_MEETINGS,
+      HttpRequestMethod.Post,
+    );
   }
 }

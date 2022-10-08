@@ -33,7 +33,7 @@ export class GetProfileRequest {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IUser>, number>(
+    return httpRequestFactory<number>(
       (telegramUserId: number) =>
         replaceInUrl(MAIN_API.GET_USER_BY_TELEGRAM_USER_ID, ['telegramUserId', telegramUserId]),
       HttpRequestMethod.Get,

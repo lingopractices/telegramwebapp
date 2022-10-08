@@ -3,6 +3,8 @@ import { httpRequestFactory } from '@store/common/http-request-factory';
 import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
 import { ILanguagesState } from '@store/languages/types';
+import { AxiosResponse } from 'axios';
+import { ILanguage } from 'lingopractices-models';
 import { call, put } from 'redux-saga/effects';
 
 import { GetLanguagesSuccess } from './get-languages-success';
@@ -22,7 +24,9 @@ export class GetLanguagesRequest {
 
   static get saga() {
     return function* getLanguages() {
-      const { data } = yield call(() => GetLanguagesRequest.httpRequest.generator());
+      const { data }: AxiosResponse<ILanguage[]> = yield call(() =>
+        GetLanguagesRequest.httpRequest.generator(),
+      );
 
       if (data) {
         yield put(GetLanguagesSuccess.action(data));

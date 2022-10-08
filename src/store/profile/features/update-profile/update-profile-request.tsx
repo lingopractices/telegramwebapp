@@ -31,6 +31,6 @@ export class UpdateProfileRequest {
   }
 
   static get httpRequest() {
-    return httpRequestFactory(MAIN_API.UPDATE_USER, HttpRequestMethod.Put);
+    return httpRequestFactory<IUpdateUserRequest>(MAIN_API.UPDATE_USER, HttpRequestMethod.Put);
   }
 }

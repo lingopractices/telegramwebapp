@@ -3,10 +3,9 @@ import { httpRequestFactory } from '@store/common/http-request-factory';
 import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
 import { IMeetingsState } from '@store/meetings/types';
-import { IJoinMeetingRequest } from 'lingopractices-models';
-import { call, put } from 'redux-saga/effects';
-
-import { JoinMeetingSuccess } from './join-meeting-success';
+import { AxiosResponse } from 'axios';
+import { IJoinMeetingRequest, IJoinMeetingResponse } from 'lingopractices-models';
+import { call } from 'redux-saga/effects';
 
 export class JoinMeetingRequest {
   static get action() {
@@ -23,14 +22,16 @@ export class JoinMeetingRequest {
 
   static get saga() {
     return function* joinMeeting({ payload }: ReturnType<typeof JoinMeetingRequest.action>) {
-      const { data } = yield call(() => JoinMeetingRequest.httpRequest.generator(payload));
+      const { data }: AxiosResponse<IJoinMeetingResponse> = yield call(() =>
+        JoinMeetingRequest.httpRequest.generator(payload),
+      );
       if (data) {
-        yield put(JoinMeetingSuccess.action(data));
+        // yield put(JoinMeetingSuccess.action());
       }
     };
   }
 
   static get httpRequest() {
-    return httpRequestFactory(MAIN_API.JOIN_MEETING, HttpRequestMethod.Post);
+    return httpRequestFactory<IJoinMeetingRequest>(MAIN_API.JOIN_MEETING, HttpRequestMethod.Post);
   }
 }

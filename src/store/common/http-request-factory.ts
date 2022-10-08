@@ -5,7 +5,7 @@ import { httpRequest } from './http-request';
 import { HttpRequestMethod } from './http-request-method';
 import { HttpHeaders, UrlGenerator } from './types';
 
-export const httpRequestFactory = <TResponse, TBody>(
+export const httpRequestFactory = <TBody>(
   url: string | UrlGenerator<TBody>,
   method: HttpRequestMethod,
   headers?: HttpHeaders,
@@ -28,6 +28,5 @@ export const httpRequestFactory = <TResponse, TBody>(
 
   return {
     generator,
-    call: (a: TResponse): TResponse => a,
   };
 };
