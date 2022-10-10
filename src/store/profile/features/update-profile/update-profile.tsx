@@ -6,7 +6,7 @@ import { IProfileState } from '@store/profile/types';
 import { IUpdateUserRequest } from 'lingopractices-models';
 import { call, put } from 'redux-saga/effects';
 
-import { GetProfileRequest } from '../get-profile/get-profile-request';
+import { GetProfileRequest } from '../get-profile/get-profile';
 
 import { UpdateProfileSuccess } from './update-profile-success';
 

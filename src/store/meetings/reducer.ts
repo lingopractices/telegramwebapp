@@ -1,12 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { GetMeetingDaysRequest } from './features/get-meeting-days/get-meeting-days-request';
+import { GetMeetingDaysRequest } from './features/get-meeting-days/get-meeting-days';
 import { GetMeetingDaysSuccess } from './features/get-meeting-days/get-meeting-days-success';
-import { GetMeetingsRequest } from './features/get-meetings/get-meetings-request';
+import { GetMeetingsRequest } from './features/get-meetings/get-meetings';
 import { GetMeetingsSuccess } from './features/get-meetings/get-meetings-success';
-import { GetSelectedMeetingRequest } from './features/get-selected-meeting/get-selected-meeting-request';
-import { GetSelectedMeetingSuccess } from './features/get-selected-meeting/get-selected-meeting-success';
-import { JoinMeetingRequest } from './features/join-meeting/join-meeting-request';
+import { JoinMeetingRequest } from './features/join-meeting/join-meeting';
 import { JoinMeetingSuccess } from './features/join-meeting/join-meeting-success';
 import { IMeetingsState } from './types';
 
@@ -29,8 +27,6 @@ const reducer = createReducer(initialState, (builder) =>
     .addCase(GetMeetingsSuccess.action, GetMeetingsSuccess.reducer)
     .addCase(GetMeetingDaysRequest.action, GetMeetingDaysRequest.reducer)
     .addCase(GetMeetingDaysSuccess.action, GetMeetingDaysSuccess.reducer)
-    .addCase(GetSelectedMeetingRequest.action, GetSelectedMeetingRequest.reducer)
-    .addCase(GetSelectedMeetingSuccess.action, GetSelectedMeetingSuccess.reducer)
     .addCase(JoinMeetingRequest.action, JoinMeetingRequest.reducer)
     .addCase(JoinMeetingSuccess.action, JoinMeetingSuccess.reducer),
 );

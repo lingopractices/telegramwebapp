@@ -1,8 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { GetProfileRequest } from './features/get-profile/get-profile-request';
+import { GetProfileRequest } from './features/get-profile/get-profile';
 import { GetProfileSuccess } from './features/get-profile/get-profile-success';
-import { UpdateProfileRequest } from './features/update-profile/update-profile-request';
+import { UpdateProfileRequest } from './features/update-profile/update-profile';
 import { UpdateProfileSuccess } from './features/update-profile/update-profile-success';
 import { IProfileState } from './types';
 

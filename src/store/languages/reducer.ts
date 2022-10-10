@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { GetLanguagesRequest } from './features/get-languages/get-languages-request';
+import { GetLanguagesRequest } from './features/get-languages/get-languages';
 import { GetLanguagesSuccess } from './features/get-languages/get-languages-success';
 import { ILanguagesState } from './types';
 
