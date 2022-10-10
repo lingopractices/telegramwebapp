@@ -8,7 +8,7 @@ interface IRadioItemProps {
   radioGroupName: string;
   label: string;
   isSelected: boolean;
-  paddingClass?: string;
+  containerClass?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -16,12 +16,14 @@ const RadioItem: React.FC<IRadioItemProps> = ({
   radioGroupName,
   label,
   isSelected,
-  paddingClass,
+  containerClass,
   onChange,
 }) => (
   <label
     htmlFor={label}
-    className={classNames(styles.container, paddingClass, { [`${styles.selected}`]: isSelected })}
+    className={classNames(styles.container, containerClass, {
+      [`${styles.selected}`]: isSelected,
+    })}
   >
     <input
       onChange={onChange}

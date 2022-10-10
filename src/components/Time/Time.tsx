@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import TimeItem from '@components/Time/TimeItem/TimeItem';
+import RadioItem from '@components/RadioItem/RadioItem';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { useNavigate } from 'react-router-dom';
-import { BACK_PATH, CREATE_INFO } from 'routing/routing.constants';
+import { CREATE_DATE_PATH, CREATE_INFO } from 'routing/routing.constants';
 
 import styles from './Time.module.scss';
 
@@ -22,7 +22,7 @@ const Time = () => {
   );
 
   const handleBack = useCallback(() => {
-    navigate(BACK_PATH);
+    navigate(CREATE_DATE_PATH);
   }, [navigate]);
 
   const handleForward = useCallback(() => {
@@ -45,8 +45,8 @@ const Time = () => {
     }
   }, [time, setMainButtonParams]);
 
-  const handleChangeTime = useCallback((label: string) => {
-    setTime(label);
+  const handleChangeTime = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setTime(e.target.value);
   }, []);
 
   useEffect(() => {
@@ -68,7 +68,14 @@ const Time = () => {
       <h2>{'choose meeting time'.toUpperCase()}</h2>
       <div className={styles.wrapper}>
         {times.map((item) => (
-          <TimeItem key={item} label={item} isSelected={time === item} onClick={handleChangeTime} />
+          <RadioItem
+            key={item}
+            label={item}
+            radioGroupName='time'
+            isSelected={time === item}
+            onChange={handleChangeTime}
+            containerClass={styles.itemContainer}
+          />
         ))}
       </div>
     </div>

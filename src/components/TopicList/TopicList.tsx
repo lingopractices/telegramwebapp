@@ -5,7 +5,7 @@ import SearchBox from '@components/SearchBox/SearchBox';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { useNavigate } from 'react-router-dom';
-import { BACK_PATH, CREATE_PARTICIPANTS_PATH } from 'routing/routing.constants';
+import { CREATE_LEVELS_PATH, CREATE_PARTICIPANTS_PATH } from 'routing/routing.constants';
 
 import TopicItem from './TopicItem/TopicItem';
 
@@ -62,7 +62,7 @@ export const TopicList = () => {
   );
 
   const handleBack = useCallback(() => {
-    navigate(BACK_PATH);
+    navigate(CREATE_LEVELS_PATH);
   }, [navigate]);
 
   const handleForward = useCallback(() => {

@@ -6,7 +6,7 @@ type BackButtonType = {
   hideBackButton: () => void;
 };
 
-const useTgBackButton = (isVisibleMainButton: boolean): BackButtonType => {
+const useTgBackButton = (isVisibleBackButton: boolean): BackButtonType => {
   const setBackButtonOnClick = useCallback((fn: () => void) => {
     window.Telegram.WebApp.BackButton.onClick(fn);
     return fn;
@@ -28,12 +28,12 @@ const useTgBackButton = (isVisibleMainButton: boolean): BackButtonType => {
   );
 
   useEffect(() => {
-    if (isVisibleMainButton) {
+    if (isVisibleBackButton) {
       showBackButton();
     } else {
       hideBackButton();
     }
-  }, [isVisibleMainButton, showBackButton, hideBackButton]);
+  }, [isVisibleBackButton, showBackButton, hideBackButton]);
 
   return {
     setBackButtonOnClick,

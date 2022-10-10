@@ -4,7 +4,7 @@ import RadioItem from '@components/RadioItem/RadioItem';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { useNavigate } from 'react-router-dom';
-import { BACK_PATH, CREATE_DATE_PATH } from 'routing/routing.constants';
+import { CREATE_DATE_PATH, CREATE_TOPICS_PATH } from 'routing/routing.constants';
 
 const ParticipantsCount = () => {
   const participiants = ['2', '3', '5', '7', '9'];
@@ -20,7 +20,7 @@ const ParticipantsCount = () => {
   );
 
   const handleBack = useCallback(() => {
-    navigate(BACK_PATH);
+    navigate(CREATE_TOPICS_PATH);
   }, [navigate]);
 
   const handleForward = useCallback(() => {

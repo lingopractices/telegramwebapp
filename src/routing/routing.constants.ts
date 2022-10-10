@@ -19,4 +19,3 @@ export const ACCOUNT_PATH = '/account';
 export const ACCOUNT_LANGUAGES_PATH = `${ACCOUNT_PATH}/languages`;
 export const ACCOUNT_INTERFACE_LANGUAGES_PATH = `${ACCOUNT_PATH}/interaface-languages`;
 export const ACCOUNT_LEVELS_PATH = `${ACCOUNT_PATH}/levels`;
-export const BACK_PATH = -1;

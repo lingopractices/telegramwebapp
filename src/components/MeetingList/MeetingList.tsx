@@ -2,8 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import MeetingItem from '@components/MeetingItem/MeetingItem';
 import useTgBackButton from 'hooks/useTgBackButton';
+import useTgMainButton from 'hooks/useTgMainButton';
 import { useNavigate } from 'react-router-dom';
-import { BACK_PATH } from 'routing/routing.constants';
+import { JOIN_LEVELS_PATH } from 'routing/routing.constants';
 
 import styles from './MeetingList.module.scss';
 
@@ -17,9 +18,10 @@ const MeetingList = () => {
   const navigate = useNavigate();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
+  useTgMainButton(false, false);
 
   const handleBack = useCallback(() => {
-    navigate(BACK_PATH);
+    navigate(JOIN_LEVELS_PATH);
   }, [navigate]);
 
   useEffect(() => {
