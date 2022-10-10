@@ -23,8 +23,8 @@ export class GetMeetingsRequest {
 
   static get saga() {
     return function* getMeetingsSaga({ payload }: ReturnType<typeof GetMeetingsRequest.action>) {
-      const { data }: AxiosResponse<IMeeting[]> = yield call(() =>
-        GetMeetingsRequest.httpRequest.generator(payload),
+      const { data } = GetMeetingsRequest.httpRequest.call(
+        yield call(() => GetMeetingsRequest.httpRequest.generator(payload)),
       );
 
       yield put(GetMeetingsSuccess.action(data));
@@ -32,7 +32,7 @@ export class GetMeetingsRequest {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<IGetMeetingsRequest>(
+    return httpRequestFactory<AxiosResponse<IMeeting[]>, IGetMeetingsRequest>(
       MAIN_API.SEARCH_MEETINGS,
       HttpRequestMethod.Post,
     );

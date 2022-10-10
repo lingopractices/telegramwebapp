@@ -24,8 +24,8 @@ export class GetTopicsRequest {
 
   static get saga() {
     return function* getTopics({ payload }: ReturnType<typeof GetTopicsRequest.action>) {
-      const { data }: AxiosResponse<ITopic[]> = yield call(() =>
-        GetTopicsRequest.httpRequest.generator(payload),
+      const { data } = GetTopicsRequest.httpRequest.call(
+        yield call(() => GetTopicsRequest.httpRequest.generator(payload)),
       );
 
       if (data) {
@@ -35,6 +35,9 @@ export class GetTopicsRequest {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<ISearchTopicsRequest>(MAIN_API.SEARCH_TOPICS, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<ITopic[]>, ISearchTopicsRequest>(
+      MAIN_API.SEARCH_TOPICS,
+      HttpRequestMethod.Post,
+    );
   }
 }

@@ -24,8 +24,8 @@ export class GetMeetingDaysRequest {
 
   static get saga() {
     return function* getMeetingDays({ payload }: ReturnType<typeof GetMeetingDaysRequest.action>) {
-      const { data }: AxiosResponse<string[]> = yield call(() =>
-        GetMeetingDaysRequest.httpRequest.generator(payload),
+      const { data } = GetMeetingDaysRequest.httpRequest.call(
+        yield call(() => GetMeetingDaysRequest.httpRequest.generator(payload)),
       );
 
       yield put(GetMeetingDaysSuccess.action(data));
@@ -33,7 +33,7 @@ export class GetMeetingDaysRequest {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<IGetMeetingDatesRequest>(
+    return httpRequestFactory<AxiosResponse<string[]>, IGetMeetingDatesRequest>(
       MAIN_API.GET_MEETING_DAYS_BY_PREFERENCES,
       HttpRequestMethod.Post,
     );

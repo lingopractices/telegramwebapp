@@ -24,8 +24,10 @@ export class GetProfileRequest {
 
   static get saga() {
     return function* getProfileSaga(): SagaIterator {
-      const { data }: AxiosResponse<IUser> = yield call(
-        () => GetProfileRequest.httpRequest.generator(390447649), // temporary id placeholder
+      const { data } = GetProfileRequest.httpRequest.call(
+        yield call(
+          () => GetProfileRequest.httpRequest.generator(390447649), // temporary id placeholder
+        ),
       );
 
       yield put(GetProfileSuccess.action(data));
@@ -33,7 +35,7 @@ export class GetProfileRequest {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<number>(
+    return httpRequestFactory<AxiosResponse<IUser>, number>(
       (telegramUserId: number) =>
         replaceInUrl(MAIN_API.GET_USER_BY_TELEGRAM_USER_ID, ['telegramUserId', telegramUserId]),
       HttpRequestMethod.Get,

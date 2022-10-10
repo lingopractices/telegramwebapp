@@ -24,8 +24,8 @@ export class GetLanguagesRequest {
 
   static get saga() {
     return function* getLanguages() {
-      const { data }: AxiosResponse<ILanguage[]> = yield call(() =>
-        GetLanguagesRequest.httpRequest.generator(),
+      const { data } = GetLanguagesRequest.httpRequest.call(
+        yield call(() => GetLanguagesRequest.httpRequest.generator()),
       );
 
       if (data) {
@@ -35,6 +35,9 @@ export class GetLanguagesRequest {
   }
 
   static get httpRequest() {
-    return httpRequestFactory(MAIN_API.GET_LANGUAGES, HttpRequestMethod.Get);
+    return httpRequestFactory<AxiosResponse<ILanguage[]>, null>(
+      MAIN_API.GET_LANGUAGES,
+      HttpRequestMethod.Get,
+    );
   }
 }

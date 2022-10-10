@@ -22,8 +22,8 @@ export class JoinMeetingRequest {
 
   static get saga() {
     return function* joinMeeting({ payload }: ReturnType<typeof JoinMeetingRequest.action>) {
-      const { data }: AxiosResponse<IJoinMeetingResponse> = yield call(() =>
-        JoinMeetingRequest.httpRequest.generator(payload),
+      const { data } = JoinMeetingRequest.httpRequest.call(
+        yield call(() => JoinMeetingRequest.httpRequest.generator(payload)),
       );
       if (data) {
         // yield put(JoinMeetingSuccess.action());
@@ -32,6 +32,9 @@ export class JoinMeetingRequest {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<IJoinMeetingRequest>(MAIN_API.JOIN_MEETING, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<IJoinMeetingResponse>, IJoinMeetingRequest>(
+      MAIN_API.JOIN_MEETING,
+      HttpRequestMethod.Post,
+    );
   }
 }
