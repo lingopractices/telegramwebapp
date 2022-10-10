@@ -42,16 +42,16 @@ const useTgMainButton = (
   );
 
   useEffect(() => {
-    if (!isEnabledMainButton && !isVisibleMainButton) {
+    if (defaultTextMainButton) {
       setMainButtonParams({
         is_active: isEnabledMainButton,
         is_visible: isVisibleMainButton,
+        text: defaultTextMainButton,
       });
     } else {
       setMainButtonParams({
         is_active: isEnabledMainButton,
         is_visible: isVisibleMainButton,
-        text: defaultTextMainButton,
       });
     }
   }, [isEnabledMainButton, isVisibleMainButton, defaultTextMainButton, setMainButtonParams]);
