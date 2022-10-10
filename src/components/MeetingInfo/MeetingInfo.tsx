@@ -7,7 +7,7 @@ import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import useToggledState from 'hooks/useToggleState';
 import { useNavigate } from 'react-router-dom';
-import { BACK_PATH, MAIN_PATH } from 'routing/routing.constants';
+import { MAIN_PATH } from 'routing/routing.constants';
 
 import styles from './MeetingInfo.module.scss';
 
@@ -26,7 +26,7 @@ const MeetingInfo = () => {
   const { setMainButtonOnClick } = useTgMainButton(true, true, 'SUBMIT');
 
   const handleBack = useCallback(() => {
-    navigate(BACK_PATH);
+    navigate(MAIN_PATH);
   }, [navigate]);
 
   const handleForward = useCallback(() => {

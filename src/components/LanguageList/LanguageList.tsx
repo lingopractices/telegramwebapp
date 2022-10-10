@@ -9,7 +9,6 @@ import {
   ACCOUNT_INTERFACE_LANGUAGES_PATH,
   ACCOUNT_LANGUAGES_PATH,
   ACCOUNT_PATH,
-  BACK_PATH,
   CREATE_LANGUAGES_PATH,
   CREATE_LEVELS_PATH,
   JOIN_LANGUAGES_PATH,
@@ -33,6 +32,7 @@ const LanguageList = () => {
   const [searchStringText, setSearchStringText] = useState('');
   const [filteredLanguages, setFilteredLanguages] = useState(languages);
   const [forwardPath, setForwardPath] = useState('');
+  const [previousPath, setPreviousPath] = useState('');
 
   const navigate = useNavigate();
   const { setBackButtonOnClick } = useTgBackButton(true);
@@ -44,8 +44,8 @@ const LanguageList = () => {
   const location = useLocation();
 
   const handleBack = useCallback(() => {
-    navigate(BACK_PATH);
-  }, [navigate]);
+    navigate(previousPath);
+  }, [previousPath, navigate]);
 
   const handleForward = useCallback(() => {
     navigate(forwardPath);
@@ -63,18 +63,23 @@ const LanguageList = () => {
     switch (location.pathname) {
       case CREATE_LANGUAGES_PATH:
         setForwardPath(CREATE_LEVELS_PATH);
+        setPreviousPath(MAIN_PATH);
         break;
       case JOIN_LANGUAGES_PATH:
         setForwardPath(JOIN_LEVELS_PATH);
+        setPreviousPath(MAIN_PATH);
         break;
       case ACCOUNT_LANGUAGES_PATH:
         setForwardPath(ACCOUNT_PATH);
+        setPreviousPath(ACCOUNT_PATH);
         break;
       case ACCOUNT_INTERFACE_LANGUAGES_PATH:
         setForwardPath(ACCOUNT_PATH);
+        setPreviousPath(ACCOUNT_PATH);
         break;
       default:
         setForwardPath(MAIN_PATH);
+        setPreviousPath(MAIN_PATH);
         break;
     }
   }, [location.pathname, setForwardPath]);
@@ -134,7 +139,7 @@ const LanguageList = () => {
                 label={lang.label}
                 onChange={handleChangeLanguage}
                 isSelected={lang.label === currentLanguage}
-                paddingClass={styles.paddingContainer}
+                containerClass={styles.paddingContainer}
               />
             ),
         )}
@@ -150,7 +155,7 @@ const LanguageList = () => {
                 label={lang.label}
                 onChange={handleChangeLanguage}
                 isSelected={lang.label === currentLanguage}
-                paddingClass={styles.paddingContainer}
+                containerClass={styles.paddingContainer}
               />
             ),
         )}

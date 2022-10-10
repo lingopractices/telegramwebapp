@@ -7,9 +7,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import {
   ACCOUNT_LEVELS_PATH,
   ACCOUNT_PATH,
-  BACK_PATH,
+  CREATE_LANGUAGES_PATH,
   CREATE_LEVELS_PATH,
   CREATE_TOPICS_PATH,
+  JOIN_LANGUAGES_PATH,
   JOIN_LEVELS_PATH,
   JOIN_MEETINGS_PATH,
   MAIN_PATH,
@@ -21,6 +22,7 @@ const LevelList = () => {
   const levels = ['Beginer', 'Pre-intemediate', 'Intermediate'];
   const [currentLevel, setCurrentLevel] = useState(levels[1]);
   const [forwardPath, setForwardPath] = useState('');
+  const [previousPath, setPreviousPath] = useState('');
 
   const navigate = useNavigate();
   const { setBackButtonOnClick } = useTgBackButton(true);
@@ -32,8 +34,8 @@ const LevelList = () => {
   const location = useLocation();
 
   const handleBack = useCallback(() => {
-    navigate(BACK_PATH);
-  }, [navigate]);
+    navigate(previousPath);
+  }, [previousPath, navigate]);
 
   const handleForward = useCallback(() => {
     navigate(forwardPath);
@@ -51,15 +53,19 @@ const LevelList = () => {
     switch (location.pathname) {
       case CREATE_LEVELS_PATH:
         setForwardPath(CREATE_TOPICS_PATH);
+        setPreviousPath(CREATE_LANGUAGES_PATH);
         break;
       case JOIN_LEVELS_PATH:
         setForwardPath(JOIN_MEETINGS_PATH);
+        setPreviousPath(JOIN_LANGUAGES_PATH);
         break;
       case ACCOUNT_LEVELS_PATH:
         setForwardPath(ACCOUNT_PATH);
+        setPreviousPath(ACCOUNT_PATH);
         break;
       default:
         setForwardPath(MAIN_PATH);
+        setPreviousPath(ACCOUNT_PATH);
         break;
     }
   }, [location.pathname, setForwardPath]);
@@ -89,7 +95,7 @@ const LevelList = () => {
             label={level}
             onChange={handleChange}
             isSelected={level === currentLevel}
-            paddingClass={styles.paddingContainer}
+            containerClass={styles.paddingContainer}
           />
         ))}
       </div>

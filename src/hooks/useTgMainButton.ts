@@ -11,7 +11,7 @@ type MainButtonType = {
 const useTgMainButton = (
   isVisibleMainButton: boolean,
   isEnabledMainButton: boolean,
-  defaultTextMainButton: string,
+  defaultTextMainButton?: string,
 ): MainButtonType => {
   const setMainButtonOnClick = useCallback((fn: () => void) => {
     window.Telegram.WebApp.MainButton.onClick(fn);
@@ -42,11 +42,18 @@ const useTgMainButton = (
   );
 
   useEffect(() => {
-    setMainButtonParams({
-      is_active: isEnabledMainButton,
-      is_visible: isVisibleMainButton,
-      text: defaultTextMainButton,
-    });
+    if (!isEnabledMainButton && !isVisibleMainButton) {
+      setMainButtonParams({
+        is_active: isEnabledMainButton,
+        is_visible: isVisibleMainButton,
+      });
+    } else {
+      setMainButtonParams({
+        is_active: isEnabledMainButton,
+        is_visible: isVisibleMainButton,
+        text: defaultTextMainButton,
+      });
+    }
   }, [isEnabledMainButton, isVisibleMainButton, defaultTextMainButton, setMainButtonParams]);
 
   return {

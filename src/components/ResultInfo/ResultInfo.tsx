@@ -5,7 +5,6 @@ import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { useNavigate } from 'react-router-dom';
 import {
-  BACK_PATH,
   CREATE_DATE_PATH,
   CREATE_LANGUAGES_PATH,
   CREATE_LEVELS_PATH,
@@ -31,7 +30,7 @@ const ResultInfo = () => {
   const { setMainButtonOnClick } = useTgMainButton(true, true, 'SUBMIT');
 
   const handleBack = useCallback(() => {
-    navigate(BACK_PATH);
+    navigate(CREATE_TIME_PATH);
   }, [navigate]);
 
   const handleForward = useCallback(() => {
