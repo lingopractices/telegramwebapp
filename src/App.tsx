@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react';
 
-import { getMeetingDaysAction } from '@store/meetings/actions';
+import { getProfileRequestAction } from '@store/profile/actions';
+import { useActionWithDispatch } from 'hooks/use-action-with-dispatch';
 import { useDispatch, useSelector } from 'react-redux';
 import MainRouter from 'routing/routers/MainRouter';
 import { getProfileDataSelector } from 'store/profile/selectors';
@@ -8,9 +9,12 @@ import { getProfileDataSelector } from 'store/profile/selectors';
 const App = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // dispatch(getProfileRequestAction());
+  const getProfile = useActionWithDispatch(getProfileRequestAction);
 
+  useEffect(() => {
+    getProfile();
+
+    // dispatch(getProfileRequestAction());
     // dispatch(
     //   UpdateProfileRequestAction({
     //     userId: 81,
@@ -21,7 +25,6 @@ const App = () => {
     //     languageLevel: 5,
     //   }),
     // );
-
     // dispatch(
     //   getMeetingsAction({
     //     languageId: 'en',
@@ -34,16 +37,15 @@ const App = () => {
     //     },
     //   }),
     // );
-
-    dispatch(
-      getMeetingDaysAction({
-        languageId: 'en',
-        languageLevel: 4,
-        from: '2022-11-29T10:10:22Z',
-        userId: 81,
-      }),
-    );
-  }, [dispatch]);
+    // dispatch(
+    //   getMeetingDaysAction({
+    //     languageId: 'en',
+    //     languageLevel: 4,
+    //     from: '2022-11-29T10:10:22Z',
+    //     userId: 81,
+    //   }),
+    // );
+  }, [dispatch, getProfile]);
 
   const profileData = useSelector(getProfileDataSelector);
 
