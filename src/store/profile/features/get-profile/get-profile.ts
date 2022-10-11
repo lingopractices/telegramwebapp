@@ -11,7 +11,7 @@ import { replaceInUrl } from 'utils/replace-in-url';
 
 import { GetProfileSuccess } from './get-profile-success';
 
-export class GetProfileRequest {
+export class GetProfile {
   static get action() {
     return createAction('profile/GET_PROFILE');
   }
@@ -23,10 +23,10 @@ export class GetProfileRequest {
   }
 
   static get saga() {
-    return function* getProfileSaga(): SagaIterator {
-      const { data } = GetProfileRequest.httpRequest.call(
+    return function* (): SagaIterator {
+      const { data } = GetProfile.httpRequest.call(
         yield call(
-          () => GetProfileRequest.httpRequest.generator(390447649), // temporary id placeholder
+          () => GetProfile.httpRequest.generator(390447649), // temporary id placeholder
         ),
       );
 

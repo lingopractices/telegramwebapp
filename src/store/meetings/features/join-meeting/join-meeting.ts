@@ -7,13 +7,13 @@ import { AxiosResponse } from 'axios';
 import { IJoinMeetingRequest, IJoinMeetingResponse } from 'lingopractices-models';
 import { call } from 'redux-saga/effects';
 
-export class JoinMeetingRequest {
+export class JoinMeeting {
   static get action() {
     return createAction<IJoinMeetingRequest>('meeting/JOIN_MEETING_REQUEST');
   }
 
   static get reducer() {
-    return (draft: IMeetingsState, { payload }: ReturnType<typeof JoinMeetingRequest.action>) => {
+    return (draft: IMeetingsState, { payload }: ReturnType<typeof JoinMeeting.action>) => {
       draft.requests.joinMeetingPending = true;
 
       return draft;
@@ -21,9 +21,9 @@ export class JoinMeetingRequest {
   }
 
   static get saga() {
-    return function* joinMeeting({ payload }: ReturnType<typeof JoinMeetingRequest.action>) {
-      const { data } = JoinMeetingRequest.httpRequest.call(
-        yield call(() => JoinMeetingRequest.httpRequest.generator(payload)),
+    return function* ({ payload }: ReturnType<typeof JoinMeeting.action>) {
+      const { data } = JoinMeeting.httpRequest.call(
+        yield call(() => JoinMeeting.httpRequest.generator(payload)),
       );
       if (data) {
         // yield put(JoinMeetingSuccess.action());

@@ -9,7 +9,7 @@ import { call, put } from 'redux-saga/effects';
 
 import { GetMeetingDaysSuccess } from './get-meeting-days-success';
 
-export class GetMeetingDaysRequest {
+export class GetMeetingDays {
   static get action() {
     return createAction<IGetMeetingDatesRequest>('meetings/GET_MEETING_DAYS_REQUEST');
   }
@@ -23,9 +23,9 @@ export class GetMeetingDaysRequest {
   }
 
   static get saga() {
-    return function* getMeetingDays({ payload }: ReturnType<typeof GetMeetingDaysRequest.action>) {
-      const { data } = GetMeetingDaysRequest.httpRequest.call(
-        yield call(() => GetMeetingDaysRequest.httpRequest.generator(payload)),
+    return function* ({ payload }: ReturnType<typeof GetMeetingDays.action>) {
+      const { data } = GetMeetingDays.httpRequest.call(
+        yield call(() => GetMeetingDays.httpRequest.generator(payload)),
       );
 
       yield put(GetMeetingDaysSuccess.action(data));

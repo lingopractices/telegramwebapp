@@ -9,7 +9,7 @@ export class GetLanguagesSuccess {
 
   static get reducer() {
     return (draft: ILanguagesState, { payload }: ReturnType<typeof GetLanguagesSuccess.action>) => {
-      draft.requests.getLanguagesPending = true;
+      draft.requests.getLanguagesPending = false;
 
       draft.languages = payload;
 

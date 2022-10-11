@@ -2851,9 +2851,9 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.npmjs.org/lines-and-columns/-/lines-and-columns-1.2.4.tgz"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-"lingopractices-models@https://github.com/lingopractices/front-end-types.git#1.0.2":
+"lingopractices-models@https://github.com/lingopractices/front-end-types.git#1.0.3":
   version "1.0.0"
-  resolved "https://github.com/lingopractices/front-end-types.git#0647dc0a82e728e048b142b55628e46a865b06a8"
+  resolved "https://github.com/lingopractices/front-end-types.git#a0445e3d23b228a13e3a674bcf60c185ebc36fc3"
 
 lint-staged@13.0.3:
   version "13.0.3"

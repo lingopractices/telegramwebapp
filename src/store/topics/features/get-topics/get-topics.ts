@@ -9,7 +9,7 @@ import { call, put } from 'redux-saga/effects';
 
 import { GetTopicsSuccess } from './get-topics-success';
 
-export class GetTopicsRequest {
+export class GetTopics {
   static get action() {
     return createAction<ISearchTopicsRequest>('topics/GET_TOPICS_REQUEST');
   }
@@ -23,9 +23,9 @@ export class GetTopicsRequest {
   }
 
   static get saga() {
-    return function* getTopics({ payload }: ReturnType<typeof GetTopicsRequest.action>) {
-      const { data } = GetTopicsRequest.httpRequest.call(
-        yield call(() => GetTopicsRequest.httpRequest.generator(payload)),
+    return function* ({ payload }: ReturnType<typeof GetTopics.action>) {
+      const { data } = GetTopics.httpRequest.call(
+        yield call(() => GetTopics.httpRequest.generator(payload)),
       );
 
       if (data) {

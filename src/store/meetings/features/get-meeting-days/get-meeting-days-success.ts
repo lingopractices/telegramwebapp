@@ -11,7 +11,7 @@ export class GetMeetingDaysSuccess {
       draft: IMeetingsState,
       { payload }: ReturnType<typeof GetMeetingDaysSuccess.action>,
     ) => {
-      draft.meetingDays = [...payload];
+      draft.meetingDays = payload;
       draft.requests.getMeetingDaysPending = false;
       return draft;
     };

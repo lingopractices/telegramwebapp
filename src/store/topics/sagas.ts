@@ -1,7 +1,7 @@
 import { all, takeLatest } from 'redux-saga/effects';
 
-import { GetTopicsRequest } from './features/get-topics/get-topics';
+import { GetTopics } from './features/get-topics/get-topics';
 
-export function* topicsSaga() {
-  yield all([takeLatest(GetTopicsRequest.action, GetTopicsRequest.saga)]);
+export function* topicSagas() {
+  yield all([takeLatest(GetTopics.action, GetTopics.saga)]);
 }

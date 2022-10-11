@@ -12,4 +12,5 @@ export const MAIN_API = {
   UPDATE_USER: `${ROOT_API}/user`,
   GET_LANGUAGES: `${ROOT_API}/languages`,
   CREATE_MEETING: `${ROOT_API}/meeting`,
+  GET_MY_MEETINGS: `${ROOT_API}/user/meetings?userId=:userId&offset=:offset&limit=:limit`,
 };

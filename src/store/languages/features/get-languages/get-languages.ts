@@ -9,7 +9,7 @@ import { call, put } from 'redux-saga/effects';
 
 import { GetLanguagesSuccess } from './get-languages-success';
 
-export class GetLanguagesRequest {
+export class GetLanguages {
   static get action() {
     return createAction('languages/GET_LANGUAGES_REQUEST');
   }
@@ -23,9 +23,9 @@ export class GetLanguagesRequest {
   }
 
   static get saga() {
-    return function* getLanguages() {
-      const { data } = GetLanguagesRequest.httpRequest.call(
-        yield call(() => GetLanguagesRequest.httpRequest.generator()),
+    return function* () {
+      const { data } = GetLanguages.httpRequest.call(
+        yield call(() => GetLanguages.httpRequest.generator()),
       );
 
       if (data) {

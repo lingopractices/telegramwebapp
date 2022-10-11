@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { GetLanguagesRequest } from './features/get-languages/get-languages';
+import { GetLanguages } from './features/get-languages/get-languages';
 import { GetLanguagesSuccess } from './features/get-languages/get-languages-success';
 import { ILanguagesState } from './types';
 
@@ -13,7 +13,7 @@ const initialState: ILanguagesState = {
 
 const reducer = createReducer<ILanguagesState>(initialState, (builder) =>
   builder
-    .addCase(GetLanguagesRequest.action, GetLanguagesRequest.reducer)
+    .addCase(GetLanguages.action, GetLanguages.reducer)
     .addCase(GetLanguagesSuccess.action, GetLanguagesSuccess.reducer),
 );
 

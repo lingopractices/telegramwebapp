@@ -6,11 +6,11 @@ import { IProfileState } from '@store/profile/types';
 import { IUpdateUserRequest } from 'lingopractices-models';
 import { call, put } from 'redux-saga/effects';
 
-import { GetProfileRequest } from '../get-profile/get-profile';
+import { GetProfile } from '../get-profile/get-profile';
 
 import { UpdateProfileSuccess } from './update-profile-success';
 
-export class UpdateProfileRequest {
+export class UpdateProfile {
   static get action() {
     return createAction<IUpdateUserRequest>('profile/UPDATE_PROFILE_REQUEST');
   }
@@ -20,13 +20,11 @@ export class UpdateProfileRequest {
   }
 
   static get saga() {
-    return function* updateProfileSaga({
-      payload,
-    }: ReturnType<typeof UpdateProfileRequest.action>) {
-      yield call(() => UpdateProfileRequest.httpRequest.generator(payload));
+    return function* ({ payload }: ReturnType<typeof UpdateProfile.action>) {
+      yield call(() => UpdateProfile.httpRequest.generator(payload));
 
       yield put(UpdateProfileSuccess.action());
-      yield put(GetProfileRequest.action());
+      yield put(GetProfile.action());
     };
   }
 

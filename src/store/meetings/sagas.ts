@@ -1,15 +1,15 @@
 import { all, takeLatest } from 'redux-saga/effects';
 
-import { CreateMeetingRequest } from './features/create-meeting/create-meeting';
-import { GetMeetingDaysRequest } from './features/get-meeting-days/get-meeting-days';
-import { GetMeetingsRequest } from './features/get-meetings/get-meetings';
-import { JoinMeetingRequest } from './features/join-meeting/join-meeting';
+import { CreateMeeting } from './features/create-meeting/create-meeting';
+import { GetMeetingDays } from './features/get-meeting-days/get-meeting-days';
+import { GetMeetings } from './features/get-meetings/get-meetings';
+import { JoinMeeting } from './features/join-meeting/join-meeting';
 
-export function* meetingsSaga() {
+export function* meetingSagas() {
   yield all([
-    takeLatest(GetMeetingsRequest.action, GetMeetingsRequest.saga),
-    takeLatest(GetMeetingDaysRequest.action, GetMeetingDaysRequest.saga),
-    takeLatest(CreateMeetingRequest.action, CreateMeetingRequest.saga),
-    takeLatest(JoinMeetingRequest.action, JoinMeetingRequest.saga),
+    takeLatest(GetMeetings.action, GetMeetings.saga),
+    takeLatest(GetMeetingDays.action, GetMeetingDays.saga),
+    takeLatest(CreateMeeting.action, CreateMeeting.saga),
+    takeLatest(JoinMeeting.action, JoinMeeting.saga),
   ]);
 }
