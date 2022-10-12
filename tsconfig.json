@@ -21,7 +21,8 @@
       "@components/*": ["components/*"],
       "@assets/*": ["assets/*"],
       "@store/*": ["store/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@hooks/*": ["hooks/*"]
     }
   },
   "include": [".eslintrc.cjs", "src"],

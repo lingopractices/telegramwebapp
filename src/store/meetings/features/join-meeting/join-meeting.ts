@@ -5,7 +5,9 @@ import { MAIN_API } from '@store/common/path';
 import { IMeetingsState } from '@store/meetings/types';
 import { AxiosResponse } from 'axios';
 import { IJoinMeetingRequest, IJoinMeetingResponse } from 'lingopractices-models';
-import { call } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
+
+import { JoinMeetingSuccess } from './join-meeting-success';
 
 export class JoinMeeting {
   static get action() {
@@ -13,7 +15,7 @@ export class JoinMeeting {
   }
 
   static get reducer() {
-    return (draft: IMeetingsState, { payload }: ReturnType<typeof JoinMeeting.action>) => {
+    return (draft: IMeetingsState) => {
       draft.requests.joinMeetingPending = true;
 
       return draft;
@@ -26,7 +28,7 @@ export class JoinMeeting {
         yield call(() => JoinMeeting.httpRequest.generator(payload)),
       );
       if (data) {
-        // yield put(JoinMeetingSuccess.action());
+        yield put(JoinMeetingSuccess.action(payload.meetingId));
       }
     };
   }

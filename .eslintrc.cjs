@@ -69,6 +69,7 @@ module.exports = {
         },
       },
     ],
+    'react/button-has-type': 'off',
     'func-names': ['warn', 'always', { generators: 'never' }],
     '@typescript-eslint/no-empty-interface': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
