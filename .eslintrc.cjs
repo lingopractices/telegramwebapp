@@ -40,7 +40,15 @@ module.exports = {
     'import/order': [
       'warn',
       {
-        groups: ['builtin', 'external', ['internal', 'unknown'], 'parent', 'sibling', 'index', 'type'],
+        groups: [
+          'builtin',
+          'external',
+          ['internal', 'unknown'],
+          'parent',
+          'sibling',
+          'index',
+          'type',
+        ],
         pathGroups: [
           {
             pattern: 'react',
@@ -61,6 +69,8 @@ module.exports = {
         },
       },
     ],
+    'react/button-has-type': 'off',
+    'func-names': ['warn', 'always', { generators: 'never' }],
     '@typescript-eslint/no-empty-interface': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
@@ -72,6 +82,9 @@ module.exports = {
     'react/require-default-props': 'off',
     'object-curly-newline': 'off',
     'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['draft'] }],
-    'no-underscore-dangle': ['error', { allow: ['__config', '__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] }],
+    'no-underscore-dangle': [
+      'error',
+      { allow: ['__config', '__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] },
+    ],
   },
 };

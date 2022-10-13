@@ -18,14 +18,16 @@ export class GetProfile {
 
   static get reducer() {
     return (draft: IProfileState) => {
-      draft.isLoading = true;
+      draft.requests.getProfileInfoPending = true;
     };
   }
 
   static get saga() {
-    return function* getProfileSaga(): SagaIterator {
-      const { data }: AxiosResponse<IUser> = yield call(
-        () => GetProfile.httpRequest.generator(390447649), // temporary id placeholder
+    return function* (): SagaIterator {
+      const { data } = GetProfile.httpRequest.call(
+        yield call(
+          () => GetProfile.httpRequest.generator(390447649), // temporary id placeholder
+        ),
       );
 
       yield put(GetProfileSuccess.action(data));
