@@ -8,49 +8,34 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import dayjs, { Dayjs } from 'dayjs';
-import useTgBackButton from 'hooks/useTgBackButton';
-import useTgMainButton from 'hooks/useTgMainButton';
-import { useNavigate } from 'react-router-dom';
-import { CREATE_PARTICIPANTS_PATH, CREATE_TIME_PATH } from 'routing/routing.constants';
 
 import styles from './DatePicker.module.scss';
 
-const DatePicker = () => {
+interface IDatePicker {
+  onChangeDate: (meetingAt: string) => void;
+  defaultMeetingDate?: string;
+}
+
+const DatePicker: React.FC<IDatePicker> = ({ defaultMeetingDate, onChangeDate }) => {
   const [isFirstMonth, setIsFirstMonth] = useState(true);
-  const [date, setDate] = useState<Dayjs | null>(null);
+  const [date, setDate] = useState<Dayjs | null>(dayjs(defaultMeetingDate) || null);
 
-  const navigate = useNavigate();
-
-  const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(
-    true,
-    false,
-    'CHOOSE A DATE',
+  const handleChangeDate = useCallback(
+    (value: Dayjs | null) => {
+      if (value) {
+        if (value.isToday()) {
+          setDate(dayjs());
+        } else {
+          setDate(dayjs(value).set('hour', 0).set('minute', 0).set('second', 0));
+        }
+      }
+    },
+    [setDate],
   );
 
-  const handleBack = useCallback(() => {
-    navigate(CREATE_PARTICIPANTS_PATH);
-  }, [navigate]);
-
-  const handleForward = useCallback(() => {
-    navigate(CREATE_TIME_PATH);
-  }, [navigate]);
-
   useEffect(() => {
-    setMainButtonOnClick(handleForward);
-  }, [handleForward, setMainButtonOnClick]);
-
-  useEffect(() => {
-    setBackButtonOnClick(handleBack);
-  }, [handleBack, setBackButtonOnClick]);
-
-  useEffect(() => {
-    if (date) {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
-    } else {
-      setMainButtonParams({ is_active: false });
-    }
-  }, [date, setMainButtonParams]);
+    if (date) onChangeDate(date.toString());
+  }, [date, onChangeDate]);
 
   const changeViewMonth = useCallback(
     (viewDate: Dayjs) => {
@@ -73,7 +58,7 @@ const DatePicker = () => {
           openTo='day'
           onMonthChange={changeViewMonth}
           value={date}
-          onChange={setDate}
+          onChange={handleChangeDate}
           renderInput={(params) => <input />}
           minDate={dayjs()}
           components={{

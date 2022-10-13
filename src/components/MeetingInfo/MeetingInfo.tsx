@@ -1,45 +1,24 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { ReactComponent as DownArrow } from '@assets/icons/down-arrow.svg';
 import { ReactComponent as UpArrow } from '@assets/icons/up-arrow.svg';
 import QuestionItem from '@components/QuestionItem/QuestionItem';
-import useTgBackButton from 'hooks/useTgBackButton';
-import useTgMainButton from 'hooks/useTgMainButton';
 import useToggledState from 'hooks/useToggleState';
-import { useNavigate } from 'react-router-dom';
-import { MAIN_PATH } from 'routing/routing.constants';
 
 import styles from './MeetingInfo.module.scss';
 
-const MeetingInfo = () => {
+interface IMeetingInfo {
+  withControls: boolean;
+}
+
+const MeetingInfo: React.FC<IMeetingInfo> = ({ withControls }) => {
+  const [isControlOpen, setControlOpen] = useState(withControls);
+  const [isOpenQuestions, , , toggleOpenQuestions] = useToggledState(false);
+
   const [date, setDate] = useState('12.36.123');
   const [topic, setTopic] = useState('Art');
   const [participantCount, setParticipantCount] = useState(2);
   const [questions, setQuestions] = useState(['asd1', 'asd2', 'asd3']);
-
-  const [isOpenQuestions, , , toggleOpenQuestions] = useToggledState(false);
-
-  const navigate = useNavigate();
-
-  const { setBackButtonOnClick } = useTgBackButton(true);
-
-  const { setMainButtonOnClick } = useTgMainButton(true, true, 'SUBMIT');
-
-  const handleBack = useCallback(() => {
-    navigate(MAIN_PATH);
-  }, [navigate]);
-
-  const handleForward = useCallback(() => {
-    navigate(MAIN_PATH);
-  }, [navigate]);
-
-  useEffect(() => {
-    setBackButtonOnClick(handleBack);
-  }, [handleBack, setBackButtonOnClick]);
-
-  useEffect(() => {
-    setMainButtonOnClick(handleForward);
-  }, [handleForward, setMainButtonOnClick]);
 
   return (
     <div className={styles.container}>
@@ -74,18 +53,21 @@ const MeetingInfo = () => {
             <DownArrow className={styles.arrow} />
           )}
         </span>
-        {isOpenQuestions && questions.map((question) => <QuestionItem label={question} />)}
+        {isOpenQuestions &&
+          questions.map((question) => <QuestionItem key={question} label={question} />)}
       </div>
-      <div className={styles.buttons}>
-        <button className={styles.join} type='button'>
-          {'join meeting'.toUpperCase()}
-        </button>
-        <button className={styles.leave} type='button'>
-          {'leave meeting'.toUpperCase()}
-        </button>
-      </div>
+      {isControlOpen && (
+        <div className={styles.buttons}>
+          <button className={styles.join} type='button'>
+            {'join meeting'.toUpperCase()}
+          </button>
+          <button className={styles.leave} type='button'>
+            {'leave meeting'.toUpperCase()}
+          </button>
+        </div>
+      )}
     </div>
   );
 };
 
-export default MeetingInfo;
+export default React.memo(MeetingInfo);

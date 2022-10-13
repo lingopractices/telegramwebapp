@@ -2,98 +2,231 @@ import React, { useState, useCallback, useEffect, useMemo } from 'react';
 
 import QuestionItem from '@components/QuestionItem/QuestionItem';
 import SearchBox from '@components/SearchBox/SearchBox';
-import useTgBackButton from 'hooks/useTgBackButton';
-import useTgMainButton from 'hooks/useTgMainButton';
-import { useNavigate } from 'react-router-dom';
-import { CREATE_LEVELS_PATH, CREATE_PARTICIPANTS_PATH } from 'routing/routing.constants';
 
 import TopicItem from './TopicItem/TopicItem';
 
 import styles from './TopicList.module.scss';
 
-export const TopicList = () => {
+interface ITopicList {
+  onChangeTopic: (topicId: number) => void;
+  dafaultTopicId?: number;
+}
+
+export const TopicList: React.FC<ITopicList> = ({ dafaultTopicId, onChangeTopic }) => {
   const topis = useMemo(
     () => [
-      'Art',
-      'Cinema',
-      'Sport',
-      'Family',
-      'Pets',
-      'Test1',
-      'Test2',
-      'Test3',
-      'Test4',
-      'Test5',
-      'Test6',
-      'Test7',
-      'elventh',
-      'twelves',
-      'fourteenth',
-      'fivteents',
-      'sexteenth',
-      'seveteenth',
-      'eighteenth',
-      'ninteeth',
-      'twenteenth',
+      {
+        name: 'Art',
+        id: 0,
+        questions: [
+          'first',
+          'second',
+          'third',
+          'fourth',
+          'fivth',
+          'sixth',
+          'seventh',
+          'eighth',
+          'ninth',
+          'tenth',
+        ],
+      },
+      {
+        name: 'Cinema',
+        id: 1,
+        questions: [
+          'first',
+          'second',
+          'third',
+          'fourth',
+          'fivth',
+          'sixth',
+          'seventh',
+          'eighth',
+          'ninth',
+          'tenth',
+        ],
+      },
+      {
+        name: 'Sport',
+        id: 2,
+        questions: [
+          'first',
+          'second',
+          'third',
+          'fourth',
+          'fivth',
+          'sixth',
+          'seventh',
+          'eighth',
+          'ninth',
+          'tenth',
+        ],
+      },
+      {
+        name: 'Family',
+        id: 3,
+        questions: [
+          'first',
+          'second',
+          'third',
+          'fourth',
+          'fivth',
+          'sixth',
+          'seventh',
+          'eighth',
+          'ninth',
+          'tenth',
+        ],
+      },
+      {
+        name: 'Pets',
+        id: 4,
+        questions: [
+          'first',
+          'second',
+          'third',
+          'fourth',
+          'fivth',
+          'sixth',
+          'seventh',
+          'eighth',
+          'ninth',
+          'tenth',
+        ],
+      },
+      {
+        name: 'Test1',
+        id: 5,
+        questions: [
+          'first',
+          'second',
+          'third',
+          'fourth',
+          'fivth',
+          'sixth',
+          'seventh',
+          'eighth',
+          'ninth',
+          'tenth',
+        ],
+      },
+      {
+        name: 'Test2',
+        id: 6,
+        questions: [
+          'first',
+          'second',
+          'third',
+          'fourth',
+          'fivth',
+          'sixth',
+          'seventh',
+          'eighth',
+          'ninth',
+          'tenth',
+        ],
+      },
+      {
+        name: 'Test3',
+        id: 7,
+        questions: [
+          'first',
+          'second',
+          'third',
+          'fourth',
+          'fivth',
+          'sixth',
+          'seventh',
+          'eighth',
+          'ninth',
+          'tenth',
+        ],
+      },
+      {
+        name: 'Test4',
+        id: 8,
+        questions: [
+          'first',
+          'second',
+          'third',
+          'fourth',
+          'fivth',
+          'sixth',
+          'seventh',
+          'eighth',
+          'ninth',
+          'tenth',
+        ],
+      },
+      {
+        name: 'Test5',
+        id: 9,
+        questions: [
+          'first',
+          'second',
+          'third',
+          'fourth',
+          'fivth',
+          'sixth',
+          'seventh',
+          'eighth',
+          'ninth',
+          'tenth',
+        ],
+      },
+      {
+        name: 'Test6',
+        id: 10,
+        questions: [
+          'first',
+          'second',
+          'third',
+          'fourth',
+          'fivth',
+          'sixth',
+          'seventh',
+          'eighth',
+          'ninth',
+          'tenth',
+        ],
+      },
+      {
+        name: 'Test7',
+        id: 11,
+        questions: [
+          'first',
+          'second',
+          'third',
+          'fourth',
+          'fivth',
+          'sixth',
+          'seventh',
+          'eighth',
+          'ninth',
+          'tenth',
+        ],
+      },
     ],
     [],
   );
   const [filteredTopics, setFilteredTopics] = useState(topis);
-  const [currentTopic, setCurrentTopic] = useState('');
+  const [currentTopicId, setCurrentTopicId] = useState(dafaultTopicId || -1);
   const [searchStringText, setSearchStringText] = useState('');
-  const [questions, setQuestions] = useState<string[]>([
-    'first',
-    'second',
-    'third',
-    'fourth',
-    'fivth',
-    'sixth',
-    'seventh',
-    'eighth',
-    'ninth',
-    'tenth',
-  ]);
-  const navigate = useNavigate();
-  const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(
-    true,
-    false,
-    'CHOOSE A TOPIC',
-  );
-
-  const handleBack = useCallback(() => {
-    navigate(CREATE_LEVELS_PATH);
-  }, [navigate]);
-
-  const handleForward = useCallback(() => {
-    navigate(CREATE_PARTICIPANTS_PATH);
-  }, [navigate]);
 
   useEffect(() => {
-    setMainButtonOnClick(handleForward);
-  }, [handleForward, setMainButtonOnClick]);
-
-  useEffect(() => {
-    setBackButtonOnClick(handleBack);
-  }, [handleBack, setBackButtonOnClick]);
-
-  useEffect(() => {
-    if (currentTopic) {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
-    } else {
-      setMainButtonParams({ is_active: false });
-    }
-  }, [currentTopic, setMainButtonParams]);
+    onChangeTopic(currentTopicId);
+  }, [currentTopicId, onChangeTopic]);
 
   const handleChangeTopic = useCallback(
-    (label: string) => {
-      if (label !== currentTopic) {
-        setCurrentTopic(label);
+    (topicId: number) => {
+      if (topicId !== currentTopicId) {
+        setCurrentTopicId(topicId);
       } else {
-        setCurrentTopic('');
+        setCurrentTopicId(-1);
       }
     },
-    [setCurrentTopic, currentTopic],
+    [setCurrentTopicId, currentTopicId],
   );
 
   const handleChangeSearchString = useCallback(
@@ -104,10 +237,9 @@ export const TopicList = () => {
   );
 
   useEffect(() => {
-    if (searchStringText)
-      setFilteredTopics(
-        topis.filter((item) => item.trim().toLocaleLowerCase().includes(searchStringText)),
-      );
+    setFilteredTopics(
+      topis.filter((item) => item.name.trim().toLowerCase().includes(searchStringText)),
+    );
   }, [searchStringText, topis, setFilteredTopics]);
 
   return (
@@ -120,15 +252,16 @@ export const TopicList = () => {
       />
       <div className={styles.wrapperList}>
         {filteredTopics.map((topic) => (
-          <div key={topic}>
+          <div key={topic.id}>
             <TopicItem
-              label={topic}
-              isSelected={topic === currentTopic}
+              id={topic.id}
+              name={topic.name}
+              isSelected={topic.id === currentTopicId}
               onChange={handleChangeTopic}
             />
-            {currentTopic === topic && (
+            {currentTopicId === topic.id && (
               <ul className={styles.questions}>
-                {questions.map((question) => (
+                {topic.questions.map((question) => (
                   <QuestionItem key={question} label={question} />
                 ))}
               </ul>

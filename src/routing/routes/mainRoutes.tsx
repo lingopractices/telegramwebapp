@@ -1,9 +1,9 @@
-import MainPage from 'pages/MainPage/MainPage';
-import MeetingPage from 'pages/MeetingPage/MeetingPage';
 import { Route } from 'react-router-dom';
 import AccountRouter from 'routing/routers/AccountRouter';
 import CreateMeetingRouter from 'routing/routers/CreateMeetingRouter';
 import JoinMeetingRouter from 'routing/routers/JoinMeetingRouter';
+import MainScreen from 'screens/main/MainScreen/MainScreen';
+import MeetingInfoScreen from 'screens/main/MeetingInfoScreen';
 
 import {
   ACCOUNT_PATH,
@@ -19,16 +19,16 @@ const MainRoutes: MainRoutesObject = {
     path: INSTANT_MAIN_PATH,
     pageName: 'Main',
     props: {
-      element: MainPage,
-      children: [<Route key={INSTANT_MAIN_PATH} path='*' element={<MainPage />} />],
+      element: MainScreen,
+      children: [<Route key={INSTANT_MAIN_PATH} path='*' element={<MainScreen />} />],
     },
   },
   [MainRoutesEnum.MEETING]: {
     path: MEETING_PATH,
     pageName: 'Meeting',
     props: {
-      element: MeetingPage,
-      children: [<Route key={MEETING_PATH} path='*' element={<MeetingPage />} />],
+      element: MeetingInfoScreen,
+      children: [<Route key={MEETING_PATH} path='*' element={<MeetingInfoScreen />} />],
     },
   },
   [MainRoutesEnum.ACCOUNT]: {
