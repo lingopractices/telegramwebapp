@@ -25,8 +25,6 @@ const useTgMainButton = (
 
   const setMainButtonParams = useCallback(
     (obj: MainButtonParams) => {
-      console.log(obj);
-
       if (!obj.text) {
         window.Telegram.WebApp.MainButton.setParams({ ...obj, text: defaultTextMainButton });
         return;

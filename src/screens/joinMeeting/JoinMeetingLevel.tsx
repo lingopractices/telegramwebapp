@@ -19,7 +19,7 @@ const JoinMeetingLevel: React.FC = () => {
     (languageLevel: LanguageLevel) => {
       setMeetingData((prev) => ({ ...prev, languageLevel }));
     },
-    [setMainButtonParams, setMeetingData],
+    [setMeetingData],
   );
 
   useEffect(() => {

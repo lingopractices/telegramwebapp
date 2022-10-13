@@ -19,7 +19,7 @@ const JoinMeetingLanguage: React.FC = () => {
     (languageId: string) => {
       setMeetingData((prev) => ({ ...prev, languageId }));
     },
-    [setMainButtonParams, setMeetingData],
+    [setMeetingData],
   );
 
   useEffect(() => {

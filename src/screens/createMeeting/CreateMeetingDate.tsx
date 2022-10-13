@@ -19,7 +19,7 @@ const CreateMeetingDate: React.FC = () => {
     (meetingAt: string) => {
       setMeetingData((prev) => ({ ...prev, meetingAt }));
     },
-    [setMainButtonParams, setMeetingData],
+    [setMeetingData],
   );
 
   useEffect(() => {

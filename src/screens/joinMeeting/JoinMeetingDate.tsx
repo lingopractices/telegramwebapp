@@ -19,7 +19,7 @@ const JoinMeetingDate: React.FC = () => {
     (meetingAt: string) => {
       setMeetingData((prev) => ({ ...prev, from: meetingAt }));
     },
-    [setMainButtonParams, setMeetingData],
+    [setMeetingData],
   );
 
   useEffect(() => {

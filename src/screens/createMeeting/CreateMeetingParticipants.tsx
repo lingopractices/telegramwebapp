@@ -19,7 +19,7 @@ const CreateMeetingParticipants: React.FC = () => {
     (peopleNumber: number) => {
       setMeetingData((prev) => ({ ...prev, peopleNumber }));
     },
-    [setMainButtonParams, setMeetingData],
+    [setMeetingData],
   );
 
   useEffect(() => {
