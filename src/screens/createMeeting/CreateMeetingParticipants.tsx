@@ -13,19 +13,22 @@ const CreateMeetingParticipants: React.FC = () => {
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(
-    true,
-    false,
-    'CHOOSE A NUMBER',
-  );
+  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(true, false);
 
   const handleChangeParticipiants = useCallback(
     (peopleNumber: number) => {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
       setMeetingData((prev) => ({ ...prev, peopleNumber }));
     },
-    [setMainButtonParams, setMeetingData],
+    [setMeetingData],
   );
+
+  useEffect(() => {
+    if (meetingData?.peopleNumber) {
+      setMainButtonParams({ text: 'SUBMIT', is_active: true });
+    } else {
+      setMainButtonParams({ text: 'CHOOSE A LANGUAGE', is_active: false });
+    }
+  }, [meetingData?.peopleNumber, setMainButtonParams]);
 
   const handleBack = useCallback(() => {
     navigate(CREATE_TOPICS_PATH);

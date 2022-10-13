@@ -13,19 +13,22 @@ const JoinMeetingDate: React.FC = () => {
   const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(
-    true,
-    false,
-    'CHOOSE A DATE',
-  );
+  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(true, false);
 
   const handleChangeDate = useCallback(
     (meetingAt: string) => {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
       setMeetingData((prev) => ({ ...prev, from: meetingAt }));
     },
-    [setMainButtonParams, setMeetingData],
+    [setMeetingData],
   );
+
+  useEffect(() => {
+    if (meetingData?.from) {
+      setMainButtonParams({ text: 'SUBMIT', is_active: true });
+    } else {
+      setMainButtonParams({ text: 'CHOOSE A DATE', is_active: false });
+    }
+  }, [meetingData?.from, setMainButtonParams]);
 
   const handleBack = useCallback(() => {
     navigate(JOIN_LEVELS_PATH, { state: { meetingData } });

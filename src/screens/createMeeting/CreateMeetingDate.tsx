@@ -13,19 +13,22 @@ const CreateMeetingDate: React.FC = () => {
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(
-    true,
-    false,
-    'CHOOSE A DATE',
-  );
+  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(true, false);
 
   const handleChangeDate = useCallback(
     (meetingAt: string) => {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
       setMeetingData((prev) => ({ ...prev, meetingAt }));
     },
-    [setMainButtonParams, setMeetingData],
+    [setMeetingData],
   );
+
+  useEffect(() => {
+    if (meetingData?.meetingAt) {
+      setMainButtonParams({ text: 'SUBMIT', is_active: true });
+    } else {
+      setMainButtonParams({ text: 'CHOOSE A DATE', is_active: false });
+    }
+  }, [meetingData?.meetingAt, setMainButtonParams]);
 
   const handleBack = useCallback(() => {
     navigate(CREATE_PARTICIPANTS_PATH, { state: { meetingData } });

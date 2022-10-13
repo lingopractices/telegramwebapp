@@ -29,6 +29,7 @@ const useTgMainButton = (
         window.Telegram.WebApp.MainButton.setParams({ ...obj, text: defaultTextMainButton });
         return;
       }
+
       window.Telegram.WebApp.MainButton.setParams(obj);
     },
     [defaultTextMainButton],

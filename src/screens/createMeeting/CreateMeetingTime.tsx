@@ -21,11 +21,18 @@ const CreateMeetingTime: React.FC = () => {
 
   const handleChangeTime = useCallback(
     (meetingAt: string) => {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
       setMeetingData((prev) => ({ ...prev, meetingAt }));
     },
-    [setMainButtonParams, setMeetingData],
+    [setMeetingData],
   );
+
+  useEffect(() => {
+    if (meetingData?.meetingAt) {
+      setMainButtonParams({ text: 'SUBMIT', is_active: true });
+    } else {
+      setMainButtonParams({ text: 'CHOOSE A TIME', is_active: false });
+    }
+  }, [meetingData?.meetingAt, setMainButtonParams]);
 
   const handleBack = useCallback(() => {
     navigate(CREATE_DATE_PATH, { state: { meetingData } });

@@ -13,19 +13,22 @@ const JoinMeetingLanguage: React.FC = () => {
   const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(
-    true,
-    false,
-    'CHOOSE A LANGUAGE',
-  );
+  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(true, false);
 
   const handleChangeLanguage = useCallback(
     (languageId: string) => {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
       setMeetingData((prev) => ({ ...prev, languageId }));
     },
-    [setMainButtonParams, setMeetingData],
+    [setMeetingData],
   );
+
+  useEffect(() => {
+    if (meetingData?.languageId) {
+      setMainButtonParams({ text: 'SUBMIT', is_active: true });
+    } else {
+      setMainButtonParams({ text: 'CHOOSE A LANGUAGE', is_active: false });
+    }
+  }, [meetingData?.languageId, setMainButtonParams]);
 
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
