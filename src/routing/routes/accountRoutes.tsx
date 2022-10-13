@@ -1,5 +1,3 @@
-import LanguagesPage from 'pages/LanguagePage/LanguagePage';
-import LevelPage from 'pages/LevelPage/LevelPage';
 import { Route } from 'react-router-dom';
 import {
   ACCOUNT_INTERFACE_LANGUAGES_PATH,
@@ -8,6 +6,9 @@ import {
   ACCOUNT_PATH,
 } from 'routing/routing.constants';
 import deleteLineFromPath from 'routing/utils/deleteLineFromPath';
+import AccountInterfaceLanguage from 'screens/account/AccountInterfaceLanguage';
+import AccountLanguage from 'screens/account/AccountLanguage';
+import AccountLevel from 'screens/account/AccountLevel';
 
 import { AccountRoutesEnum, AccountRoutesObject } from '../routing.types';
 
@@ -16,24 +17,24 @@ const AccountRoutes: AccountRoutesObject = {
     path: `${deleteLineFromPath(ACCOUNT_LANGUAGES_PATH, `${ACCOUNT_PATH}/`)}`,
     pageName: 'Languages',
     props: {
-      element: LanguagesPage,
-      children: <Route path='*' element={<LanguagesPage />} />,
+      element: AccountLanguage,
+      children: <Route path='*' element={<AccountLanguage />} />,
     },
   },
   [AccountRoutesEnum.INTERFACE_LANGUAGES_ACCOUNT]: {
     path: `${deleteLineFromPath(ACCOUNT_INTERFACE_LANGUAGES_PATH, `${ACCOUNT_PATH}/`)}`,
     pageName: 'InterfaceLanguages',
     props: {
-      element: LanguagesPage,
-      children: <Route path='*' element={<LanguagesPage />} />,
+      element: AccountInterfaceLanguage,
+      children: <Route path='*' element={<AccountInterfaceLanguage />} />,
     },
   },
   [AccountRoutesEnum.LEVELS_ACCOUNT]: {
     path: `${deleteLineFromPath(ACCOUNT_LEVELS_PATH, `${ACCOUNT_PATH}/`)}`,
     pageName: 'Levels',
     props: {
-      element: LevelPage,
-      children: <Route path='*' element={<LevelPage />} />,
+      element: AccountLevel,
+      children: <Route path='*' element={<AccountLevel />} />,
     },
   },
 };

@@ -1,51 +1,27 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import RadioItem from '@components/RadioItem/RadioItem';
-import useTgBackButton from 'hooks/useTgBackButton';
-import useTgMainButton from 'hooks/useTgMainButton';
-import { useNavigate } from 'react-router-dom';
-import { CREATE_DATE_PATH, CREATE_TOPICS_PATH } from 'routing/routing.constants';
 
-const ParticipantsCount = () => {
-  const participiants = ['2', '3', '5', '7', '9'];
+interface IParticipiantsCount {
+  defaultParticipiants?: number;
+  onChangeParticipiants: (peopleNumber: number) => void;
+}
 
-  const [currentCount, setCurrentCount] = useState(participiants[1]);
-  const navigate = useNavigate();
+const ParticipantsCount: React.FC<IParticipiantsCount> = ({
+  defaultParticipiants,
+  onChangeParticipiants,
+}) => {
+  const participiants = [2, 3, 5, 7, 9];
 
-  const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(
-    true,
-    false,
-    'CHOOSE A NUMBER',
-  );
-
-  const handleBack = useCallback(() => {
-    navigate(CREATE_TOPICS_PATH);
-  }, [navigate]);
-
-  const handleForward = useCallback(() => {
-    navigate(CREATE_DATE_PATH);
-  }, [navigate]);
+  const [currentCount, setCurrentCount] = useState(defaultParticipiants || participiants[1]);
 
   useEffect(() => {
-    setMainButtonOnClick(handleForward);
-  }, [handleForward, setMainButtonOnClick]);
-
-  useEffect(() => {
-    setBackButtonOnClick(handleBack);
-  }, [handleBack, setBackButtonOnClick]);
-
-  useEffect(() => {
-    if (currentCount) {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
-    } else {
-      setMainButtonParams({ is_active: false });
-    }
-  }, [currentCount, setMainButtonParams]);
+    onChangeParticipiants(currentCount);
+  }, [currentCount, onChangeParticipiants]);
 
   const handleChangeParticipantsCount = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setCurrentCount(event.target.value);
+    (id: number | string) => {
+      setCurrentCount(Number(id));
     },
     [setCurrentCount],
   );
@@ -54,9 +30,10 @@ const ParticipantsCount = () => {
       <h3>Change level</h3>
       {participiants.map((count) => (
         <RadioItem
+          id={count}
           key={count}
           radioGroupName='languages'
-          label={count}
+          label={count.toString()}
           onChange={handleChangeParticipantsCount}
           isSelected={count === currentCount}
         />

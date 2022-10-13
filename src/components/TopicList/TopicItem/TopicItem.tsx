@@ -7,22 +7,23 @@ import classNames from 'classnames';
 import styles from './TopicItem.module.scss';
 
 interface ITopicItemProps {
-  label: string;
+  id: number;
+  name: string;
   isSelected: boolean;
-  onChange: (label: string) => void;
+  onChange: (topicId: number) => void;
 }
 
-const TopicItem: React.FC<ITopicItemProps> = ({ label, isSelected, onChange }) => {
+const TopicItem: React.FC<ITopicItemProps> = ({ id, name, isSelected, onChange }) => {
   const handleClick = useCallback(() => {
-    onChange(label);
-  }, [onChange, label]);
+    onChange(id);
+  }, [onChange, id]);
 
   return (
     <li
       onClick={handleClick}
       className={classNames(styles.container, { [styles.selectedTopic]: isSelected })}
     >
-      <span>{label}</span>
+      <span>{name}</span>
       {isSelected ? <UpArrow className={styles.arrow} /> : <DownArrow className={styles.arrow} />}
     </li>
   );
