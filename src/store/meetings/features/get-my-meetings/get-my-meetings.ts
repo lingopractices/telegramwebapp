@@ -16,7 +16,7 @@ interface IGetMyMeetingsRequest extends IPaginationParams {
 
 export class GetMyMeetings {
   static get action() {
-    return createAction<IGetMyMeetingsRequest>('meetings/GET_MY_MEETINGS_REQUEST');
+    return createAction<IGetMyMeetingsRequest>('meetings/GET_MY_MEETINGS');
   }
 
   static get reducer() {

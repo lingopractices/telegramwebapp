@@ -11,7 +11,7 @@ import { GetTopicsSuccess } from './get-topics-success';
 
 export class GetTopics {
   static get action() {
-    return createAction<ISearchTopicsRequest>('topics/GET_TOPICS_REQUEST');
+    return createAction<ISearchTopicsRequest>('topics/GET_TOPICS');
   }
 
   static get reducer() {

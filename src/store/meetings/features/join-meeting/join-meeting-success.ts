@@ -3,7 +3,7 @@ import { IMeetingsState } from '@store/meetings/types';
 
 export class JoinMeetingSuccess {
   static get action() {
-    return createAction<number>('meeting/JOIN_MEETING_SUCCESS');
+    return createAction<number>('meetings/JOIN_MEETING_SUCCESS');
   }
 
   static get reducer() {

@@ -11,7 +11,7 @@ import { GetLanguagesSuccess } from './get-languages-success';
 
 export class GetLanguages {
   static get action() {
-    return createAction('languages/GET_LANGUAGES_REQUEST');
+    return createAction('languages/GET_LANGUAGES');
   }
 
   static get reducer() {

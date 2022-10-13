@@ -11,7 +11,7 @@ import { GetMeetingDaysSuccess } from './get-meeting-days-success';
 
 export class GetMeetingDays {
   static get action() {
-    return createAction<IGetMeetingDatesRequest>('meetings/GET_MEETING_DAYS_REQUEST');
+    return createAction<IGetMeetingDatesRequest>('meetings/GET_MEETING_DAYS');
   }
 
   static get reducer() {

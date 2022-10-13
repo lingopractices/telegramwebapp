@@ -11,7 +11,7 @@ import { JoinMeetingSuccess } from './join-meeting-success';
 
 export class JoinMeeting {
   static get action() {
-    return createAction<IJoinMeetingRequest>('meeting/JOIN_MEETING_REQUEST');
+    return createAction<IJoinMeetingRequest>('meetings/JOIN_MEETING');
   }
 
   static get reducer() {

@@ -11,5 +11,6 @@ export interface IMeetingsState {
     getMeetingDaysPending: boolean;
     createMeetingPending: boolean;
     joinMeetingPending: boolean;
+    leaveMeetingPending: boolean;
   };
 }

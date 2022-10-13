@@ -12,7 +12,7 @@ import { UpdateProfileSuccess } from './update-profile-success';
 
 export class UpdateProfile {
   static get action() {
-    return createAction<IUpdateUserRequest>('profile/UPDATE_PROFILE_REQUEST');
+    return createAction<IUpdateUserRequest>('profile/UPDATE_PROFILE');
   }
 
   static get reducer() {
