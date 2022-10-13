@@ -4,7 +4,7 @@ import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
 import { IMeetingsState } from '@store/meetings/types';
 import { getProfileDataSelector } from '@store/profile/selectors';
-import { getQuestionsSelector, getTopicsSelector } from '@store/topics/selectors';
+import { getTopicsSelector } from '@store/topics/selectors';
 import { AxiosResponse } from 'axios';
 import {
   ICreateMeetingRequest,
@@ -40,8 +40,8 @@ export class CreateMeeting {
       if (isCreated) {
         const userCreator: IUser = yield select(getProfileDataSelector);
         const topics: ITopic[] = yield select(getTopicsSelector);
-        const questions: { [id: number]: string[] } = yield select(getQuestionsSelector);
         const meetingTopic = topics.find((topic) => topic.id === payload.topicId);
+        const questions = topics.find((topic) => topic.id === payload.topicId);
         const createdMeeting: IMeeting = {
           id,
           meetingDate: payload.meetingAt,
@@ -51,7 +51,7 @@ export class CreateMeeting {
           topic: {
             id: payload.topicId,
             name: meetingTopic?.name || '',
-            questions: questions[payload.topicId],
+            questions: questions?.questions || [],
           },
           userCreator,
         };
