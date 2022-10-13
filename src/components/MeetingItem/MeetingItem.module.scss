@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 15.9px 5px 16px;
+  border-radius: 8px;
+  box-shadow: var(--box-shadow-color);
+  cursor: pointer;
+
+  &:not(:last-of-type) {
+    margin-bottom: 8px;
+  }
+}
+
+.info {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.defaultText {
+  color: var(--secondary-grey-color);
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.date {
+  color: var(--base-color);
+  line-height: 24px;
+  text-align: left;
+}

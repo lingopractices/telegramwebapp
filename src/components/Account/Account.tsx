@@ -1,4 +1,15 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+
+import InfoItem from '@components/InfoItem/InfoItem';
+import useTgBackButton from 'hooks/useTgBackButton';
+import useTgMainButton from 'hooks/useTgMainButton';
+import { useNavigate } from 'react-router-dom';
+import {
+  ACCOUNT_INTERFACE_LANGUAGES_PATH,
+  ACCOUNT_LANGUAGES_PATH,
+  ACCOUNT_LEVELS_PATH,
+  MAIN_PATH,
+} from 'routing/routing.constants';
 
 import styles from './Account.module.scss';
 
@@ -7,31 +18,40 @@ const Account = () => {
   const [level, setLevel] = useState('bginner');
   const [interfaceLanguage, setInterfaceLanguage] = useState('English');
 
+  const navigate = useNavigate();
+
+  const { setBackButtonOnClick } = useTgBackButton(true);
+  useTgMainButton(false, false);
+
+  const handleBack = useCallback(() => {
+    navigate(MAIN_PATH);
+  }, [navigate]);
+
+  useEffect(() => {
+    setBackButtonOnClick(handleBack);
+  }, [handleBack, setBackButtonOnClick]);
+
+  const openPracticeLanguages = useCallback(() => {
+    navigate(ACCOUNT_LANGUAGES_PATH);
+  }, [navigate]);
+
+  const openInterfaceLanguages = useCallback(() => {
+    navigate(ACCOUNT_INTERFACE_LANGUAGES_PATH);
+  }, [navigate]);
+
+  const openLevels = useCallback(() => {
+    navigate(ACCOUNT_LEVELS_PATH);
+  }, [navigate]);
+
   return (
     <div className={styles.container}>
-      <h2>Account</h2>
-      <div>
-        <span>Practice language: {language}</span>
-        <button type='button'>change</button>
-      </div>
-      <div>
-        <span>Current level: {level}</span>
-        <button type='button'>change</button>
-      </div>
-      <div>
-        <span>Interface language: {interfaceLanguage}</span>
-        <button type='button'>change</button>
-      </div>
-      <div>
-        <span>Your gender is: </span>
-        <label>
-          male
-          <input type='radio' name='gender' />
-        </label>
-        <label>
-          female
-          <input type='radio' name='gender' />
-        </label>
+      <h2>{'my account'.toUpperCase()}</h2>
+      <div className={styles.warpper}>
+        <InfoItem title='PRACTICE LANGUAGE' value={language} onClick={openPracticeLanguages} />
+        <InfoItem title='LEVEL' value={level} onClick={openLevels} />
+        <InfoItem title='LOCATION' value='Belarus' onClick={() => {}} />
+        <InfoItem title='INTERFACE LANGUAGE' value={language} onClick={openInterfaceLanguages} />
+        <InfoItem title='GENDER' value='Male' onClick={() => {}} />
       </div>
     </div>
   );

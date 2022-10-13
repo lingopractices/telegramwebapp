@@ -1,6 +1,20 @@
 .container {
   display: flex;
-  padding: 0.5em;
-  border-bottom: 1px solid black;
+  box-sizing: border-box;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--base-color);
+  border-radius: 8px;
+  color: var(--base-color);
   cursor: pointer;
+
+  input {
+    display: none;
+  }
+}
+
+.selected {
+  background-color: var(--base-color);
+  color: var(--bg-color);
 }

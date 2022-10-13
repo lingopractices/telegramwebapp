@@ -1,12 +1,16 @@
-import DateAndTimePage from 'pages/DateAndTimePage/DateAndTimePage';
+import DatePage from 'pages/DatePage/DatePage';
 import LanguagesPage from 'pages/LanguagePage/LanguagePage';
 import LevelPage from 'pages/LevelPage/LevelPage';
+import MeetingListPage from 'pages/MeetingLIstPage/MeetingListPage';
+import TimePage from 'pages/TimePage/TimePage';
 import { Route } from 'react-router-dom';
 import {
   JOIN_DATE_PATH,
   JOIN_LANGUAGES_PATH,
   JOIN_LEVELS_PATH,
+  JOIN_MEETINGS_PATH,
   JOIN_PATH,
+  JOIN_TIME_PATH,
 } from 'routing/routing.constants';
 import deleteLineFromPath from 'routing/utils/deleteLineFromPath';
 
@@ -33,8 +37,24 @@ const JoinMeetingRoutes: JoinRoutesObject = {
     path: `${deleteLineFromPath(`${JOIN_DATE_PATH}`, `${JOIN_PATH}`)}`,
     pageName: 'Date',
     props: {
-      element: DateAndTimePage,
-      children: <Route path='*' element={<DateAndTimePage />} />,
+      element: DatePage,
+      children: <Route path='*' element={<DatePage />} />,
+    },
+  },
+  [JoinRoutesEnum.TIME_JOIN]: {
+    path: `${deleteLineFromPath(`${JOIN_TIME_PATH}`, `${JOIN_PATH}`)}`,
+    pageName: 'Time',
+    props: {
+      element: TimePage,
+      children: <Route path='*' element={<TimePage />} />,
+    },
+  },
+  [JoinRoutesEnum.MEETING_LIST]: {
+    path: `${deleteLineFromPath(`${JOIN_MEETINGS_PATH}`, `${JOIN_PATH}`)}`,
+    pageName: 'Meeting list',
+    props: {
+      element: MeetingListPage,
+      children: <Route path='*' element={<MeetingListPage />} />,
     },
   },
 };

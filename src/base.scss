@@ -1,0 +1,83 @@
+body {
+  margin: 0;
+  background-color: var(--bg-color);
+  font-family: Rubik, -apple-system, 'Apple Color Emoji', 'Helvetica Neue', Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  line-height: 1;
+  outline: none;
+
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    width: 4px;
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    width: 4px;
+    border-radius: 6px;
+  }
+}
+
+button {
+  border: 0;
+  background-color: transparent;
+  border-radius: 0;
+  color: black;
+  cursor: pointer;
+
+  &:focus {
+    border: none;
+    outline: none;
+  }
+
+  &:disabled {
+    &:hover {
+      box-shadow: none;
+    }
+  }
+}
+
+[hidden] {
+  display: none;
+}
+
+a {
+  display: inherit;
+  background-color: inherit;
+  color: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  line-height: inherit;
+  text-decoration: inherit;
+}
+
+input {
+  caret-color: currentcolor;
+}
+
+// variables
+
+:root {
+  font-size: 16px;
+
+  // primary colors
+
+  --base-color: #033dba;
+  --secondary-color: rgb(3 61 186 / 60%);
+  --secondary-grey-color: #cbcbcb;
+  --box-shadow-color: 0 0 6px rgb(0 0 0 / 5%);
+  --bg-color: white;
+  --bg-search: rgb(118 118 128 / 12%);
+}

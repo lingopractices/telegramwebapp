@@ -1,0 +1,28 @@
+.container {
+  padding: 0 16px;
+
+  h2 {
+    margin: 16px 0;
+    color: var(--base-color);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: left;
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-flow: row wrap;
+
+  gap: 15px;
+}
+
+.search {
+  margin-bottom: 16px;
+}
+
+.paddingContainer {
+  flex-basis: 164px;
+  padding: 10px 0;
+}

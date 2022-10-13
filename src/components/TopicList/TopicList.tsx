@@ -1,7 +1,13 @@
-import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 
-import RadioItem from '@components/RadioItem/RadioItem';
+import QuestionItem from '@components/QuestionItem/QuestionItem';
 import SearchBox from '@components/SearchBox/SearchBox';
+import useTgBackButton from 'hooks/useTgBackButton';
+import useTgMainButton from 'hooks/useTgMainButton';
+import { useNavigate } from 'react-router-dom';
+import { CREATE_LEVELS_PATH, CREATE_PARTICIPANTS_PATH } from 'routing/routing.constants';
+
+import TopicItem from './TopicItem/TopicItem';
 
 import styles from './TopicList.module.scss';
 
@@ -35,15 +41,59 @@ export const TopicList = () => {
   const [filteredTopics, setFilteredTopics] = useState(topis);
   const [currentTopic, setCurrentTopic] = useState('');
   const [searchStringText, setSearchStringText] = useState('');
-  const [questions, setQuestions] = useState<string[]>([]);
-  const questionsRef = useRef<HTMLLIElement>(null);
+  const [questions, setQuestions] = useState<string[]>([
+    'first',
+    'second',
+    'third',
+    'fourth',
+    'fivth',
+    'sixth',
+    'seventh',
+    'eighth',
+    'ninth',
+    'tenth',
+  ]);
+  const navigate = useNavigate();
+  const { setBackButtonOnClick } = useTgBackButton(true);
+  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(
+    true,
+    false,
+    'CHOOSE A TOPIC',
+  );
+
+  const handleBack = useCallback(() => {
+    navigate(CREATE_LEVELS_PATH);
+  }, [navigate]);
+
+  const handleForward = useCallback(() => {
+    navigate(CREATE_PARTICIPANTS_PATH);
+  }, [navigate]);
+
+  useEffect(() => {
+    setMainButtonOnClick(handleForward);
+  }, [handleForward, setMainButtonOnClick]);
+
+  useEffect(() => {
+    setBackButtonOnClick(handleBack);
+  }, [handleBack, setBackButtonOnClick]);
+
+  useEffect(() => {
+    if (currentTopic) {
+      setMainButtonParams({ text: 'SUBMIT', is_active: true });
+    } else {
+      setMainButtonParams({ is_active: false });
+    }
+  }, [currentTopic, setMainButtonParams]);
 
   const handleChangeTopic = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setCurrentTopic(event.target.value);
-      setQuestions([]);
+    (label: string) => {
+      if (label !== currentTopic) {
+        setCurrentTopic(label);
+      } else {
+        setCurrentTopic('');
+      }
     },
-    [setCurrentTopic, setQuestions],
+    [setCurrentTopic, currentTopic],
   );
 
   const handleChangeSearchString = useCallback(
@@ -54,64 +104,38 @@ export const TopicList = () => {
   );
 
   useEffect(() => {
-    setFilteredTopics(
-      topis.filter((item) => item.trim().toLocaleLowerCase().includes(searchStringText)),
-    );
+    if (searchStringText)
+      setFilteredTopics(
+        topis.filter((item) => item.trim().toLocaleLowerCase().includes(searchStringText)),
+      );
   }, [searchStringText, topis, setFilteredTopics]);
-
-  useEffect(() => {
-    let idTimout: ReturnType<typeof setTimeout>;
-
-    if (currentTopic) {
-      setSearchStringText('');
-
-      idTimout = setTimeout(() => {
-        setQuestions([
-          'first',
-          'second',
-          'third',
-          'fourth',
-          'fivth',
-          'sixth',
-          'seventh',
-          'eighth',
-          'ninth',
-          'tenth',
-        ]);
-      }, Math.floor(Math.random() * (800 - 200 + 1) + 200));
-    }
-    return () => clearTimeout(idTimout);
-  }, [currentTopic, setQuestions, setSearchStringText]);
-
-  useEffect(() => {
-    if (questions.length) {
-      questionsRef.current?.scrollIntoView(false);
-    }
-  }, [questions]);
 
   return (
     <div className={styles.container}>
-      <h3>Change topic</h3>
-      <SearchBox value={searchStringText} onChange={handleChangeSearchString} />
-      {filteredTopics.map((topic) => (
-        <div key={topic}>
-          <RadioItem
-            radioGroupName='languages'
-            label={topic}
-            onChange={handleChangeTopic}
-            isSelected={topic === currentTopic}
-          />
-          {currentTopic === topic && (
-            <ul>
-              {questions.map((question) => (
-                <li ref={questionsRef} key={question}>
-                  {question}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      ))}
+      <h2>{'choose meeting topic'.toUpperCase()}</h2>
+      <SearchBox
+        value={searchStringText}
+        onChange={handleChangeSearchString}
+        containerClassname={styles.search}
+      />
+      <div className={styles.wrapperList}>
+        {filteredTopics.map((topic) => (
+          <div key={topic}>
+            <TopicItem
+              label={topic}
+              isSelected={topic === currentTopic}
+              onChange={handleChangeTopic}
+            />
+            {currentTopic === topic && (
+              <ul className={styles.questions}>
+                {questions.map((question) => (
+                  <QuestionItem key={question} label={question} />
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

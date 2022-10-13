@@ -1,19 +1,28 @@
 import React from 'react';
 
 import { ReactComponent as LingoLogo } from '@assets/lingo-logo.svg';
+import useTgBackButton from 'hooks/useTgBackButton';
+import useTgMainButton from 'hooks/useTgMainButton';
 import { Link } from 'react-router-dom';
-import { ACCOUNT_PATH, CREATE_LANGUAGES_PATH, JOIN_LANGUAGES_PATH } from 'routing/routing.constants';
+import {
+  ACCOUNT_PATH,
+  CREATE_LANGUAGES_PATH,
+  JOIN_LANGUAGES_PATH,
+} from 'routing/routing.constants';
 
-import MeetingItem from './MeetingItem/MeetingItem';
+import MeetingItem from '../MeetingItem/MeetingItem';
 
 import styles from './Main.module.scss';
 
 const Main = () => {
   const meetings = [
-    { label: 'meeting', date: 'date' },
-    { label: 'meeting2', date: 'date2' },
-    { label: 'meeting3', date: 'date3' },
+    { id: 0, label: 'meeting', date: 'date' },
+    { id: 1, label: 'meeting2', date: 'date2' },
+    { id: 2, label: 'meeting3', date: 'date3' },
   ];
+
+  useTgBackButton(false);
+  useTgMainButton(false, false);
 
   return (
     <div className={styles.container}>
@@ -30,7 +39,12 @@ const Main = () => {
         </Link>
       </div>
       {meetings.map((meeting) => (
-        <MeetingItem key={meeting.label} date={meeting.date} />
+        <MeetingItem
+          key={meeting.label}
+          date={meeting.date}
+          defaultText='Online Meeting'
+          id={meeting.id}
+        />
       ))}
     </div>
   );
