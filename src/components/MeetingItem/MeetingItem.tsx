@@ -3,7 +3,6 @@ import React from 'react';
 import { ReactComponent as RightArrow } from '@assets/icons/right-arrow.svg';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { Link } from 'react-router-dom';
-import { MEETING_PATH } from 'routing/routing.constants';
 
 import styles from './MeetingItem.module.scss';
 
@@ -11,10 +10,11 @@ interface IMeetingItemProps {
   id: number;
   defaultText: string;
   date: string;
+  mainRoute: string;
 }
 
-const MeetingItem: React.FC<IMeetingItemProps> = ({ id, defaultText, date }) => (
-  <Link to={replaceInUrl(MEETING_PATH, ['id', id])} className={styles.container}>
+const MeetingItem: React.FC<IMeetingItemProps> = ({ id, defaultText, date, mainRoute }) => (
+  <Link to={replaceInUrl(mainRoute, ['id', id])} className={styles.container}>
     <div className={styles.info}>
       <span className={styles.defaultText}>{defaultText}</span>
       <div className={styles.date}>{date}</div>
@@ -23,4 +23,4 @@ const MeetingItem: React.FC<IMeetingItemProps> = ({ id, defaultText, date }) => 
   </Link>
 );
 
-export default MeetingItem;
+export default React.memo(MeetingItem);

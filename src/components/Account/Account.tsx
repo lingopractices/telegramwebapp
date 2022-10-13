@@ -1,14 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import InfoItem from '@components/InfoItem/InfoItem';
-import useTgBackButton from 'hooks/useTgBackButton';
-import useTgMainButton from 'hooks/useTgMainButton';
 import { useNavigate } from 'react-router-dom';
 import {
   ACCOUNT_INTERFACE_LANGUAGES_PATH,
   ACCOUNT_LANGUAGES_PATH,
   ACCOUNT_LEVELS_PATH,
-  MAIN_PATH,
 } from 'routing/routing.constants';
 
 import styles from './Account.module.scss';
@@ -19,17 +16,6 @@ const Account = () => {
   const [interfaceLanguage, setInterfaceLanguage] = useState('English');
 
   const navigate = useNavigate();
-
-  const { setBackButtonOnClick } = useTgBackButton(true);
-  useTgMainButton(false, false);
-
-  const handleBack = useCallback(() => {
-    navigate(MAIN_PATH);
-  }, [navigate]);
-
-  useEffect(() => {
-    setBackButtonOnClick(handleBack);
-  }, [handleBack, setBackButtonOnClick]);
 
   const openPracticeLanguages = useCallback(() => {
     navigate(ACCOUNT_LANGUAGES_PATH);
