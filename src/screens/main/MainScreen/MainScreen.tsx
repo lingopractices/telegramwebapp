@@ -1,6 +1,9 @@
 import React from 'react';
 
 import { ReactComponent as LingoLogo } from '@assets/lingo-logo.svg';
+import MeetingItem from '@components/MeetingItem/MeetingItem';
+import useTgBackButton from 'hooks/useTgBackButton';
+import useTgMainButton from 'hooks/useTgMainButton';
 import { Link } from 'react-router-dom';
 import {
   ACCOUNT_PATH,
@@ -9,16 +12,17 @@ import {
   MEETING_PATH,
 } from 'routing/routing.constants';
 
-import MeetingItem from '../MeetingItem/MeetingItem';
+import styles from './MainScreen.module.scss';
 
-import styles from './Main.module.scss';
-
-const Main = () => {
+const MainScreen: React.FC = () => {
   const meetings = [
     { id: 0, label: 'meeting', date: 'date' },
     { id: 1, label: 'meeting2', date: 'date2' },
     { id: 2, label: 'meeting3', date: 'date3' },
   ];
+
+  useTgBackButton(false);
+  useTgMainButton(false, false);
 
   return (
     <div className={styles.container}>
@@ -47,4 +51,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default MainScreen;
