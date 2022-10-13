@@ -21,11 +21,18 @@ const CreateMeetingLanguage: React.FC = () => {
 
   const handleChangeLanguage = useCallback(
     (languageId: string) => {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
       setMeetingData((prev) => ({ ...prev, languageId }));
     },
     [setMainButtonParams, setMeetingData],
   );
+
+  useEffect(() => {
+    if (meetingData?.languageId) {
+      setMainButtonParams({ text: 'SUBMIT', is_active: true });
+    } else {
+      setMainButtonParams({ text: 'CHOOSE A LANGUAGE', is_active: false });
+    }
+  }, [meetingData?.languageId, setMainButtonParams]);
 
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);

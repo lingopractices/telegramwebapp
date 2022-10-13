@@ -17,22 +17,6 @@ export const TopicList: React.FC<ITopicList> = ({ dafaultTopicId, onChangeTopic 
     () => [
       {
         name: 'Art',
-        id: 0,
-        questions: [
-          'first',
-          'second',
-          'third',
-          'fourth',
-          'fivth',
-          'sixth',
-          'seventh',
-          'eighth',
-          'ninth',
-          'tenth',
-        ],
-      },
-      {
-        name: 'Cinema',
         id: 1,
         questions: [
           'first',
@@ -48,7 +32,7 @@ export const TopicList: React.FC<ITopicList> = ({ dafaultTopicId, onChangeTopic 
         ],
       },
       {
-        name: 'Sport',
+        name: 'Cinema',
         id: 2,
         questions: [
           'first',
@@ -64,7 +48,7 @@ export const TopicList: React.FC<ITopicList> = ({ dafaultTopicId, onChangeTopic 
         ],
       },
       {
-        name: 'Family',
+        name: 'Sport',
         id: 3,
         questions: [
           'first',
@@ -80,7 +64,7 @@ export const TopicList: React.FC<ITopicList> = ({ dafaultTopicId, onChangeTopic 
         ],
       },
       {
-        name: 'Pets',
+        name: 'Family',
         id: 4,
         questions: [
           'first',
@@ -96,7 +80,7 @@ export const TopicList: React.FC<ITopicList> = ({ dafaultTopicId, onChangeTopic 
         ],
       },
       {
-        name: 'Test1',
+        name: 'Pets',
         id: 5,
         questions: [
           'first',
@@ -112,7 +96,7 @@ export const TopicList: React.FC<ITopicList> = ({ dafaultTopicId, onChangeTopic 
         ],
       },
       {
-        name: 'Test2',
+        name: 'Test1',
         id: 6,
         questions: [
           'first',
@@ -128,7 +112,7 @@ export const TopicList: React.FC<ITopicList> = ({ dafaultTopicId, onChangeTopic 
         ],
       },
       {
-        name: 'Test3',
+        name: 'Test2',
         id: 7,
         questions: [
           'first',
@@ -144,7 +128,7 @@ export const TopicList: React.FC<ITopicList> = ({ dafaultTopicId, onChangeTopic 
         ],
       },
       {
-        name: 'Test4',
+        name: 'Test3',
         id: 8,
         questions: [
           'first',
@@ -160,7 +144,7 @@ export const TopicList: React.FC<ITopicList> = ({ dafaultTopicId, onChangeTopic 
         ],
       },
       {
-        name: 'Test5',
+        name: 'Test4',
         id: 9,
         questions: [
           'first',
@@ -176,7 +160,7 @@ export const TopicList: React.FC<ITopicList> = ({ dafaultTopicId, onChangeTopic 
         ],
       },
       {
-        name: 'Test6',
+        name: 'Test5',
         id: 10,
         questions: [
           'first',
@@ -192,8 +176,24 @@ export const TopicList: React.FC<ITopicList> = ({ dafaultTopicId, onChangeTopic 
         ],
       },
       {
-        name: 'Test7',
+        name: 'Test6',
         id: 11,
+        questions: [
+          'first',
+          'second',
+          'third',
+          'fourth',
+          'fivth',
+          'sixth',
+          'seventh',
+          'eighth',
+          'ninth',
+          'tenth',
+        ],
+      },
+      {
+        name: 'Test7',
+        id: 12,
         questions: [
           'first',
           'second',

@@ -13,19 +13,22 @@ const JoinMeetingLevel: React.FC = () => {
   const navigate = useNavigate();
   const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(
-    true,
-    false,
-    'CHOOSE A LEVEL',
-  );
+  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(true, false);
 
   const handleChangeLevel = useCallback(
     (languageLevel: LanguageLevel) => {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
       setMeetingData((prev) => ({ ...prev, languageLevel }));
     },
     [setMainButtonParams, setMeetingData],
   );
+
+  useEffect(() => {
+    if (meetingData?.languageLevel) {
+      setMainButtonParams({ text: 'SUBMIT', is_active: true });
+    } else {
+      setMainButtonParams({ text: 'CHOOSE A LEVEL', is_active: false });
+    }
+  }, [meetingData?.languageLevel, setMainButtonParams]);
 
   const handleBack = useCallback(() => {
     navigate(JOIN_LANGUAGES_PATH, { state: { meetingData } });

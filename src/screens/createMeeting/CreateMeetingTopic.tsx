@@ -13,19 +13,26 @@ const CreateMeetingTopic: React.FC = () => {
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(
-    true,
-    false,
-    'CHOOSE A TOPIC',
+  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(true, false);
+
+  const handleChangeLevel = useCallback(
+    (topicId: number) => {
+      if (topicId) {
+        setMeetingData((prev) => ({ ...prev, topicId }));
+      }
+    },
+    [setMeetingData],
   );
 
-  const handleChangeLanguage = useCallback(
-    (topicId: number) => {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
-      setMeetingData((prev) => ({ ...prev, topicId }));
-    },
-    [setMainButtonParams, setMeetingData],
-  );
+  useEffect(() => {
+    if (meetingData.topicId) {
+      if (meetingData.topicId > -1) {
+        setMainButtonParams({ text: 'SUBMIT', is_active: true });
+      } else {
+        setMainButtonParams({ text: 'CHOOSE A TOPIC', is_active: false });
+      }
+    }
+  }, [meetingData?.topicId, setMainButtonParams]);
 
   const handleBack = useCallback(() => {
     navigate(CREATE_LEVELS_PATH, { state: { meetingData } });
@@ -43,7 +50,7 @@ const CreateMeetingTopic: React.FC = () => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  return <TopicList onChangeTopic={handleChangeLanguage} dafaultTopicId={meetingData?.topicId} />;
+  return <TopicList onChangeTopic={handleChangeLevel} dafaultTopicId={meetingData?.topicId} />;
 };
 
 export default CreateMeetingTopic;
