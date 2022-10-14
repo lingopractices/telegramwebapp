@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 
 import InfoItem from '@components/InfoItem/InfoItem';
 import { DAY_MONTH_YAER, HOUR_MINUTE } from 'common/constants';
@@ -17,12 +17,10 @@ import { CreateMeetingType } from 'screens/types';
 import styles from './ResultInfo.module.scss';
 
 interface IResultInfo {
-  defaultMeetingData: CreateMeetingType;
+  meetingData: CreateMeetingType;
 }
 
-const ResultInfo: React.FC<IResultInfo> = ({ defaultMeetingData }) => {
-  const [meetingData, setMeetingData] = useState(defaultMeetingData);
-
+const ResultInfo: React.FC<IResultInfo> = ({ meetingData }) => {
   const navigate = useNavigate();
 
   const openLanguages = useCallback(() => {
@@ -55,14 +53,14 @@ const ResultInfo: React.FC<IResultInfo> = ({ defaultMeetingData }) => {
       <div className={styles.wrapper}>
         <InfoItem
           title='PRACTICE LANGUAGE'
-          value={String(meetingData?.languageId)}
+          value={`${meetingData?.languageId}`}
           onClick={openLanguages}
         />
-        <InfoItem title='LEVEL' value={String(meetingData?.languageLevel)} onClick={openLevels} />
-        <InfoItem title='TOPIC' value={String(meetingData?.topicId)} onClick={openTopics} />
+        <InfoItem title='LEVEL' value={`${meetingData?.languageLevel}`} onClick={openLevels} />
+        <InfoItem title='TOPIC' value={`${meetingData?.topicId}`} onClick={openTopics} />
         <InfoItem
           title='PARTICIPIANTS NUMBER'
-          value={String(meetingData?.peopleNumber)}
+          value={`${meetingData?.peopleNumber}`}
           onClick={openPraticipiants}
         />
         <InfoItem
