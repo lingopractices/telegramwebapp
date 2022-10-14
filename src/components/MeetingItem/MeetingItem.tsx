@@ -22,7 +22,11 @@ const MeetingItem: React.FC<IMeetingItemProps> = ({
   mainRoute,
   meetingData,
 }) => (
-  <Link to={replaceInUrl(mainRoute, ['id', id])} state={meetingData} className={styles.container}>
+  <Link
+    to={replaceInUrl(mainRoute, ['id', id])}
+    state={{ meetingData }}
+    className={styles.container}
+  >
     <div className={styles.info}>
       <span className={styles.defaultText}>{defaultText}</span>
       <div className={styles.date}>{date}</div>
