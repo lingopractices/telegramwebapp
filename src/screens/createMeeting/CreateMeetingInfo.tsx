@@ -31,7 +31,7 @@ const CreateMeetingInfo: React.FC = () => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  return <ResultInfo defaultMeetingData={meetingData} />;
+  return <ResultInfo meetingData={meetingData} />;
 };
 
 export default CreateMeetingInfo;

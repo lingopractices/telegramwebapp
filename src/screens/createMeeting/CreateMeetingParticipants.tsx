@@ -31,12 +31,12 @@ const CreateMeetingParticipants: React.FC = () => {
   }, [meetingData?.peopleNumber, setMainButtonParams]);
 
   const handleBack = useCallback(() => {
-    navigate(CREATE_TOPICS_PATH);
-  }, [navigate]);
+    navigate(CREATE_TOPICS_PATH, { state: { meetingData } });
+  }, [meetingData, navigate]);
 
   const handleForward = useCallback(() => {
-    navigate(CREATE_DATE_PATH);
-  }, [navigate]);
+    navigate(CREATE_DATE_PATH, { state: { meetingData } });
+  }, [meetingData, navigate]);
 
   useEffect(() => {
     setMainButtonOnClick(handleForward);

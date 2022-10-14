@@ -12,7 +12,7 @@ import JoinMeetingDate from 'screens/joinMeeting/JoinMeetingDate';
 import JoinMeetingInfo from 'screens/joinMeeting/JoinMeetingInfo';
 import JoinMeetingLanguage from 'screens/joinMeeting/JoinMeetingLanguage';
 import JoinMeetingLevel from 'screens/joinMeeting/JoinMeetingLevel';
-import JoinMeetingList from 'screens/joinMeeting/JoinMeetings';
+import JoinMeetingList from 'screens/joinMeeting/MeetingList/MeetingList';
 
 import { JoinRoutesEnum, JoinRoutesObject } from '../routing.types';
 
