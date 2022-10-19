@@ -2,8 +2,12 @@ import React from 'react';
 
 import { ReactComponent as LingoLogo } from '@assets/lingo-logo.svg';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
+import { getMyMeetingsSelector } from '@store/meetings/selectors';
+import { DAY_MONTH_YAER, HOUR_MINUTE } from 'common/constants';
+import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   ACCOUNT_PATH,
@@ -15,11 +19,7 @@ import {
 import styles from './MainScreen.module.scss';
 
 const MainScreen: React.FC = () => {
-  const meetings = [
-    { id: 0, label: 'meeting', date: 'date' },
-    { id: 1, label: 'meeting2', date: 'date2' },
-    { id: 2, label: 'meeting3', date: 'date3' },
-  ];
+  const myMeetings = useSelector(getMyMeetingsSelector);
 
   useTgBackButton(false);
   useTgMainButton(false, false);
@@ -38,15 +38,21 @@ const MainScreen: React.FC = () => {
           joing meeting
         </Link>
       </div>
-      {meetings.map((meeting) => (
-        <MeetingItem
-          mainRoute={MEETING_PATH}
-          key={meeting.label}
-          date={meeting.date}
-          defaultText='Online Meeting'
-          id={meeting.id}
-        />
-      ))}
+      {myMeetings.length ? (
+        myMeetings.map((meeting) => (
+          <MeetingItem
+            id={meeting.id}
+            key={meeting.id}
+            date={`${dayjs(meeting.meetingDate).format(DAY_MONTH_YAER)} at ${dayjs(
+              meeting.meetingDate,
+            ).format(HOUR_MINUTE)}`}
+            mainRoute={MEETING_PATH}
+            defaultText='Meeting'
+          />
+        ))
+      ) : (
+        <div>{`there're no meetings yet`}</div>
+      )}
     </div>
   );
 };

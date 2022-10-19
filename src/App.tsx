@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
-import MainRouter from 'routing/routers/MainRouter';
 import 'base.scss';
 import './dayjs/day';
+import MainRouter from 'routing/routers/MainRouter';
 
 const App = () => {
   const routing = useMemo(() => <MainRouter />, []);

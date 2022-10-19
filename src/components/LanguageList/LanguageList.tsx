@@ -1,25 +1,22 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import RadioItem from '@components/RadioItem/RadioItem';
 import SearchBox from '@components/SearchBox/SearchBox';
+import { ILanguage } from 'lingopractices-models';
 
 import styles from './LanguageList.module.scss';
 
 interface ILanguageList {
   dafaultLanguageId?: string;
+  languages: ILanguage[];
   onChangeLanguage: (languageId: string) => void;
 }
 
-const LanguageList: React.FC<ILanguageList> = ({ dafaultLanguageId, onChangeLanguage }) => {
-  const languages = useMemo(
-    () => [
-      { id: 'en', label: 'English', popular: true },
-      { id: 'sp', label: 'Spanish', popular: false },
-      { id: 'bel', label: 'Belarussian', popular: true },
-      { id: 'fr', label: 'Franch', popular: false },
-    ],
-    [],
-  );
+const LanguageList: React.FC<ILanguageList> = ({
+  dafaultLanguageId,
+  languages,
+  onChangeLanguage,
+}) => {
   const [currentLanguageId, setCurrentLanguageId] = useState(dafaultLanguageId || '');
   const [searchStringText, setSearchStringText] = useState('');
   const [filteredLanguages, setFilteredLanguages] = useState(languages);
@@ -51,7 +48,7 @@ const LanguageList: React.FC<ILanguageList> = ({ dafaultLanguageId, onChangeLang
   useEffect(() => {
     setFilteredLanguages(
       languages.filter((item) =>
-        getClearString(item.label).includes(getClearString(searchStringText)),
+        getClearString(item.name).includes(getClearString(searchStringText)),
       ),
     );
   }, [searchStringText, languages]);
@@ -68,29 +65,12 @@ const LanguageList: React.FC<ILanguageList> = ({ dafaultLanguageId, onChangeLang
       <div className={styles.wrapper}>
         {filteredLanguages.map(
           (lang) =>
-            lang.popular && (
+            lang && (
               <RadioItem
                 id={lang.id}
                 key={lang.id}
                 radioGroupName='languages'
-                label={lang.label}
-                onChange={handleChangeLanguage}
-                isSelected={lang.id === currentLanguageId}
-                containerClass={styles.paddingContainer}
-              />
-            ),
-        )}
-      </div>
-      <h2>OTHER</h2>
-      <div className={styles.wrapper}>
-        {filteredLanguages.map(
-          (lang) =>
-            !lang.popular && (
-              <RadioItem
-                id={lang.id}
-                key={lang.id}
-                radioGroupName='languages'
-                label={lang.label}
+                label={lang.name}
                 onChange={handleChangeLanguage}
                 isSelected={lang.id === currentLanguageId}
                 containerClass={styles.paddingContainer}

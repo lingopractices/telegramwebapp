@@ -1,8 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import InfoItem from '@components/InfoItem/InfoItem';
+import {
+  getGenderSelector,
+  getInterfaceLanguageSelector,
+  getLanguageLevelSelector,
+  getCountrySelector,
+  getPracticeLanguageSelector,
+} from '@store/profile/selectors';
+import { genderLabelsMap, levelLabelsMap } from '@utils/enumLabelsMap';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   ACCOUNT_INTERFACE_LANGUAGES_PATH,
@@ -14,9 +23,11 @@ import {
 import styles from './AccountScreen.module.scss';
 
 const AccountScreen: React.FC = () => {
-  const [language, setLanguage] = useState('English');
-  const [level, setLevel] = useState('bginner');
-  const [interfaceLanguage, setInterfaceLanguage] = useState('English');
+  const practiceLanguage = useSelector(getPracticeLanguageSelector);
+  const interfaceLanguage = useSelector(getInterfaceLanguageSelector);
+  const languageLevel = useSelector(getLanguageLevelSelector);
+  const gender = useSelector(getGenderSelector);
+  const countryName = useSelector(getCountrySelector);
 
   const navigate = useNavigate();
 
@@ -47,11 +58,23 @@ const AccountScreen: React.FC = () => {
     <div className={styles.container}>
       <h2>{'my account'.toUpperCase()}</h2>
       <div className={styles.warpper}>
-        <InfoItem title='PRACTICE LANGUAGE' value={language} onClick={openPracticeLanguages} />
-        <InfoItem title='LEVEL' value={level} onClick={openLevels} />
-        <InfoItem title='LOCATION' value='Belarus' onClick={() => {}} />
-        <InfoItem title='INTERFACE LANGUAGE' value={language} onClick={openInterfaceLanguages} />
-        <InfoItem title='GENDER' value='Male' onClick={() => {}} />
+        <InfoItem
+          title='PRACTICE LANGUAGE'
+          value={practiceLanguage?.name}
+          onClick={openPracticeLanguages}
+        />
+        <InfoItem
+          title='LEVEL'
+          value={languageLevel && levelLabelsMap[languageLevel]}
+          onClick={openLevels}
+        />
+        <InfoItem title='LOCATION' value={countryName} onClick={() => {}} />
+        <InfoItem
+          title='INTERFACE LANGUAGE'
+          value={interfaceLanguage?.name}
+          onClick={openInterfaceLanguages}
+        />
+        <InfoItem title='GENDER' value={gender && genderLabelsMap[gender]} onClick={() => {}} />
       </div>
     </div>
   );

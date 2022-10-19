@@ -1,25 +1,24 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import RadioItem from '@components/RadioItem/RadioItem';
+import { allLevels } from 'common/constants';
 import { LanguageLevel } from 'lingopractices-models';
 
 import styles from './LevelList.module.scss';
 
 interface ILevelList {
-  dafaultLevelId?: LanguageLevel;
+  dafaultLevelId?: number;
   onChangeLevel: (languageLevel: LanguageLevel) => void;
 }
 
 const LevelList: React.FC<ILevelList> = ({ dafaultLevelId, onChangeLevel }) => {
-  const levels = [
-    { name: 'Beginer', id: LanguageLevel.Beginner },
-    { name: 'Pre-intemediate', id: LanguageLevel.PreIntermediate },
-    { name: 'Intermediate', id: LanguageLevel.Intermediate },
-  ];
-  const [currentLevelId, setCurrentLevelId] = useState(dafaultLevelId || levels[1].id);
+  const levels = useMemo(() => [...allLevels], []);
+  const [currentLevelId, setCurrentLevelId] = useState(dafaultLevelId);
 
   useEffect(() => {
-    onChangeLevel(currentLevelId);
+    if (currentLevelId) {
+      onChangeLevel(currentLevelId);
+    }
   }, [currentLevelId, onChangeLevel]);
 
   const handleChange = useCallback(

@@ -1,4 +1,5 @@
-const ROOT_API = `https://lingo-practices-api-xcn2o.ondigitalocean.app/api`;
+// const ROOT_API = `https://lingo-practices-api-xcn2o.ondigitalocean.app/api`;
+const ROOT_API = `https://shark-app-2zmo7.ondigitalocean.app/api`;
 
 export const MAIN_API = {
   SEARCH_MEETINGS: `${ROOT_API}/meetings/search`,

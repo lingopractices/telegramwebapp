@@ -10,4 +10,4 @@ export const getMeetingDaysAction = GetMeetingDays.action;
 export const getMyMeetingsAction = GetMyMeetings.action;
 export const joinMeetingAction = JoinMeeting.action;
 export const createMeetingAction = CreateMeeting.action;
-export const LeaveMeetingAction = LeaveMeeting.action;
+export const leaveMeetingAction = LeaveMeeting.action;
