@@ -24,7 +24,6 @@ const AccountInterfaceLanguage: React.FC = () => {
   );
   const interfaceLanguage = useSelector(getInterfaceLanguageSelector);
   const user = useSelector(getProfileDataSelector);
-  const languages = interfaceLanguages;
   const [newInterfaceLanguageId, setNewInterfaceLanguageId] = useState(interfaceLanguage?.id);
   const pendingUpdateProfile = useSelector(pendingUpdateUserSelector);
   const updateProfile = useActionWithDeferred(updateProfileAction);
@@ -74,7 +73,7 @@ const AccountInterfaceLanguage: React.FC = () => {
 
   return (
     <LanguageList
-      languages={languages}
+      languages={interfaceLanguages}
       onChangeLanguage={setNewInterfaceLanguageId}
       dafaultLanguageId={newInterfaceLanguageId}
     />

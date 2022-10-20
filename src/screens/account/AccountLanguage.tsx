@@ -11,6 +11,7 @@ import {
   getProfileDataSelector,
   pendingUpdateUserSelector,
 } from '@store/profile/selectors';
+import { popularLanguagesIds } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { useSelector } from 'react-redux';
@@ -83,6 +84,7 @@ const AccountInterfaceLanguage: React.FC = () => {
 
   return (
     <LanguageList
+      popularLanguagesIds={popularLanguagesIds}
       languages={languages}
       onChangeLanguage={setNewPracticeLanguageId}
       dafaultLanguageId={newPracticeLanguageId}

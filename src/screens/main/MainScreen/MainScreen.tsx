@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { ReactComponent as LingoLogo } from '@assets/lingo-logo.svg';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
@@ -7,6 +7,7 @@ import { DAY_MONTH_YAER, HOUR_MINUTE } from 'common/constants';
 import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
+import { IMeeting } from 'lingopractices-models';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -24,6 +25,26 @@ const MainScreen: React.FC = () => {
   useTgBackButton(false);
   useTgMainButton(false, false);
 
+  const renderMeetings = useCallback(
+    (meeting: IMeeting) => (
+      <MeetingItem
+        id={meeting.id}
+        key={meeting.id}
+        date={`${dayjs(meeting.meetingDate).format(DAY_MONTH_YAER)} at ${dayjs(
+          meeting.meetingDate,
+        ).format(HOUR_MINUTE)}`}
+        mainRoute={MEETING_PATH}
+        defaultText='Meeting'
+      />
+    ),
+    [],
+  );
+
+  const renderedMeetings = useMemo(
+    () => myMeetings.map(renderMeetings),
+    [myMeetings, renderMeetings],
+  );
+
   return (
     <div className={styles.container}>
       <Link to={ACCOUNT_PATH} className={styles.account}>
@@ -38,21 +59,7 @@ const MainScreen: React.FC = () => {
           joing meeting
         </Link>
       </div>
-      {myMeetings.length ? (
-        myMeetings.map((meeting) => (
-          <MeetingItem
-            id={meeting.id}
-            key={meeting.id}
-            date={`${dayjs(meeting.meetingDate).format(DAY_MONTH_YAER)} at ${dayjs(
-              meeting.meetingDate,
-            ).format(HOUR_MINUTE)}`}
-            mainRoute={MEETING_PATH}
-            defaultText='Meeting'
-          />
-        ))
-      ) : (
-        <div>{`there're no meetings yet`}</div>
-      )}
+      {myMeetings.length ? renderedMeetings : <div>{`there're no meetings yet`}</div>}
     </div>
   );
 };

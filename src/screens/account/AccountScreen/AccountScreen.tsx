@@ -1,13 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 
 import InfoItem from '@components/InfoItem/InfoItem';
-import {
-  getGenderSelector,
-  getInterfaceLanguageSelector,
-  getLanguageLevelSelector,
-  getCountrySelector,
-  getPracticeLanguageSelector,
-} from '@store/profile/selectors';
+import { getProfileDataSelector } from '@store/profile/selectors';
 import { genderLabelsMap, levelLabelsMap } from '@utils/enumLabelsMap';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
@@ -23,11 +17,7 @@ import {
 import styles from './AccountScreen.module.scss';
 
 const AccountScreen: React.FC = () => {
-  const practiceLanguage = useSelector(getPracticeLanguageSelector);
-  const interfaceLanguage = useSelector(getInterfaceLanguageSelector);
-  const languageLevel = useSelector(getLanguageLevelSelector);
-  const gender = useSelector(getGenderSelector);
-  const countryName = useSelector(getCountrySelector);
+  const user = useSelector(getProfileDataSelector);
 
   const navigate = useNavigate();
 
@@ -60,21 +50,25 @@ const AccountScreen: React.FC = () => {
       <div className={styles.warpper}>
         <InfoItem
           title='PRACTICE LANGUAGE'
-          value={practiceLanguage?.name}
+          value={user?.practiceLanguage.name}
           onClick={openPracticeLanguages}
         />
         <InfoItem
           title='LEVEL'
-          value={languageLevel && levelLabelsMap[languageLevel]}
+          value={user?.languageLevel && levelLabelsMap[user.languageLevel]}
           onClick={openLevels}
         />
-        <InfoItem title='LOCATION' value={countryName} onClick={() => {}} />
+        <InfoItem title='LOCATION' value={user?.countryName} onClick={() => {}} />
         <InfoItem
           title='INTERFACE LANGUAGE'
-          value={interfaceLanguage?.name}
+          value={user?.interfaceLanguage.name}
           onClick={openInterfaceLanguages}
         />
-        <InfoItem title='GENDER' value={gender && genderLabelsMap[gender]} onClick={() => {}} />
+        <InfoItem
+          title='GENDER'
+          value={user?.gender && genderLabelsMap[user.gender]}
+          onClick={() => {}}
+        />
       </div>
     </div>
   );

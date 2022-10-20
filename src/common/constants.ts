@@ -1,14 +1,16 @@
 import { levelLabelsMap } from '@utils/enumLabelsMap';
-import { LanguageLevel } from 'lingopractices-models';
+import { ILanguage, LanguageLevel } from 'lingopractices-models';
 
 // dayjs formats
 export const HOUR_MINUTE = 'HH:mm';
 export const DAY_MONTH_YAER = 'DD.MM.YYYY';
 
-export const interfaceLanguages = [
+export const interfaceLanguages: ILanguage[] = [
   { id: 'ru', name: 'Russian' },
   { id: 'en', name: 'English' },
 ];
+
+export const popularLanguagesIds: string[] = ['ru', 'en', 'es', 'fr', 'de', 'it', 'tr', 'zh'];
 
 export const allLevels = [
   { id: LanguageLevel.Beginner, name: levelLabelsMap[LanguageLevel.Beginner] },

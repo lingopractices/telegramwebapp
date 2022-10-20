@@ -5,6 +5,7 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getLanguagesAction } from '@store/languages/actions';
 import { languagesSelector } from '@store/languages/selectors';
 import { getPracticeLanguageSelector } from '@store/profile/selectors';
+import { popularLanguagesIds } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { useSelector } from 'react-redux';
@@ -62,6 +63,7 @@ const CreateMeetingLanguage: React.FC = () => {
 
   return (
     <LanguageList
+      popularLanguagesIds={popularLanguagesIds}
       languages={languages}
       onChangeLanguage={handleChangeLanguage}
       dafaultLanguageId={meetingData?.languageId || currentLanguage?.id}
