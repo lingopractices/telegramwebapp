@@ -1,46 +1,95 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import LanguageList from '@components/LanguageList/LanguageList';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { getLanguagesAction } from '@store/languages/actions';
+import { languagesSelector } from '@store/languages/selectors';
+import { updateProfileAction } from '@store/profile/actions';
+import {
+  getPracticeLanguageSelector,
+  getProfileDataSelector,
+  pendingUpdateUserSelector,
+} from '@store/profile/selectors';
+import { popularLanguagesIds } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ACCOUNT_PATH } from 'routing/routing.constants';
 
-const AccountLanguage: React.FC = () => {
+const AccountInterfaceLanguage: React.FC = () => {
   const navigate = useNavigate();
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(
+  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton } = useTgMainButton(
     true,
     false,
-    'CHOOSE A LANGUAGE',
   );
+  const practiceLanguage = useSelector(getPracticeLanguageSelector);
+  const user = useSelector(getProfileDataSelector);
+  const [newPracticeLanguageId, setNewPracticeLanguageId] = useState(practiceLanguage?.id);
+  const languages = useSelector(languagesSelector);
+  const pendingUpdateProfile = useSelector(pendingUpdateUserSelector);
+  const getLanguages = useActionWithDispatch(getLanguagesAction);
+  const updateProfile = useActionWithDeferred(updateProfileAction);
 
-  const [langId, setLangId] = useState('en');
-
-  const handleChangeLanguage = useCallback(
-    (languageId: string) => {
+  useEffect(() => {
+    if (newPracticeLanguageId) {
       setMainButtonParams({ text: 'SUBMIT', is_active: true });
-    },
-    [setMainButtonParams],
-  );
+    } else {
+      setMainButtonParams({ text: 'CHOOSE A LANGUAGE', is_active: false });
+    }
+  }, [newPracticeLanguageId, setMainButtonParams]);
 
   const handleBack = useCallback(() => {
     navigate(ACCOUNT_PATH);
   }, [navigate]);
 
-  const handleForward = useCallback(() => {
-    navigate(ACCOUNT_PATH);
-  }, [navigate]);
+  const handleSubmit = useCallback(() => {
+    if (user && newPracticeLanguageId) {
+      if (newPracticeLanguageId !== practiceLanguage?.id) {
+        updateProfile({
+          ...user,
+          userId: user.id,
+          practiceLanguageId: newPracticeLanguageId,
+          interfaceLanguageId: user.interfaceLanguage.id,
+        })
+          .then(() => {
+            handleBack();
+          })
+          .catch((e) => {});
+      } else {
+        handleBack();
+      }
+    }
+  }, [user, newPracticeLanguageId, practiceLanguage?.id, handleBack, updateProfile]);
 
   useEffect(() => {
-    setMainButtonOnClick(handleForward);
-  }, [handleForward, setMainButtonOnClick]);
+    setMainButtonOnClick(handleSubmit);
+  }, [handleSubmit, setMainButtonOnClick]);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  return <LanguageList onChangeLanguage={handleChangeLanguage} dafaultLanguageId={langId} />;
+  useEffect(() => {
+    if (!languages.length) {
+      getLanguages();
+    }
+  }, [languages, getLanguages]);
+
+  useEffect(() => {
+    setLoadingMainButton(pendingUpdateProfile);
+  }, [pendingUpdateProfile, setLoadingMainButton]);
+
+  return (
+    <LanguageList
+      popularLanguagesIds={popularLanguagesIds}
+      languages={languages}
+      onChangeLanguage={setNewPracticeLanguageId}
+      dafaultLanguageId={newPracticeLanguageId}
+    />
+  );
 };
 
-export default AccountLanguage;
+export default AccountInterfaceLanguage;

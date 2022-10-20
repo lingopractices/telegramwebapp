@@ -6,7 +6,7 @@ import styles from './InfoItem.module.scss';
 
 interface IInfoItemProps {
   title: string;
-  value: string;
+  value?: string;
   onClick: () => void;
 }
 

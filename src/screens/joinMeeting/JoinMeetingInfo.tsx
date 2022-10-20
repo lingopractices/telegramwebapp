@@ -31,7 +31,7 @@ const JoinMeetingInfo: React.FC = () => {
     setMainButtonOnClick(handleForward);
   }, [handleForward, setMainButtonOnClick]);
 
-  return <MeetingInfo withControls={false} />;
+  return <MeetingInfo />;
 };
 
 export default JoinMeetingInfo;

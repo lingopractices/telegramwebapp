@@ -3,7 +3,7 @@ import AccountRouter from 'routing/routers/AccountRouter';
 import CreateMeetingRouter from 'routing/routers/CreateMeetingRouter';
 import JoinMeetingRouter from 'routing/routers/JoinMeetingRouter';
 import MainScreen from 'screens/main/MainScreen/MainScreen';
-import MeetingInfoScreen from 'screens/main/MeetingInfoScreen';
+import MeetingInfoScreen from 'screens/main/MeetingInfoScreen/MeetingInfoScreen';
 
 import {
   ACCOUNT_PATH,

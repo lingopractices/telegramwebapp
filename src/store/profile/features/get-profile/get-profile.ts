@@ -26,7 +26,7 @@ export class GetProfile {
     return function* (): SagaIterator {
       const { data } = GetProfile.httpRequest.call(
         yield call(
-          () => GetProfile.httpRequest.generator(390447649), // temporary id placeholder
+          () => GetProfile.httpRequest.generator(1222183809), // temporary id placeholder 390447649
         ),
       );
 

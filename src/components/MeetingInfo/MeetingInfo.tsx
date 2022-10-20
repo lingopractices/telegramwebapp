@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { ReactComponent as DownArrow } from '@assets/icons/down-arrow.svg';
 import { ReactComponent as UpArrow } from '@assets/icons/up-arrow.svg';
@@ -8,17 +8,31 @@ import useToggledState from 'hooks/useToggleState';
 import styles from './MeetingInfo.module.scss';
 
 interface IMeetingInfo {
-  withControls: boolean;
+  date?: string;
+  time?: string;
+  topic?: string;
+  participantsCount?: number;
+  maxParticipantsCount?: number;
+  creatorFrom?: string;
+  creatorGender?: string;
+  questions?: string[];
 }
 
-const MeetingInfo: React.FC<IMeetingInfo> = ({ withControls }) => {
-  const [isControlOpen, setControlOpen] = useState(withControls);
+const MeetingInfo: React.FC<IMeetingInfo> = ({
+  date,
+  time,
+  topic,
+  participantsCount,
+  maxParticipantsCount,
+  creatorFrom,
+  creatorGender,
+  questions,
+}) => {
   const [isOpenQuestions, , , toggleOpenQuestions] = useToggledState(false);
-
-  const [date, setDate] = useState('12.36.123');
-  const [topic, setTopic] = useState('Art');
-  const [participantCount, setParticipantCount] = useState(2);
-  const [questions, setQuestions] = useState(['asd1', 'asd2', 'asd3']);
+  const freePlaces =
+    participantsCount && maxParticipantsCount
+      ? maxParticipantsCount - participantsCount
+      : undefined;
 
   return (
     <div className={styles.container}>
@@ -29,24 +43,27 @@ const MeetingInfo: React.FC<IMeetingInfo> = ({ withControls }) => {
             Date: &nbsp; <span className={styles.data}>{date}</span>
           </span>
           <span>
-            Time: &nbsp; <span className={styles.data}>{date}</span>
+            Time: &nbsp; <span className={styles.data}>{time}</span>
           </span>
         </div>
         <span>
-          Participiants: &nbsp; <span className={styles.data}>{participantCount}</span>
+          Participiants: &nbsp; <span className={styles.data}>{maxParticipantsCount}</span>
         </span>
         <span>
-          Free <span className={styles.data}>&nbsp; 2 &nbsp; </span> from{' '}
-          <span className={styles.data}>&nbsp; 3 &nbsp;</span> places
+          Free <span className={styles.data}>&nbsp; {freePlaces} &nbsp; </span> from
+          <span className={styles.data}>&nbsp; {maxParticipantsCount} &nbsp;</span> places
         </span>
         <span>
-          Creator from: &nbsp; <span className={styles.data}>Belarus, Male</span>
+          Creator from: &nbsp;
+          <span className={styles.data}>
+            {creatorFrom},&nbsp;{creatorGender}
+          </span>
         </span>
         <span>
           Topic: &nbsp; <span className={styles.data}>{topic}</span>
         </span>
         <span onClick={toggleOpenQuestions}>
-          Questions{' '}
+          Questions
           {isOpenQuestions ? (
             <UpArrow className={styles.arrow} />
           ) : (
@@ -54,20 +71,11 @@ const MeetingInfo: React.FC<IMeetingInfo> = ({ withControls }) => {
           )}
         </span>
         {isOpenQuestions &&
+          questions &&
           questions.map((question) => <QuestionItem key={question} label={question} />)}
       </div>
-      {isControlOpen && (
-        <div className={styles.buttons}>
-          <button className={styles.join} type='button'>
-            {'join meeting'.toUpperCase()}
-          </button>
-          <button className={styles.leave} type='button'>
-            {'leave meeting'.toUpperCase()}
-          </button>
-        </div>
-      )}
     </div>
   );
 };
 
-export default React.memo(MeetingInfo);
+export default MeetingInfo;

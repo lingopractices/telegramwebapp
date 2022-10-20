@@ -1,9 +1,9 @@
 .container {
   position: relative;
   display: flex;
+  height: 100vh;
   flex-flow: column nowrap;
   align-items: center;
-  padding: 0 16px;
 }
 
 .logo {

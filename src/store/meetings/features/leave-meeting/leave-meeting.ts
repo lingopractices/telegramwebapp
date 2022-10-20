@@ -1,10 +1,11 @@
-import { createAction } from '@reduxjs/toolkit';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory } from '@store/common/http-request-factory';
 import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
 import { IMeetingsState } from '@store/meetings/types';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { AxiosResponse } from 'axios';
+import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 
 import { LeaveMeetingSuccess } from './leave-meeting-success';
@@ -16,7 +17,7 @@ interface ILeaveMeetingPayload {
 
 export class LeaveMeeting {
   static get action() {
-    return createAction<ILeaveMeetingPayload>('meetings/LEAVE_MEETING');
+    return createDeferredAction<ILeaveMeetingPayload>('meetings/LEAVE_MEETING');
   }
 
   static get reducer() {
@@ -28,10 +29,16 @@ export class LeaveMeeting {
   }
 
   static get saga() {
-    return function* ({ payload }: ReturnType<typeof LeaveMeeting.action>) {
-      LeaveMeeting.httpRequest.call(yield call(() => LeaveMeeting.httpRequest.generator(payload)));
-
-      yield put(LeaveMeetingSuccess.action(payload.meetingId));
+    return function* (action: ReturnType<typeof LeaveMeeting.action>): SagaIterator {
+      try {
+        LeaveMeeting.httpRequest.call(
+          yield call(() => LeaveMeeting.httpRequest.generator(action.payload)),
+        );
+        yield put(LeaveMeetingSuccess.action(action.payload.meetingId));
+        action.meta?.deferred.resolve();
+      } catch (e: any) {
+        action.meta?.deferred.reject(e);
+      }
     };
   }
 

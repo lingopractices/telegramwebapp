@@ -10,6 +10,7 @@ export class UpdateProfileSuccess {
   static get reducer() {
     return (draft: IProfileState, { payload }: ReturnType<typeof UpdateProfileSuccess.action>) => {
       draft.profileInfo = payload;
+      draft.requests.updateProfilePending = false;
 
       return draft;
     };
