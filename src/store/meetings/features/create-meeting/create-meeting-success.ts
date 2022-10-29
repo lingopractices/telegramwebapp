@@ -9,7 +9,7 @@ export class CreateMeetingSuccess {
 
   static get reducer() {
     return (draft: IMeetingsState, { payload }: ReturnType<typeof CreateMeetingSuccess.action>) => {
-      draft.myMeetings = [...draft.myMeetings, payload];
+      draft.myMeetings.meetingList = [...draft.myMeetings.meetingList, payload];
 
       return draft;
     };

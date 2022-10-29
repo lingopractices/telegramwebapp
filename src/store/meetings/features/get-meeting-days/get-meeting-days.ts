@@ -24,11 +24,15 @@ export class GetMeetingDays {
 
   static get saga() {
     return function* ({ payload }: ReturnType<typeof GetMeetingDays.action>) {
-      const { data } = GetMeetingDays.httpRequest.call(
-        yield call(() => GetMeetingDays.httpRequest.generator(payload)),
-      );
+      try {
+        const { data } = GetMeetingDays.httpRequest.call(
+          yield call(() => GetMeetingDays.httpRequest.generator(payload)),
+        );
 
-      yield put(GetMeetingDaysSuccess.action(data));
+        yield put(GetMeetingDaysSuccess.action(data));
+      } catch (e) {
+        // console.log(e);
+      }
     };
   }
 

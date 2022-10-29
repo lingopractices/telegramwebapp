@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import RadioItem from '@components/RadioItem/RadioItem';
 import { allLevels } from 'common/constants';
@@ -13,19 +13,12 @@ interface ILevelList {
 
 const LevelList: React.FC<ILevelList> = ({ dafaultLevelId, onChangeLevel }) => {
   const levels = useMemo(() => [...allLevels], []);
-  const [currentLevelId, setCurrentLevelId] = useState(dafaultLevelId);
-
-  useEffect(() => {
-    if (currentLevelId) {
-      onChangeLevel(currentLevelId);
-    }
-  }, [currentLevelId, onChangeLevel]);
 
   const handleChange = useCallback(
     (id: number | string) => {
-      setCurrentLevelId(Number(id));
+      onChangeLevel(Number(id));
     },
-    [setCurrentLevelId],
+    [onChangeLevel],
   );
 
   return (
@@ -39,7 +32,7 @@ const LevelList: React.FC<ILevelList> = ({ dafaultLevelId, onChangeLevel }) => {
             radioGroupName='languages'
             label={level.name}
             onChange={handleChange}
-            isSelected={level.id === currentLevelId}
+            isSelected={level.id === dafaultLevelId}
             containerClass={styles.paddingContainer}
           />
         ))}

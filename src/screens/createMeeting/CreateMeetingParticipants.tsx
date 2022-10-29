@@ -13,7 +13,10 @@ const CreateMeetingParticipants: React.FC = () => {
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(true, false);
+  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton } = useTgMainButton(
+    true,
+    false,
+  );
 
   const handleChangeParticipiants = useCallback(
     (peopleNumber: number) => {
@@ -21,6 +24,12 @@ const CreateMeetingParticipants: React.FC = () => {
     },
     [setMeetingData],
   );
+
+  useEffect(() => {
+    if (meetingData.peopleNumber) {
+      handleChangeParticipiants(meetingData.peopleNumber);
+    }
+  }, [meetingData?.peopleNumber, handleChangeParticipiants]);
 
   useEffect(() => {
     if (meetingData?.peopleNumber) {

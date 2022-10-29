@@ -8,8 +8,28 @@
   box-shadow: var(--box-shadow-color);
   cursor: pointer;
 
+  svg {
+    stroke: var(--base-color);
+  }
+
   &:not(:last-of-type) {
     margin-bottom: 8px;
+  }
+
+  &.date {
+    color: var(--base-color);
+    line-height: 24px;
+    text-align: left;
+  }
+
+  &:hover {
+    .date {
+      color: var(--light-blue-color);
+    }
+
+    svg {
+      stroke: var(--light-blue-color);
+    }
   }
 }
 
@@ -22,10 +42,4 @@
   color: var(--secondary-grey-color);
   font-size: 12px;
   line-height: 14px;
-}
-
-.date {
-  color: var(--base-color);
-  line-height: 24px;
-  text-align: left;
 }

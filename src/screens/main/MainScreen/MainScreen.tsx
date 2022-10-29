@@ -1,10 +1,11 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 
 import { ReactComponent as LingoLogo } from '@assets/lingo-logo.svg';
+import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
-import { getMyMeetingsSelector } from '@store/meetings/selectors';
-import { DAY_MONTH_YAER, HOUR_MINUTE } from 'common/constants';
-import dayjs from 'dayjs';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { getMyMeetingsAction } from '@store/meetings/actions';
+import { getMyMeetingHasMoreSelector, getMyMeetingsSelector } from '@store/meetings/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { IMeeting } from 'lingopractices-models';
@@ -21,18 +22,23 @@ import styles from './MainScreen.module.scss';
 
 const MainScreen: React.FC = () => {
   const myMeetings = useSelector(getMyMeetingsSelector);
+  const infiniteContainer = useRef<HTMLDivElement>(null);
+  const hasMore = useSelector(getMyMeetingHasMoreSelector);
+  const getMeetings = useActionWithDispatch(getMyMeetingsAction);
 
   useTgBackButton(false);
   useTgMainButton(false, false);
+
+  const loadMore = useCallback(() => {
+    getMeetings();
+  }, [getMeetings]);
 
   const renderMeetings = useCallback(
     (meeting: IMeeting) => (
       <MeetingItem
         id={meeting.id}
         key={meeting.id}
-        date={`${dayjs(meeting.meetingDate).format(DAY_MONTH_YAER)} at ${dayjs(
-          meeting.meetingDate,
-        ).format(HOUR_MINUTE)}`}
+        date={meeting.meetingDate}
         mainRoute={MEETING_PATH}
         defaultText='Meeting'
       />
@@ -59,7 +65,19 @@ const MainScreen: React.FC = () => {
           joing meeting
         </Link>
       </div>
-      {myMeetings.length ? renderedMeetings : <div>{`there're no meetings yet`}</div>}
+      <div ref={infiniteContainer} className={styles.myMeetingsWrapper}>
+        {myMeetings.length ? (
+          <InfiniteScroll
+            hasMore={hasMore}
+            containerRef={infiniteContainer}
+            onReachBottom={loadMore}
+          >
+            {renderedMeetings}
+          </InfiniteScroll>
+        ) : (
+          <div>theres is no any meetings</div>
+        )}
+      </div>
     </div>
   );
 };

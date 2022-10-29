@@ -1,32 +1,42 @@
 .container {
   position: relative;
   display: flex;
-  height: 100vh;
   flex-flow: column nowrap;
   align-items: center;
+  margin-top: 25px;
 }
 
 .logo {
-  width: 150px;
-  height: 150px;
+  min-width: 150px;
+  min-height: 150px;
+  margin-bottom: 24px;
 }
 
 .buttonWrapper {
   display: flex;
   width: 100%;
   min-height: 40px;
+  flex-wrap: nowrap;
   margin-bottom: 10px;
+  gap: 7px;
 }
 
 .button {
-  width: 100%;
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
   padding: 1em;
   border: none;
-  background-color: rgb(74 76 112);
-  color: white;
+  background-color: var(--base-color);
+  border-radius: 8px;
+  color: var(--bg-color);
   cursor: pointer;
-  text-align: center;
   text-decoration: none;
+
+  &:hover {
+    background-color: var(--light-blue-bg);
+    color: var(--base-color);
+  }
 }
 
 .account {
@@ -39,4 +49,9 @@
   color: white;
   cursor: pointer;
   text-decoration: none;
+}
+
+.myMeetingsWrapper {
+  width: 100%;
+  overflow-y: auto;
 }

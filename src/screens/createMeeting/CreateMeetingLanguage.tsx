@@ -5,6 +5,8 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getLanguagesAction } from '@store/languages/actions';
 import { languagesSelector } from '@store/languages/selectors';
 import { getPracticeLanguageSelector } from '@store/profile/selectors';
+import { getTopicsAction } from '@store/topics/actions';
+import { getTopicsSelector } from '@store/topics/selectors';
 import { popularLanguagesIds } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
@@ -19,6 +21,8 @@ const CreateMeetingLanguage: React.FC = () => {
   const currentLanguage = useSelector(getPracticeLanguageSelector);
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
   const languages = useSelector(languagesSelector);
+  const topics = useSelector(getTopicsSelector);
+  const getTopics = useActionWithDispatch(getTopicsAction);
   const getLanguages = useActionWithDispatch(getLanguagesAction);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
@@ -30,6 +34,12 @@ const CreateMeetingLanguage: React.FC = () => {
     },
     [setMeetingData],
   );
+
+  useEffect(() => {
+    if (!meetingData?.languageId && currentLanguage) {
+      handleChangeLanguage(currentLanguage.id);
+    }
+  }, [meetingData?.languageId, currentLanguage, currentLanguage?.id, handleChangeLanguage]);
 
   useEffect(() => {
     if (meetingData?.languageId) {
@@ -60,6 +70,12 @@ const CreateMeetingLanguage: React.FC = () => {
       getLanguages();
     }
   }, [languages, getLanguages]);
+
+  useEffect(() => {
+    if (!topics.length) {
+      getTopics();
+    }
+  }, [topics.length, getTopics]);
 
   return (
     <LanguageList

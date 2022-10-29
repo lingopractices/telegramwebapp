@@ -3,12 +3,12 @@ import React, { useCallback, useEffect } from 'react';
 import MeetingInfo from '@components/MeetingInfo/MeetingInfo';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { leaveMeetingAction } from '@store/meetings/actions';
-import { getMyMeetingByIdSelector, leaveMeetingPendingSelector } from '@store/meetings/selectors';
+import {
+  getMyMeetingByIdSelector,
+  getLeaveMeetingPendingSelector,
+} from '@store/meetings/selectors';
 import { getProfileDataSelector } from '@store/profile/selectors';
-import { genderLabelsMap } from '@utils/enumLabelsMap';
 import classNames from 'classnames';
-import { DAY_MONTH_YAER, HOUR_MINUTE } from 'common/constants';
-import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { useSelector } from 'react-redux';
@@ -25,7 +25,7 @@ const MeetingInfoScreen: React.FC = () => {
   const user = useSelector(getProfileDataSelector);
   const meeting = useSelector(getMyMeetingByIdSelector(Number(meetingId)));
   const leaveMeeting = useActionWithDeferred(leaveMeetingAction);
-  const leavePending = useSelector(leaveMeetingPendingSelector);
+  const leavePending = useSelector(getLeaveMeetingPendingSelector);
 
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
@@ -48,17 +48,16 @@ const MeetingInfoScreen: React.FC = () => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  return (
-    <>
+  return meeting ? (
+    <div>
       <MeetingInfo
-        date={dayjs(meeting?.meetingDate).format(DAY_MONTH_YAER)}
-        time={dayjs(meeting?.meetingDate).format(HOUR_MINUTE)}
-        topic={meeting?.topic.name}
-        participantsCount={meeting?.participantsCount}
-        maxParticipantsCount={meeting?.maxParticipantsCount}
-        questions={meeting?.topic.questions}
-        creatorFrom={meeting?.userCreator.countryName}
-        creatorGender={meeting && genderLabelsMap[meeting.userCreator.gender]}
+        id={meeting.id}
+        meetingDate={meeting.meetingDate}
+        topic={meeting.topic}
+        participantsCount={meeting.participantsCount}
+        maxParticipantsCount={meeting.maxParticipantsCount}
+        userCreator={meeting.userCreator}
+        googleMeetLink={meeting.googleMeetLink}
       />
       <div className={styles.buttons}>
         <button className={classNames(styles.join, styles.button)} type='button'>
@@ -72,7 +71,9 @@ const MeetingInfoScreen: React.FC = () => {
           {'leave meeting'.toUpperCase()}
         </button>
       </div>
-    </>
+    </div>
+  ) : (
+    <div>no meeting</div>
   );
 };
 

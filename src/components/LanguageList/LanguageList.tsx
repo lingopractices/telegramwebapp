@@ -20,19 +20,14 @@ const LanguageList: React.FC<ILanguageList> = ({
   languages,
   onChangeLanguage,
 }) => {
-  const [currentLanguageId, setCurrentLanguageId] = useState(dafaultLanguageId || '');
   const [searchStringText, setSearchStringText] = useState('');
   const [filteredLanguages, setFilteredLanguages] = useState(languages);
 
-  useEffect(() => {
-    onChangeLanguage(currentLanguageId);
-  }, [currentLanguageId, onChangeLanguage]);
-
   const handleChangeLanguage = useCallback(
     (languageId: number | string) => {
-      setCurrentLanguageId(String(languageId));
+      onChangeLanguage(String(languageId));
     },
-    [setCurrentLanguageId],
+    [onChangeLanguage],
   );
 
   const handleChangeSearchString = useCallback(
@@ -43,10 +38,10 @@ const LanguageList: React.FC<ILanguageList> = ({
   );
 
   useEffect(() => {
-    if (currentLanguageId) {
+    if (dafaultLanguageId) {
       setSearchStringText('');
     }
-  }, [currentLanguageId, setSearchStringText]);
+  }, [dafaultLanguageId, setSearchStringText]);
 
   useEffect(() => {
     setFilteredLanguages(
@@ -64,11 +59,11 @@ const LanguageList: React.FC<ILanguageList> = ({
         radioGroupName='languages'
         label={language.name}
         onChange={handleChangeLanguage}
-        isSelected={language.id === currentLanguageId}
+        isSelected={language.id === dafaultLanguageId}
         containerClass={styles.paddingContainer}
       />
     ),
-    [currentLanguageId, handleChangeLanguage],
+    [dafaultLanguageId, handleChangeLanguage],
   );
 
   const renderedLanguages = useMemo(() => {

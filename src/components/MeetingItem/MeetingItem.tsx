@@ -1,7 +1,10 @@
 import React from 'react';
 
 import { ReactComponent as RightArrow } from '@assets/icons/right-arrow.svg';
+import { getFormattedDate } from '@utils/dateUtils';
 import { replaceInUrl } from '@utils/replace-in-url';
+import { DAY_MONTH_YAER, HOUR_MINUTE } from 'common/constants';
+import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
 import { JoinMeetingType } from 'screens/types';
 
@@ -29,10 +32,12 @@ const MeetingItem: React.FC<IMeetingItemProps> = ({
   >
     <div className={styles.info}>
       <span className={styles.defaultText}>{defaultText}</span>
-      <div className={styles.date}>{date}</div>
+      <div className={styles.date}>
+        {getFormattedDate(dayjs(date), DAY_MONTH_YAER)} {`at `}
+        {getFormattedDate(dayjs(date), HOUR_MINUTE)}
+      </div>
     </div>
     <RightArrow />
   </Link>
 );
-
 export default React.memo(MeetingItem);

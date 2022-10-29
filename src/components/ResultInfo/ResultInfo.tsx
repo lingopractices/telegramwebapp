@@ -1,8 +1,13 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import InfoItem from '@components/InfoItem/InfoItem';
+import { languagesSelector } from '@store/languages/selectors';
+import { getTopicsSelector } from '@store/topics/selectors';
+import { levelLabelsMap } from '@utils/enumLabelsMap';
 import { DAY_MONTH_YAER, HOUR_MINUTE } from 'common/constants';
 import dayjs from 'dayjs';
+import { ITopic } from 'lingopractices-models';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   CREATE_DATE_PATH,
@@ -22,6 +27,24 @@ interface IResultInfo {
 
 const ResultInfo: React.FC<IResultInfo> = ({ meetingData }) => {
   const navigate = useNavigate();
+
+  const languages = useSelector(languagesSelector);
+  const topics = useSelector(getTopicsSelector);
+
+  const chosenTopic: ITopic | undefined = useMemo(() => {
+    if (meetingData) {
+      return topics.find((topic) => topic.id === meetingData.topicId);
+    }
+
+    return undefined;
+  }, [topics, meetingData]);
+
+  const chosenLanguage = useMemo(() => {
+    if (meetingData) {
+      return languages.find((language) => language.id === meetingData.languageId);
+    }
+    return undefined;
+  }, [languages, meetingData]);
 
   const openLanguages = useCallback(() => {
     navigate(CREATE_LANGUAGES_PATH, { state: { meetingData } });
@@ -53,11 +76,19 @@ const ResultInfo: React.FC<IResultInfo> = ({ meetingData }) => {
       <div className={styles.wrapper}>
         <InfoItem
           title='PRACTICE LANGUAGE'
-          value={`${meetingData?.languageId}`}
+          value={`${chosenLanguage?.name}`}
           onClick={openLanguages}
         />
-        <InfoItem title='LEVEL' value={`${meetingData?.languageLevel}`} onClick={openLevels} />
-        <InfoItem title='TOPIC' value={`${meetingData?.topicId}`} onClick={openTopics} />
+        <InfoItem
+          title='LEVEL'
+          value={`${meetingData?.languageLevel && levelLabelsMap[meetingData.languageLevel]}`}
+          onClick={openLevels}
+        />
+        <InfoItem
+          title='TOPIC'
+          value={`${chosenTopic ? chosenTopic.name : ''}`}
+          onClick={openTopics}
+        />
         <InfoItem
           title='PARTICIPIANTS NUMBER'
           value={`${meetingData?.peopleNumber}`}

@@ -6,6 +6,7 @@ import { ITopicsState } from './types';
 
 const initialState: ITopicsState = {
   topics: [],
+  hasMore: true,
   requests: {
     getTopicsPending: false,
   },

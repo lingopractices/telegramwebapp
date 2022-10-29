@@ -14,8 +14,8 @@ import { INSTANT_MAIN_PATH, JOIN_LEVELS_PATH } from 'routing/routing.constants';
 import { JoinMeetingType } from 'screens/types';
 
 const JoinMeetingLanguage: React.FC = () => {
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
   const currentLanguage = useSelector(getPracticeLanguageSelector);
   const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
   const languages = useSelector(languagesSelector);
@@ -30,6 +30,12 @@ const JoinMeetingLanguage: React.FC = () => {
     },
     [setMeetingData],
   );
+
+  useEffect(() => {
+    if (!meetingData?.languageId && currentLanguage) {
+      handleChangeLanguage(currentLanguage.id);
+    }
+  }, [meetingData?.languageId, currentLanguage, currentLanguage?.id, handleChangeLanguage]);
 
   useEffect(() => {
     if (meetingData?.languageId) {
