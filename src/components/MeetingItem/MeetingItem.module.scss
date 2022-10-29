@@ -16,12 +16,6 @@
     margin-bottom: 8px;
   }
 
-  .date {
-    color: var(--base-color);
-    line-height: 24px;
-    text-align: left;
-  }
-
   &:hover {
     .date {
       color: var(--light-blue-color);
@@ -30,6 +24,12 @@
     svg {
       stroke: var(--light-blue-color);
     }
+  }
+
+  &.date {
+    color: var(--base-color);
+    line-height: 24px;
+    text-align: left;
   }
 }
 
