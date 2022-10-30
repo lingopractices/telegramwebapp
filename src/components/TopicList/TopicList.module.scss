@@ -24,4 +24,5 @@
 .wrapperList {
   display: flex;
   flex-flow: column nowrap;
+  overflow-y: auto;
 }

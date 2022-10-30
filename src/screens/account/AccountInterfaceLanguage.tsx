@@ -3,11 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import LanguageList from '@components/LanguageList/LanguageList';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { updateProfileAction } from '@store/profile/actions';
-import {
-  getInterfaceLanguageSelector,
-  getProfileDataSelector,
-  pendingUpdateUserSelector,
-} from '@store/profile/selectors';
+import { getInterfaceLanguageSelector, getProfileDataSelector } from '@store/profile/selectors';
 import { interfaceLanguages } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
@@ -25,7 +21,6 @@ const AccountInterfaceLanguage: React.FC = () => {
   const interfaceLanguage = useSelector(getInterfaceLanguageSelector);
   const user = useSelector(getProfileDataSelector);
   const [newInterfaceLanguageId, setNewInterfaceLanguageId] = useState(interfaceLanguage?.id);
-  const pendingUpdateProfile = useSelector(pendingUpdateUserSelector);
   const updateProfile = useActionWithDeferred(updateProfileAction);
 
   useEffect(() => {
@@ -43,6 +38,7 @@ const AccountInterfaceLanguage: React.FC = () => {
   const handleSubmit = useCallback(() => {
     if (user && newInterfaceLanguageId) {
       if (newInterfaceLanguageId !== interfaceLanguage?.id) {
+        setLoadingMainButton(true);
         updateProfile({
           ...user,
           userId: user.id,
@@ -50,14 +46,24 @@ const AccountInterfaceLanguage: React.FC = () => {
           interfaceLanguageId: newInterfaceLanguageId,
         })
           .then(() => {
+            setLoadingMainButton(false);
             handleBack();
           })
-          .catch((e) => {});
+          .catch((e) => {
+            setLoadingMainButton(false);
+          });
       } else {
         handleBack();
       }
     }
-  }, [user, newInterfaceLanguageId, interfaceLanguage?.id, updateProfile, handleBack]);
+  }, [
+    user,
+    newInterfaceLanguageId,
+    interfaceLanguage?.id,
+    updateProfile,
+    handleBack,
+    setLoadingMainButton,
+  ]);
 
   useEffect(() => {
     setMainButtonOnClick(handleSubmit);
@@ -67,15 +73,11 @@ const AccountInterfaceLanguage: React.FC = () => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  useEffect(() => {
-    setLoadingMainButton(pendingUpdateProfile);
-  }, [pendingUpdateProfile, setLoadingMainButton]);
-
   return (
     <LanguageList
       languages={interfaceLanguages}
       onChangeLanguage={setNewInterfaceLanguageId}
-      dafaultLanguageId={newInterfaceLanguageId}
+      defaultLanguageId={newInterfaceLanguageId}
     />
   );
 };

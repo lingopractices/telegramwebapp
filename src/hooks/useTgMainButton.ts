@@ -18,11 +18,6 @@ const useTgMainButton = (
     return fn;
   }, []);
 
-  const setLoadingMainButton = useCallback(
-    (state: boolean) => window.Telegram.WebApp.MainButton.showProgress(state),
-    [],
-  );
-
   const setMainButtonParams = useCallback(
     (obj: MainButtonParams) => {
       if (!obj.text) {
@@ -33,6 +28,19 @@ const useTgMainButton = (
       window.Telegram.WebApp.MainButton.setParams(obj);
     },
     [defaultTextMainButton],
+  );
+
+  const setLoadingMainButton = useCallback(
+    (state: boolean) => {
+      if (state) {
+        setMainButtonParams({ is_active: false });
+        window.Telegram.WebApp.MainButton.showProgress(state);
+      } else {
+        setMainButtonParams({ is_active: true });
+        window.Telegram.WebApp.MainButton.hideProgress();
+      }
+    },
+    [setMainButtonParams],
   );
 
   useEffect(

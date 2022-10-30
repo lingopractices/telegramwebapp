@@ -1,5 +1,7 @@
 import { useCallback, useEffect } from 'react';
 
+import expandWindow from '@utils/expandWindow';
+
 type BackButtonType = {
   setBackButtonOnClick: (fn: () => void) => void;
   showBackButton: () => void;
@@ -30,6 +32,7 @@ const useTgBackButton = (isVisibleBackButton: boolean): BackButtonType => {
   useEffect(() => {
     if (isVisibleBackButton) {
       showBackButton();
+      expandWindow();
     } else {
       hideBackButton();
     }

@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import TopicList from '@components/TopicList/TopicList';
+import { getTopicsPendingSelector } from '@store/topics/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
+import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CREATE_LEVELS_PATH, CREATE_PARTICIPANTS_PATH } from 'routing/routing.constants';
 import { CreateMeetingType } from 'screens/types';
@@ -10,10 +12,13 @@ import { CreateMeetingType } from 'screens/types';
 const CreateMeetingTopic: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const pendingTopicsSelector = useSelector(getTopicsPendingSelector);
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
-
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(true, false);
+  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton } = useTgMainButton(
+    true,
+    false,
+  );
 
   const handleChangeLevel = useCallback(
     (topicId: number) => {
@@ -25,7 +30,13 @@ const CreateMeetingTopic: React.FC = () => {
   );
 
   useEffect(() => {
-    if (meetingData.topicId) {
+    if (meetingData?.topicId) {
+      handleChangeLevel(meetingData.topicId);
+    }
+  }, [meetingData?.topicId, handleChangeLevel]);
+
+  useEffect(() => {
+    if (meetingData?.topicId) {
       if (meetingData.topicId > -1) {
         setMainButtonParams({ text: 'SUBMIT', is_active: true });
       } else {
@@ -50,7 +61,11 @@ const CreateMeetingTopic: React.FC = () => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  return <TopicList onChangeTopic={handleChangeLevel} dafaultTopicId={meetingData?.topicId} />;
+  useEffect(() => {
+    setLoadingMainButton(pendingTopicsSelector);
+  }, [pendingTopicsSelector, setLoadingMainButton]);
+
+  return <TopicList onChangeTopic={handleChangeLevel} defaultTopicId={meetingData?.topicId} />;
 };
 
 export default CreateMeetingTopic;

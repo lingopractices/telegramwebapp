@@ -7,45 +7,59 @@ import { ReactComponent as RightIcon } from '@assets/icons/right-arrow.svg';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
+// import { getMinTimeOfDay } from '@utils/dateUtils';
+import { DAY_MONTH_YAER, MONTH_YAER } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
 
 import styles from './DatePicker.module.scss';
 
 interface IDatePicker {
-  onChangeDate: (meetingAt: string) => void;
-  defaultMeetingDate?: string;
+  defaultDate?: Dayjs | null;
+  availableDays?: string[];
+  onChangeDate: (value: Dayjs | null) => void;
+  onChangeMonth?: (date: Dayjs) => void;
 }
 
-const DatePicker: React.FC<IDatePicker> = ({ defaultMeetingDate, onChangeDate }) => {
+const DatePicker: React.FC<IDatePicker> = ({
+  defaultDate,
+  availableDays,
+  onChangeDate,
+  onChangeMonth,
+}) => {
   const [isFirstMonth, setIsFirstMonth] = useState(true);
-  const [date, setDate] = useState<Dayjs | null>(dayjs(defaultMeetingDate) || null);
-
-  const handleChangeDate = useCallback(
-    (value: Dayjs | null) => {
-      if (value) {
-        if (value.isToday()) {
-          setDate(dayjs());
-        } else {
-          setDate(dayjs(value).set('hour', 0).set('minute', 0).set('second', 0));
-        }
-      }
-    },
-    [setDate],
-  );
+  const [date, setDate] = useState(defaultDate || null);
 
   useEffect(() => {
-    if (date) onChangeDate(date.toString());
+    onChangeDate(date);
   }, [date, onChangeDate]);
 
   const changeViewMonth = useCallback(
     (viewDate: Dayjs) => {
-      if (viewDate.month() === dayjs().month()) {
+      if (viewDate.format(MONTH_YAER) === dayjs().format(MONTH_YAER)) {
         setIsFirstMonth(true);
       } else {
         setIsFirstMonth(false);
       }
+
+      if (onChangeMonth) onChangeMonth(viewDate);
     },
-    [setIsFirstMonth],
+    [setIsFirstMonth, onChangeMonth],
+  );
+
+  const checkDisabledDays = useCallback(
+    (nextDate: Dayjs) => {
+      if (availableDays) {
+        return !availableDays.some((day) => {
+          if (nextDate.format(DAY_MONTH_YAER) === dayjs(day).format(DAY_MONTH_YAER)) {
+            return true;
+          }
+          return false;
+        });
+      }
+
+      return true;
+    },
+    [availableDays],
   );
 
   return (
@@ -58,9 +72,10 @@ const DatePicker: React.FC<IDatePicker> = ({ defaultMeetingDate, onChangeDate })
           openTo='day'
           onMonthChange={changeViewMonth}
           value={date}
-          onChange={handleChangeDate}
+          onChange={setDate}
           renderInput={(params) => <input />}
           minDate={dayjs()}
+          shouldDisableDate={availableDays && checkDisabledDays}
           components={{
             SwitchViewIcon: DownArrow,
             RightArrowIcon: RightIcon,

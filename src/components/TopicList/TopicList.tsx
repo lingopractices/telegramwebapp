@@ -1,218 +1,31 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 
+import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import QuestionItem from '@components/QuestionItem/QuestionItem';
 import SearchBox from '@components/SearchBox/SearchBox';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { getTopicsAction } from '@store/topics/actions';
+import { getTopicsHasMoreSelector, getTopicsSelector } from '@store/topics/selectors';
+import { ITopic } from 'lingopractices-models';
+import { useSelector } from 'react-redux';
 
 import TopicItem from './TopicItem/TopicItem';
 
 import styles from './TopicList.module.scss';
 
 interface ITopicList {
+  defaultTopicId?: number;
   onChangeTopic: (topicId: number) => void;
-  dafaultTopicId?: number;
 }
 
-export const TopicList: React.FC<ITopicList> = ({ dafaultTopicId, onChangeTopic }) => {
-  const topis = useMemo(
-    () => [
-      {
-        name: 'Art',
-        id: 1,
-        questions: [
-          'first',
-          'second',
-          'third',
-          'fourth',
-          'fivth',
-          'sixth',
-          'seventh',
-          'eighth',
-          'ninth',
-          'tenth',
-        ],
-      },
-      {
-        name: 'Cinema',
-        id: 2,
-        questions: [
-          'first',
-          'second',
-          'third',
-          'fourth',
-          'fivth',
-          'sixth',
-          'seventh',
-          'eighth',
-          'ninth',
-          'tenth',
-        ],
-      },
-      {
-        name: 'Sport',
-        id: 3,
-        questions: [
-          'first',
-          'second',
-          'third',
-          'fourth',
-          'fivth',
-          'sixth',
-          'seventh',
-          'eighth',
-          'ninth',
-          'tenth',
-        ],
-      },
-      {
-        name: 'Family',
-        id: 4,
-        questions: [
-          'first',
-          'second',
-          'third',
-          'fourth',
-          'fivth',
-          'sixth',
-          'seventh',
-          'eighth',
-          'ninth',
-          'tenth',
-        ],
-      },
-      {
-        name: 'Pets',
-        id: 5,
-        questions: [
-          'first',
-          'second',
-          'third',
-          'fourth',
-          'fivth',
-          'sixth',
-          'seventh',
-          'eighth',
-          'ninth',
-          'tenth',
-        ],
-      },
-      {
-        name: 'Test1',
-        id: 6,
-        questions: [
-          'first',
-          'second',
-          'third',
-          'fourth',
-          'fivth',
-          'sixth',
-          'seventh',
-          'eighth',
-          'ninth',
-          'tenth',
-        ],
-      },
-      {
-        name: 'Test2',
-        id: 7,
-        questions: [
-          'first',
-          'second',
-          'third',
-          'fourth',
-          'fivth',
-          'sixth',
-          'seventh',
-          'eighth',
-          'ninth',
-          'tenth',
-        ],
-      },
-      {
-        name: 'Test3',
-        id: 8,
-        questions: [
-          'first',
-          'second',
-          'third',
-          'fourth',
-          'fivth',
-          'sixth',
-          'seventh',
-          'eighth',
-          'ninth',
-          'tenth',
-        ],
-      },
-      {
-        name: 'Test4',
-        id: 9,
-        questions: [
-          'first',
-          'second',
-          'third',
-          'fourth',
-          'fivth',
-          'sixth',
-          'seventh',
-          'eighth',
-          'ninth',
-          'tenth',
-        ],
-      },
-      {
-        name: 'Test5',
-        id: 10,
-        questions: [
-          'first',
-          'second',
-          'third',
-          'fourth',
-          'fivth',
-          'sixth',
-          'seventh',
-          'eighth',
-          'ninth',
-          'tenth',
-        ],
-      },
-      {
-        name: 'Test6',
-        id: 11,
-        questions: [
-          'first',
-          'second',
-          'third',
-          'fourth',
-          'fivth',
-          'sixth',
-          'seventh',
-          'eighth',
-          'ninth',
-          'tenth',
-        ],
-      },
-      {
-        name: 'Test7',
-        id: 12,
-        questions: [
-          'first',
-          'second',
-          'third',
-          'fourth',
-          'fivth',
-          'sixth',
-          'seventh',
-          'eighth',
-          'ninth',
-          'tenth',
-        ],
-      },
-    ],
-    [],
-  );
-  const [filteredTopics, setFilteredTopics] = useState(topis);
-  const [currentTopicId, setCurrentTopicId] = useState(dafaultTopicId || -1);
+export const TopicList: React.FC<ITopicList> = ({ defaultTopicId, onChangeTopic }) => {
+  const topics = useSelector(getTopicsSelector);
+  const hasMore = useSelector(getTopicsHasMoreSelector);
+  const getTopics = useActionWithDispatch(getTopicsAction);
+  const [filteredTopics, setFilteredTopics] = useState(topics);
+  const [currentTopicId, setCurrentTopicId] = useState(defaultTopicId || -1);
   const [searchStringText, setSearchStringText] = useState('');
+  const infiniteRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     onChangeTopic(currentTopicId);
@@ -238,9 +51,39 @@ export const TopicList: React.FC<ITopicList> = ({ dafaultTopicId, onChangeTopic 
 
   useEffect(() => {
     setFilteredTopics(
-      topis.filter((item) => item.name.trim().toLowerCase().includes(searchStringText)),
+      topics.filter((item) => item.name.trim().toLowerCase().includes(searchStringText)),
     );
-  }, [searchStringText, topis, setFilteredTopics]);
+  }, [searchStringText, topics, setFilteredTopics]);
+
+  const renderTopics = useCallback(
+    (topic: ITopic) => (
+      <div key={topic.id}>
+        <TopicItem
+          id={topic.id}
+          name={topic.name}
+          isSelected={topic.id === currentTopicId}
+          onChange={handleChangeTopic}
+        />
+        {currentTopicId === topic.id && (
+          <ul className={styles.questions}>
+            {topic.questions.map((question) => (
+              <QuestionItem key={question} label={question} />
+            ))}
+          </ul>
+        )}
+      </div>
+    ),
+    [currentTopicId, handleChangeTopic],
+  );
+
+  const renderedTopics = useMemo(
+    () => filteredTopics.map(renderTopics),
+    [filteredTopics, renderTopics],
+  );
+
+  const loadMore = useCallback(() => {
+    getTopics();
+  }, [getTopics]);
 
   return (
     <div className={styles.container}>
@@ -250,24 +93,10 @@ export const TopicList: React.FC<ITopicList> = ({ dafaultTopicId, onChangeTopic 
         onChange={handleChangeSearchString}
         containerClassname={styles.search}
       />
-      <div className={styles.wrapperList}>
-        {filteredTopics.map((topic) => (
-          <div key={topic.id}>
-            <TopicItem
-              id={topic.id}
-              name={topic.name}
-              isSelected={topic.id === currentTopicId}
-              onChange={handleChangeTopic}
-            />
-            {currentTopicId === topic.id && (
-              <ul className={styles.questions}>
-                {topic.questions.map((question) => (
-                  <QuestionItem key={question} label={question} />
-                ))}
-              </ul>
-            )}
-          </div>
-        ))}
+      <div className={styles.wrapperList} ref={infiniteRef}>
+        <InfiniteScroll onReachBottom={loadMore} containerRef={infiniteRef} hasMore={hasMore}>
+          {renderedTopics}
+        </InfiniteScroll>
       </div>
     </div>
   );

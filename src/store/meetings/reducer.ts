@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 
+import { ClearMeetings } from './features/clear-meetings/clear-meetings';
 import { CreateMeeting } from './features/create-meeting/create-meeting';
 import { CreateMeetingSuccess } from './features/create-meeting/create-meeting-success';
 import { GetMeetingDays } from './features/get-meeting-days/get-meeting-days';
@@ -15,8 +16,14 @@ import { LeaveMeetingSuccess } from './features/leave-meeting/leave-meeting-succ
 import { IMeetingsState } from './types';
 
 const initialState: IMeetingsState = {
-  meetings: [],
-  myMeetings: [],
+  meetings: {
+    meetingList: [],
+    hasMore: true,
+  },
+  myMeetings: {
+    meetingList: [],
+    hasMore: true,
+  },
   meetingDays: [],
   selectedMeeting: undefined,
   requests: {
@@ -42,7 +49,8 @@ const reducer = createReducer(initialState, (builder) =>
     .addCase(LeaveMeeting.action, LeaveMeeting.reducer)
     .addCase(LeaveMeetingSuccess.action, LeaveMeetingSuccess.reducer)
     .addCase(CreateMeeting.action, CreateMeeting.reducer)
-    .addCase(CreateMeetingSuccess.action, CreateMeetingSuccess.reducer),
+    .addCase(CreateMeetingSuccess.action, CreateMeetingSuccess.reducer)
+    .addCase(ClearMeetings.action, ClearMeetings.reducer),
 );
 
 export default reducer;

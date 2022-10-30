@@ -1,4 +1,6 @@
 .container {
+  display: flex;
+  flex-flow: column nowrap;
   color: var(--base-color);
 
   h2 {
@@ -15,5 +17,6 @@
 .warpper {
   display: flex;
   flex-flow: row wrap;
+  justify-content: center;
   gap: 13px;
 }

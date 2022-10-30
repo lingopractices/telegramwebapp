@@ -1,3 +1,4 @@
+import { ClearMeetings } from './features/clear-meetings/clear-meetings';
 import { CreateMeeting } from './features/create-meeting/create-meeting';
 import { GetMeetingDays } from './features/get-meeting-days/get-meeting-days';
 import { GetMeetings } from './features/get-meetings/get-meetings';
@@ -11,3 +12,4 @@ export const getMyMeetingsAction = GetMyMeetings.action;
 export const joinMeetingAction = JoinMeeting.action;
 export const createMeetingAction = CreateMeeting.action;
 export const leaveMeetingAction = LeaveMeeting.action;
+export const clearMeetingsAction = ClearMeetings.action;

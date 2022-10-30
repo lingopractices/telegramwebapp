@@ -1,8 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { getMeetingsAction } from '@store/meetings/actions';
+import { getMeetingHasMoreSelector, getMeetingsSelector } from '@store/meetings/selectors';
+import { getMaxTimeOfDay } from '@utils/dateUtils';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
+import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { JOIN_DATE_PATH, JOIN_MEETING_PATH } from 'routing/routing.constants';
 import { JoinMeetingType } from 'screens/types';
@@ -13,9 +19,24 @@ const MeetingList: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
+  const meetings = useSelector(getMeetingsSelector);
+  const meetingsRef = useRef<HTMLDivElement>(null);
+  const hasMore = useSelector(getMeetingHasMoreSelector);
+  const getMeetings = useActionWithDeferred(getMeetingsAction);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
   useTgMainButton(false, false);
+
+  const loadMore = useCallback(() => {
+    if (meetingData?.from && meetingData?.languageId && meetingData?.languageLevel) {
+      getMeetings({
+        languageId: meetingData.languageId,
+        languageLevel: meetingData.languageLevel,
+        from: meetingData.from,
+        to: getMaxTimeOfDay(meetingData.from),
+      });
+    }
+  }, [meetingData?.from, meetingData?.languageId, meetingData?.languageLevel, getMeetings]);
 
   const handleBack = useCallback(() => {
     navigate(JOIN_DATE_PATH, { state: { meetingData } });
@@ -25,25 +46,23 @@ const MeetingList: React.FC = () => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  const [meetings, setMeetings] = useState([
-    { id: 0, label: 'meeting', date: 'date' },
-    { id: 1, label: 'meeting2', date: 'date2' },
-    { id: 2, label: 'meeting3', date: 'date3' },
-  ]);
-
   return (
     <div className={styles.container}>
       <h2>{'meetings'.toUpperCase()}</h2>
-      {meetings.map((meeting) => (
-        <MeetingItem
-          key={meeting.id}
-          id={meeting.id}
-          defaultText='Online Meeting'
-          date={meeting.date}
-          meetingData={meetingData}
-          mainRoute={JOIN_MEETING_PATH}
-        />
-      ))}
+      <div className={styles.meetingsWrapper} ref={meetingsRef}>
+        <InfiniteScroll onReachBottom={loadMore} containerRef={meetingsRef} hasMore={hasMore}>
+          {meetings.map((meeting) => (
+            <MeetingItem
+              key={meeting.id}
+              id={meeting.id}
+              defaultText='Online Meeting'
+              date={meeting.meetingDate}
+              meetingData={meetingData}
+              mainRoute={JOIN_MEETING_PATH}
+            />
+          ))}
+        </InfiniteScroll>
+      </div>
     </div>
   );
 };

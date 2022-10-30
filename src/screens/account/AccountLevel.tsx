@@ -3,11 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import LevelList from '@components/LevelList/LevelList';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { updateProfileAction } from '@store/profile/actions';
-import {
-  getLanguageLevelSelector,
-  getProfileDataSelector,
-  pendingUpdateUserSelector,
-} from '@store/profile/selectors';
+import { getLanguageLevelSelector, getProfileDataSelector } from '@store/profile/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { useSelector } from 'react-redux';
@@ -24,7 +20,6 @@ const AccountLevel: React.FC = () => {
   const user = useSelector(getProfileDataSelector);
   const languageLevel = useSelector(getLanguageLevelSelector);
   const [newLanguageLevel, setNewLanguageLevel] = useState(languageLevel);
-  const pendingUpdateProfile = useSelector(pendingUpdateUserSelector);
   const updateProfile = useActionWithDeferred(updateProfileAction);
 
   useEffect(() => {
@@ -42,6 +37,7 @@ const AccountLevel: React.FC = () => {
   const handleSubmit = useCallback(() => {
     if (user && newLanguageLevel) {
       if (newLanguageLevel !== languageLevel) {
+        setLoadingMainButton(true);
         updateProfile({
           ...user,
           userId: user.id,
@@ -50,14 +46,17 @@ const AccountLevel: React.FC = () => {
           languageLevel: newLanguageLevel,
         })
           .then(() => {
+            setLoadingMainButton(false);
             handleBack();
           })
-          .catch((e) => {});
+          .catch((e) => {
+            setLoadingMainButton(false);
+          });
       } else {
         handleBack();
       }
     }
-  }, [newLanguageLevel, languageLevel, user, updateProfile, handleBack]);
+  }, [newLanguageLevel, languageLevel, user, updateProfile, handleBack, setLoadingMainButton]);
 
   useEffect(() => {
     setMainButtonOnClick(handleSubmit);
@@ -67,11 +66,7 @@ const AccountLevel: React.FC = () => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  useEffect(() => {
-    setLoadingMainButton(pendingUpdateProfile);
-  }, [pendingUpdateProfile, setLoadingMainButton]);
-
-  return <LevelList onChangeLevel={setNewLanguageLevel} dafaultLevelId={newLanguageLevel} />;
+  return <LevelList onChangeLevel={setNewLanguageLevel} defaultLevelId={newLanguageLevel} />;
 };
 
 export default AccountLevel;

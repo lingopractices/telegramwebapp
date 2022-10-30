@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import DatePicker from '@components/DatePicker/DatePicker';
+import dayjs, { Dayjs } from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -16,8 +17,10 @@ const CreateMeetingDate: React.FC = () => {
   const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(true, false);
 
   const handleChangeDate = useCallback(
-    (meetingAt: string) => {
-      setMeetingData((prev) => ({ ...prev, meetingAt }));
+    (value: Dayjs | null) => {
+      if (value) {
+        setMeetingData((prev) => ({ ...prev, meetingAt: value }));
+      }
     },
     [setMeetingData],
   );
@@ -46,7 +49,9 @@ const CreateMeetingDate: React.FC = () => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  return <DatePicker defaultMeetingDate={meetingData?.meetingAt} onChangeDate={handleChangeDate} />;
+  return (
+    <DatePicker defaultDate={meetingData?.meetingAt || dayjs()} onChangeDate={handleChangeDate} />
+  );
 };
 
 export default CreateMeetingDate;

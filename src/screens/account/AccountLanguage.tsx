@@ -6,11 +6,7 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getLanguagesAction } from '@store/languages/actions';
 import { languagesSelector } from '@store/languages/selectors';
 import { updateProfileAction } from '@store/profile/actions';
-import {
-  getPracticeLanguageSelector,
-  getProfileDataSelector,
-  pendingUpdateUserSelector,
-} from '@store/profile/selectors';
+import { getPracticeLanguageSelector, getProfileDataSelector } from '@store/profile/selectors';
 import { popularLanguagesIds } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
@@ -29,7 +25,6 @@ const AccountInterfaceLanguage: React.FC = () => {
   const user = useSelector(getProfileDataSelector);
   const [newPracticeLanguageId, setNewPracticeLanguageId] = useState(practiceLanguage?.id);
   const languages = useSelector(languagesSelector);
-  const pendingUpdateProfile = useSelector(pendingUpdateUserSelector);
   const getLanguages = useActionWithDispatch(getLanguagesAction);
   const updateProfile = useActionWithDeferred(updateProfileAction);
 
@@ -48,6 +43,7 @@ const AccountInterfaceLanguage: React.FC = () => {
   const handleSubmit = useCallback(() => {
     if (user && newPracticeLanguageId) {
       if (newPracticeLanguageId !== practiceLanguage?.id) {
+        setLoadingMainButton(true);
         updateProfile({
           ...user,
           userId: user.id,
@@ -55,14 +51,24 @@ const AccountInterfaceLanguage: React.FC = () => {
           interfaceLanguageId: user.interfaceLanguage.id,
         })
           .then(() => {
+            setLoadingMainButton(false);
             handleBack();
           })
-          .catch((e) => {});
+          .catch((e) => {
+            setLoadingMainButton(false);
+          });
       } else {
         handleBack();
       }
     }
-  }, [user, newPracticeLanguageId, practiceLanguage?.id, handleBack, updateProfile]);
+  }, [
+    user,
+    newPracticeLanguageId,
+    practiceLanguage?.id,
+    handleBack,
+    updateProfile,
+    setLoadingMainButton,
+  ]);
 
   useEffect(() => {
     setMainButtonOnClick(handleSubmit);
@@ -78,16 +84,12 @@ const AccountInterfaceLanguage: React.FC = () => {
     }
   }, [languages, getLanguages]);
 
-  useEffect(() => {
-    setLoadingMainButton(pendingUpdateProfile);
-  }, [pendingUpdateProfile, setLoadingMainButton]);
-
   return (
     <LanguageList
       popularLanguagesIds={popularLanguagesIds}
       languages={languages}
       onChangeLanguage={setNewPracticeLanguageId}
-      dafaultLanguageId={newPracticeLanguageId}
+      defaultLanguageId={newPracticeLanguageId}
     />
   );
 };

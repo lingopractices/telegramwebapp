@@ -8,31 +8,26 @@ import { differenceBy, intersectionWith } from 'lodash';
 import styles from './LanguageList.module.scss';
 
 interface ILanguageList {
-  dafaultLanguageId?: string;
+  defaultLanguageId?: string;
   popularLanguagesIds?: string[];
   languages: ILanguage[];
   onChangeLanguage: (languageId: string) => void;
 }
 
 const LanguageList: React.FC<ILanguageList> = ({
-  dafaultLanguageId,
+  defaultLanguageId,
   popularLanguagesIds,
   languages,
   onChangeLanguage,
 }) => {
-  const [currentLanguageId, setCurrentLanguageId] = useState(dafaultLanguageId || '');
   const [searchStringText, setSearchStringText] = useState('');
   const [filteredLanguages, setFilteredLanguages] = useState(languages);
 
-  useEffect(() => {
-    onChangeLanguage(currentLanguageId);
-  }, [currentLanguageId, onChangeLanguage]);
-
   const handleChangeLanguage = useCallback(
     (languageId: number | string) => {
-      setCurrentLanguageId(String(languageId));
+      onChangeLanguage(String(languageId));
     },
-    [setCurrentLanguageId],
+    [onChangeLanguage],
   );
 
   const handleChangeSearchString = useCallback(
@@ -43,10 +38,10 @@ const LanguageList: React.FC<ILanguageList> = ({
   );
 
   useEffect(() => {
-    if (currentLanguageId) {
+    if (defaultLanguageId) {
       setSearchStringText('');
     }
-  }, [currentLanguageId, setSearchStringText]);
+  }, [defaultLanguageId, setSearchStringText]);
 
   useEffect(() => {
     setFilteredLanguages(
@@ -64,11 +59,11 @@ const LanguageList: React.FC<ILanguageList> = ({
         radioGroupName='languages'
         label={language.name}
         onChange={handleChangeLanguage}
-        isSelected={language.id === currentLanguageId}
+        isSelected={language.id === defaultLanguageId}
         containerClass={styles.paddingContainer}
       />
     ),
-    [currentLanguageId, handleChangeLanguage],
+    [defaultLanguageId, handleChangeLanguage],
   );
 
   const renderedLanguages = useMemo(() => {

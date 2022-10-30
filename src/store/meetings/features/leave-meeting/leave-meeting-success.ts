@@ -9,7 +9,9 @@ export class LeaveMeetingSuccess {
   static get reducer() {
     return (draft: IMeetingsState, { payload }: ReturnType<typeof LeaveMeetingSuccess.action>) => {
       draft.requests.leaveMeetingPending = false;
-      draft.myMeetings = draft.myMeetings.filter((meeting) => meeting.id !== payload);
+      draft.myMeetings.meetingList = draft.myMeetings.meetingList.filter(
+        (meeting) => meeting.id !== payload,
+      );
 
       return draft;
     };
