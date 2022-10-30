@@ -1,4 +1,4 @@
-import { createAction } from '@reduxjs/toolkit';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory } from '@store/common/http-request-factory';
 import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
@@ -14,7 +14,7 @@ import { GetTopicsSuccess } from './get-topics-success';
 
 export class GetTopics {
   static get action() {
-    return createAction('topics/GET_TOPICS');
+    return createDeferredAction('topics/GET_TOPICS');
   }
 
   static get reducer() {
@@ -26,7 +26,7 @@ export class GetTopics {
   }
 
   static get saga() {
-    return function* (): SagaIterator {
+    return function* ({ meta }: ReturnType<typeof GetTopics.action>): SagaIterator {
       const topicList: ITopic[] = yield select(getTopicsSelector);
 
       const page: IPaginationParams = {
@@ -34,14 +34,17 @@ export class GetTopics {
         limit: TOPIC_LIMITS,
       };
 
-      const { data } = GetTopics.httpRequest.call(
-        yield call(() => GetTopics.httpRequest.generator({ page })),
-      );
+      try {
+        const { data } = GetTopics.httpRequest.call(
+          yield call(() => GetTopics.httpRequest.generator({ page })),
+        );
 
-      const hasMore = data.length >= page.limit;
+        const hasMore = data.length >= page.limit;
 
-      if (data) {
         yield put(GetTopicsSuccess.action({ data, hasMore }));
+        meta?.deferred.resolve();
+      } catch (e) {
+        meta?.deferred.reject();
       }
     };
   }

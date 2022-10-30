@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import TopicList from '@components/TopicList/TopicList';
-import { getTopicsPendingSelector } from '@store/topics/selectors';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { getTopicsAction } from '@store/topics/actions';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CREATE_LEVELS_PATH, CREATE_PARTICIPANTS_PATH } from 'routing/routing.constants';
 import { CreateMeetingType } from 'screens/types';
@@ -12,7 +12,7 @@ import { CreateMeetingType } from 'screens/types';
 const CreateMeetingTopic: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const pendingTopicsSelector = useSelector(getTopicsPendingSelector);
+  const getTopics = useActionWithDeferred(getTopicsAction);
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
   const { setBackButtonOnClick } = useTgBackButton(true);
   const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton } = useTgMainButton(
@@ -22,7 +22,7 @@ const CreateMeetingTopic: React.FC = () => {
 
   const handleChangeLevel = useCallback(
     (topicId: number) => {
-      if (topicId) {
+      if (topicId > -1) {
         setMeetingData((prev) => ({ ...prev, topicId }));
       }
     },
@@ -45,6 +45,17 @@ const CreateMeetingTopic: React.FC = () => {
     }
   }, [meetingData?.topicId, setMainButtonParams]);
 
+  const loadMoreTopics = useCallback(() => {
+    setLoadingMainButton(true);
+    getTopics()
+      .then(() => {
+        setLoadingMainButton(false);
+      })
+      .catch((e) => {
+        setLoadingMainButton(false);
+      });
+  }, [getTopics, setLoadingMainButton]);
+
   const handleBack = useCallback(() => {
     navigate(CREATE_LEVELS_PATH, { state: { meetingData } });
   }, [meetingData, navigate]);
@@ -61,11 +72,13 @@ const CreateMeetingTopic: React.FC = () => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  useEffect(() => {
-    setLoadingMainButton(pendingTopicsSelector);
-  }, [pendingTopicsSelector, setLoadingMainButton]);
-
-  return <TopicList onChangeTopic={handleChangeLevel} defaultTopicId={meetingData?.topicId} />;
+  return (
+    <TopicList
+      onChangeTopic={handleChangeLevel}
+      loadMoreTopics={loadMoreTopics}
+      defaultTopicId={meetingData?.topicId}
+    />
+  );
 };
 
 export default CreateMeetingTopic;
