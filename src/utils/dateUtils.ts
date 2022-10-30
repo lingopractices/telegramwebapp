@@ -1,10 +1,14 @@
 import dayjs, { Dayjs } from 'dayjs';
+import { IMeeting } from 'lingopractices-models';
 
 export const getMinTimeOfDay = (date: Dayjs) =>
   date.set('hour', 0).set('minute', 0).set('second', 0);
 
 export const getMaxTimeOfDay = (date: Dayjs) =>
   date.set('hour', 23).set('minute', 59).set('second', 0);
+
+export const sortGrowingDates = (dates: IMeeting[]) =>
+  dates.sort((a, b) => dayjs(a.meetingDate).unix() - dayjs(b.meetingDate).unix());
 
 export const getAvailableTimes = (date: Dayjs) => {
   const resultArr = [];

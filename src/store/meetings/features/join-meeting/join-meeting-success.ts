@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { IMeetingsState } from '@store/meetings/types';
-import dayjs from 'dayjs';
+import { sortGrowingDates } from '@utils/dateUtils';
 
 export class JoinMeetingSuccess {
   static get action() {
@@ -10,10 +10,10 @@ export class JoinMeetingSuccess {
   static get reducer() {
     return (draft: IMeetingsState, { payload }: ReturnType<typeof JoinMeetingSuccess.action>) => {
       draft.requests.joinMeetingPending = false;
-      draft.myMeetings.meetingList = [
+      draft.myMeetings.meetingList = sortGrowingDates([
         ...draft.myMeetings.meetingList,
-        draft.meetings.meetingList.filter((meeting) => meeting.id === payload)[0],
-      ].sort((a, b) => dayjs(a.meetingDate).unix() - dayjs(b.meetingDate).unix());
+        ...draft.meetings.meetingList.filter((meeting) => meeting.id === payload),
+      ]);
       return draft;
     };
   }
