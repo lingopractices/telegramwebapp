@@ -38,7 +38,7 @@ export function useIntersectionObserver(
     [],
   );
 
-  function initIntersectionController() {
+  const initIntersectionController = useCallback(() => {
     const callbacks = new Map();
     const entriesAccumulator = new Map<Element, IntersectionObserverEntry>();
 
@@ -81,28 +81,31 @@ export function useIntersectionObserver(
     );
 
     intersectionControllerRef.current = { observer, callbacks };
-  }
+  }, [margin, rootRef, threshold, throttleMs]);
 
-  const observe = useCallback((target: HTMLElement, targetCallback: TargetCallback | undefined) => {
-    if (!intersectionControllerRef.current) {
-      initIntersectionController();
-    }
-
-    const controller = intersectionControllerRef.current;
-    controller?.observer.observe(target);
-
-    if (targetCallback) {
-      controller?.callbacks.set(target, targetCallback);
-    }
-
-    return () => {
-      if (targetCallback) {
-        controller?.callbacks.delete(target);
+  const observe = useCallback(
+    (target: HTMLElement, targetCallback: TargetCallback | undefined) => {
+      if (!intersectionControllerRef.current) {
+        initIntersectionController();
       }
 
-      controller?.observer.unobserve(target);
-    };
-  }, []);
+      const controller = intersectionControllerRef.current;
+      controller?.observer.observe(target);
+
+      if (targetCallback) {
+        controller?.callbacks.set(target, targetCallback);
+      }
+
+      return () => {
+        if (targetCallback) {
+          controller?.callbacks.delete(target);
+        }
+
+        controller?.observer.unobserve(target);
+      };
+    },
+    [initIntersectionController],
+  );
 
   return { observe };
 }
