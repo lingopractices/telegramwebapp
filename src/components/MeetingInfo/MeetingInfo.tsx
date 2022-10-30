@@ -1,9 +1,8 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { ReactComponent as DownArrow } from '@assets/icons/down-arrow.svg';
 import { ReactComponent as UpArrow } from '@assets/icons/up-arrow.svg';
 import QuestionItem from '@components/QuestionItem/QuestionItem';
-import { getFormattedDate } from '@utils/dateUtils';
 import { genderLabelsMap } from '@utils/enumLabelsMap';
 import { DAY_MONTH_YAER, HOUR_MINUTE } from 'common/constants';
 import dayjs from 'dayjs';
@@ -24,16 +23,6 @@ const MeetingInfo: React.FC<IMeeting> = ({
   const [isOpenQuestions, , , toggleOpenQuestions] = useToggledState(false);
   const freePlaces = maxParticipantsCount - participantsCount;
 
-  const formattedDate = useMemo(
-    () => meetingDate && getFormattedDate(dayjs(meetingDate), DAY_MONTH_YAER),
-    [meetingDate],
-  );
-
-  const formattedTime = useMemo(
-    () => meetingDate && getFormattedDate(dayjs(meetingDate), HOUR_MINUTE),
-    [meetingDate],
-  );
-
   return (
     <div className={styles.container}>
       <h2>
@@ -44,10 +33,12 @@ const MeetingInfo: React.FC<IMeeting> = ({
       <div className={styles.content}>
         <div className={styles.timeLine}>
           <span>
-            Date: &nbsp; <span className={styles.data}>{formattedDate}</span>
+            Date: &nbsp;
+            <span className={styles.data}>{dayjs(meetingDate).format(DAY_MONTH_YAER)}</span>
           </span>
           <span>
-            Time: &nbsp; <span className={styles.data}>{formattedTime}</span>
+            Time: &nbsp;
+            <span className={styles.data}>{dayjs(meetingDate).format(HOUR_MINUTE)}</span>
           </span>
         </div>
         <span>

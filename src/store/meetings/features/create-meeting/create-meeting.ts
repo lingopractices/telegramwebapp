@@ -57,9 +57,8 @@ export class CreateMeeting {
             },
             userCreator,
           };
-
-          meta?.deferred.resolve();
           yield put(CreateMeetingSuccess.action(createdMeeting));
+          meta?.deferred.resolve();
         }
       } catch (e) {
         meta?.deferred.reject(e);
@@ -74,5 +73,3 @@ export class CreateMeeting {
     );
   }
 }
-
-// это супер проходимое место, его даже собака, когда спускала, могла откинуть. Посмотри по карте там садик и два дома и место прям по-середине

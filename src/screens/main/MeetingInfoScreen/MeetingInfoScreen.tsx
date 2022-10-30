@@ -3,10 +3,7 @@ import React, { useCallback, useEffect } from 'react';
 import MeetingInfo from '@components/MeetingInfo/MeetingInfo';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { leaveMeetingAction } from '@store/meetings/actions';
-import {
-  getMyMeetingByIdSelector,
-  getLeaveMeetingPendingSelector,
-} from '@store/meetings/selectors';
+import { getMyMeetingByIdSelector } from '@store/meetings/selectors';
 import { getProfileDataSelector } from '@store/profile/selectors';
 import classNames from 'classnames';
 import useTgBackButton from 'hooks/useTgBackButton';
@@ -25,7 +22,6 @@ const MeetingInfoScreen: React.FC = () => {
   const user = useSelector(getProfileDataSelector);
   const meeting = useSelector(getMyMeetingByIdSelector(Number(meetingId)));
   const leaveMeeting = useActionWithDeferred(leaveMeetingAction);
-  const leavePending = useSelector(getLeaveMeetingPendingSelector);
 
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
@@ -66,8 +62,7 @@ const MeetingInfoScreen: React.FC = () => {
         <button
           onClick={handleLeaveMeeting}
           className={classNames(styles.leave, styles.button)}
-          type='button'
-        >
+          type='button'>
           {'leave meeting'.toUpperCase()}
         </button>
       </div>

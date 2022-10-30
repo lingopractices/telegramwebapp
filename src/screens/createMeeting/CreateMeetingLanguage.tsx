@@ -82,7 +82,7 @@ const CreateMeetingLanguage: React.FC = () => {
       popularLanguagesIds={popularLanguagesIds}
       languages={languages}
       onChangeLanguage={handleChangeLanguage}
-      dafaultLanguageId={meetingData?.languageId || currentLanguage?.id}
+      defaultLanguageId={meetingData?.languageId || currentLanguage?.id}
     />
   );
 };

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { ReactComponent as DownArrow } from '@assets/icons/down-arrow.svg';
 import { ReactComponent as LeftIcon } from '@assets/icons/left-arrow.svg';
@@ -7,64 +7,50 @@ import { ReactComponent as RightIcon } from '@assets/icons/right-arrow.svg';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
-import { getMinTimeOfDay, isEquelDates } from '@utils/dateUtils';
+// import { getMinTimeOfDay } from '@utils/dateUtils';
 import { DAY_MONTH_YAER, MONTH_YAER } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
 
 import styles from './DatePicker.module.scss';
 
 interface IDatePicker {
-  defaultMeetingDate?: Dayjs;
-  freeDays?: string[];
-  onChangeDate: (meetingAt: Dayjs) => void;
-  loadDays?: (date: Dayjs) => void;
+  defaultDate?: Dayjs | null;
+  availableDays?: string[];
+  onChangeDate: (value: Dayjs | null) => void;
+  onChangeMonth?: (date: Dayjs) => void;
 }
 
 const DatePicker: React.FC<IDatePicker> = ({
-  defaultMeetingDate,
-  freeDays,
+  defaultDate,
+  availableDays,
   onChangeDate,
-  loadDays,
+  onChangeMonth,
 }) => {
   const [isFirstMonth, setIsFirstMonth] = useState(true);
-  const [date, setDate] = useState(defaultMeetingDate || null);
+  const [date, setDate] = useState(defaultDate || null);
 
-  const handleChangeDate = useCallback(
-    (value: Dayjs | null) => {
-      if (value) {
-        let changedDate: Dayjs;
-
-        if (value.isToday()) {
-          changedDate = dayjs();
-        } else {
-          changedDate = getMinTimeOfDay(value);
-        }
-
-        setDate(changedDate);
-        onChangeDate(changedDate);
-      }
-    },
-    [setDate, onChangeDate],
-  );
+  useEffect(() => {
+    onChangeDate(date);
+  }, [date, onChangeDate]);
 
   const changeViewMonth = useCallback(
     (viewDate: Dayjs) => {
-      if (isEquelDates(viewDate, dayjs(), MONTH_YAER)) {
+      if (viewDate.format(MONTH_YAER) === dayjs().format(MONTH_YAER)) {
         setIsFirstMonth(true);
       } else {
         setIsFirstMonth(false);
       }
 
-      if (loadDays) loadDays(viewDate);
+      if (onChangeMonth) onChangeMonth(viewDate);
     },
-    [setIsFirstMonth, loadDays],
+    [setIsFirstMonth, onChangeMonth],
   );
 
   const checkDisabledDays = useCallback(
     (nextDate: Dayjs) => {
-      if (freeDays) {
-        return !freeDays.some((day) => {
-          if (isEquelDates(dayjs(day), nextDate, DAY_MONTH_YAER)) {
+      if (availableDays) {
+        return !availableDays.some((day) => {
+          if (nextDate.format(DAY_MONTH_YAER) === dayjs(day).format(DAY_MONTH_YAER)) {
             return true;
           }
           return false;
@@ -73,7 +59,7 @@ const DatePicker: React.FC<IDatePicker> = ({
 
       return true;
     },
-    [freeDays],
+    [availableDays],
   );
 
   return (
@@ -86,10 +72,10 @@ const DatePicker: React.FC<IDatePicker> = ({
           openTo='day'
           onMonthChange={changeViewMonth}
           value={date}
-          onChange={handleChangeDate}
+          onChange={setDate}
           renderInput={(params) => <input />}
-          minDate={dayjs().local()}
-          shouldDisableDate={freeDays && checkDisabledDays}
+          minDate={dayjs()}
+          shouldDisableDate={availableDays && checkDisabledDays}
           components={{
             SwitchViewIcon: DownArrow,
             RightArrowIcon: RightIcon,

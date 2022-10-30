@@ -29,15 +29,15 @@ export class LeaveMeeting {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof LeaveMeeting.action>): SagaIterator {
+    return function* ({ payload, meta }: ReturnType<typeof LeaveMeeting.action>): SagaIterator {
       try {
         LeaveMeeting.httpRequest.call(
-          yield call(() => LeaveMeeting.httpRequest.generator(action.payload)),
+          yield call(() => LeaveMeeting.httpRequest.generator(payload)),
         );
-        yield put(LeaveMeetingSuccess.action(action.payload.meetingId));
-        action.meta?.deferred.resolve();
+        yield put(LeaveMeetingSuccess.action(payload.meetingId));
+        meta?.deferred.resolve();
       } catch (e: any) {
-        action.meta?.deferred.reject(e);
+        meta?.deferred.reject(e);
       }
     };
   }

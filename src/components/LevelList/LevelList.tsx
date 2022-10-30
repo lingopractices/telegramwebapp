@@ -7,11 +7,11 @@ import { LanguageLevel } from 'lingopractices-models';
 import styles from './LevelList.module.scss';
 
 interface ILevelList {
-  dafaultLevelId?: number;
+  defaultLevelId?: number;
   onChangeLevel: (languageLevel: LanguageLevel) => void;
 }
 
-const LevelList: React.FC<ILevelList> = ({ dafaultLevelId, onChangeLevel }) => {
+const LevelList: React.FC<ILevelList> = ({ defaultLevelId, onChangeLevel }) => {
   const levels = useMemo(() => [...allLevels], []);
 
   const handleChange = useCallback(
@@ -32,7 +32,7 @@ const LevelList: React.FC<ILevelList> = ({ dafaultLevelId, onChangeLevel }) => {
             radioGroupName='languages'
             label={level.name}
             onChange={handleChange}
-            isSelected={level.id === dafaultLevelId}
+            isSelected={level.id === defaultLevelId}
             containerClass={styles.paddingContainer}
           />
         ))}

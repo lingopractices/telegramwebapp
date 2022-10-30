@@ -4,7 +4,11 @@ import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
 import { IMeetingsState } from '@store/meetings/types';
 import { AxiosResponse } from 'axios';
-import { IJoinMeetingRequest, IJoinMeetingResponse } from 'lingopractices-models';
+import {
+  IJoinMeetingRequest,
+  IJoinMeetingResponse,
+  JoinMeetingResult,
+} from 'lingopractices-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 
@@ -24,18 +28,21 @@ export class JoinMeeting {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof JoinMeeting.action>): SagaIterator {
+    return function* ({ payload, meta }: ReturnType<typeof JoinMeeting.action>): SagaIterator {
       try {
         const response = JoinMeeting.httpRequest.call(
-          yield call(() => JoinMeeting.httpRequest.generator(action.payload)),
+          yield call(() => JoinMeeting.httpRequest.generator(payload)),
         );
 
-        if (response.data) {
-          action.meta?.deferred.resolve();
-          yield put(JoinMeetingSuccess.action(action.payload.meetingId));
+        const { result } = response.data;
+
+        if (result === JoinMeetingResult.Success) {
+          yield put(JoinMeetingSuccess.action(payload.meetingId));
         }
+
+        meta?.deferred.resolve({ result });
       } catch (e) {
-        action.meta?.deferred.reject(e);
+        meta?.deferred.reject(e);
       }
     };
   }

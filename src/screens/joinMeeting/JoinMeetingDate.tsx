@@ -8,8 +8,8 @@ import {
   getMeetingDaysAction,
   getMeetingsAction,
 } from '@store/meetings/actions';
-import { getMeetingPendingSelector, getMeetingsDaysSelector } from '@store/meetings/selectors';
-import { getMaxTimeOfDay } from '@utils/dateUtils';
+import { getMeetingsDaysSelector } from '@store/meetings/selectors';
+import { getMaxTimeOfDay, getMinTimeOfDay } from '@utils/dateUtils';
 import { DAY_MONTH_YAER, FULL_DATE } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
@@ -24,9 +24,8 @@ const JoinMeetingDate: React.FC = () => {
   const location = useLocation();
   const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
   const meetingsDays = useSelector(getMeetingsDaysSelector);
-  const pendingGetMeetings = useSelector(getMeetingPendingSelector);
   const getMeetings = useActionWithDeferred(getMeetingsAction);
-  const getMeetingsDays = useActionWithDispatch(getMeetingDaysAction);
+  const getMeetingsDays = useActionWithDeferred(getMeetingDaysAction);
   const clearMeetings = useActionWithDispatch(clearMeetingsAction);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
@@ -36,23 +35,32 @@ const JoinMeetingDate: React.FC = () => {
   );
 
   const handleChangeDate = useCallback(
-    (meetingAt: Dayjs) => {
-      setMeetingData((prev) => ({ ...prev, from: meetingAt }));
+    (value: Dayjs | null) => {
+      let resultDate: Dayjs;
+      if (value) {
+        if (value.isToday()) {
+          resultDate = value;
+        } else {
+          resultDate = getMinTimeOfDay(value);
+        }
 
-      if (meetingData.from) {
-        if (meetingAt.format(DAY_MONTH_YAER) !== meetingData.from.format(DAY_MONTH_YAER)) {
-          clearMeetings();
+        setMeetingData((prev) => ({ ...prev, from: resultDate }));
+
+        if (meetingData?.from) {
+          if (value.format(DAY_MONTH_YAER) !== meetingData.from.format(DAY_MONTH_YAER)) {
+            clearMeetings();
+          }
         }
       }
     },
-    [meetingData.from, setMeetingData, clearMeetings],
+    [meetingData?.from, setMeetingData, clearMeetings],
   );
 
   useEffect(() => {
-    if (meetingData.from) {
+    if (meetingData?.from) {
       handleChangeDate(meetingData.from);
     }
-  }, [meetingData.from, handleChangeDate]);
+  }, [meetingData?.from, handleChangeDate]);
 
   useEffect(() => {
     if (meetingData?.from) {
@@ -71,7 +79,8 @@ const JoinMeetingDate: React.FC = () => {
   }, [meetingData, navigate]);
 
   const handleSubmit = useCallback(() => {
-    if (meetingData.languageId && meetingData.from && meetingData.languageLevel) {
+    if (meetingData?.languageId && meetingData?.from && meetingData?.languageLevel) {
+      setLoadingMainButton(true);
       getMeetings({
         languageId: meetingData.languageId,
         languageLevel: meetingData.languageLevel,
@@ -79,24 +88,41 @@ const JoinMeetingDate: React.FC = () => {
         to: getMaxTimeOfDay(meetingData.from),
       })
         .then(() => {
+          setLoadingMainButton(false);
           handleForward();
         })
-        .catch((e) => {});
+        .catch((e) => {
+          setLoadingMainButton(false);
+        });
     }
-  }, [meetingData, handleForward, getMeetings]);
+  }, [
+    meetingData?.languageLevel,
+    meetingData?.languageId,
+    meetingData?.from,
+    handleForward,
+    getMeetings,
+    setLoadingMainButton,
+  ]);
 
   const loadDays = useCallback(
     (date: Dayjs) => {
-      if (meetingData.languageId && meetingData.languageLevel) {
+      if (meetingData?.languageId && meetingData?.languageLevel && date) {
+        setLoadingMainButton(true);
         getMeetingsDays({
           languageId: meetingData.languageId,
           languageLevel: meetingData.languageLevel,
-          from: JSON.parse(JSON.stringify(date.format(FULL_DATE))),
+          from: date.format(FULL_DATE),
           userId: 20,
-        });
+        })
+          .then(() => {
+            setLoadingMainButton(false);
+          })
+          .catch((e) => {
+            setLoadingMainButton(false);
+          });
       }
     },
-    [getMeetingsDays, meetingData.languageId, meetingData.languageLevel],
+    [meetingData?.languageId, meetingData?.languageLevel, getMeetingsDays, setLoadingMainButton],
   );
 
   useEffect(() => loadDays(dayjs()), [loadDays]);
@@ -109,15 +135,11 @@ const JoinMeetingDate: React.FC = () => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  useEffect(() => {
-    setLoadingMainButton(pendingGetMeetings);
-  }, [pendingGetMeetings, setLoadingMainButton]);
-
   return (
     <DatePicker
-      loadDays={loadDays}
-      defaultMeetingDate={meetingData?.from || dayjs()}
-      freeDays={meetingsDays}
+      onChangeMonth={loadDays}
+      defaultDate={meetingData?.from || dayjs()}
+      availableDays={meetingsDays}
       onChangeDate={handleChangeDate}
     />
   );

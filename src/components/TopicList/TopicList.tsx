@@ -14,16 +14,16 @@ import TopicItem from './TopicItem/TopicItem';
 import styles from './TopicList.module.scss';
 
 interface ITopicList {
-  dafaultTopicId?: number;
+  defaultTopicId?: number;
   onChangeTopic: (topicId: number) => void;
 }
 
-export const TopicList: React.FC<ITopicList> = ({ dafaultTopicId, onChangeTopic }) => {
+export const TopicList: React.FC<ITopicList> = ({ defaultTopicId, onChangeTopic }) => {
   const topics = useSelector(getTopicsSelector);
   const hasMore = useSelector(getTopicsHasMoreSelector);
   const getTopics = useActionWithDispatch(getTopicsAction);
   const [filteredTopics, setFilteredTopics] = useState(topics);
-  const [currentTopicId, setCurrentTopicId] = useState(dafaultTopicId || -1);
+  const [currentTopicId, setCurrentTopicId] = useState(defaultTopicId || -1);
   const [searchStringText, setSearchStringText] = useState('');
   const infiniteRef = useRef<HTMLDivElement>(null);
 

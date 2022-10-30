@@ -17,8 +17,10 @@ const CreateMeetingDate: React.FC = () => {
   const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(true, false);
 
   const handleChangeDate = useCallback(
-    (meetingAt: Dayjs) => {
-      setMeetingData((prev) => ({ ...prev, meetingAt }));
+    (value: Dayjs | null) => {
+      if (value) {
+        setMeetingData((prev) => ({ ...prev, meetingAt: value }));
+      }
     },
     [setMeetingData],
   );
@@ -48,18 +50,7 @@ const CreateMeetingDate: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <>
-      <button type='button' onClick={handleForward}>
-        go
-      </button>
-      <button type='button' onClick={handleBack}>
-        back
-      </button>
-      <DatePicker
-        defaultMeetingDate={meetingData?.meetingAt || dayjs()}
-        onChangeDate={handleChangeDate}
-      />
-    </>
+    <DatePicker defaultDate={meetingData?.meetingAt || dayjs()} onChangeDate={handleChangeDate} />
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import RadioItem from '@components/RadioItem/RadioItem';
-import { getFreeTimes } from '@utils/dateUtils';
+import { getAvailableTimes } from '@utils/dateUtils';
 import { HOUR_MINUTE } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
 
@@ -18,7 +18,7 @@ const Time: React.FC<ITime> = ({ defaultMeetingTime, onChangeTime }) => {
 
   useEffect(() => {
     if (defaultMeetingTime) {
-      setTimes(getFreeTimes(defaultMeetingTime));
+      setTimes(getAvailableTimes(defaultMeetingTime));
     }
   }, [defaultMeetingTime, setTimes]);
 

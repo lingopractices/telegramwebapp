@@ -23,4 +23,4 @@ export const allLevels = [
   { id: LanguageLevel.Proficiency, name: levelLabelsMap[LanguageLevel.Proficiency] },
 ];
 
-export const participantsCountIds: number[] = [2, 3, 4, 5, 6, 7, 8, 9];
+export const participantsCountIds: number[] = [2, 3, 4, 5, 6, 7, 8, 9, 10];

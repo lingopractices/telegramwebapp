@@ -3,10 +3,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import MeetingInfo from '@components/MeetingInfo/MeetingInfo';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { joinMeetingAction } from '@store/meetings/actions';
-import { getMeetingByIdSelector, getMeetingJoinPendingSelector } from '@store/meetings/selectors';
+import { getMeetingByIdSelector } from '@store/meetings/selectors';
 import { getProfileDataSelector } from '@store/profile/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
+import { IJoinMeetingResponse, JoinMeetingResult } from 'lingopractices-models';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { INSTANT_MAIN_PATH, JOIN_MEETINGS_PATH } from 'routing/routing.constants';
@@ -18,12 +19,11 @@ const JoinMeetingInfo: React.FC = () => {
   const { id: meetingId } = useParams();
   const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
   const user = useSelector(getProfileDataSelector);
-  const pendingJoinMeeting = useSelector(getMeetingJoinPendingSelector);
   const meeting = useSelector(getMeetingByIdSelector(Number(meetingId)));
   const joinMeeting = useActionWithDeferred(joinMeetingAction);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setLoadingMainButton } = useTgMainButton(true, true, 'SUBMIT');
+  const { setMainButtonOnClick } = useTgMainButton(true, true, 'SUBMIT');
 
   const handleBack = useCallback(() => {
     navigate(JOIN_MEETINGS_PATH, { state: { meetingData } });
@@ -35,12 +35,14 @@ const JoinMeetingInfo: React.FC = () => {
 
   const handleSubmit = useCallback(() => {
     if (user) {
-      joinMeeting({
+      joinMeeting<IJoinMeetingResponse>({
         meetingId: Number(meetingId),
         userId: user.id,
       })
-        .then(() => {
-          handleForward();
+        .then(({ result }) => {
+          if (result === JoinMeetingResult.Success) {
+            handleForward();
+          }
         })
         .catch((e) => {});
     }
@@ -53,10 +55,6 @@ const JoinMeetingInfo: React.FC = () => {
   useEffect(() => {
     setMainButtonOnClick(handleSubmit);
   }, [handleSubmit, setMainButtonOnClick]);
-
-  useEffect(() => {
-    setLoadingMainButton(pendingJoinMeeting);
-  }, [pendingJoinMeeting, setLoadingMainButton]);
 
   return meeting ? (
     <MeetingInfo

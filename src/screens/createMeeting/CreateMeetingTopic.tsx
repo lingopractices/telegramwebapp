@@ -30,7 +30,7 @@ const CreateMeetingTopic: React.FC = () => {
   );
 
   useEffect(() => {
-    if (meetingData.topicId) {
+    if (meetingData?.topicId) {
       handleChangeLevel(meetingData.topicId);
     }
   }, [meetingData?.topicId, handleChangeLevel]);
@@ -65,7 +65,7 @@ const CreateMeetingTopic: React.FC = () => {
     setLoadingMainButton(pendingTopicsSelector);
   }, [pendingTopicsSelector, setLoadingMainButton]);
 
-  return <TopicList onChangeTopic={handleChangeLevel} dafaultTopicId={meetingData?.topicId} />;
+  return <TopicList onChangeTopic={handleChangeLevel} defaultTopicId={meetingData?.topicId} />;
 };
 
 export default CreateMeetingTopic;

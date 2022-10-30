@@ -1,26 +1,12 @@
 import dayjs, { Dayjs } from 'dayjs';
 
-export const getFormattedDate = (date: Dayjs, format: string): string => {
-  if (typeof date === 'string') {
-    const fromString = new Date(date);
-    return dayjs(fromString).format(format);
-  }
-
-  return dayjs(date).format(format);
-};
-
-export const isEquelDates = (firstDate: Dayjs, secondDate: Dayjs, format: string) =>
-  firstDate.format(format) === secondDate.format(format);
-
 export const getMinTimeOfDay = (date: Dayjs) =>
   date.set('hour', 0).set('minute', 0).set('second', 0);
 
 export const getMaxTimeOfDay = (date: Dayjs) =>
   date.set('hour', 23).set('minute', 59).set('second', 0);
 
-export const parseDayjsToJSON = (date: Dayjs): string => JSON.parse(JSON.stringify(date));
-
-export const getFreeTimes = (date: Dayjs) => {
+export const getAvailableTimes = (date: Dayjs) => {
   const resultArr = [];
   const maxTime = dayjs(date.set('hour', 23).set('minutes', 30).set('second', 0));
   let minTime;

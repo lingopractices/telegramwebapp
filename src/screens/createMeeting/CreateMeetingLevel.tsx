@@ -27,7 +27,7 @@ const CreateMeetingLevel: React.FC = () => {
   );
 
   useEffect(() => {
-    if (!meetingData.languageLevel && currentLevel) {
+    if (!meetingData?.languageLevel && currentLevel) {
       handleChangeLevel(currentLevel);
     }
   }, [meetingData?.languageLevel, currentLevel, handleChangeLevel]);
@@ -59,7 +59,7 @@ const CreateMeetingLevel: React.FC = () => {
   return (
     <LevelList
       onChangeLevel={handleChangeLevel}
-      dafaultLevelId={meetingData?.languageLevel || currentLevel}
+      defaultLevelId={meetingData?.languageLevel || currentLevel}
     />
   );
 };

@@ -8,14 +8,14 @@ import { differenceBy, intersectionWith } from 'lodash';
 import styles from './LanguageList.module.scss';
 
 interface ILanguageList {
-  dafaultLanguageId?: string;
+  defaultLanguageId?: string;
   popularLanguagesIds?: string[];
   languages: ILanguage[];
   onChangeLanguage: (languageId: string) => void;
 }
 
 const LanguageList: React.FC<ILanguageList> = ({
-  dafaultLanguageId,
+  defaultLanguageId,
   popularLanguagesIds,
   languages,
   onChangeLanguage,
@@ -38,10 +38,10 @@ const LanguageList: React.FC<ILanguageList> = ({
   );
 
   useEffect(() => {
-    if (dafaultLanguageId) {
+    if (defaultLanguageId) {
       setSearchStringText('');
     }
-  }, [dafaultLanguageId, setSearchStringText]);
+  }, [defaultLanguageId, setSearchStringText]);
 
   useEffect(() => {
     setFilteredLanguages(
@@ -59,11 +59,11 @@ const LanguageList: React.FC<ILanguageList> = ({
         radioGroupName='languages'
         label={language.name}
         onChange={handleChangeLanguage}
-        isSelected={language.id === dafaultLanguageId}
+        isSelected={language.id === defaultLanguageId}
         containerClass={styles.paddingContainer}
       />
     ),
-    [dafaultLanguageId, handleChangeLanguage],
+    [defaultLanguageId, handleChangeLanguage],
   );
 
   const renderedLanguages = useMemo(() => {

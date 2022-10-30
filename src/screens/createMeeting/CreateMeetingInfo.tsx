@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import ResultInfo from '@components/ResultInfo/ResultInfo';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { createMeetingAction } from '@store/meetings/actions';
-import { getCreateMeetingPendingSelector } from '@store/meetings/selectors';
 import { getProfileDataSelector } from '@store/profile/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
@@ -16,7 +15,6 @@ const CreateMeetingInfo: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
-  const pendingCreateMeeting = useSelector(getCreateMeetingPendingSelector);
   const user = useSelector(getProfileDataSelector);
   const createMeeting = useActionWithDeferred(createMeetingAction);
 
@@ -34,25 +32,40 @@ const CreateMeetingInfo: React.FC = () => {
   const handleSubmit = useCallback(() => {
     if (
       user &&
-      meetingData.languageId &&
-      meetingData.languageLevel &&
-      meetingData.topicId &&
-      meetingData.peopleNumber
+      meetingData?.languageId &&
+      meetingData?.languageLevel &&
+      meetingData?.topicId &&
+      meetingData?.peopleNumber &&
+      meetingData?.meetingAt
     ) {
+      setLoadingMainButton(true);
       createMeeting({
         userCreatorId: user.id,
-        languageId: meetingData.languageId, // meetingData.languageId
-        languageLevel: meetingData.languageLevel, // meetingData.languageLevel
-        meetingAt: JSON.parse(JSON.stringify(meetingData.meetingAt)),
+        languageId: meetingData.languageId,
+        languageLevel: meetingData.languageLevel,
+        meetingAt: meetingData.meetingAt.toJSON(),
         topicId: meetingData.topicId,
         peopleNumber: meetingData.peopleNumber,
       })
         .then(() => {
+          setLoadingMainButton(false);
           handleForward();
         })
-        .catch((e) => {});
+        .catch((e) => {
+          setLoadingMainButton(false);
+        });
     }
-  }, [meetingData, user, createMeeting, handleForward]);
+  }, [
+    user,
+    meetingData?.languageLevel,
+    meetingData?.peopleNumber,
+    meetingData?.languageId,
+    meetingData?.meetingAt,
+    meetingData?.topicId,
+    createMeeting,
+    handleForward,
+    setLoadingMainButton,
+  ]);
 
   useEffect(() => {
     setMainButtonOnClick(handleSubmit);
@@ -61,10 +74,6 @@ const CreateMeetingInfo: React.FC = () => {
   useEffect(() => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
-
-  useEffect(() => {
-    setLoadingMainButton(pendingCreateMeeting);
-  }, [pendingCreateMeeting, setLoadingMainButton]);
 
   return <ResultInfo meetingData={meetingData} />;
 };

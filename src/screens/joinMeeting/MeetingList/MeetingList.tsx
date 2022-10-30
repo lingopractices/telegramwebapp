@@ -28,15 +28,15 @@ const MeetingList: React.FC = () => {
   useTgMainButton(false, false);
 
   const loadMore = useCallback(() => {
-    if (meetingData.from && meetingData.languageId && meetingData.languageLevel) {
+    if (meetingData?.from && meetingData?.languageId && meetingData?.languageLevel) {
       getMeetings({
         languageId: meetingData.languageId,
         languageLevel: meetingData.languageLevel,
-        from: meetingData?.from,
+        from: meetingData.from,
         to: getMaxTimeOfDay(meetingData.from),
       });
     }
-  }, [meetingData, getMeetings]);
+  }, [meetingData?.from, meetingData?.languageId, meetingData?.languageLevel, getMeetings]);
 
   const handleBack = useCallback(() => {
     navigate(JOIN_DATE_PATH, { state: { meetingData } });

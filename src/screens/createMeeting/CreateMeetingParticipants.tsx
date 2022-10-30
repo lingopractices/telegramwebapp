@@ -26,7 +26,7 @@ const CreateMeetingParticipants: React.FC = () => {
   );
 
   useEffect(() => {
-    if (meetingData.peopleNumber) {
+    if (meetingData?.peopleNumber) {
       handleChangeParticipiants(meetingData.peopleNumber);
     }
   }, [meetingData?.peopleNumber, handleChangeParticipiants]);

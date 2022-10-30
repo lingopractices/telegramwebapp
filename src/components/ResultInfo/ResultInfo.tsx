@@ -84,11 +84,7 @@ const ResultInfo: React.FC<IResultInfo> = ({ meetingData }) => {
           value={`${meetingData?.languageLevel && levelLabelsMap[meetingData.languageLevel]}`}
           onClick={openLevels}
         />
-        <InfoItem
-          title='TOPIC'
-          value={`${chosenTopic ? chosenTopic.name : ''}`}
-          onClick={openTopics}
-        />
+        <InfoItem title='TOPIC' value={`${chosenTopic && chosenTopic.name}`} onClick={openTopics} />
         <InfoItem
           title='PARTICIPIANTS NUMBER'
           value={`${meetingData?.peopleNumber}`}
