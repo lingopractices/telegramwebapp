@@ -49,8 +49,6 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
       }
       const triggerEntry = entries.find(({ isIntersecting }) => isIntersecting);
 
-      console.log(triggerEntry);
-
       if (!triggerEntry) {
         return;
       }
