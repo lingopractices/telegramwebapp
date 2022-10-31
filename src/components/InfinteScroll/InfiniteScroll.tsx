@@ -16,7 +16,7 @@ type InfiniteScrollProps = {
   debounceTime?: number;
 };
 
-const TRIGGER_MARGIN = 0;
+const TRIGGER_MARGIN = 1;
 
 const LOAD_MORE_DEBOUNCE = 100;
 

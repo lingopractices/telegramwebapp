@@ -7,7 +7,6 @@ import { ReactComponent as RightIcon } from '@assets/icons/right-arrow.svg';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
-// import { getMinTimeOfDay } from '@utils/dateUtils';
 import { DAY_MONTH_YAER, MONTH_YAER } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
 
@@ -26,16 +25,11 @@ const DatePicker: React.FC<IDatePicker> = ({
   onChangeDate,
   onChangeMonth,
 }) => {
-  const [isFirstMonth, setIsFirstMonth] = useState(true);
-  const [date, setDate] = useState(defaultDate || null);
-
-  useEffect(() => {
-    onChangeDate(date);
-  }, [date, onChangeDate]);
+  const [isFirstMonth, setIsFirstMonth] = useState<boolean>();
 
   const changeViewMonth = useCallback(
     (viewDate: Dayjs) => {
-      if (viewDate.format(MONTH_YAER) === dayjs().format(MONTH_YAER)) {
+      if (dayjs(viewDate).format(MONTH_YAER) === dayjs().format(MONTH_YAER)) {
         setIsFirstMonth(true);
       } else {
         setIsFirstMonth(false);
@@ -45,6 +39,12 @@ const DatePicker: React.FC<IDatePicker> = ({
     },
     [setIsFirstMonth, onChangeMonth],
   );
+
+  useEffect(() => {
+    if (defaultDate) {
+      changeViewMonth(defaultDate);
+    }
+  }, [defaultDate, changeViewMonth]);
 
   const checkDisabledDays = useCallback(
     (nextDate: Dayjs) => {
@@ -71,8 +71,8 @@ const DatePicker: React.FC<IDatePicker> = ({
           displayStaticWrapperAs='desktop'
           openTo='day'
           onMonthChange={changeViewMonth}
-          value={date}
-          onChange={setDate}
+          value={defaultDate}
+          onChange={onChangeDate}
           renderInput={(params) => <input />}
           minDate={dayjs()}
           shouldDisableDate={availableDays && checkDisabledDays}

@@ -3,8 +3,6 @@ import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import QuestionItem from '@components/QuestionItem/QuestionItem';
 import SearchBox from '@components/SearchBox/SearchBox';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { getTopicsAction } from '@store/topics/actions';
 import { getTopicsHasMoreSelector, getTopicsSelector } from '@store/topics/selectors';
 import { ITopic } from 'lingopractices-models';
 import { useSelector } from 'react-redux';
@@ -15,13 +13,17 @@ import styles from './TopicList.module.scss';
 
 interface ITopicList {
   defaultTopicId?: number;
+  loadMoreTopics: () => void;
   onChangeTopic: (topicId: number) => void;
 }
 
-export const TopicList: React.FC<ITopicList> = ({ defaultTopicId, onChangeTopic }) => {
+export const TopicList: React.FC<ITopicList> = ({
+  defaultTopicId,
+  onChangeTopic,
+  loadMoreTopics,
+}) => {
   const topics = useSelector(getTopicsSelector);
   const hasMore = useSelector(getTopicsHasMoreSelector);
-  const getTopics = useActionWithDispatch(getTopicsAction);
   const [filteredTopics, setFilteredTopics] = useState(topics);
   const [currentTopicId, setCurrentTopicId] = useState(defaultTopicId || -1);
   const [searchStringText, setSearchStringText] = useState('');
@@ -81,10 +83,6 @@ export const TopicList: React.FC<ITopicList> = ({ defaultTopicId, onChangeTopic 
     [filteredTopics, renderTopics],
   );
 
-  const loadMore = useCallback(() => {
-    getTopics();
-  }, [getTopics]);
-
   return (
     <div className={styles.container}>
       <h2>{'choose meeting topic'.toUpperCase()}</h2>
@@ -94,7 +92,7 @@ export const TopicList: React.FC<ITopicList> = ({ defaultTopicId, onChangeTopic 
         containerClassname={styles.search}
       />
       <div className={styles.wrapperList} ref={infiniteRef}>
-        <InfiniteScroll onReachBottom={loadMore} containerRef={infiniteRef} hasMore={hasMore}>
+        <InfiniteScroll onReachBottom={loadMoreTopics} containerRef={infiniteRef} hasMore={hasMore}>
           {renderedTopics}
         </InfiniteScroll>
       </div>

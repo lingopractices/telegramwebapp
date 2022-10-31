@@ -47,7 +47,7 @@ const CreateMeetingTime: React.FC = () => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  return <Time defaultMeetingTime={meetingData?.meetingAt} onChangeTime={handleChangeTime} />;
+  return <Time defaultTime={meetingData?.meetingAt} onChangeTime={handleChangeTime} />;
 };
 
 export default CreateMeetingTime;

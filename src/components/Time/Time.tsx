@@ -8,19 +8,19 @@ import dayjs, { Dayjs } from 'dayjs';
 import styles from './Time.module.scss';
 
 interface ITime {
-  defaultMeetingTime?: Dayjs;
+  defaultTime?: Dayjs;
   onChangeTime: (time: Dayjs) => void;
 }
 
-const Time: React.FC<ITime> = ({ defaultMeetingTime, onChangeTime }) => {
-  const [time, setTime] = useState(defaultMeetingTime);
+const Time: React.FC<ITime> = ({ defaultTime, onChangeTime }) => {
+  const [time, setTime] = useState(defaultTime);
   const [times, setTimes] = useState<Dayjs[]>([]);
 
   useEffect(() => {
-    if (defaultMeetingTime) {
-      setTimes(getAvailableTimes(defaultMeetingTime));
+    if (defaultTime) {
+      setTimes(getAvailableTimes(defaultTime));
     }
-  }, [defaultMeetingTime, setTimes]);
+  }, [defaultTime, setTimes]);
 
   const handleChangeTime = useCallback(
     (id: number | string) => {

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import LanguageList from '@components/LanguageList/LanguageList';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getLanguagesAction } from '@store/languages/actions';
 import { languagesSelector } from '@store/languages/selectors';
@@ -22,7 +23,7 @@ const CreateMeetingLanguage: React.FC = () => {
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
   const languages = useSelector(languagesSelector);
   const topics = useSelector(getTopicsSelector);
-  const getTopics = useActionWithDispatch(getTopicsAction);
+  const getTopics = useActionWithDeferred(getTopicsAction);
   const getLanguages = useActionWithDispatch(getLanguagesAction);
 
   const { setBackButtonOnClick } = useTgBackButton(true);

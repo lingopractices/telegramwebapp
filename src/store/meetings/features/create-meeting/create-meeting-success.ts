@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { IMeetingsState } from '@store/meetings/types';
+import { sortGrowingDates } from '@utils/dateUtils';
 import { IMeeting } from 'lingopractices-models';
 
 export class CreateMeetingSuccess {
@@ -9,7 +10,7 @@ export class CreateMeetingSuccess {
 
   static get reducer() {
     return (draft: IMeetingsState, { payload }: ReturnType<typeof CreateMeetingSuccess.action>) => {
-      draft.myMeetings.meetingList = [...draft.myMeetings.meetingList, payload];
+      draft.myMeetings.meetingList = sortGrowingDates([...draft.myMeetings.meetingList, payload]);
 
       return draft;
     };

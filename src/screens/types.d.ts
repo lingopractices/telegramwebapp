@@ -5,7 +5,7 @@ export type JoinMeetingType = {
   userId?: number;
   languageId?: string;
   languageLevel?: LanguageLevel;
-  from?: Dayjs;
+  from?: Dayjs | null;
 };
 
 export type CreateMeetingType = {

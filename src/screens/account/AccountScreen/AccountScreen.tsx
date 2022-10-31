@@ -50,7 +50,7 @@ const AccountScreen: React.FC = () => {
       <div className={styles.warpper}>
         <InfoItem
           title='PRACTICE LANGUAGE'
-          value={user?.practiceLanguage.name}
+          value={user?.practiceLanguage && user.practiceLanguage.name}
           onClick={openPracticeLanguages}
         />
         <InfoItem
@@ -58,10 +58,14 @@ const AccountScreen: React.FC = () => {
           value={user?.languageLevel && levelLabelsMap[user.languageLevel]}
           onClick={openLevels}
         />
-        <InfoItem title='LOCATION' value={user?.countryName} onClick={() => {}} />
+        <InfoItem
+          title='LOCATION'
+          value={user?.countryName && user?.countryName}
+          onClick={() => {}}
+        />
         <InfoItem
           title='INTERFACE LANGUAGE'
-          value={user?.interfaceLanguage.name}
+          value={user?.interfaceLanguage && user.interfaceLanguage.name}
           onClick={openInterfaceLanguages}
         />
         <InfoItem
