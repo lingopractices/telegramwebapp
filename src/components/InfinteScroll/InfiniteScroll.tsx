@@ -16,7 +16,7 @@ type InfiniteScrollProps = {
   debounceTime?: number;
 };
 
-const TRIGGER_MARGIN = 0;
+const TRIGGER_MARGIN = 1;
 
 const LOAD_MORE_DEBOUNCE = 100;
 
@@ -48,6 +48,8 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
         return;
       }
       const triggerEntry = entries.find(({ isIntersecting }) => isIntersecting);
+
+      console.log(triggerEntry);
 
       if (!triggerEntry) {
         return;
