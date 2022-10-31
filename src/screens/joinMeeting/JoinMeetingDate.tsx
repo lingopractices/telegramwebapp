@@ -51,16 +51,12 @@ const JoinMeetingDate: React.FC = () => {
             clearMeetings();
           }
         }
+      } else {
+        setMeetingData((prev) => ({ ...prev, from: value }));
       }
     },
     [meetingData?.from, setMeetingData, clearMeetings],
   );
-
-  useEffect(() => {
-    if (meetingData?.from) {
-      handleChangeDate(meetingData.from);
-    }
-  }, [meetingData?.from, handleChangeDate]);
 
   useEffect(() => {
     if (meetingData?.from) {
@@ -138,7 +134,7 @@ const JoinMeetingDate: React.FC = () => {
   return (
     <DatePicker
       onChangeMonth={loadDays}
-      defaultDate={meetingData?.from || dayjs()}
+      defaultDate={meetingData?.from}
       availableDays={meetingsDays}
       onChangeDate={handleChangeDate}
     />

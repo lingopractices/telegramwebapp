@@ -16,10 +16,11 @@ export const getAvailableTimes = (date: Dayjs) => {
   let minTime;
 
   if (date.isToday()) {
-    minTime = date
+    const now = dayjs();
+    minTime = now
       .set('second', 0)
-      .set('minutes', date.minute() < 30 ? 30 : 0)
-      .set('hours', date.minute() > 30 ? dayjs().hour() + 1 : dayjs().hour());
+      .set('minutes', now.minute() < 30 ? 30 : 0)
+      .set('hours', now.minute() > 30 ? now.hour() + 1 : now.hour());
   } else {
     minTime = date.set('minutes', 0).set('second', 0).set('hours', 0);
   }
