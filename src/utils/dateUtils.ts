@@ -17,7 +17,6 @@ export const getAvailableTimesTest = (date: Dayjs) => {
   const availableTimes = [];
   const maxTime = getMaxTimeOfDay(date as Dayjs);
   let minTime;
-  const now = dayjs();
 
   if (date.isToday()) {
     const now = dayjs();
