@@ -12,7 +12,8 @@ export type CreateMeetingType = {
   userCreatorId?: number;
   languageId?: string;
   languageLevel?: LanguageLevel;
-  meetingAt?: Dayjs;
+  meetingDate: Dayjs | null;
+  meetingTime: Dayjs;
   topicId?: number;
   peopleNumber?: number;
 };

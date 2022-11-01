@@ -17,19 +17,19 @@ const CreateMeetingTime: React.FC = () => {
   const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(true, false);
 
   const handleChangeTime = useCallback(
-    (meetingAt: Dayjs) => {
-      setMeetingData((prev) => ({ ...prev, meetingAt }));
+    (value: Dayjs) => {
+      setMeetingData((prev) => ({ ...prev, meetingTime: value }));
     },
     [setMeetingData],
   );
 
   useEffect(() => {
-    if (meetingData?.meetingAt) {
+    if (meetingData?.meetingTime) {
       setMainButtonParams({ text: 'SUBMIT', is_active: true });
     } else {
       setMainButtonParams({ text: 'CHOOSE A TIME', is_active: false });
     }
-  }, [meetingData?.meetingAt, setMainButtonParams]);
+  }, [meetingData?.meetingTime, setMainButtonParams]);
 
   const handleBack = useCallback(() => {
     navigate(CREATE_DATE_PATH, { state: { meetingData } });
@@ -47,7 +47,13 @@ const CreateMeetingTime: React.FC = () => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  return <Time defaultTime={meetingData?.meetingAt} onChangeTime={handleChangeTime} />;
+  return (
+    <Time
+      defaultDate={meetingData?.meetingDate}
+      defaultTime={meetingData?.meetingTime}
+      onChangeTime={handleChangeTime}
+    />
+  );
 };
 
 export default CreateMeetingTime;

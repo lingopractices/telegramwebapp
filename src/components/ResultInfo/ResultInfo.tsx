@@ -92,12 +92,12 @@ const ResultInfo: React.FC<IResultInfo> = ({ meetingData }) => {
         />
         <InfoItem
           title='DATE'
-          value={dayjs(meetingData?.meetingAt).format(DAY_MONTH_YAER)}
+          value={dayjs(meetingData?.meetingDate).format(DAY_MONTH_YAER)}
           onClick={openDate}
         />
         <InfoItem
           title='TIME'
-          value={dayjs(meetingData?.meetingAt).format(HOUR_MINUTE)}
+          value={dayjs(meetingData?.meetingTime).format(HOUR_MINUTE)}
           onClick={openTime}
         />
       </div>
