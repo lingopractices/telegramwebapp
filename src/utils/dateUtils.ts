@@ -13,7 +13,7 @@ export const mergeDateAndTime = (date: Dayjs, time: Dayjs) =>
 export const sortGrowingDates = (dates: IMeeting[]) =>
   dates.sort((a, b) => dayjs(a.meetingDate).unix() - dayjs(b.meetingDate).unix());
 
-export const getAvailableTimesTest = (date: Dayjs) => {
+export const getAvailableTimes = (date: Dayjs) => {
   const availableTimes = [];
   const maxTime = getMaxTimeOfDay(date as Dayjs);
   let minTime;

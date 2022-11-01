@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import RadioItem from '@components/RadioItem/RadioItem';
-import { getAvailableTimesTest } from '@utils/dateUtils';
+import { getAvailableTimes } from '@utils/dateUtils';
 import { HOUR_MINUTE } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
 
@@ -18,7 +18,7 @@ const Time: React.FC<ITime> = ({ defaultTime, defaultDate, onChangeTime }) => {
 
   useEffect(() => {
     if (defaultDate) {
-      setTimes(getAvailableTimesTest(dayjs(defaultDate)));
+      setTimes(getAvailableTimes(dayjs(defaultDate)));
     }
   }, [defaultDate, setTimes]);
 
