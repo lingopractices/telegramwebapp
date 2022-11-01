@@ -1,0 +1,22 @@
+.container {
+  position: relative;
+}
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.outer {
+  animation: loading 1s infinite ease-in-out;
+}
+
+.inner {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+}
