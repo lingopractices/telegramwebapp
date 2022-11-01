@@ -4,6 +4,7 @@ import ResultInfo from '@components/ResultInfo/ResultInfo';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { createMeetingAction } from '@store/meetings/actions';
 import { getProfileDataSelector } from '@store/profile/selectors';
+import { mergeDateAndTime } from '@utils/dateUtils';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { useSelector } from 'react-redux';
@@ -36,14 +37,15 @@ const CreateMeetingInfo: React.FC = () => {
       meetingData?.languageLevel &&
       meetingData?.topicId &&
       meetingData?.peopleNumber &&
-      meetingData?.meetingAt
+      meetingData?.meetingDate &&
+      meetingData?.meetingTime
     ) {
       setLoadingMainButton(true);
       createMeeting({
         userCreatorId: user.id,
         languageId: meetingData.languageId,
         languageLevel: meetingData.languageLevel,
-        meetingAt: meetingData.meetingAt.toJSON(),
+        meetingAt: mergeDateAndTime(meetingData.meetingDate, meetingData.meetingTime).toJSON(),
         topicId: meetingData.topicId,
         peopleNumber: meetingData.peopleNumber,
       })
@@ -60,7 +62,8 @@ const CreateMeetingInfo: React.FC = () => {
     meetingData?.languageLevel,
     meetingData?.peopleNumber,
     meetingData?.languageId,
-    meetingData?.meetingAt,
+    meetingData?.meetingDate,
+    meetingData?.meetingTime,
     meetingData?.topicId,
     createMeeting,
     handleForward,

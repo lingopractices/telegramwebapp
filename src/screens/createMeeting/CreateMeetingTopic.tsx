@@ -22,7 +22,7 @@ const CreateMeetingTopic: React.FC = () => {
 
   const handleChangeLevel = useCallback(
     (topicId: number) => {
-      if (topicId > -1) {
+      if (topicId) {
         setMeetingData((prev) => ({ ...prev, topicId }));
       }
     },

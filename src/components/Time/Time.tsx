@@ -9,26 +9,24 @@ import styles from './Time.module.scss';
 
 interface ITime {
   defaultTime?: Dayjs;
+  defaultDate?: Dayjs | null;
   onChangeTime: (time: Dayjs) => void;
 }
 
-const Time: React.FC<ITime> = ({ defaultTime, onChangeTime }) => {
-  const [time, setTime] = useState(defaultTime);
+const Time: React.FC<ITime> = ({ defaultTime, defaultDate, onChangeTime }) => {
   const [times, setTimes] = useState<Dayjs[]>([]);
 
   useEffect(() => {
-    if (defaultTime) {
-      setTimes(getAvailableTimes(defaultTime));
+    if (defaultDate) {
+      setTimes(getAvailableTimes(dayjs(defaultDate)));
     }
-  }, [defaultTime, setTimes]);
+  }, [defaultDate, setTimes]);
 
   const handleChangeTime = useCallback(
     (id: number | string) => {
-      const currentTime = dayjs.unix(Number(id));
-      setTime(currentTime);
-      onChangeTime(currentTime);
+      onChangeTime(dayjs.unix(Number(id)));
     },
-    [setTime, onChangeTime],
+    [onChangeTime],
   );
 
   return (
@@ -41,7 +39,7 @@ const Time: React.FC<ITime> = ({ defaultTime, onChangeTime }) => {
             key={item.unix()}
             label={item.format(HOUR_MINUTE)}
             radioGroupName='time'
-            isSelected={time?.unix() === item.unix()}
+            isSelected={dayjs(defaultTime).unix() === item.unix()}
             onChange={handleChangeTime}
             containerClass={styles.itemContainer}
           />

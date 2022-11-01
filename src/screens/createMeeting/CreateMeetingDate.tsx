@@ -19,19 +19,27 @@ const CreateMeetingDate: React.FC = () => {
   const handleChangeDate = useCallback(
     (value: Dayjs | null) => {
       if (value) {
-        setMeetingData((prev) => ({ ...prev, meetingAt: value }));
+        setMeetingData((prev) => ({ ...prev, meetingDate: value }));
       }
     },
     [setMeetingData],
   );
 
   useEffect(() => {
-    if (meetingData?.meetingAt) {
+    if (meetingData?.meetingDate) {
+      handleChangeDate(meetingData?.meetingDate);
+    } else {
+      handleChangeDate(dayjs());
+    }
+  }, [meetingData?.meetingDate, handleChangeDate]);
+
+  useEffect(() => {
+    if (meetingData?.meetingDate) {
       setMainButtonParams({ text: 'SUBMIT', is_active: true });
     } else {
       setMainButtonParams({ text: 'CHOOSE A DATE', is_active: false });
     }
-  }, [meetingData?.meetingAt, setMainButtonParams]);
+  }, [meetingData?.meetingDate, setMainButtonParams]);
 
   const handleBack = useCallback(() => {
     navigate(CREATE_PARTICIPANTS_PATH, { state: { meetingData } });
@@ -49,9 +57,7 @@ const CreateMeetingDate: React.FC = () => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  return (
-    <DatePicker defaultDate={meetingData?.meetingAt || dayjs()} onChangeDate={handleChangeDate} />
-  );
+  return <DatePicker defaultDate={meetingData?.meetingDate} onChangeDate={handleChangeDate} />;
 };
 
 export default CreateMeetingDate;
