@@ -103,7 +103,13 @@ const LanguageList: React.FC<ILanguageList> = ({
 
   return (
     <div className={styles.container}>
-      <h2>{t('language.chooseLanguage').toUpperCase()}</h2>
+      <h2>
+        {t(
+          popularLanguagesIds?.length
+            ? 'language.choosePracticeLang'
+            : 'language.chooseInterfaceLang',
+        ).toUpperCase()}
+      </h2>
       {renderedLanguages}
     </div>
   );

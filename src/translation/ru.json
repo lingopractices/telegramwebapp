@@ -16,7 +16,8 @@
   },
 
   "language": {
-    "chooseLanguage": "выберите язык практики",
+    "choosePracticeLang": "выберите язык практики",
+    "chooseInterfaceLang": "выберите язык интрефейса",
     "popular": "Популярные",
     "other": "Остальные",
     "choose": "выберите язык"

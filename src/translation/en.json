@@ -16,7 +16,8 @@
   },
 
   "language": {
-    "chooseLanguage": "choose meeting language",
+    "choosePracticeLang": "choose meeting language",
+    "chooseInterfaceLang": "choose interface language",
     "popular": "Popular",
     "other": "Other",
     "choose": "choose a language"
