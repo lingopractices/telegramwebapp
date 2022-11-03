@@ -9,6 +9,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { DAY_MONTH_YAER, MONTH_YAER } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
+import { useTranslation } from 'react-i18next';
 
 import styles from './DatePicker.module.scss';
 
@@ -26,6 +27,7 @@ const DatePicker: React.FC<IDatePicker> = ({
   onChangeMonth,
 }) => {
   const [isFirstMonth, setIsFirstMonth] = useState(true);
+  const { t } = useTranslation();
 
   const changeViewMonth = useCallback(
     (viewDate: Dayjs) => {
@@ -64,7 +66,7 @@ const DatePicker: React.FC<IDatePicker> = ({
 
   return (
     <div className={styles.container}>
-      <h2>{'choose meeting date'.toUpperCase()}</h2>
+      <h2>{t('date.chooseDate').toUpperCase()}</h2>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <StaticDatePicker
           className={styles.picker}

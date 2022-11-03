@@ -9,6 +9,7 @@ import { getMyMeetingHasMoreSelector, getMyMeetingsSelector } from '@store/meeti
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { IMeeting } from 'lingopractices-models';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -25,6 +26,7 @@ const MainScreen: React.FC = () => {
   const infiniteContainer = useRef<HTMLDivElement>(null);
   const hasMore = useSelector(getMyMeetingHasMoreSelector);
   const getMeetings = useActionWithDispatch(getMyMeetingsAction);
+  const { t } = useTranslation();
 
   useTgBackButton(false);
   useTgMainButton(false, false);
@@ -40,10 +42,10 @@ const MainScreen: React.FC = () => {
         key={meeting.id}
         date={meeting.meetingDate}
         mainRoute={MEETING_PATH}
-        defaultText='Meeting'
+        defaultText={t('meetings.meetingTitles.meeting')}
       />
     ),
-    [],
+    [t],
   );
 
   const renderedMeetings = useMemo(
@@ -59,10 +61,10 @@ const MainScreen: React.FC = () => {
       <LingoLogo className={styles.logo} />
       <div className={styles.buttonWrapper}>
         <Link to={CREATE_LANGUAGES_PATH} className={styles.button}>
-          create meeting
+          {t('mainScreen.create')}
         </Link>
         <Link to={JOIN_LANGUAGES_PATH} className={styles.button}>
-          joing meeting
+          {t('mainScreen.join')}
         </Link>
       </div>
       <div ref={infiniteContainer} className={styles.myMeetingsWrapper}>
@@ -75,7 +77,7 @@ const MainScreen: React.FC = () => {
             {renderedMeetings}
           </InfiniteScroll>
         ) : (
-          <div>theres is no any meetings</div>
+          <div>{t('meetings.noMeetings')}</div>
         )}
       </div>
     </div>

@@ -8,6 +8,7 @@ import { getMeetingHasMoreSelector, getMeetingsSelector } from '@store/meetings/
 import { getMaxTimeOfDay } from '@utils/dateUtils';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { JOIN_DATE_PATH, JOIN_MEETING_PATH } from 'routing/routing.constants';
@@ -23,6 +24,7 @@ const MeetingList: React.FC = () => {
   const meetingsRef = useRef<HTMLDivElement>(null);
   const hasMore = useSelector(getMeetingHasMoreSelector);
   const getMeetings = useActionWithDeferred(getMeetingsAction);
+  const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
   useTgMainButton(false, false);
@@ -48,7 +50,7 @@ const MeetingList: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h2>{'meetings'.toUpperCase()}</h2>
+      <h2>{t('meetings.meetings').toUpperCase()}</h2>
       <div className={styles.meetingsWrapper} ref={meetingsRef}>
         <InfiniteScroll onReachBottom={loadMore} containerRef={meetingsRef} hasMore={hasMore}>
           {meetings.map((meeting) => (

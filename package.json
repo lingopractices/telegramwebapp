@@ -11,9 +11,12 @@
     "axios": "0.27.2",
     "classnames": "2.3.2",
     "dayjs": "^1.11.5",
+    "i18next": "^22.0.4",
+    "i18next-http-backend": "^2.0.1",
     "lodash": "^4.17.21",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-i18next": "^12.0.0",
     "react-redux": "8.0.1",
     "react-router-dom": "6.4.0",
     "redux-saga": "1.2.1"

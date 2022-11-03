@@ -5,6 +5,7 @@ import QuestionItem from '@components/QuestionItem/QuestionItem';
 import SearchBox from '@components/SearchBox/SearchBox';
 import { getTopicsHasMoreSelector, getTopicsSelector } from '@store/topics/selectors';
 import { ITopic } from 'lingopractices-models';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import TopicItem from './TopicItem/TopicItem';
@@ -28,6 +29,7 @@ export const TopicList: React.FC<ITopicList> = ({
   const [currentTopicId, setCurrentTopicId] = useState(defaultTopicId || -1);
   const [searchStringText, setSearchStringText] = useState('');
   const infiniteRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     onChangeTopic(currentTopicId);
@@ -85,7 +87,7 @@ export const TopicList: React.FC<ITopicList> = ({
 
   return (
     <div className={styles.container}>
-      <h2>{'choose meeting topic'.toUpperCase()}</h2>
+      <h2>{t('topic.chooseTopic').toUpperCase()}</h2>
       <SearchBox
         value={searchStringText}
         onChange={handleChangeSearchString}

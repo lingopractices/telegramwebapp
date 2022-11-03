@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react';
 
 import 'base.scss';
 import './dayjs/day';
+import './localization/i18n';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getMyMeetingsAction } from '@store/meetings/actions';
 import { getProfileAction } from '@store/profile/actions';

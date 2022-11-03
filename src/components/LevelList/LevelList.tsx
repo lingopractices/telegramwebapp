@@ -3,6 +3,7 @@ import React, { useCallback, useMemo } from 'react';
 import RadioItem from '@components/RadioItem/RadioItem';
 import { allLevels } from 'common/constants';
 import { LanguageLevel } from 'lingopractices-models';
+import { useTranslation } from 'react-i18next';
 
 import styles from './LevelList.module.scss';
 
@@ -12,6 +13,7 @@ interface ILevelList {
 }
 
 const LevelList: React.FC<ILevelList> = ({ defaultLevelId, onChangeLevel }) => {
+  const { t } = useTranslation();
   const levels = useMemo(() => [...allLevels], []);
 
   const handleChange = useCallback(
@@ -23,14 +25,14 @@ const LevelList: React.FC<ILevelList> = ({ defaultLevelId, onChangeLevel }) => {
 
   return (
     <div className={styles.container}>
-      <h2>{'choose meeting language level'.toUpperCase()}</h2>
+      <h2>{t('level.chooseLevel').toUpperCase()}</h2>
       <div className={styles.wrapper}>
         {levels.map((level) => (
           <RadioItem
             id={level.id}
             key={level.id}
             radioGroupName='languages'
-            label={level.name}
+            label={t(`levels.${level.id}`)}
             onChange={handleChange}
             isSelected={level.id === defaultLevelId}
             containerClass={styles.paddingContainer}

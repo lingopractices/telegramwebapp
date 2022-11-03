@@ -4,6 +4,7 @@ import RadioItem from '@components/RadioItem/RadioItem';
 import { getAvailableTimes } from '@utils/dateUtils';
 import { HOUR_MINUTE } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
+import { useTranslation } from 'react-i18next';
 
 import styles from './Time.module.scss';
 
@@ -15,6 +16,7 @@ interface ITime {
 
 const Time: React.FC<ITime> = ({ defaultTime, defaultDate, onChangeTime }) => {
   const [times, setTimes] = useState<Dayjs[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (defaultDate) {
@@ -31,7 +33,7 @@ const Time: React.FC<ITime> = ({ defaultTime, defaultDate, onChangeTime }) => {
 
   return (
     <div className={styles.container}>
-      <h2>{'choose meeting time'.toUpperCase()}</h2>
+      <h2>{t('time.chooseTime').toUpperCase()}</h2>
       <div className={styles.wrapper}>
         {times.map((item) => (
           <RadioItem

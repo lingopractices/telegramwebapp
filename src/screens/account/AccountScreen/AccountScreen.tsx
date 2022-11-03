@@ -2,9 +2,9 @@ import React, { useCallback, useEffect } from 'react';
 
 import InfoItem from '@components/InfoItem/InfoItem';
 import { getProfileDataSelector } from '@store/profile/selectors';
-import { genderLabelsMap, levelLabelsMap } from '@utils/enumLabelsMap';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -20,6 +20,7 @@ const AccountScreen: React.FC = () => {
   const user = useSelector(getProfileDataSelector);
 
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
   useTgMainButton(false, false);
@@ -46,31 +47,31 @@ const AccountScreen: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h2>{'my account'.toUpperCase()}</h2>
+      <h2>{t('account.myAccount').toUpperCase()}</h2>
       <div className={styles.warpper}>
         <InfoItem
-          title='PRACTICE LANGUAGE'
+          title={t('account.info.practiceLang').toLocaleUpperCase()}
           value={user?.practiceLanguage && user.practiceLanguage.name}
           onClick={openPracticeLanguages}
         />
         <InfoItem
-          title='LEVEL'
-          value={user?.languageLevel && levelLabelsMap[user.languageLevel]}
+          title={t('account.info.level').toLocaleUpperCase()}
+          value={user?.languageLevel && t(`levels.${user.languageLevel}`)}
           onClick={openLevels}
         />
         <InfoItem
-          title='LOCATION'
+          title={t('account.info.location').toLocaleUpperCase()}
           value={user?.countryName && user?.countryName}
           onClick={() => {}}
         />
         <InfoItem
-          title='INTERFACE LANGUAGE'
+          title={t('account.info.interfaceLang').toLocaleUpperCase()}
           value={user?.interfaceLanguage && user.interfaceLanguage.name}
           onClick={openInterfaceLanguages}
         />
         <InfoItem
-          title='GENDER'
-          value={user?.gender && genderLabelsMap[user.gender]}
+          title={t('account.info.gender').toLocaleUpperCase()}
+          value={user?.gender && t(`gender.${user.gender}`)}
           onClick={() => {}}
         />
       </div>

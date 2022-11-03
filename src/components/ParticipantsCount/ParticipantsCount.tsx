@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 
 import RadioItem from '@components/RadioItem/RadioItem';
 import { participantsCountIds } from 'common/constants';
+import { useTranslation } from 'react-i18next';
 
 import styles from './ParticipantsCount.module.scss';
 
@@ -15,6 +16,7 @@ const ParticipantsCount: React.FC<IParticipiantsCount> = ({
   onChangeParticipiants,
 }) => {
   const participiants = useMemo(() => [...participantsCountIds], []);
+  const { t } = useTranslation();
 
   const handleChangeParticipantsCount = useCallback(
     (id: number | string) => {
@@ -25,7 +27,7 @@ const ParticipantsCount: React.FC<IParticipiantsCount> = ({
 
   return (
     <div className={styles.container}>
-      <h2>{'choose meeting participants number'.toUpperCase()}</h2>
+      <h2>{t('participants.chooseParticipants').toUpperCase()}</h2>
       <div className={styles.countWrapper}>
         {participiants.map((count) => (
           <RadioItem

@@ -5,6 +5,7 @@ import { getLanguageLevelSelector } from '@store/profile/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { LanguageLevel } from 'lingopractices-models';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { JOIN_DATE_PATH, JOIN_LANGUAGES_PATH } from 'routing/routing.constants';
@@ -17,6 +18,7 @@ const JoinMeetingLevel: React.FC = () => {
   const currentLevel = useSelector(getLanguageLevelSelector);
   const { setBackButtonOnClick } = useTgBackButton(true);
   const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(true, false);
+  const { t } = useTranslation();
 
   const handleChangeLevel = useCallback(
     (languageLevel: LanguageLevel) => {
@@ -33,11 +35,11 @@ const JoinMeetingLevel: React.FC = () => {
 
   useEffect(() => {
     if (meetingData?.languageLevel) {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
+      setMainButtonParams({ text: t('button.submit').toUpperCase(), is_active: true });
     } else {
-      setMainButtonParams({ text: 'CHOOSE A LEVEL', is_active: false });
+      setMainButtonParams({ text: t('level.choose').toUpperCase(), is_active: false });
     }
-  }, [meetingData?.languageLevel, setMainButtonParams]);
+  }, [meetingData?.languageLevel, setMainButtonParams, t]);
 
   const handleBack = useCallback(() => {
     navigate(JOIN_LANGUAGES_PATH, { state: { meetingData } });

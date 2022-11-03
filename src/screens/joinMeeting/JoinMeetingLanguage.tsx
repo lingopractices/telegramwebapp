@@ -8,6 +8,7 @@ import { getPracticeLanguageSelector } from '@store/profile/selectors';
 import { popularLanguagesIds } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { INSTANT_MAIN_PATH, JOIN_LEVELS_PATH } from 'routing/routing.constants';
@@ -20,6 +21,7 @@ const JoinMeetingLanguage: React.FC = () => {
   const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
   const languages = useSelector(languagesSelector);
   const getLanguages = useActionWithDispatch(getLanguagesAction);
+  const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
   const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(true, false);
@@ -39,11 +41,11 @@ const JoinMeetingLanguage: React.FC = () => {
 
   useEffect(() => {
     if (meetingData?.languageId) {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
+      setMainButtonParams({ text: t('button.submit').toUpperCase(), is_active: true });
     } else {
-      setMainButtonParams({ text: 'CHOOSE A LANGUAGE', is_active: false });
+      setMainButtonParams({ text: t('language.choose').toUpperCase(), is_active: false });
     }
-  }, [meetingData?.languageId, setMainButtonParams]);
+  }, [meetingData?.languageId, setMainButtonParams, t]);
 
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
