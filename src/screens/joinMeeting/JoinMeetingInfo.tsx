@@ -8,6 +8,7 @@ import { getProfileDataSelector } from '@store/profile/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { IJoinMeetingResponse, JoinMeetingResult } from 'lingopractices-models';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { INSTANT_MAIN_PATH, JOIN_MEETINGS_PATH } from 'routing/routing.constants';
@@ -21,9 +22,10 @@ const JoinMeetingInfo: React.FC = () => {
   const user = useSelector(getProfileDataSelector);
   const meeting = useSelector(getMeetingByIdSelector(Number(meetingId)));
   const joinMeeting = useActionWithDeferred(joinMeetingAction);
+  const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick } = useTgMainButton(true, true, 'SUBMIT');
+  const { setMainButtonOnClick } = useTgMainButton(true, true, t('button.submit'.toUpperCase()));
 
   const handleBack = useCallback(() => {
     navigate(JOIN_MEETINGS_PATH, { state: { meetingData } });

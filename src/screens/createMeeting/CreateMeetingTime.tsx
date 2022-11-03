@@ -4,12 +4,14 @@ import Time from '@components/Time/Time';
 import { Dayjs } from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CREATE_DATE_PATH, CREATE_INFO } from 'routing/routing.constants';
 import { CreateMeetingType } from 'screens/types';
 
 const CreateMeetingTime: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const location = useLocation();
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
 
@@ -25,11 +27,11 @@ const CreateMeetingTime: React.FC = () => {
 
   useEffect(() => {
     if (meetingData?.meetingTime) {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
+      setMainButtonParams({ text: t('button.submit').toUpperCase(), is_active: true });
     } else {
-      setMainButtonParams({ text: 'CHOOSE A TIME', is_active: false });
+      setMainButtonParams({ text: t('time.choose').toUpperCase(), is_active: false });
     }
-  }, [meetingData?.meetingTime, setMainButtonParams]);
+  }, [meetingData?.meetingTime, setMainButtonParams, t]);
 
   const handleBack = useCallback(() => {
     navigate(CREATE_DATE_PATH, { state: { meetingData } });

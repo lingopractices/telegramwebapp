@@ -3,10 +3,10 @@ import React, { useCallback, useMemo } from 'react';
 import InfoItem from '@components/InfoItem/InfoItem';
 import { languagesSelector } from '@store/languages/selectors';
 import { getTopicsSelector } from '@store/topics/selectors';
-import { levelLabelsMap } from '@utils/enumLabelsMap';
 import { DAY_MONTH_YAER, HOUR_MINUTE } from 'common/constants';
 import dayjs from 'dayjs';
 import { ITopic } from 'lingopractices-models';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -27,6 +27,7 @@ interface IResultInfo {
 
 const ResultInfo: React.FC<IResultInfo> = ({ meetingData }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const languages = useSelector(languagesSelector);
   const topics = useSelector(getTopicsSelector);
@@ -72,31 +73,31 @@ const ResultInfo: React.FC<IResultInfo> = ({ meetingData }) => {
 
   return (
     <div className={styles.container}>
-      <h2>CREATE MEETING</h2>
+      <h2>{t('meetingInfo.createMeeting').toUpperCase()}</h2>
       <div className={styles.wrapper}>
         <InfoItem
-          title='PRACTICE LANGUAGE'
+          title={t('meetingInfo.practiceLang').toUpperCase()}
           value={`${chosenLanguage?.name}`}
           onClick={openLanguages}
         />
         <InfoItem
-          title='LEVEL'
-          value={`${meetingData?.languageLevel && levelLabelsMap[meetingData.languageLevel]}`}
+          title={t('meetingInfo.level').toUpperCase()}
+          value={`${meetingData?.languageLevel && t(`levels.${meetingData.languageLevel}`)}`}
           onClick={openLevels}
         />
         <InfoItem title='TOPIC' value={`${chosenTopic && chosenTopic.name}`} onClick={openTopics} />
         <InfoItem
-          title='PARTICIPIANTS NUMBER'
+          title={t('meetingInfo.participants').toUpperCase()}
           value={`${meetingData?.peopleNumber}`}
           onClick={openPraticipiants}
         />
         <InfoItem
-          title='DATE'
+          title={t('meetingInfo.date').toUpperCase()}
           value={dayjs(meetingData?.meetingDate).format(DAY_MONTH_YAER)}
           onClick={openDate}
         />
         <InfoItem
-          title='TIME'
+          title={t('meetingInfo.time').toUpperCase()}
           value={dayjs(meetingData?.meetingTime).format(HOUR_MINUTE)}
           onClick={openTime}
         />

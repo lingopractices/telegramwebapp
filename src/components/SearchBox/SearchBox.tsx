@@ -2,6 +2,7 @@ import React from 'react';
 
 import { ReactComponent as SearchIcon } from '@assets/icons/search.svg';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 import styles from './SearchBox.module.scss';
 
@@ -11,17 +12,21 @@ interface ISearchBoxProps {
   containerClassname?: string;
 }
 
-const SearchBox: React.FC<ISearchBoxProps> = ({ value, containerClassname, onChange }) => (
-  <div className={classNames(styles.container, { [`${containerClassname}`]: true })}>
-    <SearchIcon />
-    <input
-      className={styles.input}
-      value={value}
-      type='text'
-      onChange={onChange}
-      placeholder='Search'
-    />
-  </div>
-);
+const SearchBox: React.FC<ISearchBoxProps> = ({ value, containerClassname, onChange }) => {
+  const { t } = useTranslation();
+
+  return (
+    <div className={classNames(styles.container, { [`${containerClassname}`]: true })}>
+      <SearchIcon />
+      <input
+        className={styles.input}
+        value={value}
+        type='text'
+        onChange={onChange}
+        placeholder={t('search')}
+      />
+    </div>
+  );
+};
 
 export default React.memo(SearchBox);

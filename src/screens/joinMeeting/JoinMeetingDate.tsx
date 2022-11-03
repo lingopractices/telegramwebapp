@@ -9,11 +9,13 @@ import {
   getMeetingsAction,
 } from '@store/meetings/actions';
 import { getMeetingsDaysSelector } from '@store/meetings/selectors';
+import { getProfileDataSelector } from '@store/profile/selectors';
 import { getMaxTimeOfDay, getMinTimeOfDay } from '@utils/dateUtils';
 import { DAY_MONTH_YAER, FULL_DATE } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { JOIN_LEVELS_PATH, JOIN_MEETINGS_PATH } from 'routing/routing.constants';
@@ -24,9 +26,11 @@ const JoinMeetingDate: React.FC = () => {
   const location = useLocation();
   const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
   const meetingsDays = useSelector(getMeetingsDaysSelector);
+  const user = useSelector(getProfileDataSelector);
   const getMeetings = useActionWithDeferred(getMeetingsAction);
   const getMeetingsDays = useActionWithDeferred(getMeetingDaysAction);
   const clearMeetings = useActionWithDispatch(clearMeetingsAction);
+  const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
   const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton } = useTgMainButton(
@@ -60,11 +64,11 @@ const JoinMeetingDate: React.FC = () => {
 
   useEffect(() => {
     if (meetingData?.from) {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
+      setMainButtonParams({ text: t('button.submit').toUpperCase(), is_active: true });
     } else {
-      setMainButtonParams({ text: 'CHOOSE A DATE', is_active: false });
+      setMainButtonParams({ text: t('date.choose').toUpperCase(), is_active: false });
     }
-  }, [meetingData?.from, setMainButtonParams]);
+  }, [meetingData?.from, setMainButtonParams, t]);
 
   const handleBack = useCallback(() => {
     navigate(JOIN_LEVELS_PATH, { state: { meetingData } });
@@ -102,13 +106,13 @@ const JoinMeetingDate: React.FC = () => {
 
   const loadDays = useCallback(
     (date: Dayjs) => {
-      if (meetingData?.languageId && meetingData?.languageLevel && date) {
+      if (user && meetingData?.languageId && meetingData?.languageLevel && date) {
         setLoadingMainButton(true);
         getMeetingsDays({
           languageId: meetingData.languageId,
           languageLevel: meetingData.languageLevel,
           from: date.format(FULL_DATE),
-          userId: 20,
+          userId: user.id,
         })
           .then(() => {
             setLoadingMainButton(false);
@@ -118,7 +122,13 @@ const JoinMeetingDate: React.FC = () => {
           });
       }
     },
-    [meetingData?.languageId, meetingData?.languageLevel, getMeetingsDays, setLoadingMainButton],
+    [
+      user,
+      meetingData?.languageId,
+      meetingData?.languageLevel,
+      getMeetingsDays,
+      setLoadingMainButton,
+    ],
   );
 
   useEffect(() => loadDays(dayjs()), [loadDays]);

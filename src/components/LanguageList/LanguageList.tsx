@@ -4,6 +4,7 @@ import RadioItem from '@components/RadioItem/RadioItem';
 import SearchBox from '@components/SearchBox/SearchBox';
 import { ILanguage } from 'lingopractices-models';
 import { differenceBy, intersectionWith } from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 import styles from './LanguageList.module.scss';
 
@@ -20,6 +21,7 @@ const LanguageList: React.FC<ILanguageList> = ({
   languages,
   onChangeLanguage,
 }) => {
+  const { t } = useTranslation();
   const [searchStringText, setSearchStringText] = useState('');
   const [filteredLanguages, setFilteredLanguages] = useState(languages);
 
@@ -82,9 +84,9 @@ const LanguageList: React.FC<ILanguageList> = ({
             value={searchStringText}
             containerClassname={styles.search}
           />
-          {!!popular.length && <h2>Popular</h2>}
+          {!!popular.length && <h2>{t('language.popular')}</h2>}
           <div className={styles.wrapper}>{popular.map(renderLanguages)}</div>
-          {!!others.length && <h2>Other</h2>}
+          {!!others.length && <h2>{t('language.other')}</h2>}
           <div className={styles.wrapper}>{others.map(renderLanguages)}</div>
         </div>
       );
@@ -96,11 +98,12 @@ const LanguageList: React.FC<ILanguageList> = ({
     searchStringText,
     renderLanguages,
     handleChangeSearchString,
+    t,
   ]);
 
   return (
     <div className={styles.container}>
-      <h2>{'choose meeting language'.toUpperCase()}</h2>
+      <h2>{t('language.chooseLanguage').toUpperCase()}</h2>
       {renderedLanguages}
     </div>
   );

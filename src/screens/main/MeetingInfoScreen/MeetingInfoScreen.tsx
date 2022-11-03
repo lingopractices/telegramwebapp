@@ -8,6 +8,7 @@ import { getProfileDataSelector } from '@store/profile/selectors';
 import classNames from 'classnames';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { INSTANT_MAIN_PATH } from 'routing/routing.constants';
@@ -22,6 +23,7 @@ const MeetingInfoScreen: React.FC = () => {
   const user = useSelector(getProfileDataSelector);
   const meeting = useSelector(getMyMeetingByIdSelector(Number(meetingId)));
   const leaveMeeting = useActionWithDeferred(leaveMeetingAction);
+  const { t } = useTranslation();
 
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
@@ -57,13 +59,14 @@ const MeetingInfoScreen: React.FC = () => {
       />
       <div className={styles.buttons}>
         <button className={classNames(styles.join, styles.button)} type='button'>
-          {'join meeting'.toUpperCase()}
+          {t('button.join')}
         </button>
         <button
           onClick={handleLeaveMeeting}
           className={classNames(styles.leave, styles.button)}
-          type='button'>
-          {'leave meeting'.toUpperCase()}
+          type='button'
+        >
+          {t('button.leave')}
         </button>
       </div>
     </div>

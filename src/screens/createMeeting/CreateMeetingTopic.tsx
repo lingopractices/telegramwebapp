@@ -5,6 +5,7 @@ import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { getTopicsAction } from '@store/topics/actions';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CREATE_LEVELS_PATH, CREATE_PARTICIPANTS_PATH } from 'routing/routing.constants';
 import { CreateMeetingType } from 'screens/types';
@@ -19,6 +20,7 @@ const CreateMeetingTopic: React.FC = () => {
     true,
     false,
   );
+  const { t } = useTranslation();
 
   const handleChangeLevel = useCallback(
     (topicId: number) => {
@@ -38,12 +40,12 @@ const CreateMeetingTopic: React.FC = () => {
   useEffect(() => {
     if (meetingData?.topicId) {
       if (meetingData.topicId > -1) {
-        setMainButtonParams({ text: 'SUBMIT', is_active: true });
+        setMainButtonParams({ text: t('button.submit').toUpperCase(), is_active: true });
       } else {
-        setMainButtonParams({ text: 'CHOOSE A TOPIC', is_active: false });
+        setMainButtonParams({ text: t('topic.choose').toUpperCase(), is_active: false });
       }
     }
-  }, [meetingData?.topicId, setMainButtonParams]);
+  }, [meetingData?.topicId, setMainButtonParams, t]);
 
   const loadMoreTopics = useCallback(() => {
     setLoadingMainButton(true);
