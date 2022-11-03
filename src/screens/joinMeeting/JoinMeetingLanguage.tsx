@@ -45,7 +45,7 @@ const JoinMeetingLanguage: React.FC = () => {
     } else {
       setMainButtonParams({ text: t('language.choose').toUpperCase(), is_active: false });
     }
-  }, [meetingData?.languageId, setMainButtonParams]);
+  }, [meetingData?.languageId, setMainButtonParams, t]);
 
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
