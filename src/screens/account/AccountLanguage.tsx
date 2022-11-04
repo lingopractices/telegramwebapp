@@ -10,6 +10,7 @@ import { getPracticeLanguageSelector, getProfileDataSelector } from '@store/prof
 import { popularLanguagesIds } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ACCOUNT_PATH } from 'routing/routing.constants';
@@ -27,14 +28,15 @@ const AccountInterfaceLanguage: React.FC = () => {
   const languages = useSelector(languagesSelector);
   const getLanguages = useActionWithDispatch(getLanguagesAction);
   const updateProfile = useActionWithDeferred(updateProfileAction);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (newPracticeLanguageId) {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
+      setMainButtonParams({ text: t('button.submit'), is_active: true });
     } else {
-      setMainButtonParams({ text: 'CHOOSE A LANGUAGE', is_active: false });
+      setMainButtonParams({ text: t('language.choose'), is_active: false });
     }
-  }, [newPracticeLanguageId, setMainButtonParams]);
+  }, [newPracticeLanguageId, setMainButtonParams, t]);
 
   const handleBack = useCallback(() => {
     navigate(ACCOUNT_PATH);

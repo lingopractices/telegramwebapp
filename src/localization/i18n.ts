@@ -14,7 +14,7 @@ i18n
       escapeValue: false,
     },
     backend: {
-      loadPath: '/src/{{ns}}/{{lng}}.json',
+      loadPath: './src/{{ns}}/{{lng}}.json',
     },
   });
 

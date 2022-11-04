@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import expandWindow from '@utils/expandWindow';
 
@@ -9,10 +9,15 @@ type BackButtonType = {
 };
 
 const useTgBackButton = (isVisibleBackButton: boolean): BackButtonType => {
-  const setBackButtonOnClick = useCallback((fn: () => void) => {
-    window.Telegram.WebApp.BackButton.onClick(fn);
-    return fn;
-  }, []);
+  const [backFunction, setBackFunction] = useState<() => void>();
+
+  const setBackButtonOnClick = useCallback(
+    (fn: () => void) => {
+      window.Telegram.WebApp.BackButton.onClick(fn);
+      setBackFunction(fn);
+    },
+    [setBackFunction],
+  );
 
   const showBackButton = useCallback(() => {
     window.Telegram.WebApp.BackButton.show();
@@ -24,9 +29,11 @@ const useTgBackButton = (isVisibleBackButton: boolean): BackButtonType => {
 
   useEffect(
     () => () => {
-      window.Telegram.WebApp.BackButton.offClick(() => setBackButtonOnClick);
+      if (backFunction) {
+        window.Telegram.WebApp.BackButton.offClick(backFunction);
+      }
     },
-    [setBackButtonOnClick],
+    [backFunction],
   );
 
   useEffect(() => {
