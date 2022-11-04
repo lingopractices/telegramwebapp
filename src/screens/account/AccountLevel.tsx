@@ -6,6 +6,7 @@ import { updateProfileAction } from '@store/profile/actions';
 import { getLanguageLevelSelector, getProfileDataSelector } from '@store/profile/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ACCOUNT_PATH } from 'routing/routing.constants';
@@ -21,14 +22,15 @@ const AccountLevel: React.FC = () => {
   const languageLevel = useSelector(getLanguageLevelSelector);
   const [newLanguageLevel, setNewLanguageLevel] = useState(languageLevel);
   const updateProfile = useActionWithDeferred(updateProfileAction);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (newLanguageLevel) {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
+      setMainButtonParams({ text: t('button.submit'), is_active: true });
     } else {
-      setMainButtonParams({ text: 'CHOOSE A LEVEL', is_active: false });
+      setMainButtonParams({ text: t('level.choose'), is_active: false });
     }
-  }, [newLanguageLevel, setMainButtonParams]);
+  }, [newLanguageLevel, setMainButtonParams, t]);
 
   const handleBack = useCallback(() => {
     navigate(ACCOUNT_PATH);

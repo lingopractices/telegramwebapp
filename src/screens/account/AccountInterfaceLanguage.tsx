@@ -27,11 +27,11 @@ const AccountInterfaceLanguage: React.FC = () => {
 
   useEffect(() => {
     if (newInterfaceLanguageId) {
-      setMainButtonParams({ text: 'SUBMIT', is_active: true });
+      setMainButtonParams({ text: t('button.submit'), is_active: true });
     } else {
-      setMainButtonParams({ text: 'CHOOSE A LANGUAGE', is_active: false });
+      setMainButtonParams({ text: t('language.choose'), is_active: false });
     }
-  }, [newInterfaceLanguageId, setMainButtonParams]);
+  }, [newInterfaceLanguageId, setMainButtonParams, t]);
 
   const handleBack = useCallback(() => {
     navigate(ACCOUNT_PATH);
