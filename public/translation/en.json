@@ -1,0 +1,105 @@
+{
+  "mainScreen": {
+    "create": "Create meeting",
+    "join": "Join meeting"
+  },
+
+  "account": {
+    "myAccount": "my account",
+    "info": {
+      "practiceLang": "practice language",
+      "level": "level",
+      "location": "location",
+      "interfaceLang": "interface language",
+      "gender": "gender"
+    }
+  },
+
+  "language": {
+    "choosePracticeLang": "choose meeting language",
+    "chooseInterfaceLang": "choose interface language",
+    "popular": "Popular",
+    "other": "Other",
+    "choose": "choose a language"
+  },
+
+  "level": {
+    "chooseLevel": "choose meeting language level",
+    "choose": "choose a level"
+  },
+
+  "topic": {
+    "chooseTopic": "choose meeting topic",
+    "choose": "choose a topic"
+  },
+
+  "participants": {
+    "chooseParticipants": "choose meeting partcipants number",
+    "choose": "choose a number"
+  },
+
+  "date": {
+    "chooseDate": "choose meeting date",
+    "choose": "choose a date"
+  },
+
+  "time": {
+    "chooseTime": "choose meeting time",
+    "choose": "choose a time"
+  },
+
+  "meetingInfo": {
+    "createMeeting": "create meeting",
+    "practiceLang": "practice language",
+    "level": "level",
+    "topic": "topic",
+    "participants": "participants number",
+    "date": "date",
+    "time": "time"
+  },
+
+  "meetings": {
+    "meetings": "meetings",
+    "at": "at",
+    "meetingTitles": {
+      "online": "Online meeting",
+      "meeting": "Meeting"
+    },
+    "noMeetings": "you don't have any meetings yet"
+  },
+
+  "meeting": {
+    "meeting": "meeting",
+    "participants": "participants",
+    "free": "free",
+    "from": "from",
+    "places": "places",
+    "creatorFrom": "creator from",
+    "questions": "questions"
+  },
+
+  "search": "Search",
+
+  "button": {
+    "submit": "submit",
+    "leave": "Leave meeting",
+    "join": "Join meeting"
+  },
+
+  "notSet": "not set",
+
+  "levels": {
+    "1": "Beginner",
+    "2": "Pre-Intermediate",
+    "3": "Intermediate",
+    "4": "Upper-Intermediate",
+    "5": "Advanced",
+    "6": "Proficiency"
+  },
+
+  "gender": {
+    "1": "Not set",
+    "2": "Male",
+    "3": "Female"
+  }
+}
