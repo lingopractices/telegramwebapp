@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 
 import { ReactComponent as LingoLogo } from '@assets/lingo-logo.svg';
+import Button from '@components/Button/Button';
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -11,7 +12,7 @@ import useTgMainButton from 'hooks/useTgMainButton';
 import { IMeeting } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   ACCOUNT_PATH,
   CREATE_LANGUAGES_PATH,
@@ -26,6 +27,7 @@ const MainScreen: React.FC = () => {
   const infiniteContainer = useRef<HTMLDivElement>(null);
   const hasMore = useSelector(getMyMeetingHasMoreSelector);
   const getMeetings = useActionWithDispatch(getMyMeetingsAction);
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   useTgBackButton(false);
@@ -34,6 +36,14 @@ const MainScreen: React.FC = () => {
   const loadMore = useCallback(() => {
     getMeetings();
   }, [getMeetings]);
+
+  const createMeeting = useCallback(() => {
+    navigate(CREATE_LANGUAGES_PATH);
+  }, [navigate]);
+
+  const joinMeeting = useCallback(() => {
+    navigate(JOIN_LANGUAGES_PATH);
+  }, [navigate]);
 
   const renderMeetings = useCallback(
     (meeting: IMeeting) => (
@@ -60,12 +70,8 @@ const MainScreen: React.FC = () => {
       </Link>
       <LingoLogo className={styles.logo} />
       <div className={styles.buttonWrapper}>
-        <Link to={CREATE_LANGUAGES_PATH} className={styles.button}>
-          {t('mainScreen.create')}
-        </Link>
-        <Link to={JOIN_LANGUAGES_PATH} className={styles.button}>
-          {t('mainScreen.join')}
-        </Link>
+        <Button title={t('mainScreen.create')} onClick={createMeeting} />
+        <Button title={t('mainScreen.join')} onClick={joinMeeting} />
       </div>
       <div ref={infiniteContainer} className={styles.myMeetingsWrapper}>
         {myMeetings.length ? (
