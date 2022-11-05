@@ -8,7 +8,11 @@ interface Telegram {
   WebApp: WebApp;
 }
 
-export type EventType = 'themeChanged' | 'viewportChanged' | 'mainButtonClicked';
+export type EventType =
+  | 'themeChanged'
+  | 'viewportChanged'
+  | 'mainButtonClicked'
+  | 'backButtonClicked';
 
 interface WebApp {
   /**

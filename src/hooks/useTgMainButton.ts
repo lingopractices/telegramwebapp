@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { MainButtonParams } from '../telegram/types';
 
@@ -13,15 +13,13 @@ const useTgMainButton = (
   isEnabledMainButton: boolean,
   defaultTextMainButton?: string,
 ): MainButtonType => {
-  const [submitFunction, setSubmitFunction] = useState<() => void>();
+  const setMainButtonOnClick = useCallback((fn: () => void) => {
+    window.Telegram.WebApp.onEvent('mainButtonClicked', fn);
 
-  const setMainButtonOnClick = useCallback(
-    (fn: () => void) => {
-      window.Telegram.WebApp.MainButton.onClick(fn);
-      setSubmitFunction(() => () => fn);
-    },
-    [setSubmitFunction],
-  );
+    return () => {
+      window.Telegram.WebApp.offEvent('mainButtonClicked', fn);
+    };
+  }, []);
 
   const setMainButtonParams = useCallback(
     (obj: MainButtonParams) => {
@@ -46,15 +44,6 @@ const useTgMainButton = (
       }
     },
     [setMainButtonParams],
-  );
-
-  useEffect(
-    () => () => {
-      if (submitFunction) {
-        window.Telegram.WebApp.MainButton.offClick(submitFunction);
-      }
-    },
-    [submitFunction],
   );
 
   useEffect(() => {
