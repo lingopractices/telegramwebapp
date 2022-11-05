@@ -9,7 +9,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { DAY_MONTH_YAER, MONTH_YAER } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
+import i18n from 'localization/i18n';
 import { useTranslation } from 'react-i18next';
+import 'dayjs/locale/ru';
+import 'dayjs/locale/en';
 
 import styles from './DatePicker.module.scss';
 
@@ -67,7 +70,7 @@ const DatePicker: React.FC<IDatePicker> = ({
   return (
     <div className={styles.container}>
       <h2>{t('date.chooseDate').toUpperCase()}</h2>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
         <StaticDatePicker
           className={styles.picker}
           displayStaticWrapperAs='desktop'
