@@ -12,7 +12,6 @@
 .wrapper {
   display: flex;
   flex-flow: row wrap;
-
   gap: 15px;
 }
 
@@ -21,6 +20,9 @@
 }
 
 .paddingContainer {
-  flex-basis: 164px;
+  width: 164px;
+  height: 42px;
+  flex-grow: 1;
   padding: 10px 0;
+  border-radius: 16px;
 }

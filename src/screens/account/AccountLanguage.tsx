@@ -32,9 +32,9 @@ const AccountInterfaceLanguage: React.FC = () => {
 
   useEffect(() => {
     if (newPracticeLanguageId) {
-      setMainButtonParams({ text: t('button.submit'), is_active: true });
+      setMainButtonParams({ text: t('button.submit').toUpperCase(), is_active: true });
     } else {
-      setMainButtonParams({ text: t('language.choose'), is_active: false });
+      setMainButtonParams({ text: t('language.choose').toUpperCase(), is_active: false });
     }
   }, [newPracticeLanguageId, setMainButtonParams, t]);
 

@@ -85,7 +85,11 @@ const ResultInfo: React.FC<IResultInfo> = ({ meetingData }) => {
           value={`${meetingData?.languageLevel && t(`levels.${meetingData.languageLevel}`)}`}
           onClick={openLevels}
         />
-        <InfoItem title='TOPIC' value={`${chosenTopic && chosenTopic.name}`} onClick={openTopics} />
+        <InfoItem
+          title={t('meetingInfo.topic').toUpperCase()}
+          value={`${chosenTopic && chosenTopic.name}`}
+          onClick={openTopics}
+        />
         <InfoItem
           title={t('meetingInfo.participants').toUpperCase()}
           value={`${meetingData?.peopleNumber}`}

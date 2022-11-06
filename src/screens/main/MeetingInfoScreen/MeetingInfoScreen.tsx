@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from 'react';
 
+import Button from '@components/Button/Button';
 import MeetingInfo from '@components/MeetingInfo/MeetingInfo';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { leaveMeetingAction } from '@store/meetings/actions';
 import { getMyMeetingByIdSelector } from '@store/meetings/selectors';
 import { getProfileDataSelector } from '@store/profile/selectors';
-import classNames from 'classnames';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { useTranslation } from 'react-i18next';
@@ -58,16 +58,8 @@ const MeetingInfoScreen: React.FC = () => {
         googleMeetLink={meeting.googleMeetLink}
       />
       <div className={styles.buttons}>
-        <button className={classNames(styles.join, styles.button)} type='button'>
-          {t('button.join')}
-        </button>
-        <button
-          onClick={handleLeaveMeeting}
-          className={classNames(styles.leave, styles.button)}
-          type='button'
-        >
-          {t('button.leave')}
-        </button>
+        <Button onClick={() => {}} title={t('button.join')} />
+        <Button onClick={handleLeaveMeeting} title={t('button.leave')} />
       </div>
     </div>
   ) : (

@@ -26,9 +26,9 @@ const AccountLevel: React.FC = () => {
 
   useEffect(() => {
     if (newLanguageLevel) {
-      setMainButtonParams({ text: t('button.submit'), is_active: true });
+      setMainButtonParams({ text: t('button.submit').toUpperCase(), is_active: true });
     } else {
-      setMainButtonParams({ text: t('level.choose'), is_active: false });
+      setMainButtonParams({ text: t('level.choose').toUpperCase(), is_active: false });
     }
   }, [newLanguageLevel, setMainButtonParams, t]);
 

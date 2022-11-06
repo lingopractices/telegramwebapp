@@ -8,6 +8,10 @@
   border: 1px solid var(--base-color);
   border-radius: 8px;
   gap: 16px;
+
+  svg {
+    min-width: 30px;
+  }
 }
 
 .title {

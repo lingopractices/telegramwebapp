@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding: 12px 25.5px;
+  background-color: var(--base-color);
+  border-radius: 40px;
+  color: var(--bg-color);
+
+  &:hover {
+    color: var(--btn-color);
+  }
+}
