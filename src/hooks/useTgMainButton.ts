@@ -19,7 +19,7 @@ const useTgMainButton = (
     if (btnClickHandlerFn) {
       btnClickHandlerFn();
     }
-  }, [btnClickHandlerFn]);
+  }, []);
 
   useEffect(() => {
     window.Telegram.WebApp.onEvent('mainButtonClicked', handleMainBtnClicked);
