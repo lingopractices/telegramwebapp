@@ -1,10 +1,12 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { ReactComponent as LingoLogo } from '@assets/lingo-logo.svg';
 import Button from '@components/Button/Button';
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { getLanguagesAction } from '@store/languages/actions';
+import { languagesSelector } from '@store/languages/selectors';
 import { getMyMeetingsAction } from '@store/meetings/actions';
 import { getMyMeetingHasMoreSelector, getMyMeetingsSelector } from '@store/meetings/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
@@ -26,6 +28,8 @@ const MainScreen: React.FC = () => {
   const myMeetings = useSelector(getMyMeetingsSelector);
   const infiniteContainer = useRef<HTMLDivElement>(null);
   const hasMore = useSelector(getMyMeetingHasMoreSelector);
+  const languages = useSelector(languagesSelector);
+  const getLanguages = useActionWithDispatch(getLanguagesAction);
   const getMeetings = useActionWithDispatch(getMyMeetingsAction);
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -44,6 +48,12 @@ const MainScreen: React.FC = () => {
   const joinMeeting = useCallback(() => {
     navigate(JOIN_LANGUAGES_PATH);
   }, [navigate]);
+
+  useEffect(() => {
+    if (!languages.length) {
+      getLanguages();
+    }
+  }, [languages, getLanguages]);
 
   const renderMeetings = useCallback(
     (meeting: IMeeting) => (

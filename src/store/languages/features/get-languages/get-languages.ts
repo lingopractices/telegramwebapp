@@ -6,6 +6,7 @@ import { ILanguagesState } from '@store/languages/types';
 import { AxiosResponse } from 'axios';
 import { ILanguage } from 'lingopractices-models';
 import { call, put } from 'redux-saga/effects';
+import { LanguageService } from 'services/LanguageService';
 
 import { GetLanguagesSuccess } from './get-languages-success';
 
@@ -24,12 +25,20 @@ export class GetLanguages {
 
   static get saga() {
     return function* () {
-      const { data } = GetLanguages.httpRequest.call(
-        yield call(() => GetLanguages.httpRequest.generator()),
-      );
+      const languages: ILanguage[] = new LanguageService().languages || [];
 
-      if (data) {
-        yield put(GetLanguagesSuccess.action(data));
+      if (!languages.length) {
+        try {
+          const { data } = GetLanguages.httpRequest.call(
+            yield call(() => GetLanguages.httpRequest.generator()),
+          );
+
+          yield put(GetLanguagesSuccess.action(data));
+        } catch (e) {
+          // console.log(e)
+        }
+      } else {
+        yield put(GetLanguagesSuccess.action(languages));
       }
     };
   }

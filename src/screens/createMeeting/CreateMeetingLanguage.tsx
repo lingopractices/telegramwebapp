@@ -2,9 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import LanguageList from '@components/LanguageList/LanguageList';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { getLanguagesAction } from '@store/languages/actions';
-import { languagesSelector } from '@store/languages/selectors';
+import { languagePendingSelector, languagesSelector } from '@store/languages/selectors';
 import { getPracticeLanguageSelector } from '@store/profile/selectors';
 import { getTopicsAction } from '@store/topics/actions';
 import { getTopicsSelector } from '@store/topics/selectors';
@@ -25,11 +23,14 @@ const CreateMeetingLanguage: React.FC = () => {
   const languages = useSelector(languagesSelector);
   const topics = useSelector(getTopicsSelector);
   const getTopics = useActionWithDeferred(getTopicsAction);
-  const getLanguages = useActionWithDispatch(getLanguagesAction);
+  const languagesPending = useSelector(languagePendingSelector);
   const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(true, false);
+  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton } = useTgMainButton(
+    true,
+    false,
+  );
 
   const handleChangeLanguage = useCallback(
     (languageId: string) => {
@@ -69,10 +70,8 @@ const CreateMeetingLanguage: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   useEffect(() => {
-    if (!languages.length) {
-      getLanguages();
-    }
-  }, [languages, getLanguages]);
+    setLoadingMainButton(languagesPending);
+  }, [languagesPending, setLoadingMainButton]);
 
   useEffect(() => {
     if (!topics.length) {

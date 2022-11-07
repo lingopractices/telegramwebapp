@@ -1,6 +1,8 @@
 import { createAction } from '@reduxjs/toolkit';
 import { ILanguagesState } from '@store/languages/types';
 import { ILanguage } from 'lingopractices-models';
+import { apply } from 'redux-saga/effects';
+import { LanguageService } from 'services/LanguageService';
 
 export class GetLanguagesSuccess {
   static get action() {
@@ -14,6 +16,13 @@ export class GetLanguagesSuccess {
       draft.languages = payload;
 
       return draft;
+    };
+  }
+
+  static get saga() {
+    return function* ({ payload }: ReturnType<typeof GetLanguagesSuccess.action>) {
+      const languageService = new LanguageService();
+      yield apply(languageService, languageService.initializeOrUpdate, [payload]);
     };
   }
 }

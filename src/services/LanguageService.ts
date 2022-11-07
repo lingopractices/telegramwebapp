@@ -2,24 +2,24 @@ import { BrowserStorage } from '@utils/BrowserStorage';
 import { ILanguage } from 'lingopractices-models';
 
 export class LanguageService {
-  private static readonly languagesKey = 'languages';
+  private readonly languagesKey = 'languages';
 
-  private static browserStorage = new BrowserStorage(LanguageService.languagesKey);
+  private browserStorage = new BrowserStorage(this.languagesKey);
 
-  private static currentLanguages: ILanguage[] = LanguageService.browserStorage.getObject<
-    ILanguage[]
-  >(LanguageService.languagesKey);
+  private currentLanguages: ILanguage[] = this.browserStorage.getObject<ILanguage[]>(
+    this.languagesKey,
+  );
 
-  public static get languages(): ILanguage[] {
+  public get languages(): ILanguage[] {
     return this.currentLanguages;
   }
 
-  public static initializeOrUpdate(languages: ILanguage[]) {
+  public initializeOrUpdate(languages: ILanguage[]) {
     this.browserStorage.setObject<ILanguage[]>(this.languagesKey, languages);
     this.currentLanguages = languages;
   }
 
-  public static clear() {
-    LanguageService.browserStorage.clear();
+  public clear() {
+    this.browserStorage.clear();
   }
 }
