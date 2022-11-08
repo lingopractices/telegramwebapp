@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import LanguageList from '@components/LanguageList/LanguageList';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { getLanguagesAction } from '@store/languages/actions';
-import { languagesSelector } from '@store/languages/selectors';
+import { languagePendingSelector, languagesSelector } from '@store/languages/selectors';
 import { getPracticeLanguageSelector } from '@store/profile/selectors';
 import { popularLanguagesIds } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
@@ -20,11 +18,14 @@ const JoinMeetingLanguage: React.FC = () => {
   const currentLanguage = useSelector(getPracticeLanguageSelector);
   const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
   const languages = useSelector(languagesSelector);
-  const getLanguages = useActionWithDispatch(getLanguagesAction);
+  const languagesPending = useSelector(languagePendingSelector);
   const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(true, false);
+  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton } = useTgMainButton(
+    true,
+    false,
+  );
 
   const handleChangeLanguage = useCallback(
     (languageId: string) => {
@@ -64,10 +65,8 @@ const JoinMeetingLanguage: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   useEffect(() => {
-    if (!languages.length) {
-      getLanguages();
-    }
-  }, [languages, getLanguages]);
+    setLoadingMainButton(languagesPending);
+  }, [languagesPending, setLoadingMainButton]);
 
   return (
     <LanguageList

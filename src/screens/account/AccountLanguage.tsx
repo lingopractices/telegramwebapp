@@ -2,9 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import LanguageList from '@components/LanguageList/LanguageList';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { getLanguagesAction } from '@store/languages/actions';
-import { languagesSelector } from '@store/languages/selectors';
+import { languagePendingSelector, languagesSelector } from '@store/languages/selectors';
 import { updateProfileAction } from '@store/profile/actions';
 import { getPracticeLanguageSelector, getProfileDataSelector } from '@store/profile/selectors';
 import { popularLanguagesIds } from 'common/constants';
@@ -26,7 +24,7 @@ const AccountInterfaceLanguage: React.FC = () => {
   const user = useSelector(getProfileDataSelector);
   const [newPracticeLanguageId, setNewPracticeLanguageId] = useState(practiceLanguage?.id);
   const languages = useSelector(languagesSelector);
-  const getLanguages = useActionWithDispatch(getLanguagesAction);
+  const languagesPending = useSelector(languagePendingSelector);
   const updateProfile = useActionWithDeferred(updateProfileAction);
   const { t } = useTranslation();
 
@@ -81,10 +79,8 @@ const AccountInterfaceLanguage: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   useEffect(() => {
-    if (!languages.length) {
-      getLanguages();
-    }
-  }, [languages, getLanguages]);
+    setLoadingMainButton(languagesPending);
+  }, [languagesPending, setLoadingMainButton]);
 
   return (
     <LanguageList
