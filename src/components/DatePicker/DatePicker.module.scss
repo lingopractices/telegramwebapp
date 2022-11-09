@@ -13,47 +13,76 @@
   }
 }
 
-.picker {
-  max-width: min-content;
-  margin: 0 auto;
-  border-radius: 16px;
-  box-shadow: var(--box-shadow-color);
-  color: var(--base-color);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
+.dateWrapper {
+  & div[role='row'] {
+    width: 100%;
+    justify-content: space-between;
+  }
 
-  div {
+  & span {
+    margin: 0;
+  }
+
+  & button,
+  & div[role='row'] > span {
+    border-radius: 4px;
+  }
+
+  & div:not(div[role='row'] > div) {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
     background-color: transparent;
-  }
 
-  button {
-    width: 32px;
-    min-width: fit-content;
-    height: 24px;
-    border-radius: 16px;
-    color: var(--base-color);
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
-
-    &.Mui-selected {
-      background-color: var(--base-color);
-      color: var(--bg-color);
-    }
-
-    &:active {
-      background-color: var(--base-color);
-      color: var(--bg-color);
-    }
-  }
-
-  div[role='row'] {
-    max-height: 24px;
-    margin-bottom: 18px;
-
-    button {
-      margin-left: 6px;
+    & div[aria-live='polite'] {
+      position: absolute;
+      left: 50%;
+      width: fit-content;
+      transform: translateX(-50%);
     }
   }
 }
+
+// .picker {
+//   max-width: min-content;
+//   margin: 0 auto;
+//   border-radius: 16px;
+//   color: var(--base-color);
+//   font-size: 16px;
+//   font-weight: 400;
+//   line-height: 24px;
+
+//   div {
+//     background-color: transparent;
+//   }
+
+//   button {
+//     width: 32px;
+//     min-width: fit-content;
+//     height: 24px;
+//     border-radius: 16px;
+//     color: var(--base-color);
+//     font-size: 16px;
+//     font-weight: 400;
+//     line-height: 24px;
+
+//     &.Mui-selected {
+//       background-color: var(--base-color);
+//       color: var(--bg-color);
+//     }
+
+//     &:active {
+//       background-color: var(--base-color);
+//       color: var(--bg-color);
+//     }
+//   }
+
+//   div[role='row'] {
+//     max-height: 24px;
+//     margin-bottom: 18px;
+
+//     button {
+//       margin-left: 6px;
+//     }
+//   }
+// }
