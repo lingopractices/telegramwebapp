@@ -7,7 +7,7 @@ export const MAIN_API = {
   GET_MEETING_DAYS_BY_PREFERENCES: `${ROOT_API}/meetings/days`,
   SEARCH_TOPICS: `${ROOT_API}/topics/search`,
   GET_QUESTIONS_BY_TOPIC_ID: `${ROOT_API}/topic/:topicId/questions`,
-  GET_USER_BY_TELEGRAM_USER_ID: `${ROOT_API}/user/:telegramUserId`,
+  GET_USER: `${ROOT_API}/user`,
   UPDATE_USER: `${ROOT_API}/user`,
   GET_LANGUAGES: `${ROOT_API}/languages`,
   CREATE_MEETING: `${ROOT_API}/meeting`,

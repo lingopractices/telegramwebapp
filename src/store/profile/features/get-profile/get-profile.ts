@@ -7,7 +7,6 @@ import { httpRequestFactory } from 'store/common/http-request-factory';
 import { HttpRequestMethod } from 'store/common/http-request-method';
 import { MAIN_API } from 'store/common/path';
 import { IProfileState } from 'store/profile/types';
-import { replaceInUrl } from 'utils/replace-in-url';
 
 import { GetProfileSuccess } from './get-profile-success';
 
@@ -26,7 +25,7 @@ export class GetProfile {
     return function* (): SagaIterator {
       const { data } = GetProfile.httpRequest.call(
         yield call(
-          () => GetProfile.httpRequest.generator(1222183809), // temporary id placeholder 390447649
+          () => GetProfile.httpRequest.generator(), // temporary id placeholder 390447649 1222183809
         ),
       );
 
@@ -36,8 +35,7 @@ export class GetProfile {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IUser>, number>(
-      (telegramUserId: number) =>
-        replaceInUrl(MAIN_API.GET_USER_BY_TELEGRAM_USER_ID, ['telegramUserId', telegramUserId]),
+      MAIN_API.GET_USER,
       HttpRequestMethod.Get,
     );
   }

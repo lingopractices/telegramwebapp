@@ -1,6 +1,16 @@
 .container {
-  position: relative;
+  display: flex;
+  height: 100vh;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
 }
+
+.wrapper {
+  position: relative;
+  width: fit-content;
+}
+
 @keyframes loading {
   0% {
     transform: rotate(0deg);
@@ -17,6 +27,7 @@
 
 .inner {
   position: absolute;
-  top: 20%;
-  left: 20%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

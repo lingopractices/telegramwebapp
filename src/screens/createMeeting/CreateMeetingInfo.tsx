@@ -3,11 +3,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import ResultInfo from '@components/ResultInfo/ResultInfo';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { createMeetingAction } from '@store/meetings/actions';
-import { getProfileDataSelector } from '@store/profile/selectors';
 import { mergeDateAndTime } from '@utils/dateUtils';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CREATE_TIME_PATH, INSTANT_MAIN_PATH } from 'routing/routing.constants';
 import { CreateMeetingType } from 'screens/types';
@@ -16,7 +14,6 @@ const CreateMeetingInfo: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
-  const user = useSelector(getProfileDataSelector);
   const createMeeting = useActionWithDeferred(createMeetingAction);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
@@ -32,7 +29,6 @@ const CreateMeetingInfo: React.FC = () => {
 
   const handleSubmit = useCallback(() => {
     if (
-      user &&
       meetingData?.languageId &&
       meetingData?.languageLevel &&
       meetingData?.topicId &&
@@ -42,7 +38,6 @@ const CreateMeetingInfo: React.FC = () => {
     ) {
       setLoadingMainButton(true);
       createMeeting({
-        userCreatorId: user.id,
         languageId: meetingData.languageId,
         languageLevel: meetingData.languageLevel,
         meetingAt: mergeDateAndTime(meetingData.meetingDate, meetingData.meetingTime).toJSON(),
@@ -58,7 +53,6 @@ const CreateMeetingInfo: React.FC = () => {
         });
     }
   }, [
-    user,
     meetingData?.languageLevel,
     meetingData?.peopleNumber,
     meetingData?.languageId,

@@ -4,7 +4,6 @@ import MeetingInfo from '@components/MeetingInfo/MeetingInfo';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { joinMeetingAction } from '@store/meetings/actions';
 import { getMeetingByIdSelector } from '@store/meetings/selectors';
-import { getProfileDataSelector } from '@store/profile/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { IJoinMeetingResponse, JoinMeetingResult } from 'lingopractices-models';
@@ -19,7 +18,6 @@ const JoinMeetingInfo: React.FC = () => {
   const navigate = useNavigate();
   const { id: meetingId } = useParams();
   const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
-  const user = useSelector(getProfileDataSelector);
   const meeting = useSelector(getMeetingByIdSelector(Number(meetingId)));
   const joinMeeting = useActionWithDeferred(joinMeetingAction);
   const { t } = useTranslation();
@@ -36,19 +34,16 @@ const JoinMeetingInfo: React.FC = () => {
   }, [navigate]);
 
   const handleSubmit = useCallback(() => {
-    if (user) {
-      joinMeeting<IJoinMeetingResponse>({
-        meetingId: Number(meetingId),
-        userId: user.id,
+    joinMeeting<IJoinMeetingResponse>({
+      meetingId: Number(meetingId),
+    })
+      .then(({ result }) => {
+        if (result === JoinMeetingResult.Success) {
+          handleForward();
+        }
       })
-        .then(({ result }) => {
-          if (result === JoinMeetingResult.Success) {
-            handleForward();
-          }
-        })
-        .catch((e) => {});
-    }
-  }, [user, meetingId, joinMeeting, handleForward]);
+      .catch((e) => {});
+  }, [meetingId, joinMeeting, handleForward]);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);

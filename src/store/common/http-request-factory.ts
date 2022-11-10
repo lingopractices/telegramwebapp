@@ -1,6 +1,7 @@
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
+import { getAuthHeader } from './getAuthHeader';
 import { httpRequest } from './http-request';
 import { HttpRequestMethod } from './http-request-method';
 import { HttpHeaders, UrlGenerator } from './types';
@@ -18,7 +19,9 @@ export const httpRequestFactory = <TResponse, TBody>(
         finalUrl = (url as UrlGenerator<TBody>)(body);
       }
 
-      return yield call(httpRequest, finalUrl, method, body, headers);
+      const authHeader = yield call(getAuthHeader);
+
+      return yield call(httpRequest, finalUrl, method, body, { ...headers, ...authHeader });
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log(e);
