@@ -5,8 +5,10 @@ import styles from './AnimatedLogo.module.scss';
 
 const AnimatedLogo = () => (
   <div className={styles.container}>
-    <LingoOuter className={styles.outer} />
-    <LingoInner className={styles.inner} />
+    <div className={styles.wrapper}>
+      <LingoOuter className={styles.outer} />
+      <LingoInner className={styles.inner} />
+    </div>
   </div>
 );
 export default AnimatedLogo;

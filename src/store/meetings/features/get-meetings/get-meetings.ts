@@ -4,7 +4,6 @@ import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
 import { getMeetingsSelector } from '@store/meetings/selectors';
 import { IMeetingsState } from '@store/meetings/types';
-import { getProfileDataSelector } from '@store/profile/selectors';
 import { MEETINGS_LIMITS } from '@utils/paginationLimits';
 import { AxiosResponse } from 'axios';
 import { Dayjs } from 'dayjs';
@@ -42,7 +41,6 @@ export class GetMeetings {
     return function* ({ payload, meta }: ReturnType<typeof GetMeetings.action>): SagaIterator {
       const { from: dayjsFrom, to: dayjsTo } = payload;
 
-      const user = yield select(getProfileDataSelector);
       const meetingsList = yield select(getMeetingsSelector);
 
       const page: IPaginationParams = {
@@ -55,7 +53,6 @@ export class GetMeetings {
           yield call(() =>
             GetMeetings.httpRequest.generator({
               ...payload,
-              userId: user.id,
               page,
               from: dayjsFrom?.toJSON(),
               to: dayjsTo?.toJSON(),
