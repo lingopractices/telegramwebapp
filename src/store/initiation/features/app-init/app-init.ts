@@ -1,4 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
+import { AuthInit } from '@store/auth/features/init-auth/init-auth';
 import { GetMyMeetings } from '@store/meetings/features/get-my-meetings/get-my-meetings';
 import { GetProfile } from '@store/profile/features/get-profile/get-profile';
 import { SagaIterator } from 'redux-saga';
@@ -13,6 +14,7 @@ export class AppInit {
     return function* (): SagaIterator {
       yield put(GetProfile.action());
       yield put(GetMyMeetings.action());
+      yield put(AuthInit.action());
     };
   }
 }
