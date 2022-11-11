@@ -71,22 +71,25 @@ const DatePicker: React.FC<IDatePicker> = ({
     <div className={styles.container}>
       <h2>{t('date.chooseDate').toUpperCase()}</h2>
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
-        <StaticDatePicker
-          className={styles.picker}
-          displayStaticWrapperAs='desktop'
-          openTo='day'
-          onMonthChange={changeViewMonth}
-          value={defaultDate}
-          onChange={onChangeDate}
-          renderInput={(params) => <input />}
-          minDate={dayjs()}
-          shouldDisableDate={availableDays && checkDisabledDays}
-          components={{
-            SwitchViewIcon: DownArrow,
-            RightArrowIcon: RightIcon,
-            LeftArrowIcon: isFirstMonth ? LeftDisableIcon : LeftIcon,
-          }}
-        />
+        <div className={styles.dateWrapper}>
+          <StaticDatePicker
+            views={['day']}
+            className={styles.picker}
+            displayStaticWrapperAs='desktop'
+            openTo='day'
+            onMonthChange={changeViewMonth}
+            value={defaultDate}
+            onChange={onChangeDate}
+            renderInput={(params) => <input />}
+            minDate={dayjs()}
+            shouldDisableDate={availableDays && checkDisabledDays}
+            components={{
+              SwitchViewIcon: DownArrow,
+              RightArrowIcon: RightIcon,
+              LeftArrowIcon: isFirstMonth ? LeftDisableIcon : LeftIcon,
+            }}
+          />
+        </div>
       </LocalizationProvider>
     </div>
   );
