@@ -32,6 +32,7 @@
     width: 100%;
     padding-right: 0;
     padding-left: 0;
+    margin-top: 0;
     background-color: transparent;
 
     & div[aria-live='polite'] {
@@ -42,47 +43,3 @@
     }
   }
 }
-
-// .picker {
-//   max-width: min-content;
-//   margin: 0 auto;
-//   border-radius: 16px;
-//   color: var(--base-color);
-//   font-size: 16px;
-//   font-weight: 400;
-//   line-height: 24px;
-
-//   div {
-//     background-color: transparent;
-//   }
-
-//   button {
-//     width: 32px;
-//     min-width: fit-content;
-//     height: 24px;
-//     border-radius: 16px;
-//     color: var(--base-color);
-//     font-size: 16px;
-//     font-weight: 400;
-//     line-height: 24px;
-
-//     &.Mui-selected {
-//       background-color: var(--base-color);
-//       color: var(--bg-color);
-//     }
-
-//     &:active {
-//       background-color: var(--base-color);
-//       color: var(--bg-color);
-//     }
-//   }
-
-//   div[role='row'] {
-//     max-height: 24px;
-//     margin-bottom: 18px;
-
-//     button {
-//       margin-left: 6px;
-//     }
-//   }
-// }
