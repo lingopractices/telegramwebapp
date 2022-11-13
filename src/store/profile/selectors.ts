@@ -13,3 +13,5 @@ export const getLanguageLevelSelector = (state: RootState) =>
 
 export const pendingUpdateUserSelector = (state: RootState) =>
   state.profile.requests.updateProfilePending;
+
+export const themeSelector = (state: RootState) => state.profile.theme;
