@@ -3,16 +3,13 @@ import { createReducer } from '@reduxjs/toolkit';
 import { ChangeTheme } from './features/change-theme/change-theme';
 import { GetProfile } from './features/get-profile/get-profile';
 import { GetProfileSuccess } from './features/get-profile/get-profile-success';
-import { Theme } from './features/models/theme';
 import { UpdateProfile } from './features/update-profile/update-profile';
 import { UpdateProfileSuccess } from './features/update-profile/update-profile-success';
 import { IProfileState } from './types';
 
-const theme = window.Telegram.WebApp.colorScheme === Theme.DARK ? Theme.DARK : Theme.DARK;
-
 const initialState: IProfileState = {
   profileInfo: undefined,
-  theme,
+  theme: undefined,
   requests: {
     getProfileInfoPending: false,
     updateProfilePending: false,

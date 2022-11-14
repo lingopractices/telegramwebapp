@@ -3,6 +3,7 @@ import { IProfileState } from '@store/profile/types';
 import applyTheme from '@utils/apply-theme';
 import { SagaIterator } from 'redux-saga';
 import { apply } from 'redux-saga/effects';
+import { ThemeService } from 'services/theme-service';
 
 import { Theme } from '../models/theme';
 
@@ -19,8 +20,11 @@ export class ChangeTheme {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof ChangeTheme.action>): SagaIterator {
-      yield apply(applyTheme, applyTheme, [action.payload]);
+    return function* ({ payload }: ReturnType<typeof ChangeTheme.action>): SagaIterator {
+      const themeService = new ThemeService();
+
+      yield apply(applyTheme, applyTheme, [payload]);
+      yield apply(themeService, themeService.initializeOrUpdate, [payload]);
     };
   }
 }
