@@ -5,7 +5,6 @@
   justify-content: space-between;
   padding: 5px 15.9px 5px 16px;
   border-radius: 8px;
-  box-shadow: var(--box-shadow-color);
   cursor: pointer;
 
   svg {
@@ -21,16 +20,6 @@
     line-height: 24px;
     text-align: left;
   }
-
-  &:hover {
-    .date {
-      color: var(--light-blue-color);
-    }
-
-    svg {
-      stroke: var(--light-blue-color);
-    }
-  }
 }
 
 .info {
@@ -39,7 +28,7 @@
 }
 
 .defaultText {
-  color: var(--secondary-grey-color);
+  color: red;
   font-size: 12px;
   line-height: 14px;
 }

@@ -1,7 +1,7 @@
 body {
   padding: 0 16px;
   margin: 0;
-  background-color: var(--bg-color);
+  background-color: var(--base-bg-color);
   font-family: Rubik, -apple-system, 'Apple Color Emoji', 'Helvetica Neue', Arial, sans-serif;
 }
 
@@ -72,15 +72,4 @@ input {
 
 :root {
   font-size: 16px;
-
-  // primary colors
-
-  --base-color: #033dba;
-  --secondary-color: rgb(3 61 186 / 60%);
-  --secondary-grey-color: #cbcbcb;
-  --light-blue-bg: #d6e2ff;
-  --light-blue-color: #5488fd;
-  --box-shadow-color: 0 0 6px rgb(0 0 0 / 5%);
-  --bg-color: white;
-  --bg-search: rgb(118 118 128 / 12%);
 }

@@ -1,5 +1,4 @@
 import { createAction } from '@reduxjs/toolkit';
-import { AuthInit } from '@store/auth/features/init-auth/init-auth';
 import { httpRequestFactory } from '@store/common/http-request-factory';
 import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
@@ -43,7 +42,6 @@ export class GetMyMeetings {
         const hasMore = data.length >= page.limit;
 
         yield put(GetMyMeetingsSuccess.action({ data, hasMore }));
-        yield put(AuthInit.action());
       } catch (e) {
         // console.log(e);
       }
