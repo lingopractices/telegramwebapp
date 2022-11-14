@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { ReactComponent as LingoLogo } from '@assets/lingo-logo.svg';
 import Button from '@components/Button/Button';
@@ -73,12 +73,19 @@ const MainScreen: React.FC = () => {
     [myMeetings, renderMeetings],
   );
 
+  const [initDataVisible, setInitDataVisible] = useState(false);
+
+  const toggleInitData = useCallback(() => {
+    setInitDataVisible((prev) => !prev);
+  }, [setInitDataVisible]);
+
   return (
     <div className={styles.container}>
+      {initDataVisible && <div>{window.Telegram.WebApp.initData}</div>}
       <Link to={ACCOUNT_PATH} className={styles.account}>
         account
       </Link>
-      <LingoLogo className={styles.logo} />
+      <LingoLogo className={styles.logo} onDoubleClick={toggleInitData} />
       <div className={styles.buttonWrapper}>
         <Button title={t('mainScreen.create')} onClick={createMeeting} />
         <Button title={t('mainScreen.join')} onClick={joinMeeting} />
