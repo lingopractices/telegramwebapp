@@ -40,31 +40,22 @@ const useTgMainButton = (
 
   const setMainButtonParams = useCallback(
     (obj: MainButtonParams) => {
-      setDevButton((prev) => ({
-        ...window.Telegram.WebApp.MainButton,
-        ...obj,
-      }));
-
       window.Telegram.WebApp.MainButton.setParams({
         ...obj,
-        text: obj.text || defaultTextMainButton || window.Telegram.WebApp.MainButton.text,
       });
-    },
-    [defaultTextMainButton],
-  );
-
-  const setLoadingMainButton = useCallback(
-    (state: boolean) => {
-      if (state) {
-        window.Telegram.WebApp.MainButton.showProgress(state);
-      } else {
-        window.Telegram.WebApp.MainButton.hideProgress();
-      }
 
       setDevButton({ ...window.Telegram.WebApp.MainButton });
     },
     [setDevButton],
   );
+
+  const setLoadingMainButton = useCallback((state: boolean) => {
+    if (state) {
+      window.Telegram.WebApp.MainButton.showProgress(state);
+    } else {
+      window.Telegram.WebApp.MainButton.hideProgress();
+    }
+  }, []);
 
   useEffect(() => {
     if (defaultTextMainButton) {
