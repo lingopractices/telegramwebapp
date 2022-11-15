@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import LanguageList from '@components/LanguageList/LanguageList';
+import StaticNavigation from '@components/StaticNavigation/StaticNavigation';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { updateProfileAction } from '@store/profile/actions';
 import { getInterfaceLanguageSelector, getProfileDataSelector } from '@store/profile/selectors';
@@ -15,10 +16,8 @@ import { ACCOUNT_PATH } from 'routing/routing.constants';
 const AccountInterfaceLanguage: React.FC = () => {
   const navigate = useNavigate();
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton } = useTgMainButton(
-    true,
-    false,
-  );
+  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton, devButton } =
+    useTgMainButton(true, false);
   const interfaceLanguage = useSelector(getInterfaceLanguageSelector);
   const user = useSelector(getProfileDataSelector);
   const [newInterfaceLanguageId, setNewInterfaceLanguageId] = useState(interfaceLanguage?.id);
@@ -78,11 +77,20 @@ const AccountInterfaceLanguage: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <LanguageList
-      languages={interfaceLanguages}
-      onChangeLanguage={setNewInterfaceLanguageId}
-      defaultLanguageId={newInterfaceLanguageId}
-    />
+    <>
+      <LanguageList
+        languages={interfaceLanguages}
+        onChangeLanguage={setNewInterfaceLanguageId}
+        defaultLanguageId={newInterfaceLanguageId}
+      />
+      {import.meta.env.DEV && (
+        <StaticNavigation
+          handleBack={handleBack}
+          handleSubmit={handleSubmit}
+          devButton={devButton}
+        />
+      )}
+    </>
   );
 };
 

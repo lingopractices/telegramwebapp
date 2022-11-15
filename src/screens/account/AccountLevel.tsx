@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import LevelList from '@components/LevelList/LevelList';
+import StaticNavigation from '@components/StaticNavigation/StaticNavigation';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { updateProfileAction } from '@store/profile/actions';
 import { getLanguageLevelSelector, getProfileDataSelector } from '@store/profile/selectors';
@@ -14,10 +15,8 @@ import { ACCOUNT_PATH } from 'routing/routing.constants';
 const AccountLevel: React.FC = () => {
   const navigate = useNavigate();
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton } = useTgMainButton(
-    true,
-    false,
-  );
+  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton, devButton } =
+    useTgMainButton(true, false);
   const user = useSelector(getProfileDataSelector);
   const languageLevel = useSelector(getLanguageLevelSelector);
   const [newLanguageLevel, setNewLanguageLevel] = useState(languageLevel);
@@ -68,7 +67,18 @@ const AccountLevel: React.FC = () => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  return <LevelList onChangeLevel={setNewLanguageLevel} defaultLevelId={newLanguageLevel} />;
+  return (
+    <>
+      <LevelList onChangeLevel={setNewLanguageLevel} defaultLevelId={newLanguageLevel} />
+      {import.meta.env.DEV && (
+        <StaticNavigation
+          handleBack={handleBack}
+          handleSubmit={handleSubmit}
+          devButton={devButton}
+        />
+      )}
+    </>
+  );
 };
 
 export default AccountLevel;

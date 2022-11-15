@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import StaticNavigation from '@components/StaticNavigation/StaticNavigation';
 import TopicList from '@components/TopicList/TopicList';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { getTopicsAction } from '@store/topics/actions';
@@ -16,10 +17,8 @@ const CreateMeetingTopic: React.FC = () => {
   const getTopics = useActionWithDeferred(getTopicsAction);
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton } = useTgMainButton(
-    true,
-    false,
-  );
+  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton, devButton } =
+    useTgMainButton(true, false);
   const { t } = useTranslation();
 
   const handleChangeLevel = useCallback(
@@ -75,11 +74,20 @@ const CreateMeetingTopic: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <TopicList
-      onChangeTopic={handleChangeLevel}
-      loadMoreTopics={loadMoreTopics}
-      defaultTopicId={meetingData?.topicId}
-    />
+    <>
+      <TopicList
+        onChangeTopic={handleChangeLevel}
+        loadMoreTopics={loadMoreTopics}
+        defaultTopicId={meetingData?.topicId}
+      />
+      {import.meta.env.DEV && (
+        <StaticNavigation
+          handleBack={handleBack}
+          handleSubmit={handleForward}
+          devButton={devButton}
+        />
+      )}
+    </>
   );
 };
 

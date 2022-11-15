@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 
 import InfoItem from '@components/InfoItem/InfoItem';
+import StaticNavigation from '@components/StaticNavigation/StaticNavigation';
 import { getProfileDataSelector } from '@store/profile/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
@@ -75,6 +76,7 @@ const AccountScreen: React.FC = () => {
           onClick={() => {}}
         />
       </div>
+      {import.meta.env.DEV && <StaticNavigation handleBack={handleBack} />}
     </div>
   );
 };

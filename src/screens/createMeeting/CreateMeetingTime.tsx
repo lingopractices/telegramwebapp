@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import StaticNavigation from '@components/StaticNavigation/StaticNavigation';
 import Time from '@components/Time/Time';
 import { Dayjs } from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
@@ -16,7 +17,7 @@ const CreateMeetingTime: React.FC = () => {
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(true, false);
+  const { setMainButtonOnClick, setMainButtonParams, devButton } = useTgMainButton(true, false);
 
   const handleChangeTime = useCallback(
     (value: Dayjs) => {
@@ -50,11 +51,20 @@ const CreateMeetingTime: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <Time
-      defaultDate={meetingData?.meetingDate}
-      defaultTime={meetingData?.meetingTime}
-      onChangeTime={handleChangeTime}
-    />
+    <>
+      <Time
+        defaultDate={meetingData?.meetingDate}
+        defaultTime={meetingData?.meetingTime}
+        onChangeTime={handleChangeTime}
+      />
+      {import.meta.env.DEV && (
+        <StaticNavigation
+          handleBack={handleBack}
+          handleSubmit={handleForward}
+          devButton={devButton}
+        />
+      )}
+    </>
   );
 };
 

@@ -4,7 +4,7 @@ import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
 import { getMyMeetingsSelector } from '@store/meetings/selectors';
 import { IMeetingsState } from '@store/meetings/types';
-import { MY_MEETINGS_LIMITS } from '@utils/paginationLimits';
+import { MY_MEETINGS_LIMITS } from '@utils/pagination-limits';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { AxiosResponse } from 'axios';
 import { IMeeting, IPaginationParams } from 'lingopractices-models';

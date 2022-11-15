@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import DatePicker from '@components/DatePicker/DatePicker';
+import StaticNavigation from '@components/StaticNavigation/StaticNavigation';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import {
@@ -9,7 +10,7 @@ import {
   getMeetingsAction,
 } from '@store/meetings/actions';
 import { getMeetingsDaysSelector } from '@store/meetings/selectors';
-import { getMaxTimeOfDay, getMinTimeOfDay } from '@utils/dateUtils';
+import { getMaxTimeOfDay, getMinTimeOfDay } from '@utils/date-utils';
 import { DAY_MONTH_YAER, FULL_DATE } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
@@ -31,10 +32,8 @@ const JoinMeetingDate: React.FC = () => {
   const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton } = useTgMainButton(
-    true,
-    false,
-  );
+  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton, devButton } =
+    useTgMainButton(true, false);
 
   const handleChangeDate = useCallback(
     (value: Dayjs | null) => {
@@ -133,12 +132,21 @@ const JoinMeetingDate: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <DatePicker
-      onChangeMonth={loadDays}
-      defaultDate={meetingData?.from}
-      availableDays={meetingsDays}
-      onChangeDate={handleChangeDate}
-    />
+    <>
+      <DatePicker
+        onChangeMonth={loadDays}
+        defaultDate={meetingData?.from}
+        availableDays={meetingsDays}
+        onChangeDate={handleChangeDate}
+      />
+      {import.meta.env.DEV && (
+        <StaticNavigation
+          handleBack={handleBack}
+          handleSubmit={handleForward}
+          devButton={devButton}
+        />
+      )}
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import ParticipantsCount from '@components/ParticipantsCount/ParticipantsCount';
+import StaticNavigation from '@components/StaticNavigation/StaticNavigation';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { useTranslation } from 'react-i18next';
@@ -15,10 +16,7 @@ const CreateMeetingParticipants: React.FC = () => {
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton } = useTgMainButton(
-    true,
-    false,
-  );
+  const { setMainButtonOnClick, setMainButtonParams, devButton } = useTgMainButton(true, false);
 
   const handleChangeParticipiants = useCallback(
     (peopleNumber: number) => {
@@ -58,10 +56,19 @@ const CreateMeetingParticipants: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <ParticipantsCount
-      onChangeParticipiants={handleChangeParticipiants}
-      defaultParticipiants={meetingData?.peopleNumber}
-    />
+    <>
+      <ParticipantsCount
+        onChangeParticipiants={handleChangeParticipiants}
+        defaultParticipiants={meetingData?.peopleNumber}
+      />
+      {import.meta.env.DEV && (
+        <StaticNavigation
+          handleBack={handleBack}
+          handleSubmit={handleForward}
+          devButton={devButton}
+        />
+      )}
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { getTheme } from '@utils/getTelegramTheme';
+import { getTheme } from '@utils/get-telegram-theme';
 import { SagaIterator } from 'redux-saga';
 import { put } from 'redux-saga/effects';
 import { ThemeService } from 'services/theme-service';

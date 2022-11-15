@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import MeetingInfo from '@components/MeetingInfo/MeetingInfo';
+import StaticNavigation from '@components/StaticNavigation/StaticNavigation';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { joinMeetingAction } from '@store/meetings/actions';
 import { getMeetingByIdSelector } from '@store/meetings/selectors';
@@ -23,7 +24,11 @@ const JoinMeetingInfo: React.FC = () => {
   const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick } = useTgMainButton(true, true, t('button.submit'.toUpperCase()));
+  const { setMainButtonOnClick, devButton } = useTgMainButton(
+    true,
+    true,
+    t('button.submit').toUpperCase(),
+  );
 
   const handleBack = useCallback(() => {
     navigate(JOIN_MEETINGS_PATH, { state: { meetingData } });
@@ -54,18 +59,29 @@ const JoinMeetingInfo: React.FC = () => {
   }, [handleSubmit, setMainButtonOnClick]);
 
   return meeting ? (
-    <MeetingInfo
-      id={meeting.id}
-      meetingDate={meeting.meetingDate}
-      topic={meeting.topic}
-      participantsCount={meeting.participantsCount}
-      maxParticipantsCount={meeting.maxParticipantsCount}
-      userCreator={meeting.userCreator}
-      googleMeetLink={meeting.googleMeetLink}
-    />
+    <>
+      <MeetingInfo
+        id={meeting.id}
+        meetingDate={meeting.meetingDate}
+        topic={meeting.topic}
+        participantsCount={meeting.participantsCount}
+        maxParticipantsCount={meeting.maxParticipantsCount}
+        userCreator={meeting.userCreator}
+        googleMeetLink={meeting.googleMeetLink}
+      />
+      {import.meta.env.DEV && (
+        <StaticNavigation
+          handleBack={handleBack}
+          handleSubmit={handleSubmit}
+          devButton={devButton}
+        />
+      )}
+    </>
   ) : (
     <div>no meeting</div>
   );
 };
 
 export default JoinMeetingInfo;
+
+// linkedIn junor react open to work след неделя

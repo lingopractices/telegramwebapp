@@ -4,7 +4,7 @@ import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
 import { getMeetingsSelector } from '@store/meetings/selectors';
 import { IMeetingsState } from '@store/meetings/types';
-import { MEETINGS_LIMITS } from '@utils/paginationLimits';
+import { MEETINGS_LIMITS } from '@utils/pagination-limits';
 import { AxiosResponse } from 'axios';
 import { Dayjs } from 'dayjs';
 import {

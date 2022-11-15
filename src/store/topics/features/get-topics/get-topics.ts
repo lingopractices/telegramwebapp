@@ -4,7 +4,7 @@ import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
 import { getTopicsSelector } from '@store/topics/selectors';
 import { ITopicsState } from '@store/topics/types';
-import { TOPIC_LIMITS } from '@utils/paginationLimits';
+import { TOPIC_LIMITS } from '@utils/pagination-limits';
 import { AxiosResponse } from 'axios';
 import { IPaginationParams, ISearchTopicsRequest, ITopic } from 'lingopractices-models';
 import { SagaIterator } from 'redux-saga';

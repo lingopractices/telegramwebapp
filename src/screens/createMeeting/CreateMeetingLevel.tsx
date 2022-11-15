@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import LevelList from '@components/LevelList/LevelList';
+import StaticNavigation from '@components/StaticNavigation/StaticNavigation';
 import { getLanguageLevelSelector } from '@store/profile/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
@@ -18,7 +19,7 @@ const CreateMeetingLevel: React.FC = () => {
   const currentLevel = useSelector(getLanguageLevelSelector);
   const { t } = useTranslation();
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams } = useTgMainButton(true, false);
+  const { setMainButtonOnClick, setMainButtonParams, devButton } = useTgMainButton(true, false);
 
   const handleChangeLevel = useCallback(
     (languageLevel: LanguageLevel) => {
@@ -58,10 +59,19 @@ const CreateMeetingLevel: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <LevelList
-      onChangeLevel={handleChangeLevel}
-      defaultLevelId={meetingData?.languageLevel || currentLevel}
-    />
+    <>
+      <LevelList
+        onChangeLevel={handleChangeLevel}
+        defaultLevelId={meetingData?.languageLevel || currentLevel}
+      />
+      {import.meta.env.DEV && (
+        <StaticNavigation
+          handleBack={handleBack}
+          handleSubmit={handleForward}
+          devButton={devButton}
+        />
+      )}
+    </>
   );
 };
 

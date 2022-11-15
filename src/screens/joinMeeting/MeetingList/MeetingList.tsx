@@ -2,10 +2,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
+import StaticNavigation from '@components/StaticNavigation/StaticNavigation';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { getMeetingsAction } from '@store/meetings/actions';
 import { getMeetingHasMoreSelector, getMeetingsSelector } from '@store/meetings/selectors';
-import { getMaxTimeOfDay } from '@utils/dateUtils';
+import { getMaxTimeOfDay } from '@utils/date-utils';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { useTranslation } from 'react-i18next';
@@ -65,6 +66,7 @@ const MeetingList: React.FC = () => {
           ))}
         </InfiniteScroll>
       </div>
+      {import.meta.env.DEV && <StaticNavigation handleBack={handleBack} />}
     </div>
   );
 };

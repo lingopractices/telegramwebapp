@@ -7,11 +7,24 @@ import styles from './Button.module.scss';
 interface IButtonProps {
   title: string;
   containerClass?: string;
+  loading?: boolean;
+  disabled?: boolean;
   onClick: () => void;
 }
 
-const Button: React.FC<IButtonProps> = ({ title, containerClass = '', onClick }) => (
-  <button type='button' className={classNames(styles.container, containerClass)} onClick={onClick}>
+const Button: React.FC<IButtonProps> = ({
+  title,
+  containerClass = '',
+  disabled,
+  loading,
+  onClick,
+}) => (
+  <button
+    type='button'
+    disabled={disabled}
+    className={classNames(styles.container, containerClass)}
+    onClick={onClick}
+  >
     {title}
   </button>
 );

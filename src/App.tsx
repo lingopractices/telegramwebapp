@@ -3,7 +3,7 @@ import { useEffect, useMemo } from 'react';
 import 'base.scss';
 import './dayjs/day';
 import './localization/i18n';
-import AnimatedLogo from '@components/animatedLogo/AnimatedLogo';
+import AnimatedLogo from '@components/AnimatedLogo/AnimatedLogo';
 import { isAuthenticatedSelector } from '@store/auth/selectors';
 import { AppInit } from '@store/initiation/features/app-init/app-init';
 import { useDispatch, useSelector } from 'react-redux';

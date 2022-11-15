@@ -2,6 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 
 import Button from '@components/Button/Button';
 import MeetingInfo from '@components/MeetingInfo/MeetingInfo';
+import StaticNavigation from '@components/StaticNavigation/StaticNavigation';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { leaveMeetingAction } from '@store/meetings/actions';
 import { getMyMeetingByIdSelector } from '@store/meetings/selectors';
@@ -61,6 +62,7 @@ const MeetingInfoScreen: React.FC = () => {
         <Button onClick={() => {}} title={t('button.join')} />
         <Button onClick={handleLeaveMeeting} title={t('button.leave')} />
       </div>
+      {import.meta.env.DEV && <StaticNavigation handleBack={handleBack} />}
     </div>
   ) : (
     <div>no meeting</div>

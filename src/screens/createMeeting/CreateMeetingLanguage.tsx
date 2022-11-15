@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import LanguageList from '@components/LanguageList/LanguageList';
+import StaticNavigation from '@components/StaticNavigation/StaticNavigation';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { languagePendingSelector, languagesSelector } from '@store/languages/selectors';
 import { getPracticeLanguageSelector } from '@store/profile/selectors';
@@ -27,10 +28,8 @@ const CreateMeetingLanguage: React.FC = () => {
   const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton } = useTgMainButton(
-    true,
-    false,
-  );
+  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton, devButton } =
+    useTgMainButton(true, false);
 
   const handleChangeLanguage = useCallback(
     (languageId: string) => {
@@ -80,12 +79,21 @@ const CreateMeetingLanguage: React.FC = () => {
   }, [topics.length, getTopics]);
 
   return (
-    <LanguageList
-      popularLanguagesIds={popularLanguagesIds}
-      languages={languages}
-      onChangeLanguage={handleChangeLanguage}
-      defaultLanguageId={meetingData?.languageId || currentLanguage?.id}
-    />
+    <>
+      <LanguageList
+        popularLanguagesIds={popularLanguagesIds}
+        languages={languages}
+        onChangeLanguage={handleChangeLanguage}
+        defaultLanguageId={meetingData?.languageId || currentLanguage?.id}
+      />
+      {import.meta.env.DEV && (
+        <StaticNavigation
+          handleBack={handleBack}
+          handleSubmit={handleForward}
+          devButton={devButton}
+        />
+      )}
+    </>
   );
 };
 
