@@ -1,4 +1,7 @@
 .container {
+  overflow: hidden;
+  padding-bottom: 40px;
+
   h2 {
     margin: 16px 0;
     color: var(--base-color);

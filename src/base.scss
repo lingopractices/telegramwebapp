@@ -1,5 +1,8 @@
 body {
-  padding: 0 16px;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  padding: 16px 16px 0;
   margin: 0;
   background-color: var(--base-bg-color);
   font-family: Rubik, -apple-system, 'Apple Color Emoji', 'Helvetica Neue', Arial, sans-serif;
@@ -13,20 +16,20 @@ body {
   line-height: 1;
   outline: none;
 
-  scrollbar-width: thin;
+  scrollbar-width: none;
 
   &::-webkit-scrollbar {
-    width: 4px;
+    width: 0;
     height: 4px;
   }
 
   &::-webkit-scrollbar-track {
-    width: 4px;
+    width: 0;
     background: transparent;
   }
 
   &::-webkit-scrollbar-thumb {
-    width: 4px;
+    width: 0;
     border-radius: 6px;
   }
 }

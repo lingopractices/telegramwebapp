@@ -2,13 +2,11 @@ import React, { useCallback, useEffect } from 'react';
 
 import Button from '@components/Button/Button';
 import MeetingInfo from '@components/MeetingInfo/MeetingInfo';
-import StaticNavigation from '@components/StaticNavigation/StaticNavigation';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { leaveMeetingAction } from '@store/meetings/actions';
 import { getMyMeetingByIdSelector } from '@store/meetings/selectors';
 import { getProfileDataSelector } from '@store/profile/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
-import useTgMainButton from 'hooks/useTgMainButton';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -18,7 +16,6 @@ import styles from './MeetingInfoScreen.module.scss';
 
 const MeetingInfoScreen: React.FC = () => {
   const { setBackButtonOnClick } = useTgBackButton(true);
-  useTgMainButton(false, false);
   const navigate = useNavigate();
   const { id: meetingId } = useParams();
   const user = useSelector(getProfileDataSelector);
@@ -62,7 +59,6 @@ const MeetingInfoScreen: React.FC = () => {
         <Button onClick={() => {}} title={t('button.join')} />
         <Button onClick={handleLeaveMeeting} title={t('button.leave')} />
       </div>
-      {import.meta.env.DEV && <StaticNavigation handleBack={handleBack} />}
     </div>
   ) : (
     <div>no meeting</div>

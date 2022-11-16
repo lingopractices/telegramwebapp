@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import MeetingInfo from '@components/MeetingInfo/MeetingInfo';
-import StaticNavigation from '@components/StaticNavigation/StaticNavigation';
+import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { joinMeetingAction } from '@store/meetings/actions';
 import { getMeetingByIdSelector } from '@store/meetings/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
-import useTgMainButton from 'hooks/useTgMainButton';
 import { IJoinMeetingResponse, JoinMeetingResult } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -24,11 +23,6 @@ const JoinMeetingInfo: React.FC = () => {
   const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, devButton } = useTgMainButton(
-    true,
-    true,
-    t('button.submit').toUpperCase(),
-  );
 
   const handleBack = useCallback(() => {
     navigate(JOIN_MEETINGS_PATH, { state: { meetingData } });
@@ -54,10 +48,6 @@ const JoinMeetingInfo: React.FC = () => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  useEffect(() => {
-    setMainButtonOnClick(handleSubmit);
-  }, [handleSubmit, setMainButtonOnClick]);
-
   return meeting ? (
     <>
       <MeetingInfo
@@ -69,13 +59,7 @@ const JoinMeetingInfo: React.FC = () => {
         userCreator={meeting.userCreator}
         googleMeetLink={meeting.googleMeetLink}
       />
-      {import.meta.env.DEV && (
-        <StaticNavigation
-          handleBack={handleBack}
-          handleSubmit={handleSubmit}
-          devButton={devButton}
-        />
-      )}
+      <SubmitButton onClick={handleSubmit} title={t('button.submit')} />
     </>
   ) : (
     <div>no meeting</div>
@@ -83,5 +67,3 @@ const JoinMeetingInfo: React.FC = () => {
 };
 
 export default JoinMeetingInfo;
-
-// linkedIn junor react open to work след неделя
