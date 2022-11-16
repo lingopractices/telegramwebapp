@@ -5,9 +5,8 @@ import MeetingItem from '@components/MeetingItem/MeetingItem';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { getMeetingsAction } from '@store/meetings/actions';
 import { getMeetingHasMoreSelector, getMeetingsSelector } from '@store/meetings/selectors';
-import { getMaxTimeOfDay } from '@utils/dateUtils';
+import { getMaxTimeOfDay } from '@utils/date-utils';
 import useTgBackButton from 'hooks/useTgBackButton';
-import useTgMainButton from 'hooks/useTgMainButton';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -27,7 +26,6 @@ const MeetingList: React.FC = () => {
   const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  useTgMainButton(false, false);
 
   const loadMore = useCallback(() => {
     if (meetingData?.from && meetingData?.languageId && meetingData?.languageLevel) {

@@ -1,11 +1,12 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import { MainButtonParams } from '../telegram/types';
+import { MainButton, MainButtonParams } from '../telegram/types';
 
 type MainButtonType = {
   setMainButtonOnClick: (fn: () => void) => void;
   setMainButtonParams: (obj: MainButtonParams) => void;
   setLoadingMainButton: (state: boolean) => void;
+  devButton: MainButton;
 };
 
 let btnClickHandlerFn: () => void = () => {};
@@ -15,6 +16,10 @@ const useTgMainButton = (
   isEnabledMainButton: boolean,
   defaultTextMainButton?: string,
 ): MainButtonType => {
+  const [devButton, setDevButton] = useState<MainButton>({
+    ...window.Telegram.WebApp.MainButton,
+  });
+
   const handleMainBtnClicked = useCallback(() => {
     if (btnClickHandlerFn) {
       btnClickHandlerFn();
@@ -35,28 +40,22 @@ const useTgMainButton = (
 
   const setMainButtonParams = useCallback(
     (obj: MainButtonParams) => {
-      if (!obj.text) {
-        window.Telegram.WebApp.MainButton.setParams({ ...obj, text: defaultTextMainButton });
-        return;
-      }
+      window.Telegram.WebApp.MainButton.setParams({
+        ...obj,
+      });
 
-      window.Telegram.WebApp.MainButton.setParams(obj);
+      setDevButton({ ...window.Telegram.WebApp.MainButton });
     },
-    [defaultTextMainButton],
+    [setDevButton],
   );
 
-  const setLoadingMainButton = useCallback(
-    (state: boolean) => {
-      if (state) {
-        setMainButtonParams({ is_active: false });
-        window.Telegram.WebApp.MainButton.showProgress(state);
-      } else {
-        setMainButtonParams({ is_active: true });
-        window.Telegram.WebApp.MainButton.hideProgress();
-      }
-    },
-    [setMainButtonParams],
-  );
+  const setLoadingMainButton = useCallback((state: boolean) => {
+    if (state) {
+      window.Telegram.WebApp.MainButton.showProgress(state);
+    } else {
+      window.Telegram.WebApp.MainButton.hideProgress();
+    }
+  }, []);
 
   useEffect(() => {
     if (defaultTextMainButton) {
@@ -77,6 +76,7 @@ const useTgMainButton = (
     setMainButtonOnClick,
     setMainButtonParams,
     setLoadingMainButton,
+    devButton,
   };
 };
 

@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { IMeetingsState } from '@store/meetings/types';
-import { sortGrowingDates } from '@utils/dateUtils';
+import { sortGrowingDates } from '@utils/date-utils';
 
 export class JoinMeetingSuccess {
   static get action() {

@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 
-import expandWindow from '@utils/expandWindow';
+import expandWindow from '@utils/expand-window';
 
 type BackButtonType = {
   setBackButtonOnClick: (fn: () => void) => void;

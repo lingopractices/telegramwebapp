@@ -3,7 +3,6 @@ import React, { useCallback, useEffect } from 'react';
 import InfoItem from '@components/InfoItem/InfoItem';
 import { getProfileDataSelector } from '@store/profile/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
-import useTgMainButton from 'hooks/useTgMainButton';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +22,6 @@ const AccountScreen: React.FC = () => {
   const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  useTgMainButton(false, false);
 
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);

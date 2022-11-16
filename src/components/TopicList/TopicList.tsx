@@ -26,7 +26,7 @@ export const TopicList: React.FC<ITopicList> = ({
   const topics = useSelector(getTopicsSelector);
   const hasMore = useSelector(getTopicsHasMoreSelector);
   const [filteredTopics, setFilteredTopics] = useState(topics);
-  const [currentTopicId, setCurrentTopicId] = useState(defaultTopicId || -1);
+  const [currentTopicId, setCurrentTopicId] = useState(defaultTopicId || 0);
   const [searchStringText, setSearchStringText] = useState('');
   const infiniteRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
@@ -40,7 +40,7 @@ export const TopicList: React.FC<ITopicList> = ({
       if (topicId !== currentTopicId) {
         setCurrentTopicId(topicId);
       } else {
-        setCurrentTopicId(-1);
+        setCurrentTopicId(0);
       }
     },
     [setCurrentTopicId, currentTopicId],

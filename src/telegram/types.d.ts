@@ -172,7 +172,7 @@ interface WebAppUser {
   photo_url?: string;
 }
 
-interface MainButton {
+export interface MainButton {
   /**
    * Current button text. Set to CONTINUE by default.
    */

@@ -7,7 +7,6 @@ import { leaveMeetingAction } from '@store/meetings/actions';
 import { getMyMeetingByIdSelector } from '@store/meetings/selectors';
 import { getProfileDataSelector } from '@store/profile/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
-import useTgMainButton from 'hooks/useTgMainButton';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -17,7 +16,6 @@ import styles from './MeetingInfoScreen.module.scss';
 
 const MeetingInfoScreen: React.FC = () => {
   const { setBackButtonOnClick } = useTgBackButton(true);
-  useTgMainButton(false, false);
   const navigate = useNavigate();
   const { id: meetingId } = useParams();
   const user = useSelector(getProfileDataSelector);

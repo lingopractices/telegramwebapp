@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import MeetingInfo from '@components/MeetingInfo/MeetingInfo';
+import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { joinMeetingAction } from '@store/meetings/actions';
 import { getMeetingByIdSelector } from '@store/meetings/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
-import useTgMainButton from 'hooks/useTgMainButton';
 import { IJoinMeetingResponse, JoinMeetingResult } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -23,7 +23,6 @@ const JoinMeetingInfo: React.FC = () => {
   const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick } = useTgMainButton(true, true, t('button.submit'.toUpperCase()));
 
   const handleBack = useCallback(() => {
     navigate(JOIN_MEETINGS_PATH, { state: { meetingData } });
@@ -49,20 +48,19 @@ const JoinMeetingInfo: React.FC = () => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  useEffect(() => {
-    setMainButtonOnClick(handleSubmit);
-  }, [handleSubmit, setMainButtonOnClick]);
-
   return meeting ? (
-    <MeetingInfo
-      id={meeting.id}
-      meetingDate={meeting.meetingDate}
-      topic={meeting.topic}
-      participantsCount={meeting.participantsCount}
-      maxParticipantsCount={meeting.maxParticipantsCount}
-      userCreator={meeting.userCreator}
-      googleMeetLink={meeting.googleMeetLink}
-    />
+    <>
+      <MeetingInfo
+        id={meeting.id}
+        meetingDate={meeting.meetingDate}
+        topic={meeting.topic}
+        participantsCount={meeting.participantsCount}
+        maxParticipantsCount={meeting.maxParticipantsCount}
+        userCreator={meeting.userCreator}
+        googleMeetLink={meeting.googleMeetLink}
+      />
+      <SubmitButton onClick={handleSubmit} title={t('button.submit')} />
+    </>
   ) : (
     <div>no meeting</div>
   );

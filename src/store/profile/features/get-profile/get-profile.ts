@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { AuthInit } from '@store/auth/features/init-auth/init-auth';
+import { GetMyMeetings } from '@store/meetings/features/get-my-meetings/get-my-meetings';
 import { AxiosResponse } from 'axios';
 import { IUser } from 'lingopractices-models';
 import { SagaIterator } from 'redux-saga';
@@ -25,12 +26,11 @@ export class GetProfile {
   static get saga() {
     return function* (): SagaIterator {
       const { data } = GetProfile.httpRequest.call(
-        yield call(
-          () => GetProfile.httpRequest.generator(), // temporary id placeholder 390447649 1222183809
-        ),
+        yield call(() => GetProfile.httpRequest.generator()),
       );
 
       yield put(GetProfileSuccess.action(data));
+      yield put(GetMyMeetings.action());
       yield put(AuthInit.action());
     };
   }

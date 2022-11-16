@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import SubmitButton from '@components/SubmitButton/SubmitButton';
 import TopicList from '@components/TopicList/TopicList';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { getTopicsAction } from '@store/topics/actions';
 import useTgBackButton from 'hooks/useTgBackButton';
-import useTgMainButton from 'hooks/useTgMainButton';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CREATE_LEVELS_PATH, CREATE_PARTICIPANTS_PATH } from 'routing/routing.constants';
@@ -16,47 +16,22 @@ const CreateMeetingTopic: React.FC = () => {
   const getTopics = useActionWithDeferred(getTopicsAction);
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton } = useTgMainButton(
-    true,
-    false,
-  );
   const { t } = useTranslation();
 
-  const handleChangeLevel = useCallback(
+  const handleChangeTopic = useCallback(
     (topicId: number) => {
-      if (topicId) {
+      if (typeof topicId === 'number') {
         setMeetingData((prev) => ({ ...prev, topicId }));
       }
     },
     [setMeetingData],
   );
 
-  useEffect(() => {
-    if (meetingData?.topicId) {
-      handleChangeLevel(meetingData.topicId);
-    }
-  }, [meetingData?.topicId, handleChangeLevel]);
-
-  useEffect(() => {
-    if (meetingData?.topicId) {
-      if (meetingData.topicId > -1) {
-        setMainButtonParams({ text: t('button.submit').toUpperCase(), is_active: true });
-      } else {
-        setMainButtonParams({ text: t('topic.choose').toUpperCase(), is_active: false });
-      }
-    }
-  }, [meetingData?.topicId, setMainButtonParams, t]);
-
   const loadMoreTopics = useCallback(() => {
-    setLoadingMainButton(true);
     getTopics()
-      .then(() => {
-        setLoadingMainButton(false);
-      })
-      .catch((e) => {
-        setLoadingMainButton(false);
-      });
-  }, [getTopics, setLoadingMainButton]);
+      .then(() => {})
+      .catch((e) => {});
+  }, [getTopics]);
 
   const handleBack = useCallback(() => {
     navigate(CREATE_LEVELS_PATH, { state: { meetingData } });
@@ -67,19 +42,25 @@ const CreateMeetingTopic: React.FC = () => {
   }, [meetingData, navigate]);
 
   useEffect(() => {
-    setMainButtonOnClick(handleForward);
-  }, [handleForward, setMainButtonOnClick]);
-
-  useEffect(() => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <TopicList
-      onChangeTopic={handleChangeLevel}
-      loadMoreTopics={loadMoreTopics}
-      defaultTopicId={meetingData?.topicId}
-    />
+    <>
+      <button type='button' onClick={handleBack}>
+        back
+      </button>
+      <TopicList
+        onChangeTopic={handleChangeTopic}
+        loadMoreTopics={loadMoreTopics}
+        defaultTopicId={meetingData?.topicId}
+      />
+      <SubmitButton
+        onClick={handleForward}
+        title={meetingData?.topicId ? t('button.submit') : t('topic.choose')}
+        isActive={!!meetingData?.topicId}
+      />
+    </>
   );
 };
 

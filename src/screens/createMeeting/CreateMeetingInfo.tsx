@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import ResultInfo from '@components/ResultInfo/ResultInfo';
+import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { createMeetingAction } from '@store/meetings/actions';
-import { mergeDateAndTime } from '@utils/dateUtils';
+import { mergeDateAndTime } from '@utils/date-utils';
 import useTgBackButton from 'hooks/useTgBackButton';
-import useTgMainButton from 'hooks/useTgMainButton';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CREATE_TIME_PATH, INSTANT_MAIN_PATH } from 'routing/routing.constants';
 import { CreateMeetingType } from 'screens/types';
@@ -15,9 +16,9 @@ const CreateMeetingInfo: React.FC = () => {
   const navigate = useNavigate();
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
   const createMeeting = useActionWithDeferred(createMeetingAction);
+  const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setLoadingMainButton } = useTgMainButton(true, true, 'SUBMIT');
 
   const handleBack = useCallback(() => {
     navigate(CREATE_TIME_PATH, { state: { meetingData } });
@@ -36,7 +37,6 @@ const CreateMeetingInfo: React.FC = () => {
       meetingData?.meetingDate &&
       meetingData?.meetingTime
     ) {
-      setLoadingMainButton(true);
       createMeeting({
         languageId: meetingData.languageId,
         languageLevel: meetingData.languageLevel,
@@ -45,12 +45,9 @@ const CreateMeetingInfo: React.FC = () => {
         peopleNumber: meetingData.peopleNumber,
       })
         .then(() => {
-          setLoadingMainButton(false);
           handleForward();
         })
-        .catch((e) => {
-          setLoadingMainButton(false);
-        });
+        .catch((e) => {});
     }
   }, [
     meetingData?.languageLevel,
@@ -61,18 +58,18 @@ const CreateMeetingInfo: React.FC = () => {
     meetingData?.topicId,
     createMeeting,
     handleForward,
-    setLoadingMainButton,
   ]);
-
-  useEffect(() => {
-    setMainButtonOnClick(handleSubmit);
-  }, [handleSubmit, setMainButtonOnClick]);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
-  return <ResultInfo meetingData={meetingData} />;
+  return (
+    <>
+      <ResultInfo meetingData={meetingData} />
+      <SubmitButton onClick={handleSubmit} title={t('button.submit')} />
+    </>
+  );
 };
 
 export default CreateMeetingInfo;

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import DatePicker from '@components/DatePicker/DatePicker';
+import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import {
@@ -9,11 +10,10 @@ import {
   getMeetingsAction,
 } from '@store/meetings/actions';
 import { getMeetingsDaysSelector } from '@store/meetings/selectors';
-import { getMaxTimeOfDay, getMinTimeOfDay } from '@utils/dateUtils';
+import { getMaxTimeOfDay, getMinTimeOfDay } from '@utils/date-utils';
 import { DAY_MONTH_YAER, FULL_DATE } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
-import useTgMainButton from 'hooks/useTgMainButton';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -31,10 +31,6 @@ const JoinMeetingDate: React.FC = () => {
   const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-  const { setMainButtonOnClick, setMainButtonParams, setLoadingMainButton } = useTgMainButton(
-    true,
-    false,
-  );
 
   const handleChangeDate = useCallback(
     (value: Dayjs | null) => {
@@ -60,14 +56,6 @@ const JoinMeetingDate: React.FC = () => {
     [meetingData?.from, setMeetingData, clearMeetings],
   );
 
-  useEffect(() => {
-    if (meetingData?.from) {
-      setMainButtonParams({ text: t('button.submit').toUpperCase(), is_active: true });
-    } else {
-      setMainButtonParams({ text: t('date.choose').toUpperCase(), is_active: false });
-    }
-  }, [meetingData?.from, setMainButtonParams, t]);
-
   const handleBack = useCallback(() => {
     navigate(JOIN_LEVELS_PATH, { state: { meetingData } });
   }, [meetingData, navigate]);
@@ -78,7 +66,6 @@ const JoinMeetingDate: React.FC = () => {
 
   const handleSubmit = useCallback(() => {
     if (meetingData?.languageId && meetingData?.from && meetingData?.languageLevel) {
-      setLoadingMainButton(true);
       getMeetings({
         languageId: meetingData.languageId,
         languageLevel: meetingData.languageLevel,
@@ -86,12 +73,9 @@ const JoinMeetingDate: React.FC = () => {
         to: getMaxTimeOfDay(meetingData.from),
       })
         .then(() => {
-          setLoadingMainButton(false);
           handleForward();
         })
-        .catch((e) => {
-          setLoadingMainButton(false);
-        });
+        .catch((e) => {});
     }
   }, [
     meetingData?.languageLevel,
@@ -99,46 +83,43 @@ const JoinMeetingDate: React.FC = () => {
     meetingData?.from,
     handleForward,
     getMeetings,
-    setLoadingMainButton,
   ]);
 
   const loadDays = useCallback(
     (date: Dayjs) => {
       if (meetingData?.languageId && meetingData?.languageLevel && date) {
-        setLoadingMainButton(true);
         getMeetingsDays({
           languageId: meetingData.languageId,
           languageLevel: meetingData.languageLevel,
           from: date.format(FULL_DATE),
         })
-          .then(() => {
-            setLoadingMainButton(false);
-          })
-          .catch((e) => {
-            setLoadingMainButton(false);
-          });
+          .then(() => {})
+          .catch((e) => {});
       }
     },
-    [meetingData?.languageId, meetingData?.languageLevel, getMeetingsDays, setLoadingMainButton],
+    [meetingData?.languageId, meetingData?.languageLevel, getMeetingsDays],
   );
 
   useEffect(() => loadDays(dayjs()), [loadDays]);
-
-  useEffect(() => {
-    setMainButtonOnClick(handleSubmit);
-  }, [handleSubmit, setMainButtonOnClick]);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <DatePicker
-      onChangeMonth={loadDays}
-      defaultDate={meetingData?.from}
-      availableDays={meetingsDays}
-      onChangeDate={handleChangeDate}
-    />
+    <>
+      <DatePicker
+        onChangeMonth={loadDays}
+        defaultDate={meetingData?.from}
+        availableDays={meetingsDays}
+        onChangeDate={handleChangeDate}
+      />
+      <SubmitButton
+        onClick={handleSubmit}
+        title={meetingData?.from ? t('button.submit') : t('date.choose')}
+        isActive={!!meetingData?.from}
+      />
+    </>
   );
 };
 

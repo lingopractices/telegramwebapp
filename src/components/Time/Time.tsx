@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import RadioItem from '@components/RadioItem/RadioItem';
-import { getAvailableTimes } from '@utils/dateUtils';
+import { getAvailableTimes } from '@utils/date-utils';
 import { HOUR_MINUTE } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
 import { useTranslation } from 'react-i18next';

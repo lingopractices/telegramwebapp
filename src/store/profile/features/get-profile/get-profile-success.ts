@@ -24,7 +24,9 @@ export class GetProfileSuccess {
     return function* (action: ReturnType<typeof GetProfileSuccess.action>): SagaIterator {
       const { interfaceLanguage } = action.payload;
 
-      yield apply(i18n, changeLanguage, [interfaceLanguage.id]);
+      if (i18n.languages.some((lng) => interfaceLanguage.id.includes(lng))) {
+        yield apply(i18n, changeLanguage, [interfaceLanguage.id]);
+      }
     };
   }
 }
