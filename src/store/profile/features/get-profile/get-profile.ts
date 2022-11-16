@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { AuthInit } from '@store/auth/features/init-auth/init-auth';
+import { GetMyMeetings } from '@store/meetings/features/get-my-meetings/get-my-meetings';
 import { AxiosResponse } from 'axios';
 import { IUser } from 'lingopractices-models';
 import { SagaIterator } from 'redux-saga';
@@ -29,6 +30,7 @@ export class GetProfile {
       );
 
       yield put(GetProfileSuccess.action(data));
+      yield put(GetMyMeetings.action());
       yield put(AuthInit.action());
     };
   }
