@@ -47,9 +47,6 @@ const CreateMeetingTopic: React.FC = () => {
 
   return (
     <>
-      <button type='button' onClick={handleBack}>
-        back
-      </button>
       <TopicList
         onChangeTopic={handleChangeTopic}
         loadMoreTopics={loadMoreTopics}

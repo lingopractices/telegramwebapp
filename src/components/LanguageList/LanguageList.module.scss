@@ -1,14 +1,18 @@
 .container {
   overflow: hidden;
   padding-bottom: 40px;
+  color: var(--base-color);
 
   h2 {
-    margin: 16px 0;
-    color: var(--base-color);
+    margin-bottom: 16px;
     font-size: 16px;
     font-weight: 600;
     line-height: 24px;
     text-align: left;
+  }
+
+  h3 {
+    margin: 16px 0;
   }
 }
 

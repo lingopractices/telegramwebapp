@@ -78,28 +78,16 @@ const LanguageList: React.FC<ILanguageList> = ({
       const others = differenceBy(filteredLanguages, popular, 'id');
 
       return (
-        <div>
-          <SearchBox
-            onChange={handleChangeSearchString}
-            value={searchStringText}
-            containerClassname={styles.search}
-          />
-          {!!popular.length && <h2>{t('language.popular')}</h2>}
+        <>
+          {!!popular.length && <h3>{t('language.popular')}</h3>}
           <div className={styles.wrapper}>{popular.map(renderLanguages)}</div>
-          {!!others.length && <h2>{t('language.other')}</h2>}
+          {!!others.length && <h3>{t('language.other')}</h3>}
           <div className={styles.wrapper}>{others.map(renderLanguages)}</div>
-        </div>
+        </>
       );
     }
     return <div className={styles.wrapper}>{filteredLanguages.map(renderLanguages)}</div>;
-  }, [
-    popularLanguagesIds,
-    filteredLanguages,
-    searchStringText,
-    renderLanguages,
-    handleChangeSearchString,
-    t,
-  ]);
+  }, [popularLanguagesIds, filteredLanguages, renderLanguages, t]);
 
   return (
     <div className={styles.container}>
@@ -110,6 +98,13 @@ const LanguageList: React.FC<ILanguageList> = ({
             : 'language.chooseInterfaceLang',
         ).toUpperCase()}
       </h2>
+      {popularLanguagesIds && (
+        <SearchBox
+          onChange={handleChangeSearchString}
+          value={searchStringText}
+          containerClassname={styles.search}
+        />
+      )}
       {renderedLanguages}
     </div>
   );
