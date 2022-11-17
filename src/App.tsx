@@ -3,11 +3,11 @@ import { useEffect, useMemo } from 'react';
 import 'base.scss';
 import './dayjs/day';
 import './localization/i18n';
-import AnimatedLogo from '@components/AnimatedLogo/AnimatedLogo';
 import { isAuthenticatedSelector } from '@store/auth/selectors';
 import { AppInit } from '@store/initiation/features/app-init/app-init';
 import { useDispatch, useSelector } from 'react-redux';
 import MainRouter from 'routing/routers/MainRouter';
+import LogoScreen from 'screens/logo/LogoScreen';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const App = () => {
   }, [dispatch]);
 
   if (!isAuthenticated) {
-    return <AnimatedLogo />;
+    return <LogoScreen />;
   }
 
   return routing;
