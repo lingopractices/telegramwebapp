@@ -4,6 +4,7 @@ import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import QuestionItem from '@components/QuestionItem/QuestionItem';
 import SearchBox from '@components/SearchBox/SearchBox';
 import { getTopicsHasMoreSelector, getTopicsSelector } from '@store/topics/selectors';
+import { getClearString } from '@utils/get-clear-string';
 import { ITopic } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -55,7 +56,7 @@ export const TopicList: React.FC<ITopicList> = ({
 
   useEffect(() => {
     setFilteredTopics(
-      topics.filter((item) => item.name.trim().toLowerCase().includes(searchStringText)),
+      topics.filter((item) => getClearString(item.name).includes(getClearString(searchStringText))),
     );
   }, [searchStringText, topics, setFilteredTopics]);
 

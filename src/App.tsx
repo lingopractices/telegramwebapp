@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, lazy, Suspense } from 'react';
 
 import 'base.scss';
 import './dayjs/day';
@@ -6,8 +6,20 @@ import './localization/i18n';
 import { isAuthenticatedSelector } from '@store/auth/selectors';
 import { AppInit } from '@store/initiation/features/app-init/app-init';
 import { useDispatch, useSelector } from 'react-redux';
-import MainRouter from 'routing/routers/MainRouter';
 import LogoScreen from 'screens/logo/LogoScreen';
+
+const MainRouter = lazy(async () => {
+  await Promise.all([
+    import('@store/initiation/sagas'),
+    import('@store/auth/module'),
+    import('@store/languages/module'),
+    import('@store/meetings/module'),
+    import('@store/profile/module'),
+    import('@store/topics/module'),
+  ]);
+
+  return import('routing/routers/MainRouter');
+});
 
 const App = () => {
   const dispatch = useDispatch();
@@ -19,11 +31,7 @@ const App = () => {
     dispatch(AppInit.action());
   }, [dispatch]);
 
-  if (!isAuthenticated) {
-    return <LogoScreen />;
-  }
-
-  return routing;
+  return <Suspense fallback={<LogoScreen />}>{isAuthenticated && routing}</Suspense>;
 };
 
 export default App;

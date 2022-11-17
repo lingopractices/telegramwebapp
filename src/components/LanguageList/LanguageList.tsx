@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import RadioItem from '@components/RadioItem/RadioItem';
 import SearchBox from '@components/SearchBox/SearchBox';
+import { getClearString } from '@utils/get-clear-string';
 import { ILanguage } from 'lingopractices-models';
 import { differenceBy, intersectionWith } from 'lodash';
 import { useTranslation } from 'react-i18next';
@@ -111,7 +112,3 @@ const LanguageList: React.FC<ILanguageList> = ({
 };
 
 export default LanguageList;
-
-function getClearString(string: string): string {
-  return string.trim().toLowerCase();
-}
