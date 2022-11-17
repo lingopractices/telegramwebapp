@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { ReactComponent as LingoInner } from '@assets/logo-inner.svg';
 import { ReactComponent as LingoOuter } from '@assets/logo-outer.svg';
 
