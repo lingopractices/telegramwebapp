@@ -2,8 +2,10 @@
   position: relative;
   display: flex;
   overflow: hidden;
+  height: 100vh;
   flex-flow: column nowrap;
   align-items: center;
+  padding: 16px 16px 0;
 }
 
 .logo {

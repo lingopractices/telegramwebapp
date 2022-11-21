@@ -1,5 +1,7 @@
 .container {
-  h2 {
+  padding: 16px 16px 0;
+
+  & h2 {
     margin-bottom: 20px;
     color: var(--base-color);
     font-size: 16px;
@@ -11,6 +13,8 @@
 
 .wrapper {
   display: flex;
+  overflow: auto;
+  height: calc(100% - 130px);
   flex-flow: row wrap;
   gap: 16px;
 }

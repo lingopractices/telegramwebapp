@@ -7,6 +7,7 @@ import { getProfileDataSelector } from '@store/profile/selectors';
 import { getTopicsSelector } from '@store/topics/selectors';
 import { AxiosResponse } from 'axios';
 import {
+  CreateMeetingResult,
   ICreateMeetingRequest,
   ICreateMeetingResponse,
   IMeeting,
@@ -34,12 +35,12 @@ export class CreateMeeting {
     return function* ({ payload, meta }: ReturnType<typeof CreateMeeting.action>): SagaIterator {
       try {
         const {
-          data: { googleMeetLink, id, isCreated },
+          data: { googleMeetLink, id, createMeetingResult },
         } = CreateMeeting.httpRequest.call(
           yield call(() => CreateMeeting.httpRequest.generator(payload)),
         );
 
-        if (isCreated) {
+        if (createMeetingResult === CreateMeetingResult.Success) {
           const userCreator: IUser = yield select(getProfileDataSelector);
           const topics: ITopic[] = yield select(getTopicsSelector);
           const meetingTopic = topics.find((topic) => topic.id === payload.topicId);
@@ -59,6 +60,8 @@ export class CreateMeeting {
           };
           yield put(CreateMeetingSuccess.action(createdMeeting));
           meta?.deferred.resolve();
+        } else {
+          meta?.deferred.reject(createMeetingResult);
         }
       } catch (e) {
         meta?.deferred.reject(e);
