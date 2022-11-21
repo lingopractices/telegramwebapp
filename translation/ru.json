@@ -1,65 +1,66 @@
 {
   "mainScreen": {
     "create": "Создать",
-    "join": "Присоедениться"
+    "join": "Присоедениться",
+    "meetingsHeader": "Ваши встречи"
   },
 
   "account": {
     "myAccount": "Аккаунт",
     "info": {
-      "practiceLang": "язык практики",
-      "level": "уровень",
-      "location": "страна",
-      "interfaceLang": "язык интерфейса",
-      "gender": "пол"
+      "practiceLang": "Язык практики",
+      "level": "Уровень",
+      "location": "Страна",
+      "interfaceLang": "Язык интерфейса",
+      "gender": "Пол"
     }
   },
 
   "language": {
-    "choosePracticeLang": "выберите язык практики",
-    "chooseInterfaceLang": "выберите язык интрефейса",
+    "choosePracticeLang": "Выберите язык практики",
+    "chooseInterfaceLang": "Выберите язык интрефейса",
     "popular": "Популярные",
     "other": "Остальные",
     "choose": "выберите язык"
   },
 
   "level": {
-    "chooseLevel": "выберите уровень языка",
+    "chooseLevel": "Выберите уровни языка",
     "choose": "выберите уровень"
   },
 
   "topic": {
-    "chooseTopic": "выберите тему встречи",
+    "chooseTopic": "Выберите тему встречи",
     "choose": "выберите тему"
   },
 
   "participants": {
-    "chooseParticipants": "выберите количество участников встречи",
+    "chooseParticipants": "Выберите количество участников",
     "choose": "выберите количество"
   },
 
   "date": {
-    "chooseDate": "выберите дату встречи",
+    "chooseDate": "Выберите дату встречи",
     "choose": "выберите дату"
   },
 
   "time": {
-    "chooseTime": "выберите время встречи",
+    "chooseTime": "Выберите время встречи",
     "choose": "выберите время"
   },
 
   "meetingInfo": {
     "createMeeting": "Создать встречу",
     "practiceLang": "язык практики",
-    "level": "уровень",
-    "topic": "тема",
+    "level": "Уровень",
+    "topic": "Тема",
     "participants": "количество участников",
-    "date": "дата",
-    "time": "время"
+    "date": "Дата",
+    "time": "Время"
   },
 
   "meetings": {
-    "meetings": "встречи",
+    "meetings": "Встречи",
     "at": "в",
     "meetingTitles": {
       "online": "Онлайн встреча",
@@ -69,7 +70,7 @@
   },
 
   "meeting": {
-    "meeting": "встреча",
+    "meeting": "Встреча",
     "participants": "Участников",
     "free": "Свободно",
     "from": "из",
