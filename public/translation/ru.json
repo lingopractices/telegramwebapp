@@ -52,11 +52,11 @@
   "meetingInfo": {
     "createMeeting": "Создать встречу",
     "practiceLang": "язык практики",
-    "level": "уровень",
-    "topic": "тема",
+    "level": "Уровень",
+    "topic": "Тема",
     "participants": "количество участников",
-    "date": "дата",
-    "time": "время"
+    "date": "Дата",
+    "time": "Время"
   },
 
   "meetings": {
