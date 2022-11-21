@@ -48,7 +48,7 @@ const MeetingList: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h2>{t('meetings.meetings').toUpperCase()}</h2>
+      <h2>{t('meetings.meetings')}</h2>
       <div className={styles.meetingsWrapper} ref={meetingsRef}>
         <InfiniteScroll onReachBottom={loadMore} containerRef={meetingsRef} hasMore={hasMore}>
           {meetings.map((meeting) => (

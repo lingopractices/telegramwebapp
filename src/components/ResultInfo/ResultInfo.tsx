@@ -73,35 +73,35 @@ const ResultInfo: React.FC<IResultInfo> = ({ meetingData }) => {
 
   return (
     <div className={styles.container}>
-      <h2>{t('meetingInfo.createMeeting').toUpperCase()}</h2>
+      <h2>{t('meetingInfo.createMeeting')}</h2>
       <div className={styles.wrapper}>
         <InfoItem
-          title={t('meetingInfo.practiceLang').toUpperCase()}
+          title={t('meetingInfo.practiceLang')}
           value={`${chosenLanguage?.name}`}
           onClick={openLanguages}
         />
         <InfoItem
-          title={t('meetingInfo.level').toUpperCase()}
+          title={t('meetingInfo.level')}
           value={`${meetingData?.languageLevel && t(`levels.${meetingData.languageLevel}`)}`}
           onClick={openLevels}
         />
         <InfoItem
-          title={t('meetingInfo.topic').toUpperCase()}
+          title={t('meetingInfo.topic')}
           value={`${chosenTopic && chosenTopic.name}`}
           onClick={openTopics}
         />
         <InfoItem
-          title={t('meetingInfo.participants').toUpperCase()}
+          title={t('meetingInfo.participants')}
           value={`${meetingData?.peopleNumber}`}
           onClick={openPraticipiants}
         />
         <InfoItem
-          title={t('meetingInfo.date').toUpperCase()}
+          title={t('meetingInfo.date')}
           value={dayjs(meetingData?.meetingDate).format(DAY_MONTH_YAER)}
           onClick={openDate}
         />
         <InfoItem
-          title={t('meetingInfo.time').toUpperCase()}
+          title={t('meetingInfo.time')}
           value={dayjs(meetingData?.meetingTime).format(HOUR_MINUTE)}
           onClick={openTime}
         />

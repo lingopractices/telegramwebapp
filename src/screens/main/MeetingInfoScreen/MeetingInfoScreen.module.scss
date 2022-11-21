@@ -1,9 +1,19 @@
 .container {
-  padding: 16px 16px 0;
+  padding: 24px 16px 0;
 }
 
 .buttons {
   display: flex;
   flex-flow: column nowrap;
   gap: 16px;
+}
+
+.joinButton {
+  background-color: var(--dt-blue-dark-wt-blue-light);
+  color: var(--dt-blue-dark-wt-white);
+}
+
+.leaveButton {
+  background-color: var(--dt-blue-dark-wt-white);
+  color: var(--dt-blue-dark-wt-blue-light);
 }

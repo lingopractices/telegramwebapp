@@ -49,6 +49,21 @@ button {
   }
 }
 
+h2,
+h3 {
+  color: var(--base-color);
+  font-weight: 700;
+  line-height: 24px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 16px;
+}
+
 [hidden] {
   display: none;
 }

@@ -27,7 +27,7 @@ const ParticipantsCount: React.FC<IParticipiantsCount> = ({
 
   return (
     <div className={styles.container}>
-      <h2>{t('participants.chooseParticipants').toUpperCase()}</h2>
+      <h2>{t('participants.chooseParticipants')}</h2>
       <div className={styles.countWrapper}>
         {participiants.map((count) => (
           <RadioItem

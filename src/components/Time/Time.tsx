@@ -33,7 +33,7 @@ const Time: React.FC<ITime> = ({ defaultTime, defaultDate, onChangeTime }) => {
 
   return (
     <div className={styles.container}>
-      <h2>{t('time.chooseTime').toUpperCase()}</h2>
+      <h2>{t('time.chooseTime')}</h2>
       <div className={styles.wrapper}>
         {times.map((item) => (
           <RadioItem

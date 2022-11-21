@@ -3,54 +3,43 @@
   flex-flow: column nowrap;
   color: var(--base-color);
 
-  span {
-    display: flex;
-    width: fit-content;
-    align-items: center;
-    line-height: 22px;
-  }
-
   h2 {
-    margin-bottom: 20px;
-    color: var(--base-color);
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 24px;
-    text-align: left;
+    margin-bottom: 16px;
     text-align: center;
   }
 }
 
 .content {
   display: flex;
+  width: 100%;
   flex-flow: column nowrap;
   padding: 24px 16px;
-  border: 1px solid var(--base-color);
   margin-bottom: 24px;
+  background-color: var(--secondary-bg-color);
   border-radius: 16px;
-  gap: 8px;
-}
-
-.data {
-  color: var(--secondary-color);
-}
-
-.timeLine {
-  display: flex;
-  height: 24px;
-  justify-content: space-between;
 }
 
 .arrow {
   width: 10.56px;
   margin-left: 6.72px;
-  stroke: var(--secondary-color);
+  stroke: var(--base-color);
+}
+
+.questionWrapper {
+  margin-top: 8px;
 }
 
 .questions {
+  width: fit-content;
   cursor: pointer;
 }
 
-.capitalize {
-  text-transform: capitalize;
+.line {
+  width: 100%;
+  padding-top: 8px;
+
+  &:not(:last-of-type) {
+    padding-bottom: 8px;
+    border-bottom: 1px solid #555;
+  }
 }

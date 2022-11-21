@@ -62,7 +62,7 @@ export const TopicList: React.FC<ITopicList> = ({
 
   const renderTopics = useCallback(
     (topic: ITopic) => (
-      <div key={topic.id}>
+      <div key={topic.id} className={styles.topicWrap}>
         <TopicItem
           id={topic.id}
           name={topic.name}
@@ -88,7 +88,7 @@ export const TopicList: React.FC<ITopicList> = ({
 
   return (
     <div className={styles.container}>
-      <h2>{t('topic.chooseTopic').toUpperCase()}</h2>
+      <h2>{t('topic.chooseTopic')}</h2>
       <SearchBox
         value={searchStringText}
         onChange={handleChangeSearchString}

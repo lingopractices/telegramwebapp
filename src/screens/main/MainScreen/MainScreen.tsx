@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
+import { ReactComponent as AccountIcon } from '@assets/account.svg';
 import { ReactComponent as LingoLogo } from '@assets/lingo-logo.svg';
 import Button from '@components/Button/Button';
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
@@ -76,19 +77,29 @@ const MainScreen: React.FC = () => {
   return (
     <div className={styles.container}>
       <Link to={ACCOUNT_PATH} className={styles.account}>
-        account
+        <AccountIcon />
       </Link>
       <LingoLogo className={styles.logo} />
       <div className={styles.buttonWrapper}>
-        <Button title={t('mainScreen.create')} onClick={createMeeting} />
-        <Button title={t('mainScreen.join')} onClick={joinMeeting} />
+        <Button
+          title={t('mainScreen.create')}
+          onClick={createMeeting}
+          containerClass={styles.createButton}
+        />
+        <Button
+          title={t('mainScreen.join')}
+          onClick={joinMeeting}
+          containerClass={styles.joinButton}
+        />
       </div>
+      <h3 className={styles.meetingsHeader}>{t('mainScreen.meetingsHeader')}</h3>
       <div ref={infiniteContainer} className={styles.myMeetingsWrapper}>
         {myMeetings.length ? (
           <InfiniteScroll
             hasMore={hasMore}
             containerRef={infiniteContainer}
-            onReachBottom={loadMore}>
+            onReachBottom={loadMore}
+          >
             {renderedMeetings}
           </InfiniteScroll>
         ) : (
