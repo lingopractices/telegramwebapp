@@ -3,6 +3,7 @@ import React from 'react';
 import { ReactComponent as DownArrow } from '@assets/icons/down-arrow.svg';
 import { ReactComponent as UpArrow } from '@assets/icons/up-arrow.svg';
 import QuestionItem from '@components/QuestionItem/QuestionItem';
+import classNames from 'classnames';
 import { DAY_MONTH_YAER, HOUR_MINUTE } from 'common/constants';
 import dayjs from 'dayjs';
 import useToggledState from 'hooks/useToggleState';
@@ -27,43 +28,41 @@ const MeetingInfo: React.FC<IMeeting> = ({
   return (
     <div className={styles.container}>
       <h2>
-        {t('meeting.meeting').toUpperCase()}
+        {t('meeting.meeting')}
         <em>#</em>
         {`${id}`}
       </h2>
       <div className={styles.content}>
-        <div className={styles.timeLine}>
-          <span className={styles.capitalize}>
-            {t('meetingInfo.date')}: &nbsp;
-            <span className={styles.data}>{dayjs(meetingDate).format(DAY_MONTH_YAER)}</span>
-          </span>
-          <span className={styles.capitalize}>
-            {t('meetingInfo.time')}: &nbsp;
-            <span className={styles.data}>{dayjs(meetingDate).format(HOUR_MINUTE)}</span>
-          </span>
-        </div>
-        <span>
-          {t('meeting.participants')}: &nbsp;
-          <span className={styles.data}>{maxParticipantsCount}</span>
+        <span className={styles.line}>
+          {t('meetingInfo.date')}: &nbsp;
+          <span>{dayjs(meetingDate).format(DAY_MONTH_YAER)}</span>
         </span>
-        <span>
+        <span className={styles.line}>
+          {t('meetingInfo.time')}: &nbsp;
+          <span>{dayjs(meetingDate).format(HOUR_MINUTE)}</span>
+        </span>
+        <span className={styles.line}>
+          {t('meeting.participants')}: &nbsp;
+          <span>{maxParticipantsCount}</span>
+        </span>
+        <span className={styles.line}>
           {t('meeting.free')}
-          <span className={styles.data}>&nbsp; {freePlaces} &nbsp; </span>
+          <span>&nbsp; {freePlaces} &nbsp; </span>
           {t('meeting.from')}
-          <span className={styles.data}>&nbsp; {maxParticipantsCount} &nbsp;</span>
+          <span>&nbsp; {maxParticipantsCount} &nbsp;</span>
           {t('meeting.places')}
         </span>
-        <span>
+        <span className={styles.line}>
           {t('meeting.creatorFrom')}: &nbsp;
-          <span className={styles.data}>
+          <span>
             {userCreator.countryName},&nbsp;{t(`gender.${userCreator.gender}`)}
           </span>
         </span>
-        <span className={styles.capitalize}>
+        <span className={styles.line}>
           {t('meetingInfo.topic')}: &nbsp;
-          <span className={styles.data}>{topic.name}</span>
+          <span>{topic.name}</span>
         </span>
-        <span onClick={toggleOpenQuestions} className={styles.questions}>
+        <span onClick={toggleOpenQuestions} className={classNames(styles.line, styles.questions)}>
           {t('meeting.questions')}
           {isOpenQuestions ? (
             <UpArrow className={styles.arrow} />
@@ -71,8 +70,13 @@ const MeetingInfo: React.FC<IMeeting> = ({
             <DownArrow className={styles.arrow} />
           )}
         </span>
-        {isOpenQuestions &&
-          topic.questions.map((question) => <QuestionItem key={question} label={question} />)}
+        {isOpenQuestions && (
+          <div className={styles.questionWrapper}>
+            {topic.questions.map((question) => (
+              <QuestionItem key={question} label={question} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

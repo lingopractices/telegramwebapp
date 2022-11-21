@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 
-import RadioItem from '@components/RadioItem/RadioItem';
+import CheckBox from '@components/CheckBox/CheckBox';
 import { allLevels } from 'common/constants';
 import { LanguageLevel } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
@@ -25,17 +25,15 @@ const LevelList: React.FC<ILevelList> = ({ defaultLevelId, onChangeLevel }) => {
 
   return (
     <div className={styles.container}>
-      <h2>{t('level.chooseLevel').toUpperCase()}</h2>
+      <h2>{t('level.chooseLevel')}</h2>
       <div className={styles.wrapper}>
         {levels.map((level) => (
-          <RadioItem
+          <CheckBox
             id={level.id}
             key={level.id}
-            radioGroupName='languages'
-            label={t(`levels.${level.id}`)}
+            title={t(`levels.${level.id}`)}
             onChange={handleChange}
-            isSelected={level.id === defaultLevelId}
-            containerClass={styles.paddingContainer}
+            checked={level.id === defaultLevelId}
           />
         ))}
       </div>

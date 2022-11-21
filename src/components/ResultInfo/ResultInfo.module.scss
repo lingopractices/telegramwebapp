@@ -1,15 +1,10 @@
 .container {
   height: 100vh;
-  padding: 16px 16px 0;
+  padding: 24px 16px 0;
   color: var(--base-color);
 
   & h2 {
     margin-bottom: 16px;
-    color: var(--base-color);
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 24px;
-    text-align: left;
   }
 }
 

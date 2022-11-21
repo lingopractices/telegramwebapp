@@ -3,15 +3,12 @@
   overflow: hidden;
   height: 100vh;
   flex-flow: column nowrap;
-  padding: 16px 16px 0;
+  padding: 24px 16px 0;
+  color: var(--base-color);
 
   & h2 {
     margin-bottom: 16px;
     color: var(--base-color);
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 24px;
-    text-align: left;
   }
 }
 
@@ -20,8 +17,15 @@
 }
 
 .wrapperList {
-  height: calc(100% - 130px);
+  height: calc(100% - 127px);
   overflow-y: auto;
+}
+
+.topicWrap {
+  margin-bottom: 16px;
+  background-color: var(--dt-grey-opacity-wt-white-opaity);
+  border-radius: 8px;
+  opacity: 0.8;
 }
 
 .questions {

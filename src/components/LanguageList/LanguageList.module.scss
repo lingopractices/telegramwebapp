@@ -1,15 +1,11 @@
 .container {
   overflow: hidden;
   height: 100vh;
-  padding: 16px 16px 0;
+  padding: 24px 16px 0;
   color: var(--base-color);
 
   h2 {
     margin-bottom: 16px;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 24px;
-    text-align: left;
   }
 
   h3 {
@@ -24,7 +20,7 @@
 }
 
 .search {
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .paddingContainer {
@@ -37,5 +33,5 @@
 
 .langWrap {
   overflow: auto;
-  height: calc(100% - 130px);
+  height: calc(100% - 126px);
 }

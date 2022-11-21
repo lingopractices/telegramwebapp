@@ -1,65 +1,66 @@
 {
   "mainScreen": {
     "create": "Create meeting",
-    "join": "Join meeting"
+    "join": "Join meeting",
+    "meetingsHeader": "Your meetings"
   },
 
   "account": {
-    "myAccount": "my account",
+    "myAccount": "My account",
     "info": {
-      "practiceLang": "practice language",
-      "level": "level",
-      "location": "location",
-      "interfaceLang": "interface language",
-      "gender": "gender"
+      "practiceLang": "Practice language",
+      "level": "Level",
+      "location": "Location",
+      "interfaceLang": "Interface language",
+      "gender": "Gender"
     }
   },
 
   "language": {
-    "choosePracticeLang": "choose meeting language",
-    "chooseInterfaceLang": "choose interface language",
+    "choosePracticeLang": "Choose meeting language",
+    "chooseInterfaceLang": "Choose interface language",
     "popular": "Popular",
     "other": "Other",
     "choose": "choose a language"
   },
 
   "level": {
-    "chooseLevel": "choose meeting language level",
+    "chooseLevel": "Choose meeting language levels",
     "choose": "choose a level"
   },
 
   "topic": {
-    "chooseTopic": "choose meeting topic",
+    "chooseTopic": "Choose meeting topic",
     "choose": "choose a topic"
   },
 
   "participants": {
-    "chooseParticipants": "choose meeting partcipants number",
+    "chooseParticipants": "Choose meeting partcipants",
     "choose": "choose a number"
   },
 
   "date": {
-    "chooseDate": "choose meeting date",
+    "chooseDate": "Choose meeting date",
     "choose": "choose a date"
   },
 
   "time": {
-    "chooseTime": "choose meeting time",
+    "chooseTime": "Choose meeting time",
     "choose": "choose a time"
   },
 
   "meetingInfo": {
-    "createMeeting": "create meeting",
-    "practiceLang": "practice language",
-    "level": "level",
-    "topic": "topic",
-    "participants": "participants number",
-    "date": "date",
-    "time": "time"
+    "createMeeting": "Create meeting",
+    "practiceLang": "Practice language",
+    "level": "Level",
+    "topic": "Topic",
+    "participants": "Participants number",
+    "date": "Date",
+    "time": "Time"
   },
 
   "meetings": {
-    "meetings": "meetings",
+    "meetings": "Meetings",
     "at": "at",
     "meetingTitles": {
       "online": "Online meeting",
@@ -69,13 +70,13 @@
   },
 
   "meeting": {
-    "meeting": "meeting",
-    "participants": "participants",
-    "free": "free",
+    "meeting": "Meeting",
+    "participants": "Participants",
+    "free": "Free",
     "from": "from",
     "places": "places",
-    "creatorFrom": "creator from",
-    "questions": "questions"
+    "creatorFrom": "Creator from",
+    "questions": "Questions"
   },
 
   "search": "Search",

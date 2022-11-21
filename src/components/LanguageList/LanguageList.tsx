@@ -97,7 +97,7 @@ const LanguageList: React.FC<ILanguageList> = ({
           popularLanguagesIds?.length
             ? 'language.choosePracticeLang'
             : 'language.chooseInterfaceLang',
-        ).toUpperCase()}
+        )}
       </h2>
       {popularLanguagesIds && (
         <SearchBox

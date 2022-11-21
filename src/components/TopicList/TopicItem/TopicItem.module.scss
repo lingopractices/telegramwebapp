@@ -4,8 +4,10 @@
   height: 40px;
   align-items: center;
   justify-content: space-between;
-  padding: 9px 4.08px 9px 0;
-  padding-right: 4.08px;
+  padding: 0 16px;
+  padding-right: 16px;
+  background-color: var(--secondary-bg-color);
+  border-radius: 8px;
   cursor: pointer;
 }
 

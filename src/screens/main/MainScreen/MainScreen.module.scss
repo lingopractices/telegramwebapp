@@ -5,7 +5,11 @@
   height: 100vh;
   flex-flow: column nowrap;
   align-items: center;
-  padding: 16px 16px 0;
+  padding: 24px 15px 0;
+
+  & h3 {
+    width: 100%;
+  }
 }
 
 .logo {
@@ -19,23 +23,38 @@
   width: 100%;
   min-height: 40px;
   flex-wrap: nowrap;
-  margin-bottom: 10px;
+  margin-bottom: 24px;
   gap: 7px;
 }
 
 .account {
   position: absolute;
-  top: 0;
-  right: 0;
-  padding: 1em;
-  border: none;
-  background-color: rgb(62 88 110);
-  color: white;
-  cursor: pointer;
-  text-decoration: none;
+  top: 24px;
+  right: 15px;
+  padding: 8px;
+  background-color: var(--secondary-bg-color);
+  border-radius: 8px;
+
+  & svg {
+    stroke: var(--base-color);
+  }
 }
 
 .myMeetingsWrapper {
   width: 100%;
   overflow-y: auto;
+}
+
+.createButton {
+  background-color: var(--dt-blue-dark-wt-blue-light);
+  color: var(--dt-blue-dark-wt-white);
+}
+
+.joinButton {
+  background-color: var(--dt-blue-dark-wt-white);
+  color: var(--dt-blue-dark-wt-blue-light);
+}
+
+.meetingsHeader {
+  margin-bottom: 16px;
 }

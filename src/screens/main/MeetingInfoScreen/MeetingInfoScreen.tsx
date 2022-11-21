@@ -56,8 +56,12 @@ const MeetingInfoScreen: React.FC = () => {
         googleMeetLink={meeting.googleMeetLink}
       />
       <div className={styles.buttons}>
-        <Button onClick={() => {}} title={t('button.join')} />
-        <Button onClick={handleLeaveMeeting} title={t('button.leave')} />
+        <Button onClick={() => {}} containerClass={styles.joinButton} title={t('button.join')} />
+        <Button
+          onClick={handleLeaveMeeting}
+          containerClass={styles.leaveButton}
+          title={t('button.leave')}
+        />
       </div>
     </div>
   ) : (

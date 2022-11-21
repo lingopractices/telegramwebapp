@@ -4,21 +4,16 @@
   align-items: center;
   justify-content: space-between;
   padding: 5px 15.9px 5px 16px;
+  background-color: var(--secondary-bg-color);
   border-radius: 8px;
   cursor: pointer;
-
-  svg {
-    stroke: var(--base-color);
-  }
 
   &:not(:last-of-type) {
     margin-bottom: 8px;
   }
 
-  & .date {
-    color: var(--base-color);
-    line-height: 24px;
-    text-align: left;
+  & svg {
+    stroke: var(--base-color);
   }
 }
 
@@ -28,7 +23,13 @@
 }
 
 .defaultText {
-  color: red;
+  color: var(--secondary-color);
   font-size: 12px;
   line-height: 14px;
+}
+
+.date {
+  color: var(--base-color);
+  line-height: 24px;
+  text-align: left;
 }
