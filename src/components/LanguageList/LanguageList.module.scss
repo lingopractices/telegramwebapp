@@ -1,6 +1,7 @@
 .container {
   overflow: hidden;
-  padding-bottom: 40px;
+  height: 100vh;
+  padding: 16px 16px 0;
   color: var(--base-color);
 
   h2 {
@@ -32,4 +33,9 @@
   flex-grow: 1;
   padding: 10px 0;
   border-radius: 16px;
+}
+
+.langWrap {
+  overflow: auto;
+  height: calc(100% - 130px);
 }

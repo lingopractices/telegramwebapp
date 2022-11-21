@@ -106,7 +106,7 @@ const LanguageList: React.FC<ILanguageList> = ({
           containerClassname={styles.search}
         />
       )}
-      {renderedLanguages}
+      <div className={styles.langWrap}>{renderedLanguages}</div>
     </div>
   );
 };

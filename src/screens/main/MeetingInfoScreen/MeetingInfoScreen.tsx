@@ -45,7 +45,7 @@ const MeetingInfoScreen: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return meeting ? (
-    <div>
+    <div className={styles.container}>
       <MeetingInfo
         id={meeting.id}
         meetingDate={meeting.meetingDate}

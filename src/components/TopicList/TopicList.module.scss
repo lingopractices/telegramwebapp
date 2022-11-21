@@ -1,11 +1,11 @@
 .container {
-  position: relative;
   display: flex;
   overflow: hidden;
   height: 100vh;
   flex-flow: column nowrap;
+  padding: 16px 16px 0;
 
-  h2 {
+  & h2 {
     margin-bottom: 16px;
     color: var(--base-color);
     font-size: 16px;
@@ -16,10 +16,11 @@
 }
 
 .search {
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .wrapperList {
+  height: calc(100% - 130px);
   overflow-y: auto;
 }
 

@@ -1,16 +1,16 @@
 .container {
   display: flex;
-  width: 165px;
+  width: 160px;
   height: 103px;
   flex-flow: column nowrap;
   justify-content: space-between;
   padding: 8px;
   border: 1px solid var(--base-color);
   border-radius: 8px;
-  gap: 16px;
 
   svg {
     min-width: 30px;
+    color: var(--dt-blue-dark-wt-blue-light);
   }
 }
 
