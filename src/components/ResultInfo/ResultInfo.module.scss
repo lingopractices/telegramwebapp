@@ -1,5 +1,4 @@
 .container {
-  height: 100vh;
   padding: 24px 16px 0;
   color: var(--base-color);
 
@@ -10,6 +9,8 @@
 
 .wrapper {
   display: flex;
+  overflow: auto;
   flex-flow: row wrap;
+  margin-bottom: 37px;
   gap: 13px;
 }
