@@ -4,10 +4,8 @@ import SubmitButton from '@components/SubmitButton/SubmitButton';
 import TopicList from '@components/TopicList/TopicList';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { getTopicsAction } from '@store/topics/actions';
-import { getTopicsPendingSelector } from '@store/topics/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CREATE_LEVELS_PATH, CREATE_PARTICIPANTS_PATH } from 'routing/routing.constants';
 import { CreateMeetingType } from 'screens/types';
@@ -17,7 +15,6 @@ const CreateMeetingTopic: React.FC = () => {
   const navigate = useNavigate();
   const getTopics = useActionWithDeferred(getTopicsAction);
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
-  const topicPending = useSelector(getTopicsPendingSelector);
   const { setBackButtonOnClick } = useTgBackButton(true);
   const { t } = useTranslation();
 
@@ -59,7 +56,6 @@ const CreateMeetingTopic: React.FC = () => {
         onClick={handleForward}
         title={meetingData?.topicId ? t('button.submit') : t('topic.choose')}
         isActive={!!meetingData?.topicId}
-        loading={topicPending}
       />
     </>
   );
