@@ -10,7 +10,7 @@ import useTgBackButton from 'hooks/useTgBackButton';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CREATE_TIME_PATH, INSTANT_MAIN_PATH } from 'routing/routing.constants';
+import { CREATE_SUCCESS, CREATE_TIME_PATH } from 'routing/routing.constants';
 import { CreateMeetingType } from 'screens/types';
 
 const CreateMeetingInfo: React.FC = () => {
@@ -28,7 +28,7 @@ const CreateMeetingInfo: React.FC = () => {
   }, [meetingData, navigate]);
 
   const handleForward = useCallback(() => {
-    navigate(INSTANT_MAIN_PATH);
+    navigate(CREATE_SUCCESS);
   }, [navigate]);
 
   const handleSubmit = useCallback(() => {

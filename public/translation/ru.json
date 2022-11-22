@@ -79,6 +79,12 @@
     "questions": "Вопросы"
   },
 
+  "createSuccess": {
+    "congrats": "Поздравляем!",
+    "youCreatedMeet": "Вы создали встречу",
+    "submit": "вернуться в главное меню"
+  },
+
   "search": "Поиск",
 
   "button": {

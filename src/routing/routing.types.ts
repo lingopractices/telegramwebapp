@@ -34,6 +34,7 @@ export enum CreateRoutesEnum {
   DATE_CREATE = 'DATE_CREATE',
   TIME_CREATE = 'TIME_CREATE',
   INFO_CREATE = 'INFO_CREATE',
+  CREATE_SUCCESS = 'CREATE_SUCCESS',
 }
 
 export enum JoinRoutesEnum {

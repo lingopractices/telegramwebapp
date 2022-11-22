@@ -1,0 +1,25 @@
+.container {
+  overflow: hidden;
+  height: 100vh;
+  padding: 25px 16px 0;
+  color: var(--base-color);
+
+  & h2,
+  & p {
+    text-align: center;
+  }
+
+  & h2 {
+    margin-bottom: 16px;
+    font-size: 32px;
+  }
+}
+
+.lottieWrapper {
+  display: flex;
+  height: 100%;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 46px;
+  padding-right: 12px;
+}
