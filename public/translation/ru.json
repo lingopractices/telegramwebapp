@@ -51,10 +51,10 @@
 
   "meetingInfo": {
     "createMeeting": "Создать встречу",
-    "practiceLang": "язык практики",
+    "practiceLang": "Язык практики",
     "level": "Уровень",
     "topic": "Тема",
-    "participants": "количество участников",
+    "participants": "Количество участников",
     "date": "Дата",
     "time": "Время"
   },
