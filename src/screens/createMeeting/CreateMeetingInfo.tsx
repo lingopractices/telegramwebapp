@@ -4,9 +4,11 @@ import ResultInfo from '@components/ResultInfo/ResultInfo';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { createMeetingAction } from '@store/meetings/actions';
+import { getCreateMeetingPendingSelector } from '@store/meetings/selectors';
 import { mergeDateAndTime } from '@utils/date-utils';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CREATE_TIME_PATH, INSTANT_MAIN_PATH } from 'routing/routing.constants';
 import { CreateMeetingType } from 'screens/types';
@@ -15,6 +17,7 @@ const CreateMeetingInfo: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
+  const createPending = useSelector(getCreateMeetingPendingSelector);
   const createMeeting = useActionWithDeferred(createMeetingAction);
   const { t } = useTranslation();
 
@@ -67,7 +70,7 @@ const CreateMeetingInfo: React.FC = () => {
   return (
     <>
       <ResultInfo meetingData={meetingData} />
-      <SubmitButton onClick={handleSubmit} title={t('button.submit')} />
+      <SubmitButton onClick={handleSubmit} title={t('button.submit')} loading={createPending} />
     </>
   );
 };

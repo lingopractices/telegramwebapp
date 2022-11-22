@@ -63,6 +63,7 @@ const CreateMeetingLanguage: React.FC = () => {
         onClick={handleForward}
         title={newLanguageId ? t('button.submit') : t('language.choose')}
         isActive={!!newLanguageId}
+        loading={languagesPending}
       />
     </>
   );

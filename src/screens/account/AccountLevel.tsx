@@ -4,7 +4,11 @@ import LevelList from '@components/LevelList/LevelList';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { updateProfileAction } from '@store/profile/actions';
-import { getLanguageLevelSelector, getProfileDataSelector } from '@store/profile/selectors';
+import {
+  getLanguageLevelSelector,
+  getProfileDataSelector,
+  pendingUpdateUserSelector,
+} from '@store/profile/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -17,6 +21,7 @@ const AccountLevel: React.FC = () => {
   const user = useSelector(getProfileDataSelector);
   const languageLevel = useSelector(getLanguageLevelSelector);
   const [newLanguageLevel, setNewLanguageLevel] = useState(languageLevel);
+  const pendingChangeLevel = useSelector(pendingUpdateUserSelector);
   const updateProfile = useActionWithDeferred(updateProfileAction);
   const { t } = useTranslation();
 
@@ -55,6 +60,7 @@ const AccountLevel: React.FC = () => {
         onClick={handleSubmit}
         title={newLanguageLevel ? t('button.submit') : t('level.choose')}
         isActive={!!newLanguageLevel}
+        loading={pendingChangeLevel}
       />
     </>
   );

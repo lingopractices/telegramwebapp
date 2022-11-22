@@ -9,7 +9,7 @@ import {
   getMeetingDaysAction,
   getMeetingsAction,
 } from '@store/meetings/actions';
-import { getMeetingsDaysSelector } from '@store/meetings/selectors';
+import { getMeetingDaysPendingSelector, getMeetingsDaysSelector } from '@store/meetings/selectors';
 import { getMaxTimeOfDay, getMinTimeOfDay } from '@utils/date-utils';
 import { DAY_MONTH_YAER, FULL_DATE } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
@@ -25,6 +25,7 @@ const JoinMeetingDate: React.FC = () => {
   const location = useLocation();
   const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
   const meetingsDays = useSelector(getMeetingsDaysSelector);
+  const pendingLoadDays = useSelector(getMeetingDaysPendingSelector);
   const getMeetings = useActionWithDeferred(getMeetingsAction);
   const getMeetingsDays = useActionWithDeferred(getMeetingDaysAction);
   const clearMeetings = useActionWithDispatch(clearMeetingsAction);
@@ -118,6 +119,7 @@ const JoinMeetingDate: React.FC = () => {
         onClick={handleSubmit}
         title={meetingData?.from ? t('button.submit') : t('date.choose')}
         isActive={!!meetingData?.from}
+        loading={pendingLoadDays}
       />
     </>
   );

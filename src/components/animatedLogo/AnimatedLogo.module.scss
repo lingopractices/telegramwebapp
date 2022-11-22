@@ -1,5 +1,28 @@
+.outer {
+  animation: loading 1s infinite ease-in-out;
+}
+
+.inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .wrapper {
   position: relative;
+
+  &.small {
+    & .outer {
+      width: 20px;
+      height: 20px;
+    }
+
+    & .inner {
+      width: 10px;
+      height: 10px;
+    }
+  }
 }
 
 @keyframes loading {
@@ -10,15 +33,4 @@
   100% {
     transform: rotate(360deg);
   }
-}
-
-.outer {
-  animation: loading 1s infinite ease-in-out;
-}
-
-.inner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }

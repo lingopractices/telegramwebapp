@@ -4,7 +4,11 @@ import LanguageList from '@components/LanguageList/LanguageList';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { updateProfileAction } from '@store/profile/actions';
-import { getInterfaceLanguageSelector, getProfileDataSelector } from '@store/profile/selectors';
+import {
+  getInterfaceLanguageSelector,
+  getProfileDataSelector,
+  pendingUpdateUserSelector,
+} from '@store/profile/selectors';
 import { interfaceLanguages } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +22,7 @@ const AccountInterfaceLanguage: React.FC = () => {
   const interfaceLanguage = useSelector(getInterfaceLanguageSelector);
   const user = useSelector(getProfileDataSelector);
   const [newInterfaceLanguageId, setNewInterfaceLanguageId] = useState(interfaceLanguage?.id);
+  const pendingChangeLanguage = useSelector(pendingUpdateUserSelector);
   const updateProfile = useActionWithDeferred(updateProfileAction);
   const { t, i18n } = useTranslation();
 
@@ -60,6 +65,7 @@ const AccountInterfaceLanguage: React.FC = () => {
         onClick={handleSubmit}
         title={newInterfaceLanguageId ? t('button.submit') : t('language.choose')}
         isActive={!!newInterfaceLanguageId}
+        loading={pendingChangeLanguage}
       />
     </>
   );

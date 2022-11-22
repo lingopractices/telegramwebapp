@@ -4,7 +4,10 @@ import Button from '@components/Button/Button';
 import MeetingInfo from '@components/MeetingInfo/MeetingInfo';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { leaveMeetingAction } from '@store/meetings/actions';
-import { getMyMeetingByIdSelector } from '@store/meetings/selectors';
+import {
+  getLeaveMeetingPendingSelector,
+  getMyMeetingByIdSelector,
+} from '@store/meetings/selectors';
 import { getProfileDataSelector } from '@store/profile/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { useTranslation } from 'react-i18next';
@@ -20,6 +23,7 @@ const MeetingInfoScreen: React.FC = () => {
   const { id: meetingId } = useParams();
   const user = useSelector(getProfileDataSelector);
   const meeting = useSelector(getMyMeetingByIdSelector(Number(meetingId)));
+  const pendingLeaveMeeting = useSelector(getLeaveMeetingPendingSelector);
   const leaveMeeting = useActionWithDeferred(leaveMeetingAction);
   const { t } = useTranslation();
 
@@ -40,6 +44,10 @@ const MeetingInfoScreen: React.FC = () => {
     }
   }, [user, meeting, handleBack, leaveMeeting]);
 
+  const handleJoinMeeting = useCallback(() => {
+    window.open(meeting?.googleMeetLink, '_blank');
+  }, [meeting?.googleMeetLink]);
+
   useEffect(() => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
@@ -56,11 +64,17 @@ const MeetingInfoScreen: React.FC = () => {
         googleMeetLink={meeting.googleMeetLink}
       />
       <div className={styles.buttons}>
-        <Button onClick={() => {}} containerClass={styles.joinButton} title={t('button.join')} />
+        <Button
+          onClick={handleJoinMeeting}
+          containerClass={styles.joinButton}
+          title={t('button.join')}
+          disabled={pendingLeaveMeeting}
+        />
         <Button
           onClick={handleLeaveMeeting}
           containerClass={styles.leaveButton}
           title={t('button.leave')}
+          loading={pendingLeaveMeeting}
         />
       </div>
     </div>

@@ -64,7 +64,14 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
   useOnIntersect(forwardsTriggerRef, observeIntersection);
 
   return (
-    <div className={classnames(className)}>
+    <div
+      className={classnames(className)}
+      style={{
+        display: 'flex',
+        flexFlow: 'column',
+        alignItems: 'center',
+      }}
+    >
       {children}
       <div ref={forwardsTriggerRef} key='bottom-trigger' className='bottom-trigger' />
     </div>

@@ -22,7 +22,7 @@ export const getLeaveMeetingPendingSelector = (state: RootState) =>
 export const getMeetingDaysPendingSelector = (state: RootState) =>
   state.meetings.requests.getMeetingDaysPending;
 
-export const getMeetingPendingSelector = (state: RootState) =>
+export const getMeetingsPendingSelector = (state: RootState) =>
   state.meetings.requests.getMeetingsPending;
 
 export const getMeetingJoinPendingSelector = (state: RootState) =>
@@ -30,3 +30,6 @@ export const getMeetingJoinPendingSelector = (state: RootState) =>
 
 export const getCreateMeetingPendingSelector = (state: RootState) =>
   state.meetings.requests.createMeetingPending;
+
+export const myMeetingsPendingSelector = (state: RootState) =>
+  state.meetings.requests.getMyMeetingsPending;

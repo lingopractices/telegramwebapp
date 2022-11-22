@@ -1,6 +1,7 @@
 .container {
   display: flex;
   flex-flow: column nowrap;
+  padding: 25px 16px;
   color: var(--base-color);
 
   h2 {

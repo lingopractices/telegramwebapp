@@ -2,9 +2,14 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
+import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { getMeetingsAction } from '@store/meetings/actions';
-import { getMeetingHasMoreSelector, getMeetingsSelector } from '@store/meetings/selectors';
+import {
+  getMeetingHasMoreSelector,
+  getMeetingsPendingSelector,
+  getMeetingsSelector,
+} from '@store/meetings/selectors';
 import { getMaxTimeOfDay } from '@utils/date-utils';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { useTranslation } from 'react-i18next';
@@ -22,6 +27,7 @@ const MeetingList: React.FC = () => {
   const meetings = useSelector(getMeetingsSelector);
   const meetingsRef = useRef<HTMLDivElement>(null);
   const hasMore = useSelector(getMeetingHasMoreSelector);
+  const pendingMeetings = useSelector(getMeetingsPendingSelector);
   const getMeetings = useActionWithDeferred(getMeetingsAction);
   const { t } = useTranslation();
 
@@ -61,6 +67,7 @@ const MeetingList: React.FC = () => {
               mainRoute={JOIN_MEETING_PATH}
             />
           ))}
+          {pendingMeetings && <AnimatedLogo size={LogoSize.SMALL} />}
         </InfiniteScroll>
       </div>
     </div>

@@ -5,11 +5,16 @@ import { ReactComponent as LingoLogo } from '@assets/lingo-logo.svg';
 import Button from '@components/Button/Button';
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
+import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getLanguagesAction } from '@store/languages/actions';
 import { languagesSelector } from '@store/languages/selectors';
 import { getMyMeetingsAction } from '@store/meetings/actions';
-import { getMyMeetingHasMoreSelector, getMyMeetingsSelector } from '@store/meetings/selectors';
+import {
+  getMyMeetingHasMoreSelector,
+  getMyMeetingsSelector,
+  myMeetingsPendingSelector,
+} from '@store/meetings/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { IMeeting } from 'lingopractices-models';
@@ -30,6 +35,7 @@ const MainScreen: React.FC = () => {
   const infiniteContainer = useRef<HTMLDivElement>(null);
   const hasMore = useSelector(getMyMeetingHasMoreSelector);
   const languages = useSelector(languagesSelector);
+  const myMeetingsPending = useSelector(myMeetingsPendingSelector);
   const getLanguages = useActionWithDispatch(getLanguagesAction);
   const getMeetings = useActionWithDispatch(getMyMeetingsAction);
   const navigate = useNavigate();
@@ -101,6 +107,7 @@ const MainScreen: React.FC = () => {
             onReachBottom={loadMore}
           >
             {renderedMeetings}
+            {myMeetingsPending && <AnimatedLogo size={LogoSize.SMALL} />}
           </InfiniteScroll>
         ) : (
           <div>{t('meetings.noMeetings')}</div>

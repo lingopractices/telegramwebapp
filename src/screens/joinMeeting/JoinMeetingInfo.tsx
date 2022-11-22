@@ -4,7 +4,7 @@ import MeetingInfo from '@components/MeetingInfo/MeetingInfo';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { joinMeetingAction } from '@store/meetings/actions';
-import { getMeetingByIdSelector } from '@store/meetings/selectors';
+import { getMeetingByIdSelector, getMeetingJoinPendingSelector } from '@store/meetings/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { IJoinMeetingResponse, JoinMeetingResult } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
@@ -19,6 +19,7 @@ const JoinMeetingInfo: React.FC = () => {
   const { id: meetingId } = useParams();
   const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
   const meeting = useSelector(getMeetingByIdSelector(Number(meetingId)));
+  const pendingJoinMeeting = useSelector(getMeetingJoinPendingSelector);
   const joinMeeting = useActionWithDeferred(joinMeetingAction);
   const { t } = useTranslation();
 
@@ -59,7 +60,11 @@ const JoinMeetingInfo: React.FC = () => {
         userCreator={meeting.userCreator}
         googleMeetLink={meeting.googleMeetLink}
       />
-      <SubmitButton onClick={handleSubmit} title={t('button.submit')} />
+      <SubmitButton
+        onClick={handleSubmit}
+        title={t('button.submit')}
+        loading={pendingJoinMeeting}
+      />
     </>
   ) : (
     <div>no meeting</div>
