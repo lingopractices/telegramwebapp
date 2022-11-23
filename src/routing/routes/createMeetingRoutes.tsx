@@ -6,6 +6,7 @@ import {
   CREATE_LEVELS_PATH,
   CREATE_PARTICIPANTS_PATH,
   CREATE_PATH,
+  CREATE_SUCCESS,
   CREATE_TIME_PATH,
   CREATE_TOPICS_PATH,
 } from 'routing/routing.constants';
@@ -15,6 +16,7 @@ import CreateMeetingInfo from 'screens/createMeeting/CreateMeetingInfo';
 import CreateMeetingLanguage from 'screens/createMeeting/CreateMeetingLanguage';
 import CreateMeetingLevel from 'screens/createMeeting/CreateMeetingLevel';
 import CreateMeetingParticipants from 'screens/createMeeting/CreateMeetingParticipants';
+import CreateMeetingSuccess from 'screens/createMeeting/CreateMeetingSuccess/CreateMeetingSuccess';
 import CreateMeetingTime from 'screens/createMeeting/CreateMeetingTime';
 import CreateMeetingTopic from 'screens/createMeeting/CreateMeetingTopic';
 
@@ -75,6 +77,14 @@ const CreateRoutes: CreateRoutesObject = {
     props: {
       element: CreateMeetingInfo,
       children: <Route path='*' element={<CreateMeetingInfo />} />,
+    },
+  },
+  [CreateRoutesEnum.CREATE_SUCCESS]: {
+    path: `${deleteLineFromPath(CREATE_SUCCESS, `${CREATE_PATH}/`)}`,
+    pageName: 'Success',
+    props: {
+      element: CreateMeetingSuccess,
+      children: <Route path='*' element={<CreateMeetingSuccess />} />,
     },
   },
 };

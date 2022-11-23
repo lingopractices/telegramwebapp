@@ -9,6 +9,7 @@ export const CREATE_PARTICIPANTS_PATH = `${CREATE_PATH}/participants`;
 export const CREATE_DATE_PATH = `${CREATE_PATH}/date`;
 export const CREATE_TIME_PATH = `${CREATE_PATH}/time`;
 export const CREATE_INFO = `${CREATE_PATH}/info`;
+export const CREATE_SUCCESS = `${CREATE_PATH}/success`;
 export const JOIN_PATH = '/join';
 export const JOIN_LANGUAGES_PATH = `${JOIN_PATH}/languages`;
 export const JOIN_LEVELS_PATH = `${JOIN_PATH}/levels`;

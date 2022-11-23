@@ -1,10 +1,7 @@
-.container {
-  padding: 24px 16px 0;
-}
-
 .buttons {
   display: flex;
   flex-flow: column nowrap;
+  padding: 0 16px;
   gap: 16px;
 }
 

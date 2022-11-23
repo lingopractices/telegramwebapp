@@ -3,7 +3,12 @@ import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import QuestionItem from '@components/QuestionItem/QuestionItem';
 import SearchBox from '@components/SearchBox/SearchBox';
-import { getTopicsHasMoreSelector, getTopicsSelector } from '@store/topics/selectors';
+import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
+import {
+  getTopicsHasMoreSelector,
+  getTopicsPendingSelector,
+  getTopicsSelector,
+} from '@store/topics/selectors';
 import { getClearString } from '@utils/get-clear-string';
 import { ITopic } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
@@ -30,6 +35,7 @@ export const TopicList: React.FC<ITopicList> = ({
   const [currentTopicId, setCurrentTopicId] = useState(defaultTopicId || 0);
   const [searchStringText, setSearchStringText] = useState('');
   const infiniteRef = useRef<HTMLDivElement>(null);
+  const pendingGetTopics = useSelector(getTopicsPendingSelector);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -97,6 +103,9 @@ export const TopicList: React.FC<ITopicList> = ({
       <div className={styles.wrapperList} ref={infiniteRef}>
         <InfiniteScroll onReachBottom={loadMoreTopics} containerRef={infiniteRef} hasMore={hasMore}>
           {renderedTopics}
+          {pendingGetTopics && (
+            <AnimatedLogo containerClass={styles.animatedLogo} size={LogoSize.SMALL} />
+          )}
         </InfiniteScroll>
       </div>
     </div>

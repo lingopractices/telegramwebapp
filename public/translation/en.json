@@ -79,6 +79,12 @@
     "questions": "Questions"
   },
 
+  "createSuccess": {
+    "congrats": "Congratulations!",
+    "youCreatedMeet": "You have created a meeting",
+    "submit": "go to home page"
+  },
+
   "search": "Search",
 
   "button": {

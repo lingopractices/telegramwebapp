@@ -13,5 +13,6 @@
 }
 
 .selected {
-  background-color: red;
+  border: 1px solid var(--dt-white-wt-black);
+  background-color: var(--selected-item-bg);
 }

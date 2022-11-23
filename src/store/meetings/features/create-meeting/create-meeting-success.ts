@@ -11,7 +11,7 @@ export class CreateMeetingSuccess {
   static get reducer() {
     return (draft: IMeetingsState, { payload }: ReturnType<typeof CreateMeetingSuccess.action>) => {
       draft.myMeetings.meetingList = sortGrowingDates([...draft.myMeetings.meetingList, payload]);
-
+      draft.requests.createMeetingPending = false;
       return draft;
     };
   }

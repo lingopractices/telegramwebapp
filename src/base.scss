@@ -11,8 +11,10 @@ body {
   font-family: inherit;
   line-height: 1;
   outline: none;
-
   scrollbar-width: none;
+  -webkit-tap-highlight-color: transparent;
+  -moz-tap-highlight-color: transparent;
+  -o-tap-highlight-color: transparent;
 
   &::-webkit-scrollbar {
     width: 0;

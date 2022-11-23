@@ -51,10 +51,10 @@
 
   "meetingInfo": {
     "createMeeting": "Создать встречу",
-    "practiceLang": "язык практики",
+    "practiceLang": "Язык практики",
     "level": "Уровень",
     "topic": "Тема",
-    "participants": "количество участников",
+    "participants": "Количество участников",
     "date": "Дата",
     "time": "Время"
   },
@@ -77,6 +77,12 @@
     "places": "мест",
     "creatorFrom": "Создатель из",
     "questions": "Вопросы"
+  },
+
+  "createSuccess": {
+    "congrats": "Поздравляем!",
+    "youCreatedMeet": "Вы создали встречу",
+    "submit": "вернуться в главное меню"
   },
 
   "search": "Поиск",

@@ -13,10 +13,15 @@ export const enum LogoSize {
 
 interface IAnimatedLogoProps {
   size: LogoSize;
+  containerClass?: string;
 }
 
-const AnimatedLogo: React.FC<IAnimatedLogoProps> = ({ size }) => (
-  <div className={classNames(styles.wrapper, { [`${styles.small}`]: size === LogoSize.SMALL })}>
+const AnimatedLogo: React.FC<IAnimatedLogoProps> = ({ size, containerClass }) => (
+  <div
+    className={classNames(styles.wrapper, containerClass, {
+      [`${styles.small}`]: size === LogoSize.SMALL,
+    })}
+  >
     <LingoOuter className={styles.outer} />
     <LingoInner className={styles.inner} />
   </div>
