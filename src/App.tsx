@@ -17,6 +17,7 @@ const MainRouter = lazy(async () => {
     import('@store/meetings/module'),
     import('@store/profile/module'),
     import('@store/topics/module'),
+    import('@store/notifications/module'),
   ]);
 
   return import('routing/routers/MainRouter');
