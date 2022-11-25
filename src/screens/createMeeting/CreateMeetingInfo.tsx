@@ -2,11 +2,16 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import ResultInfo from '@components/ResultInfo/ResultInfo';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
+import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { createMeetingAction } from '@store/meetings/actions';
 import { getCreateMeetingPendingSelector } from '@store/meetings/selectors';
+import { setNotificationAction } from '@store/notifications/actions';
 import { mergeDateAndTime } from '@utils/date-utils';
+import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
+import { CreateMeetingResult } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -20,6 +25,7 @@ const CreateMeetingInfo: React.FC = () => {
   const createPending = useSelector(getCreateMeetingPendingSelector);
   const createMeeting = useActionWithDeferred(createMeetingAction);
   const { t } = useTranslation();
+  const setNotification = useActionWithDispatch(setNotificationAction);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
 
@@ -50,7 +56,19 @@ const CreateMeetingInfo: React.FC = () => {
         .then(() => {
           handleForward();
         })
-        .catch((e) => {});
+        .catch((e: CreateMeetingResult) => {
+          let textError: string;
+          switch (e) {
+            case CreateMeetingResult.HasMeetingSameTime:
+              textError = t('errors.hasMeeting');
+              break;
+            default:
+              textError = t('errors.otherCreateMeeting');
+              break;
+          }
+
+          setNotification({ id: dayjs().unix(), type: TooltipType.ERROR, text: textError });
+        });
     }
   }, [
     meetingData?.languageLevel,
@@ -61,6 +79,8 @@ const CreateMeetingInfo: React.FC = () => {
     meetingData?.topicId,
     createMeeting,
     handleForward,
+    setNotification,
+    t,
   ]);
 
   useEffect(() => {

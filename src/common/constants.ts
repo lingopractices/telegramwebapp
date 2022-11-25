@@ -25,3 +25,4 @@ export const allLevels = [
 export const participantsCountIds: number[] = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export const ANIMATION_DURATION = 200;
+export const NOTIFICATION_DURATON = 2000;

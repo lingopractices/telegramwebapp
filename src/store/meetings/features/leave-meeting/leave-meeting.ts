@@ -8,6 +8,7 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 
+import { LeaveMeetingFailure } from './leave-meeting-failure';
 import { LeaveMeetingSuccess } from './leave-meeting-success';
 
 interface ILeaveMeetingPayload {
@@ -37,6 +38,7 @@ export class LeaveMeeting {
         yield put(LeaveMeetingSuccess.action(payload.meetingId));
         meta?.deferred.resolve();
       } catch (e: any) {
+        yield put(LeaveMeetingFailure.action());
         meta?.deferred.reject(e);
       }
     };

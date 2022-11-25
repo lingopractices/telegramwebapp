@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import DatePicker from '@components/DatePicker/DatePicker';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
+import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import {
@@ -10,6 +11,7 @@ import {
   getMeetingsAction,
 } from '@store/meetings/actions';
 import { getMeetingDaysPendingSelector, getMeetingsDaysSelector } from '@store/meetings/selectors';
+import { setNotificationAction } from '@store/notifications/actions';
 import { getMaxTimeOfDay, getMinTimeOfDay } from '@utils/date-utils';
 import { DAY_MONTH_YAER, FULL_DATE } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
@@ -30,6 +32,7 @@ const JoinMeetingDate: React.FC = () => {
   const getMeetingsDays = useActionWithDeferred(getMeetingDaysAction);
   const clearMeetings = useActionWithDispatch(clearMeetingsAction);
   const { t } = useTranslation();
+  const setNotification = useActionWithDispatch(setNotificationAction);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
 
@@ -76,7 +79,13 @@ const JoinMeetingDate: React.FC = () => {
         .then(() => {
           handleForward();
         })
-        .catch((e) => {});
+        .catch(() =>
+          setNotification({
+            id: dayjs().unix(),
+            type: TooltipType.ERROR,
+            text: t('errors.loadMeetings'),
+          }),
+        );
     }
   }, [
     meetingData?.languageLevel,
@@ -84,6 +93,8 @@ const JoinMeetingDate: React.FC = () => {
     meetingData?.from,
     handleForward,
     getMeetings,
+    setNotification,
+    t,
   ]);
 
   const loadDays = useCallback(
@@ -93,12 +104,16 @@ const JoinMeetingDate: React.FC = () => {
           languageId: meetingData.languageId,
           languageLevel: meetingData.languageLevel,
           from: date.format(FULL_DATE),
-        })
-          .then(() => {})
-          .catch((e) => {});
+        }).catch(() =>
+          setNotification({
+            id: dayjs().unix(),
+            type: TooltipType.ERROR,
+            text: t('errors.loadDyays'),
+          }),
+        );
       }
     },
-    [meetingData?.languageId, meetingData?.languageLevel, getMeetingsDays],
+    [meetingData?.languageId, meetingData?.languageLevel, getMeetingsDays, setNotification, t],
   );
 
   useEffect(() => loadDays(dayjs()), [loadDays]);

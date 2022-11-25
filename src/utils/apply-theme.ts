@@ -8,6 +8,7 @@ function applyTheme(theme: Theme) {
   const lightTheme: ThemeType = {
     '--base-bg-color': '#FFFFFF',
     '--secondary-bg-color': '#F7F9FB',
+    '--secondary-bg-color-without-alpha': '#F7F9FB',
     '--base-color': '#000000',
     '--secondary-color': '#728A96',
     '--grey-bg': '#F7F9FB',
@@ -17,11 +18,15 @@ function applyTheme(theme: Theme) {
     '--change-theme': '#07A0EC',
     '--selected-item-bg': 'none',
     '--dt-white-wt-black': '#000000',
+    '--dt-grey-color-wt-grey-light-color': '#728A96',
+    '--info-close-bg': '#969696',
+    '--submit-button-bg': 'rgba(249, 249, 249, 0.94)',
   };
 
   const darkTheme: ThemeType = {
     '--base-bg-color': '#313034',
     '--secondary-bg-color': 'rgba(255, 255, 255, 0.08)',
+    '--secondary-bg-color-without-alpha': 'rgb(65,64,68)',
     '--base-color': '#FFFFFF',
     '--secondary-color': '#969696',
     '--grey-bg': 'rgba(118, 118, 128, 0.12)',
@@ -31,6 +36,9 @@ function applyTheme(theme: Theme) {
     '--change-theme': '#07A0EC',
     '--selected-item-bg': 'transparent',
     '--dt-white-wt-black': '#FFFFFF',
+    '--dt-grey-color-wt-grey-light-color': '#CBCBCB',
+    '--info-close-bg': 'rgba(255, 255, 255, 0.08)',
+    '--submit-button-bg': '#2B2B2B',
   };
 
   const root = document.documentElement;

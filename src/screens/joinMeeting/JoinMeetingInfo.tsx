@@ -2,9 +2,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import MeetingInfo from '@components/MeetingInfo/MeetingInfo';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
+import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { joinMeetingAction } from '@store/meetings/actions';
 import { getMeetingByIdSelector, getMeetingJoinPendingSelector } from '@store/meetings/selectors';
+import { setNotificationAction } from '@store/notifications/actions';
+import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { IJoinMeetingResponse, JoinMeetingResult } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
@@ -22,6 +26,7 @@ const JoinMeetingInfo: React.FC = () => {
   const pendingJoinMeeting = useSelector(getMeetingJoinPendingSelector);
   const joinMeeting = useActionWithDeferred(joinMeetingAction);
   const { t } = useTranslation();
+  const setNotification = useActionWithDispatch(setNotificationAction);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
 
@@ -40,10 +45,21 @@ const JoinMeetingInfo: React.FC = () => {
       .then(({ result }) => {
         if (result === JoinMeetingResult.Success) {
           handleForward();
+          setNotification({
+            id: dayjs().unix(),
+            type: TooltipType.SUCCESS,
+            text: t('meeting.joined'),
+          });
         }
       })
-      .catch((e) => {});
-  }, [meetingId, joinMeeting, handleForward]);
+      .catch((e) =>
+        setNotification({
+          id: dayjs().unix(),
+          type: TooltipType.ERROR,
+          text: t('errors.joinMeeting'),
+        }),
+      );
+  }, [meetingId, joinMeeting, handleForward, setNotification, t]);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);

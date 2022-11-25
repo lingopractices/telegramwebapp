@@ -9,6 +9,7 @@ import { ILanguage, IUpdateUserRequest, IUser } from 'lingopractices-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
+import { UpdateProfileFailure } from './update-profile-failure';
 import { UpdateProfileSuccess } from './update-profile-success';
 
 export class UpdateProfile {
@@ -65,6 +66,7 @@ export class UpdateProfile {
 
         action.meta?.deferred.resolve();
       } catch (e) {
+        yield put(UpdateProfileFailure.action());
         action.meta?.deferred.reject();
       }
     };

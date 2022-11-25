@@ -17,6 +17,7 @@ import {
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
+import { CreateMeetingFailure } from './create-meeting-failure';
 import { CreateMeetingSuccess } from './create-meeting-success';
 
 export class CreateMeeting {
@@ -61,9 +62,11 @@ export class CreateMeeting {
           yield put(CreateMeetingSuccess.action(createdMeeting));
           meta?.deferred.resolve();
         } else {
+          yield put(CreateMeetingFailure.action());
           meta?.deferred.reject(createMeetingResult);
         }
       } catch (e) {
+        yield put(CreateMeetingFailure.action());
         meta?.deferred.reject(e);
       }
     };

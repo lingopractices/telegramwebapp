@@ -9,6 +9,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 
 import { GetMeetingDaysSuccess } from './get-meeting-days-success';
+import { GetMeetingDaysFailure } from './get-meetings-days-failure';
 
 export class GetMeetingDays {
   static get action() {
@@ -32,6 +33,7 @@ export class GetMeetingDays {
         yield put(GetMeetingDaysSuccess.action(data));
         meta?.deferred.resolve();
       } catch (e) {
+        yield put(GetMeetingDaysFailure.action());
         meta?.deferred.reject(e);
       }
     };
