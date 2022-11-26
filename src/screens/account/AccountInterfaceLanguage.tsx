@@ -2,7 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import LanguageList from '@components/LanguageList/LanguageList';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
+import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { setNotificationAction } from '@store/notifications/actions';
 import { updateProfileAction } from '@store/profile/actions';
 import {
   getInterfaceLanguageSelector,
@@ -10,6 +13,7 @@ import {
   pendingUpdateUserSelector,
 } from '@store/profile/selectors';
 import { interfaceLanguages } from 'common/constants';
+import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -25,6 +29,7 @@ const AccountInterfaceLanguage: React.FC = () => {
   const pendingChangeLanguage = useSelector(pendingUpdateUserSelector);
   const updateProfile = useActionWithDeferred(updateProfileAction);
   const { t, i18n } = useTranslation();
+  const setNotification = useActionWithDispatch(setNotificationAction);
 
   const handleBack = useCallback(() => {
     navigate(ACCOUNT_PATH);
@@ -42,13 +47,33 @@ const AccountInterfaceLanguage: React.FC = () => {
           .then(() => {
             i18n?.changeLanguage(newInterfaceLanguageId);
             handleBack();
+            setNotification({
+              id: dayjs().unix(),
+              type: TooltipType.SUCCESS,
+              text: t('language.changed'),
+            });
           })
-          .catch((e) => {});
+          .catch(() =>
+            setNotification({
+              id: dayjs().unix(),
+              type: TooltipType.ERROR,
+              text: t('errors.lang'),
+            }),
+          );
       } else {
         handleBack();
       }
     }
-  }, [i18n, user, newInterfaceLanguageId, interfaceLanguage?.id, updateProfile, handleBack]);
+  }, [
+    i18n,
+    user,
+    newInterfaceLanguageId,
+    interfaceLanguage?.id,
+    updateProfile,
+    handleBack,
+    setNotification,
+    t,
+  ]);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);

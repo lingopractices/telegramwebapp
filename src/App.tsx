@@ -3,6 +3,7 @@ import { useEffect, useMemo, lazy, Suspense } from 'react';
 import 'base.scss';
 import './dayjs/day';
 import './localization/i18n';
+import Tooltip from '@components/Tooltip/Tooltip';
 import { isAuthenticatedSelector } from '@store/auth/selectors';
 import { AppInit } from '@store/initiation/features/app-init/app-init';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +17,7 @@ const MainRouter = lazy(async () => {
     import('@store/meetings/module'),
     import('@store/profile/module'),
     import('@store/topics/module'),
+    import('@store/notifications/module'),
   ]);
 
   return import('routing/routers/MainRouter');
@@ -31,7 +33,14 @@ const App = () => {
     dispatch(AppInit.action());
   }, [dispatch]);
 
-  return <Suspense fallback={<LogoScreen />}>{isAuthenticated && routing}</Suspense>;
+  return (
+    <Suspense fallback={<LogoScreen />}>
+      <>
+        {isAuthenticated && routing}
+        <Tooltip />
+      </>
+    </Suspense>
+  );
 };
 
 export default App;

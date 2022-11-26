@@ -5,6 +5,7 @@ import { put } from 'redux-saga/effects';
 import { ThemeService } from 'services/theme-service';
 
 import { ChangeTheme } from '../change-theme/change-theme';
+import { Theme } from '../models/theme';
 
 export class GetUserTheme {
   static get action() {
@@ -16,7 +17,7 @@ export class GetUserTheme {
       const cachedTheme = new ThemeService().theme;
       const telegramTheme = getTheme();
 
-      yield put(ChangeTheme.action(cachedTheme || telegramTheme));
+      yield put(ChangeTheme.action(cachedTheme || telegramTheme || Theme.LIGHT));
     };
   }
 }

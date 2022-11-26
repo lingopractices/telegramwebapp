@@ -16,6 +16,7 @@ import {
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
+import { GetMeetingsFailure } from './get-meetings-failure';
 import { GetMeetingsSuccess } from './get-meetings-success';
 
 interface IGetMeetingsPayload {
@@ -64,6 +65,7 @@ export class GetMeetings {
         yield put(GetMeetingsSuccess.action({ data, hasMore }));
         meta?.deferred.resolve();
       } catch (e) {
+        yield put(GetMeetingsFailure.action());
         meta?.deferred.reject(e);
       }
     };

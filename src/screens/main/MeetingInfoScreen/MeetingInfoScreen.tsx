@@ -2,13 +2,17 @@ import React, { useCallback, useEffect } from 'react';
 
 import Button from '@components/Button/Button';
 import MeetingInfo from '@components/MeetingInfo/MeetingInfo';
+import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { leaveMeetingAction } from '@store/meetings/actions';
 import {
   getLeaveMeetingPendingSelector,
   getMyMeetingByIdSelector,
 } from '@store/meetings/selectors';
+import { setNotificationAction } from '@store/notifications/actions';
 import { getProfileDataSelector } from '@store/profile/selectors';
+import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -26,6 +30,7 @@ const MeetingInfoScreen: React.FC = () => {
   const pendingLeaveMeeting = useSelector(getLeaveMeetingPendingSelector);
   const leaveMeeting = useActionWithDeferred(leaveMeetingAction);
   const { t } = useTranslation();
+  const setNotification = useActionWithDispatch(setNotificationAction);
 
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
@@ -39,10 +44,21 @@ const MeetingInfoScreen: React.FC = () => {
       })
         .then(() => {
           handleBack();
+          setNotification({
+            id: dayjs().unix(),
+            type: TooltipType.INFO,
+            text: t('meeting.leaveSuccess'),
+          });
         })
-        .catch((e: any) => {});
+        .catch(() => {
+          setNotification({
+            id: dayjs().unix(),
+            type: TooltipType.ERROR,
+            text: t('errors.leaveMeeting'),
+          });
+        });
     }
-  }, [user, meeting, handleBack, leaveMeeting]);
+  }, [user, meeting, handleBack, leaveMeeting, setNotification, t]);
 
   const handleJoinMeeting = useCallback(() => {
     window.open(meeting?.googleMeetLink, '_blank');

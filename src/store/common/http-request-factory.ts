@@ -12,21 +12,15 @@ export const httpRequestFactory = <TResponse, TBody>(
   headers?: HttpHeaders,
 ) => {
   function* generator(body?: TBody): SagaIterator {
-    try {
-      let finalUrl = url as string;
+    let finalUrl = url as string;
 
-      if (body && typeof url === 'function') {
-        finalUrl = (url as UrlGenerator<TBody>)(body);
-      }
-
-      const authHeader = yield call(getAuthHeader);
-
-      return yield call(httpRequest, finalUrl, method, body, { ...headers, ...authHeader });
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log(e);
+    if (body && typeof url === 'function') {
+      finalUrl = (url as UrlGenerator<TBody>)(body);
     }
-    return undefined;
+
+    const authHeader = yield call(getAuthHeader);
+
+    return yield call(httpRequest, finalUrl, method, body, { ...headers, ...authHeader });
   }
 
   return {

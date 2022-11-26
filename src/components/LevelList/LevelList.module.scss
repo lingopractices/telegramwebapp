@@ -1,5 +1,6 @@
 .container {
   padding: 24px 16px 0;
+  color: var(--base-color);
 
   & h2 {
     margin-bottom: 16px;
@@ -11,4 +12,9 @@
   display: flex;
   flex-flow: column nowrap;
   gap: 16px;
+}
+
+.item {
+  height: 42px;
+  border-radius: 16px;
 }

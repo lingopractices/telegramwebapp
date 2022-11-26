@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { ReactComponent as DownArrow } from '@assets/icons/down-arrow.svg';
-import { ReactComponent as LeftIcon } from '@assets/icons/left-disabled-arrow.svg';
+import { ReactComponent as LeftIcon } from '@assets/icons/left-arrow.svg';
+import { ReactComponent as LeftDisabledIcon } from '@assets/icons/left-disabled-arrow.svg';
 import { ReactComponent as RightIcon } from '@assets/icons/right-arrow.svg';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -26,13 +27,16 @@ const DatePicker: React.FC<IDatePicker> = ({
   onChangeDate,
   onChangeMonth,
 }) => {
+  const [isFirstMonth, setIsFirstMonth] = useState<boolean>();
   const { t } = useTranslation();
 
   const changeViewMonth = useCallback(
     (viewDate: Dayjs) => {
       if (onChangeMonth) onChangeMonth(viewDate);
+
+      setIsFirstMonth(dayjs().month() === viewDate.month());
     },
-    [onChangeMonth],
+    [onChangeMonth, setIsFirstMonth],
   );
 
   useEffect(() => {
@@ -76,7 +80,7 @@ const DatePicker: React.FC<IDatePicker> = ({
             components={{
               SwitchViewIcon: DownArrow,
               RightArrowIcon: RightIcon,
-              LeftArrowIcon: LeftIcon,
+              LeftArrowIcon: isFirstMonth ? LeftDisabledIcon : LeftIcon,
             }}
           />
         </div>

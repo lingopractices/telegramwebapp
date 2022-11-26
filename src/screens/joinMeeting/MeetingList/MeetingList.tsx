@@ -2,15 +2,19 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
+import { TooltipType } from '@components/Tooltip/Tooltip';
 import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getMeetingsAction } from '@store/meetings/actions';
 import {
   getMeetingHasMoreSelector,
   getMeetingsPendingSelector,
   getMeetingsSelector,
 } from '@store/meetings/selectors';
+import { setNotificationAction } from '@store/notifications/actions';
 import { getMaxTimeOfDay } from '@utils/date-utils';
+import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -30,6 +34,7 @@ const MeetingList: React.FC = () => {
   const pendingMeetings = useSelector(getMeetingsPendingSelector);
   const getMeetings = useActionWithDeferred(getMeetingsAction);
   const { t } = useTranslation();
+  const setNotification = useActionWithDispatch(setNotificationAction);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
 
@@ -40,9 +45,22 @@ const MeetingList: React.FC = () => {
         languageLevel: meetingData.languageLevel,
         from: meetingData.from,
         to: getMaxTimeOfDay(meetingData.from),
-      });
+      }).catch(() =>
+        setNotification({
+          id: dayjs().unix(),
+          type: TooltipType.ERROR,
+          text: t('errors.meetings'),
+        }),
+      );
     }
-  }, [meetingData?.from, meetingData?.languageId, meetingData?.languageLevel, getMeetings]);
+  }, [
+    meetingData?.from,
+    meetingData?.languageId,
+    meetingData?.languageLevel,
+    getMeetings,
+    setNotification,
+    t,
+  ]);
 
   const handleBack = useCallback(() => {
     navigate(JOIN_DATE_PATH, { state: { meetingData } });

@@ -8,6 +8,7 @@ import { Theme } from '@store/profile/features/models/theme';
 import { themeSelector } from '@store/profile/selectors';
 import classNames from 'classnames';
 import { ANIMATION_DURATION } from 'common/constants';
+import { debounce } from 'lodash';
 import { useSelector } from 'react-redux';
 
 import styles from './ChangeTheme.module.scss';
@@ -17,24 +18,22 @@ const ChangeTheme: React.FC = () => {
   const themeRef = useRef<HTMLDivElement>(null);
   const changeTheme = useActionWithDispatch(changeThemeAction);
 
-  const handleChangeTheme = useCallback(() => {
+  const handleToggleTheme = useCallback(() => {
+    let newTheme: Theme;
+
     if (theme === Theme.LIGHT) {
       themeRef.current?.classList.add(styles.toDark);
+      newTheme = Theme.DARK;
     } else {
       themeRef.current?.classList.add(styles.toLight);
+      newTheme = Theme.LIGHT;
     }
 
-    setTimeout(() => {
-      if (theme === Theme.LIGHT) {
-        changeTheme(Theme.DARK);
-        return;
-      }
-      changeTheme(Theme.LIGHT);
-    }, ANIMATION_DURATION);
+    debounce((t: Theme) => changeTheme(t), ANIMATION_DURATION)(newTheme);
   }, [theme, changeTheme]);
 
   return (
-    <div className={styles.container} onClick={handleChangeTheme}>
+    <div className={styles.container} onClick={handleToggleTheme}>
       <div
         onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
         className={classNames(styles.circle, {

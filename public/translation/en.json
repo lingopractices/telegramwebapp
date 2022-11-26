@@ -21,12 +21,14 @@
     "chooseInterfaceLang": "Choose interface language",
     "popular": "Popular",
     "other": "Other",
-    "choose": "choose a language"
+    "choose": "choose a language",
+    "changed": "Language changed successfully !"
   },
 
   "level": {
     "chooseLevel": "Choose meeting language levels",
-    "choose": "choose a level"
+    "choose": "choose a level",
+    "changed": "Practice level changed successfully !"
   },
 
   "topic": {
@@ -76,7 +78,9 @@
     "from": "from",
     "places": "places",
     "creatorFrom": "Creator from",
-    "questions": "Questions"
+    "questions": "Questions",
+    "leaveSuccess": "You left the meeting !",
+    "joined": "You joined the meeting !"
   },
 
   "createSuccess": {
@@ -108,5 +112,18 @@
     "1": "Not set",
     "2": "Male",
     "3": "Female"
+  },
+
+  "errors": {
+    "leaveMeeting": "Failed to leave the meeting. Please try again later.",
+    "getTopics": "Failed to load topics. Please try again later.",
+    "hasMeeting": "You already have a meeting at this time.",
+    "otherCreateMeeting": "Failed to create the meeting. Please try again later.",
+    "loadDyays": "Failed to load available meeting dates. Please try again later.",
+    "loadMeetings": "Failed to load meetings. Please try again later.",
+    "joinMeeting": "Failed to join meeting. Please try again later.",
+    "lang": "Failed to set language. Please try again later.",
+    "level": "Failed to set level. Please try again later.",
+    "meetings": "Failed to load meetings. Please try again later."
   }
 }
