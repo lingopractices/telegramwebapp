@@ -28,35 +28,37 @@ const MeetingInfo: React.FC<IMeeting> = ({
   return (
     <div className={styles.container}>
       <h2>
-        {t('meeting.meeting')}
-        <em>#</em>
+        {t('meeting.meeting')} <em>#</em>
         {`${id}`}
       </h2>
       <div className={styles.content}>
         <span className={styles.line}>
-          {t('meetingInfo.date')}: <span>{dayjs(meetingDate).format(DAY_MONTH_YAER)}</span>
+          {t('meetingInfo.date')}:{' '}
+          <span className={styles.paseted}>{dayjs(meetingDate).format(DAY_MONTH_YAER)}</span>
         </span>
         <span className={styles.line}>
-          {t('meetingInfo.time')}: <span>{dayjs(meetingDate).format(HOUR_MINUTE)}</span>
+          {t('meetingInfo.time')}:{' '}
+          <span className={styles.paseted}>{dayjs(meetingDate).format(HOUR_MINUTE)}</span>
         </span>
         <span className={styles.line}>
-          {t('meeting.participants')}: <span>{maxParticipantsCount}</span>
+          {t('meeting.participants')}:{' '}
+          <span className={styles.paseted}>{maxParticipantsCount}</span>
         </span>
         <span className={styles.line}>
           {t('meeting.free')}
-          <span> {freePlaces} </span>
+          <span className={styles.paseted}> {freePlaces} </span>
           {t('meeting.from')}
-          <span> {maxParticipantsCount} </span>
+          <span className={styles.paseted}> {maxParticipantsCount} </span>
           {t('meeting.places')}
         </span>
         <span className={styles.line}>
           {t('meeting.creatorFrom')}:{' '}
-          <span>
+          <span className={styles.paseted}>
             {userCreator.countryName}, {t(`gender.${userCreator.gender}`)}
           </span>
         </span>
         <span className={styles.line}>
-          {t('meetingInfo.topic')}: <span>{topic.name}</span>
+          {t('meetingInfo.topic')}: <span className={styles.paseted}>{topic.name}</span>
         </span>
         <span onClick={toggleOpenQuestions} className={classNames(styles.line, styles.questions)}>
           {t('meeting.questions')}
