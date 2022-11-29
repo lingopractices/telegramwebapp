@@ -1,6 +1,8 @@
 .container {
+  display: flex;
   overflow: hidden;
-  height: 100vh;
+  height: calc(100vh - var(--submit-button-height));
+  flex-flow: column nowrap;
   padding: 24px 16px 0;
   color: var(--base-color);
 
@@ -11,10 +13,8 @@
 
 .wrapper {
   display: flex;
-  height: calc(100% - 81px);
   flex-flow: row wrap;
   align-content: flex-start;
-  margin-bottom: 40px;
   gap: 16px;
   overflow-y: auto;
 }

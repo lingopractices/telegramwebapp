@@ -18,7 +18,7 @@ const SubmitButton: React.FC<ISubmitButtonProps> = ({
   loading,
 }) => (
   <div className={styles.submitButton}>
-    <Button onClick={onClick} title={title.toUpperCase()} disabled={!isActive} loading={loading} />
+    <Button onClick={onClick} title={title} disabled={!isActive} loading={loading} />
   </div>
 );
 

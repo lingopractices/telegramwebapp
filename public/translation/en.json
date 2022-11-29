@@ -21,34 +21,36 @@
     "chooseInterfaceLang": "Choose interface language",
     "popular": "Popular",
     "other": "Other",
-    "choose": "choose a language",
+    "choose": "Choose a language",
     "changed": "Language changed successfully !"
   },
 
   "level": {
     "chooseLevel": "Choose meeting language levels",
-    "choose": "choose a level",
+    "choose": "Choose a level",
     "changed": "Practice level changed successfully !"
   },
 
   "topic": {
     "chooseTopic": "Choose meeting topic",
-    "choose": "choose a topic"
+    "choose": "Choose a topic"
   },
 
   "participants": {
     "chooseParticipants": "Choose meeting partcipants",
-    "choose": "choose a number"
+    "choose": "Choose a number"
   },
 
   "date": {
     "chooseDate": "Choose meeting date",
-    "choose": "choose a date"
+    "choose": "Choose a date",
+    "anotherDate": "Choose another date"
   },
 
   "time": {
     "chooseTime": "Choose meeting time",
-    "choose": "choose a time"
+    "choose": "Choose a time",
+    "anotherTime": "Choose another time"
   },
 
   "meetingInfo": {
@@ -80,21 +82,22 @@
     "creatorFrom": "Creator from",
     "questions": "Questions",
     "leaveSuccess": "You left the meeting !",
-    "joined": "You joined the meeting !"
+    "joined": "You joined the meeting !",
+    "expiredTime": "Only future date available"
   },
 
   "createSuccess": {
     "congrats": "Congratulations!",
     "youCreatedMeet": "You have created a meeting",
-    "submit": "go to home page"
+    "submit": "Go To Home Page"
   },
 
   "search": "Search",
 
   "button": {
-    "submit": "submit",
+    "submit": "Continue",
     "leave": "Leave meeting",
-    "join": "Join meeting"
+    "join": "Join Google Meet Meeting"
   },
 
   "notSet": "not set",

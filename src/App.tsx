@@ -33,10 +33,14 @@ const App = () => {
     dispatch(AppInit.action());
   }, [dispatch]);
 
+  if (!isAuthenticated) {
+    return <LogoScreen />;
+  }
+
   return (
     <Suspense fallback={<LogoScreen />}>
       <>
-        {isAuthenticated && routing}
+        {routing}
         <Tooltip />
       </>
     </Suspense>

@@ -3,15 +3,16 @@
   bottom: 0;
   left: 0;
   width: 100%;
+  height: var(--submit-button-height);
   padding: 5px 16px 4px;
   backdrop-filter: blur(10px);
   background-color: var(--submit-button-bg);
   box-shadow: 0 -0.5px 0 rgb(0 0 0 / 30%);
 
   button {
+    height: 40px;
     padding: 8px;
     background-color: var(--change-theme);
-    border-radius: 0;
     border-radius: 40px;
     color: white;
   }

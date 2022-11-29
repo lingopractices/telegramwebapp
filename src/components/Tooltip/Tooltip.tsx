@@ -18,11 +18,6 @@ export const enum TooltipType {
   SUCCESS,
 }
 
-export type ErrorTooltipType = {
-  state: boolean | undefined;
-  text: string;
-};
-
 const Tooltip: React.FC = () => {
   const currentNotif = useSelector(currentNotificationSelector);
   const removeNotification = useActionWithDispatch(removeNotificationAction);

@@ -34,33 +34,29 @@ const MeetingInfo: React.FC<IMeeting> = ({
       </h2>
       <div className={styles.content}>
         <span className={styles.line}>
-          {t('meetingInfo.date')}: &nbsp;
-          <span>{dayjs(meetingDate).format(DAY_MONTH_YAER)}</span>
+          {t('meetingInfo.date')}: <span>{dayjs(meetingDate).format(DAY_MONTH_YAER)}</span>
         </span>
         <span className={styles.line}>
-          {t('meetingInfo.time')}: &nbsp;
-          <span>{dayjs(meetingDate).format(HOUR_MINUTE)}</span>
+          {t('meetingInfo.time')}: <span>{dayjs(meetingDate).format(HOUR_MINUTE)}</span>
         </span>
         <span className={styles.line}>
-          {t('meeting.participants')}: &nbsp;
-          <span>{maxParticipantsCount}</span>
+          {t('meeting.participants')}: <span>{maxParticipantsCount}</span>
         </span>
         <span className={styles.line}>
           {t('meeting.free')}
-          <span>&nbsp; {freePlaces} &nbsp; </span>
+          <span> {freePlaces} </span>
           {t('meeting.from')}
-          <span>&nbsp; {maxParticipantsCount} &nbsp;</span>
+          <span> {maxParticipantsCount} </span>
           {t('meeting.places')}
         </span>
         <span className={styles.line}>
-          {t('meeting.creatorFrom')}: &nbsp;
+          {t('meeting.creatorFrom')}:{' '}
           <span>
-            {userCreator.countryName},&nbsp;{t(`gender.${userCreator.gender}`)}
+            {userCreator.countryName}, {t(`gender.${userCreator.gender}`)}
           </span>
         </span>
         <span className={styles.line}>
-          {t('meetingInfo.topic')}: &nbsp;
-          <span>{topic.name}</span>
+          {t('meetingInfo.topic')}: <span>{topic.name}</span>
         </span>
         <span onClick={toggleOpenQuestions} className={classNames(styles.line, styles.questions)}>
           {t('meeting.questions')}
