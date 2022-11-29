@@ -79,31 +79,37 @@ const ResultInfo: React.FC<IResultInfo> = ({ meetingData }) => {
           title={t('meetingInfo.practiceLang')}
           value={`${chosenLanguage?.name}`}
           onClick={openLanguages}
+          containerClass={styles.itemContainer}
         />
         <InfoItem
           title={t('meetingInfo.level')}
           value={`${meetingData?.languageLevel && t(`levels.${meetingData.languageLevel}`)}`}
           onClick={openLevels}
+          containerClass={styles.itemContainer}
         />
         <InfoItem
           title={t('meetingInfo.topic')}
           value={`${chosenTopic && chosenTopic.name}`}
           onClick={openTopics}
+          containerClass={styles.itemContainer}
         />
         <InfoItem
           title={t('meetingInfo.participants')}
           value={`${meetingData?.peopleNumber}`}
           onClick={openPraticipiants}
+          containerClass={styles.itemContainer}
         />
         <InfoItem
           title={t('meetingInfo.date')}
           value={dayjs(meetingData?.meetingDate).format(DAY_MONTH_YAER)}
           onClick={openDate}
+          containerClass={styles.itemContainer}
         />
         <InfoItem
           title={t('meetingInfo.time')}
           value={dayjs(meetingData?.meetingTime).format(HOUR_MINUTE)}
           onClick={openTime}
+          containerClass={styles.itemContainer}
         />
       </div>
     </div>

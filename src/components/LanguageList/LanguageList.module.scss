@@ -18,7 +18,8 @@
 .wrapper {
   display: flex;
   flex-flow: row wrap;
-  gap: 15px;
+  margin-bottom: -15px;
+  margin-left: -15px;
 }
 
 .search {
@@ -30,6 +31,8 @@
   height: 42px;
   flex-grow: 1;
   padding: 10px 0;
+  margin-bottom: 15px;
+  margin-left: 15px;
 }
 
 .langWrap {

@@ -15,6 +15,12 @@
   display: flex;
   overflow: auto;
   flex-flow: row wrap;
-  gap: 13px;
+  margin-bottom: -13px;
+  margin-left: -13px;
   overflow-y: auto;
+}
+
+.itemContainer {
+  margin-bottom: 13px;
+  margin-left: 13px;
 }
