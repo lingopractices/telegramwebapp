@@ -56,26 +56,31 @@ const AccountScreen: React.FC = () => {
           title={t('account.info.practiceLang')}
           value={user?.practiceLanguage && user.practiceLanguage.name}
           onClick={openPracticeLanguages}
+          containerClass={styles.itemContainer}
         />
         <InfoItem
           title={t('account.info.level')}
           value={user?.languageLevel && t(`levels.${user.languageLevel}`)}
           onClick={openLevels}
+          containerClass={styles.itemContainer}
         />
         <InfoItem
           title={t('account.info.location')}
           value={user?.countryName && user?.countryName}
           onClick={() => {}}
+          containerClass={styles.itemContainer}
         />
         <InfoItem
           title={t('account.info.interfaceLang')}
           value={user?.interfaceLanguage && user.interfaceLanguage.name}
           onClick={openInterfaceLanguages}
+          containerClass={styles.itemContainer}
         />
         <InfoItem
           title={t('account.info.gender')}
           value={user?.gender && t(`gender.${user.gender}`)}
           onClick={() => {}}
+          containerClass={styles.itemContainer}
         />
       </div>
     </div>

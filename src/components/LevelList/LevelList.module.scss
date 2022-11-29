@@ -11,10 +11,10 @@
 .wrapper {
   display: flex;
   flex-flow: column nowrap;
-  gap: 16px;
+  margin-bottom: -16px;
 }
 
 .item {
   height: 42px;
-  border-radius: 16px;
+  margin-bottom: 16px;
 }

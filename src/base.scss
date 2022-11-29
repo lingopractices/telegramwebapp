@@ -1,7 +1,7 @@
 body {
   margin: 0;
   background-color: var(--base-bg-color);
-  font-family: Rubik, -apple-system, 'Apple Color Emoji', 'Helvetica Neue', Arial, sans-serif;
+  font-family: Mulish, sans-serif;
 }
 
 * {
@@ -88,4 +88,6 @@ input {
 
 :root {
   font-size: 16px;
+
+  --submit-button-height: 49px;
 }

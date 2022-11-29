@@ -8,7 +8,11 @@ export const getMaxTimeOfDay = (date: Dayjs) =>
   dayjs(date).set('hour', 23).set('minute', 59).set('second', 0);
 
 export const mergeDateAndTime = (date: Dayjs, time: Dayjs) =>
-  date.set('hour', time.hour()).set('minute', time.minute()).set('second', time.second());
+  date
+    .set('hour', time.hour())
+    .set('minute', time.minute())
+    .set('second', time.second())
+    .set('milliseconds', 0);
 
 export const sortGrowingDates = (dates: IMeeting[]) =>
   dates.sort((a, b) => dayjs(a.meetingDate).unix() - dayjs(b.meetingDate).unix());
@@ -21,7 +25,8 @@ export const getAvailableTimes = (date: Dayjs) => {
   if (date.isToday()) {
     const now = dayjs();
     minTime = now
-      .set('second', 0)
+      .set('milliseconds', 0)
+      .set('seconds', 0)
       .set('minutes', now.minute() < 30 ? 30 : 0)
       .set('hours', now.minute() > 30 ? now.hour() + 1 : now.hour());
   } else {

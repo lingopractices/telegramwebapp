@@ -18,12 +18,17 @@
   margin-bottom: 24px;
   background-color: var(--secondary-bg-color);
   border-radius: 16px;
+  font-weight: 700;
 }
 
 .arrow {
   width: 10.56px;
   margin-left: 6.72px;
   stroke: var(--base-color);
+}
+
+.paseted {
+  font-weight: 300;
 }
 
 .questionWrapper {

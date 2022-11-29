@@ -46,29 +46,39 @@ const CreateMeetingInfo: React.FC = () => {
       meetingData?.meetingDate &&
       meetingData?.meetingTime
     ) {
-      createMeeting({
-        languageId: meetingData.languageId,
-        languageLevel: meetingData.languageLevel,
-        meetingAt: mergeDateAndTime(meetingData.meetingDate, meetingData.meetingTime).toJSON(),
-        topicId: meetingData.topicId,
-        peopleNumber: meetingData.peopleNumber,
-      })
-        .then(() => {
-          handleForward();
-        })
-        .catch((e: CreateMeetingResult) => {
-          let textError: string;
-          switch (e) {
-            case CreateMeetingResult.HasMeetingSameTime:
-              textError = t('errors.hasMeeting');
-              break;
-            default:
-              textError = t('errors.otherCreateMeeting');
-              break;
-          }
+      const meetingAt = mergeDateAndTime(meetingData.meetingDate, meetingData.meetingTime);
 
-          setNotification({ id: dayjs().unix(), type: TooltipType.ERROR, text: textError });
+      if (meetingAt > dayjs()) {
+        createMeeting({
+          languageId: meetingData.languageId,
+          languageLevel: meetingData.languageLevel,
+          meetingAt: meetingAt.toJSON(),
+          topicId: meetingData.topicId,
+          peopleNumber: meetingData.peopleNumber,
+        })
+          .then(() => {
+            handleForward();
+          })
+          .catch((e: CreateMeetingResult) => {
+            let textError: string;
+            switch (e) {
+              case CreateMeetingResult.HasMeetingSameTime:
+                textError = t('errors.hasMeeting');
+                break;
+              default:
+                textError = t('errors.otherCreateMeeting');
+                break;
+            }
+
+            setNotification({ id: dayjs().unix(), type: TooltipType.ERROR, text: textError });
+          });
+      } else {
+        setNotification({
+          id: dayjs().unix(),
+          type: TooltipType.INFO,
+          text: t('meeting.expiredTime'),
         });
+      }
     }
   }, [
     meetingData?.languageLevel,

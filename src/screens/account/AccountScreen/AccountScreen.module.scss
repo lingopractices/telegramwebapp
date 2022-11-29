@@ -12,11 +12,17 @@
 .warpper {
   display: flex;
   flex-flow: row wrap;
-  gap: 13px;
+  margin-bottom: -13px;
+  margin-left: -13px;
 }
 
 .upRow {
   display: flex;
   justify-content: space-between;
   padding-right: 7px;
+}
+
+.itemContainer {
+  margin-bottom: 13px;
+  margin-left: 13px;
 }

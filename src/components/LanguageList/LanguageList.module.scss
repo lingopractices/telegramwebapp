@@ -1,6 +1,8 @@
 .container {
+  display: flex;
   overflow: hidden;
-  height: 100vh;
+  height: calc(100vh - var(--submit-button-height));
+  flex-flow: column nowrap;
   padding: 24px 16px 0;
   color: var(--base-color);
 
@@ -16,7 +18,8 @@
 .wrapper {
   display: flex;
   flex-flow: row wrap;
-  gap: 15px;
+  margin-bottom: -15px;
+  margin-left: -15px;
 }
 
 .search {
@@ -28,10 +31,10 @@
   height: 42px;
   flex-grow: 1;
   padding: 10px 0;
-  border-radius: 16px;
+  margin-bottom: 15px;
+  margin-left: 15px;
 }
 
 .langWrap {
-  overflow: auto;
-  height: calc(100% - 126px);
+  overflow-y: auto;
 }
