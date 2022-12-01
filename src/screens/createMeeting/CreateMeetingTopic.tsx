@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import StepBox from '@components/StepBox/StepBox';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import TopicList from '@components/TopicList/TopicList';
@@ -7,16 +8,24 @@ import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { setNotificationAction } from '@store/notifications/actions';
 import { getTopicsAction } from '@store/topics/actions';
+import { getTopicsSelector } from '@store/topics/selectors';
+import { getTopicById } from '@utils/get-language-topic-by-id';
 import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CREATE_LEVELS_PATH, CREATE_PARTICIPANTS_PATH } from 'routing/routing.constants';
+import {
+  CREATE_LEVELS_PATH,
+  CREATE_PARTICIPANTS_PATH,
+  CREATE_TOPICS_PATH,
+} from 'routing/routing.constants';
 import { CreateMeetingType } from 'screens/types';
 
 const CreateMeetingTopic: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const topics = useSelector(getTopicsSelector);
   const getTopics = useActionWithDeferred(getTopicsAction);
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
   const { setBackButtonOnClick } = useTgBackButton(true);
@@ -26,10 +35,20 @@ const CreateMeetingTopic: React.FC = () => {
   const handleChangeTopic = useCallback(
     (topicId: number) => {
       if (typeof topicId === 'number') {
-        setMeetingData((prev) => ({ ...prev, topicId }));
+        setMeetingData((prev) => ({
+          ...prev,
+          topic: {
+            topicId,
+            data: {
+              path: CREATE_TOPICS_PATH,
+              title: t('meetingInfo.topic'),
+              value: getTopicById(topics, topicId)?.name,
+            },
+          },
+        }));
       }
     },
-    [setMeetingData],
+    [topics, setMeetingData, t],
   );
 
   const loadMoreTopics = useCallback(() => {
@@ -52,15 +71,16 @@ const CreateMeetingTopic: React.FC = () => {
 
   return (
     <>
+      <StepBox meetingData={meetingData} />
       <TopicList
         onChangeTopic={handleChangeTopic}
         loadMoreTopics={loadMoreTopics}
-        defaultTopicId={meetingData?.topicId}
+        defaultTopicId={meetingData?.topic?.topicId}
       />
       <SubmitButton
         onClick={handleForward}
-        title={meetingData?.topicId ? t('button.submit') : t('topic.choose')}
-        isActive={!!meetingData?.topicId}
+        title={meetingData?.topic?.topicId ? t('button.submit') : t('topic.choose')}
+        isActive={!!meetingData?.topic?.topicId}
       />
     </>
   );

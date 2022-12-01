@@ -1,19 +1,50 @@
 import { Dayjs } from 'dayjs';
 import { LanguageLevel } from 'lingopractices-models';
 
+export type StepDataType = {
+  path: string;
+  title: string;
+  value?: string;
+};
+
 export type JoinMeetingType = {
-  userId?: number;
-  languageId?: string;
-  languageLevel?: LanguageLevel;
-  from?: Dayjs | null;
+  language: {
+    languageId?: string;
+    data: StepDataType;
+  };
+  level: {
+    languageLevel?: LanguageLevel;
+    data: StepDataType;
+  };
+  date: {
+    from?: Dayjs | null;
+    data: StepDataType;
+  };
 };
 
 export type CreateMeetingType = {
-  userCreatorId?: number;
-  languageId?: string;
-  languageLevel?: LanguageLevel;
-  meetingDate: Dayjs | null;
-  meetingTime: Dayjs;
-  topicId?: number;
-  peopleNumber?: number;
+  language: {
+    languageId?: string;
+    data: StepDataType;
+  };
+  level: {
+    languageLevel?: LanguageLevel;
+    data: StepDataType;
+  };
+  topic: {
+    topicId?: number;
+    data: StepDataType;
+  };
+  number: {
+    peopleNumber?: number;
+    data: StepDataType;
+  };
+  date: {
+    meetingDate: Dayjs | null;
+    data: StepDataType;
+  };
+  time: {
+    meetingTime: Dayjs;
+    data: StepDataType;
+  };
 };
