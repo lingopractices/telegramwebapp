@@ -1,4 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react';
 
 import { ReactComponent as AccountIcon } from '@assets/account.svg';
 import { ReactComponent as LingoLogo } from '@assets/lingo-logo.svg';
@@ -80,39 +85,37 @@ const MainScreen: React.FC = () => {
     [myMeetings, renderMeetings],
   );
 
+  const testRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div className={styles.container}>
-      <Link to={ACCOUNT_PATH} className={styles.account}>
-        <AccountIcon />
-      </Link>
-      <LingoLogo className={styles.logo} />
-      <div className={styles.buttonWrapper}>
-        <Button
-          title={t('mainScreen.create')}
-          onClick={createMeeting}
-          containerClass={styles.createButton}
-        />
-        <Button
-          title={t('mainScreen.join')}
-          onClick={joinMeeting}
-          containerClass={styles.joinButton}
-        />
+    <div className={styles.container} ref={infiniteContainer}>
+      <div className={styles.stickyHeader}>
+        <Link to={ACCOUNT_PATH} className={styles.account}>
+          <AccountIcon />
+        </Link>
+        <div ref={testRef} className={styles.wrapSvg}>
+          <LingoLogo className={styles.logo} />
+        </div>
+        <div className={styles.buttonWrapper}>
+          <Button
+            title={t('mainScreen.create')}
+            onClick={createMeeting}
+            containerClass={styles.createButton}
+          />
+          <Button
+            title={t('mainScreen.join')}
+            onClick={joinMeeting}
+            containerClass={styles.joinButton}
+          />
+        </div>
+        <h3 className={styles.meetingsHeader}>{t('mainScreen.meetingsHeader')}</h3>
       </div>
-      <h3 className={styles.meetingsHeader}>{t('mainScreen.meetingsHeader')}</h3>
-      <div ref={infiniteContainer} className={styles.myMeetingsWrapper}>
-        {myMeetings.length ? (
-          <InfiniteScroll
-            hasMore={hasMore}
-            containerRef={infiniteContainer}
-            onReachBottom={loadMore}
-          >
-            {renderedMeetings}
-            {myMeetingsPending && <AnimatedLogo size={LogoSize.SMALL} />}
-          </InfiniteScroll>
-        ) : (
-          <div>{t('meetings.noMeetings')}</div>
+      <InfiniteScroll hasMore={hasMore} containerRef={infiniteContainer} onReachBottom={loadMore}>
+        {renderedMeetings}
+        {myMeetingsPending && (
+          <AnimatedLogo containerClass={styles.containerLoader} size={LogoSize.SMALL} />
         )}
-      </div>
+      </InfiniteScroll>
     </div>
   );
 };

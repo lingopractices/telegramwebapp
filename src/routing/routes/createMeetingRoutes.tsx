@@ -16,7 +16,7 @@ import CreateMeetingLevel from 'screens/createMeeting/CreateMeetingLevel';
 import CreateMeetingParticipants from 'screens/createMeeting/CreateMeetingParticipants';
 import CreateMeetingSuccess from 'screens/createMeeting/CreateMeetingSuccess/CreateMeetingSuccess';
 import CreateMeetingTime from 'screens/createMeeting/CreateMeetingTime';
-import CreateMeetingTopic from 'screens/createMeeting/CreateMeetingTopic';
+import CreateMeetingTopic from 'screens/createMeeting/CreateMeetingTopic/CreateMeetingTopic';
 
 import { CreateRoutesEnum, CreateRoutesObject } from '../routing.types';
 

@@ -1,15 +1,23 @@
 .container {
   display: flex;
-  overflow: hidden;
-  height: calc(100vh - var(--submit-button-height));
   flex-flow: column nowrap;
   padding: 24px 16px 0;
+  margin-bottom: var(--submit-button-height);
   color: var(--base-color);
+
+  // overflow-y: auto;
 
   & h2 {
     margin-bottom: 16px;
     color: var(--base-color);
   }
+}
+
+.stickyHeader {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  background-color: var(--base-bg-color);
 }
 
 .search {
@@ -40,5 +48,5 @@
 }
 
 .animatedLogo {
-  margin-bottom: 16px;
+  margin: 16px 0;
 }

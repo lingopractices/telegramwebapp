@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import StepBox from '@components/StepBox/StepBox';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
@@ -22,6 +22,8 @@ import {
 } from 'routing/routing.constants';
 import { CreateMeetingType } from 'screens/types';
 
+import styles from './CreateMeetingTopic.module.scss';
+
 const CreateMeetingTopic: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -31,6 +33,7 @@ const CreateMeetingTopic: React.FC = () => {
   const { setBackButtonOnClick } = useTgBackButton(true);
   const { t } = useTranslation();
   const setNotification = useActionWithDispatch(setNotificationAction);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleChangeTopic = useCallback(
     (topicId: number) => {
@@ -70,9 +73,10 @@ const CreateMeetingTopic: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <>
+    <div className={styles.container} ref={containerRef}>
       <StepBox meetingData={meetingData} />
       <TopicList
+        ref={containerRef}
         onChangeTopic={handleChangeTopic}
         loadMoreTopics={loadMoreTopics}
         defaultTopicId={meetingData?.topic?.topicId}
@@ -82,7 +86,7 @@ const CreateMeetingTopic: React.FC = () => {
         title={meetingData?.topic?.topicId ? t('button.submit') : t('topic.choose')}
         isActive={!!meetingData?.topic?.topicId}
       />
-    </>
+    </div>
   );
 };
 

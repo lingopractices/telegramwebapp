@@ -70,6 +70,7 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
         display: 'flex',
         flexFlow: 'column',
         alignItems: 'center',
+        width: '100%',
       }}
     >
       {children}
