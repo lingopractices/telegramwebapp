@@ -67,10 +67,6 @@ const CreateMeetingParticipants: React.FC = () => {
     navigate(CREATE_TOPICS_PATH, { state: { meetingData } });
   }, [meetingData, navigate]);
 
-  const handleForward = useCallback(() => {
-    navigate(CREATE_DATE_PATH, { state: { meetingData } });
-  }, [meetingData, navigate]);
-
   useEffect(() => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
