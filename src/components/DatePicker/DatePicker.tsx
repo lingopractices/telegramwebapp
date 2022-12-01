@@ -34,7 +34,7 @@ const DatePicker: React.FC<IDatePicker> = ({
     (viewDate: Dayjs) => {
       if (onChangeMonth) onChangeMonth(viewDate);
 
-      setIsFirstMonth(dayjs().month() === viewDate.month());
+      setIsFirstMonth(dayjs().month() === dayjs(viewDate).month());
     },
     [onChangeMonth, setIsFirstMonth],
   );

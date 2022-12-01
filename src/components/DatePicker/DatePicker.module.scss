@@ -15,14 +15,20 @@
   & span,
   button {
     height: 32px;
+    background-color: none;
     color: var(--base-color);
 
     &[aria-selected='true'] {
-      background-color: var(--dt-blue-dark-wt-blue-light);
+      background-color: var(--secondary-bg-color);
+    }
+
+    &[aria-current='date'] {
+      border: 1px solid var(--dt-blue-dark-wt-blue-light);
+      background-color: var(--secondary-bg-color);
     }
 
     &[disabled] {
-      opacity: 0.6;
+      color: var(--calendar-day);
     }
   }
 
@@ -37,7 +43,8 @@
   }
 
   & button,
-  & div[role='row'] > span {
+  & div[role='row'] > span,
+  & div[role='row'] > button {
     background-color: var(--secondary-bg-color);
     border-radius: 4px;
 

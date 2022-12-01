@@ -1,22 +1,36 @@
 .container {
   position: relative;
   display: flex;
-  overflow: hidden;
   height: 100vh;
   flex-flow: column nowrap;
   align-items: center;
-  padding: 24px 15px 0;
+  padding: 0 15px;
+  background-color: var(--base-bg-color);
   color: var(--base-color);
+  overflow-y: auto;
 
   & h3 {
     width: 100%;
   }
 }
 
+.stickyHeader {
+  position: sticky;
+  top: 0;
+  display: flex;
+  width: 100%;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  padding-top: 24px;
+  background-color: var(--base-bg-color);
+}
+
 .logo {
-  min-width: 150px;
-  min-height: 150px;
-  margin-bottom: 24px;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  border-radius: 50%;
 }
 
 .buttonWrapper {
@@ -45,11 +59,6 @@
   }
 }
 
-.myMeetingsWrapper {
-  width: 100%;
-  overflow-y: auto;
-}
-
 .createButton {
   background-color: var(--dt-blue-dark-wt-blue-light);
   color: var(--dt-blue-dark-wt-white);
@@ -62,4 +71,14 @@
 
 .meetingsHeader {
   margin-bottom: 16px;
+}
+
+.containerLoader {
+  margin: 8px 0;
+}
+
+.wrapSvg {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 24px;
 }

@@ -1,7 +1,6 @@
 import { Route } from 'react-router-dom';
 import {
   CREATE_DATE_PATH,
-  CREATE_INFO,
   CREATE_LANGUAGES_PATH,
   CREATE_LEVELS_PATH,
   CREATE_PARTICIPANTS_PATH,
@@ -12,13 +11,12 @@ import {
 } from 'routing/routing.constants';
 import deleteLineFromPath from 'routing/utils/deleteLineFromPath';
 import CreateMeetingDate from 'screens/createMeeting/CreateMeetingDate';
-import CreateMeetingInfo from 'screens/createMeeting/CreateMeetingInfo';
 import CreateMeetingLanguage from 'screens/createMeeting/CreateMeetingLanguage';
 import CreateMeetingLevel from 'screens/createMeeting/CreateMeetingLevel';
 import CreateMeetingParticipants from 'screens/createMeeting/CreateMeetingParticipants';
 import CreateMeetingSuccess from 'screens/createMeeting/CreateMeetingSuccess/CreateMeetingSuccess';
 import CreateMeetingTime from 'screens/createMeeting/CreateMeetingTime';
-import CreateMeetingTopic from 'screens/createMeeting/CreateMeetingTopic';
+import CreateMeetingTopic from 'screens/createMeeting/CreateMeetingTopic/CreateMeetingTopic';
 
 import { CreateRoutesEnum, CreateRoutesObject } from '../routing.types';
 
@@ -69,14 +67,6 @@ const CreateRoutes: CreateRoutesObject = {
     props: {
       element: CreateMeetingTime,
       children: <Route path='*' element={<CreateMeetingTime />} />,
-    },
-  },
-  [CreateRoutesEnum.INFO_CREATE]: {
-    path: `${deleteLineFromPath(CREATE_INFO, `${CREATE_PATH}/`)}`,
-    pageName: 'Info',
-    props: {
-      element: CreateMeetingInfo,
-      children: <Route path='*' element={<CreateMeetingInfo />} />,
     },
   },
   [CreateRoutesEnum.CREATE_SUCCESS]: {

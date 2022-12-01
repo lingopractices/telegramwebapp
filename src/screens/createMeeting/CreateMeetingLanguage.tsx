@@ -1,18 +1,24 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import LanguageList from '@components/LanguageList/LanguageList';
+import StepBox from '@components/StepBox/StepBox';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { languagePendingSelector, languagesSelector } from '@store/languages/selectors';
 import { getPracticeLanguageSelector } from '@store/profile/selectors';
 import { getTopicsAction } from '@store/topics/actions';
 import { getTopicsSelector } from '@store/topics/selectors';
+import { getLanguageById } from '@utils/get-language-topic-by-id';
 import { popularLanguagesIds } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CREATE_LEVELS_PATH, INSTANT_MAIN_PATH } from 'routing/routing.constants';
+import {
+  CREATE_LANGUAGES_PATH,
+  CREATE_LEVELS_PATH,
+  INSTANT_MAIN_PATH,
+} from 'routing/routing.constants';
 import { CreateMeetingType } from 'screens/types';
 
 const CreateMeetingLanguage: React.FC = () => {
@@ -20,7 +26,9 @@ const CreateMeetingLanguage: React.FC = () => {
   const navigate = useNavigate();
   const currentLanguage = useSelector(getPracticeLanguageSelector);
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
-  const [newLanguageId, setNewLanguage] = useState(meetingData?.languageId || currentLanguage?.id);
+  const [newLanguageId, setNewLanguage] = useState(
+    meetingData?.language?.languageId || currentLanguage?.id,
+  );
   const languages = useSelector(languagesSelector);
   const topics = useSelector(getTopicsSelector);
   const getTopics = useActionWithDeferred(getTopicsAction);
@@ -30,8 +38,20 @@ const CreateMeetingLanguage: React.FC = () => {
   const { setBackButtonOnClick } = useTgBackButton(true);
 
   useEffect(() => {
-    setMeetingData((prev) => ({ ...prev, languageId: newLanguageId }));
-  }, [newLanguageId, setMeetingData]);
+    if (newLanguageId) {
+      setMeetingData((prev) => ({
+        ...prev,
+        language: {
+          languageId: newLanguageId,
+          data: {
+            path: CREATE_LANGUAGES_PATH,
+            title: t('meetingInfo.practiceLang'),
+            value: getLanguageById(languages, newLanguageId)?.name,
+          },
+        },
+      }));
+    }
+  }, [newLanguageId, languages, setMeetingData, t]);
 
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
@@ -53,6 +73,7 @@ const CreateMeetingLanguage: React.FC = () => {
 
   return (
     <>
+      <StepBox meetingData={meetingData} />
       <LanguageList
         popularLanguagesIds={popularLanguagesIds}
         languages={languages}

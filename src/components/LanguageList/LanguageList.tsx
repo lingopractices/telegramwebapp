@@ -92,21 +92,23 @@ const LanguageList: React.FC<ILanguageList> = ({
 
   return (
     <div className={styles.container}>
-      <h2>
-        {t(
-          popularLanguagesIds?.length
-            ? 'language.choosePracticeLang'
-            : 'language.chooseInterfaceLang',
+      <div className={styles.stickyHeader}>
+        <h2>
+          {t(
+            popularLanguagesIds?.length
+              ? 'language.choosePracticeLang'
+              : 'language.chooseInterfaceLang',
+          )}
+        </h2>
+        {popularLanguagesIds && (
+          <SearchBox
+            onChange={handleChangeSearchString}
+            value={searchStringText}
+            containerClassname={styles.search}
+          />
         )}
-      </h2>
-      {popularLanguagesIds && (
-        <SearchBox
-          onChange={handleChangeSearchString}
-          value={searchStringText}
-          containerClassname={styles.search}
-        />
-      )}
-      <div className={styles.langWrap}>{renderedLanguages}</div>
+      </div>
+      {renderedLanguages}
     </div>
   );
 };

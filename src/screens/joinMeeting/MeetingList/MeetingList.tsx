@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
+import StepBox from '@components/StepBox/StepBox';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
@@ -39,12 +40,16 @@ const MeetingList: React.FC = () => {
   const { setBackButtonOnClick } = useTgBackButton(true);
 
   const loadMore = useCallback(() => {
-    if (meetingData?.from && meetingData?.languageId && meetingData?.languageLevel) {
+    if (
+      meetingData?.date?.from &&
+      meetingData?.language?.languageId &&
+      meetingData?.level?.languageLevel
+    ) {
       getMeetings({
-        languageId: meetingData.languageId,
-        languageLevel: meetingData.languageLevel,
-        from: meetingData.from,
-        to: getMaxTimeOfDay(meetingData.from),
+        languageId: meetingData.language.languageId,
+        languageLevel: meetingData.level.languageLevel,
+        from: meetingData.date.from,
+        to: getMaxTimeOfDay(meetingData.date.from),
       }).catch(() =>
         setNotification({
           id: dayjs().unix(),
@@ -54,9 +59,9 @@ const MeetingList: React.FC = () => {
       );
     }
   }, [
-    meetingData?.from,
-    meetingData?.languageId,
-    meetingData?.languageLevel,
+    meetingData?.date?.from,
+    meetingData?.language?.languageId,
+    meetingData?.level?.languageLevel,
     getMeetings,
     setNotification,
     t,
@@ -72,6 +77,7 @@ const MeetingList: React.FC = () => {
 
   return (
     <div className={styles.container}>
+      <StepBox meetingData={meetingData} />
       <h2>{t('meetings.meetings')}</h2>
       <div className={styles.meetingsWrapper} ref={meetingsRef}>
         <InfiniteScroll onReachBottom={loadMore} containerRef={meetingsRef} hasMore={hasMore}>

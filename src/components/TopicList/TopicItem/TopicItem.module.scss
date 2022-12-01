@@ -13,6 +13,9 @@
 }
 
 .selectedTopic {
+  position: sticky;
+  top: 104px;
+  background-color: var(--secondary-bg-color-without-alpha);
   color: var(--base-color);
 }
 
