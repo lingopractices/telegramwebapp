@@ -22,6 +22,7 @@ function applyTheme(theme: Theme) {
     '--info-close-bg': '#969696',
     '--submit-button-bg': 'rgba(249, 249, 249, 0.94)',
     '--dt -dark-grey-wt-light-grey': '#728A96',
+    '--calendar-day': '#728A96',
   };
 
   const darkTheme: ThemeType = {
@@ -40,7 +41,8 @@ function applyTheme(theme: Theme) {
     '--dt-grey-color-wt-grey-light-color': '#CBCBCB',
     '--info-close-bg': 'rgba(255, 255, 255, 0.08)',
     '--submit-button-bg': '#2B2B2B',
-    '--dt -dark-grey-wt-light-grey': '#515151',
+    '--dt-dark-grey-wt-light-grey': '#515151',
+    '--calendar-day': '#728A96',
   };
 
   const root = document.documentElement;

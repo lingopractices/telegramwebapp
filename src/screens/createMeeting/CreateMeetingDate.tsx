@@ -23,9 +23,7 @@ const CreateMeetingDate: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
-  const [meetingDate, setMeetingDate] = useState<Dayjs | null>(
-    meetingData.date?.meetingDate || dayjs(),
-  );
+  const [meetingDate, setMeetingDate] = useState<Dayjs | null>(meetingData.date?.meetingDate);
   const setNotification = useActionWithDispatch(setNotificationAction);
   const { setBackButtonOnClick } = useTgBackButton(true);
 
@@ -41,7 +39,7 @@ const CreateMeetingDate: React.FC = () => {
     (date: Dayjs | null) => {
       setMeetingDate(date);
 
-      if (date && !availibleTimes.length) {
+      if (!date && !availibleTimes.length) {
         setNotification({
           id: dayjs().unix(),
           type: TooltipType.INFO,

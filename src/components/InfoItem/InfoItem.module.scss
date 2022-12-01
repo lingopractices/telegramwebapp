@@ -6,7 +6,8 @@
   flex-flow: column nowrap;
   justify-content: space-between;
   padding: 8px 16px;
-  border: 1px solid var(--base-color);
+  border: 1px solid var(--secondary-bg-color-without-alpha);
+  background-color: var(--secondary-bg-color);
   border-radius: 8px;
 
   svg {
