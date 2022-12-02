@@ -75,7 +75,7 @@ const CreateMeetingLanguage: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <StepBox meetingData={meetingData} />
+      <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <LanguageList
         popularLanguagesIds={popularLanguagesIds}
         languages={languages}

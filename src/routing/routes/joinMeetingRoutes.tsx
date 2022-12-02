@@ -8,10 +8,10 @@ import {
   JOIN_PATH,
 } from 'routing/routing.constants';
 import deleteLineFromPath from 'routing/utils/deleteLineFromPath';
-import JoinMeetingDate from 'screens/joinMeeting/JoinMeetingDate';
-import JoinMeetingInfo from 'screens/joinMeeting/JoinMeetingInfo';
-import JoinMeetingLanguage from 'screens/joinMeeting/JoinMeetingLanguage';
-import JoinMeetingLevel from 'screens/joinMeeting/JoinMeetingLevel';
+import JoinMeetingDate from 'screens/joinMeeting/JoinMeetingDate/JoinMeetingDate';
+import JoinMeetingInfo from 'screens/joinMeeting/JoinMeetingInfo/JoinMeetingInfo';
+import JoinMeetingLanguage from 'screens/joinMeeting/JoinMeetingLanguage/JoinMeetingLanguage';
+import JoinMeetingLevel from 'screens/joinMeeting/JoinMeetingLevel/JoinMeetingLevel';
 import JoinMeetingList from 'screens/joinMeeting/MeetingList/MeetingList';
 
 import { JoinRoutesEnum, JoinRoutesObject } from '../routing.types';

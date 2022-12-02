@@ -22,6 +22,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { JOIN_DATE_PATH, JOIN_LEVELS_PATH, JOIN_MEETINGS_PATH } from 'routing/routing.constants';
 import { JoinMeetingType } from 'screens/types';
 
+import styles from './JoinMeetingDate.module.scss';
+
 const JoinMeetingDate: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -145,7 +147,7 @@ const JoinMeetingDate: React.FC = () => {
 
   return (
     <>
-      <StepBox meetingData={meetingData} />
+      <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <DatePicker
         onChangeMonth={loadDays}
         defaultDate={meetingFrom}

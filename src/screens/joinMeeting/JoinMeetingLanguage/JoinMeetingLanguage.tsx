@@ -18,6 +18,8 @@ import {
 } from 'routing/routing.constants';
 import { JoinMeetingType } from 'screens/types';
 
+import styles from './JoinMeetingLanguage.module.scss';
+
 const JoinMeetingLanguage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -61,8 +63,8 @@ const JoinMeetingLanguage: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <>
-      <StepBox meetingData={meetingData} />
+    <div className={styles.container}>
+      <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <LanguageList
         popularLanguagesIds={popularLanguagesIds}
         languages={languages}
@@ -74,7 +76,7 @@ const JoinMeetingLanguage: React.FC = () => {
         title={newLaungageId ? t('button.submit') : t('language.choose')}
         isActive={!!newLaungageId}
       />
-    </>
+    </div>
   );
 };
 

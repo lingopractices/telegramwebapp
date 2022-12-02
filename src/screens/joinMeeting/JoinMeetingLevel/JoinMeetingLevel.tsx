@@ -11,6 +11,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { JOIN_DATE_PATH, JOIN_LANGUAGES_PATH, JOIN_LEVELS_PATH } from 'routing/routing.constants';
 import { JoinMeetingType } from 'screens/types';
 
+import styles from './JoinMeetingLevel.module.scss';
+
 const JoinMeetingLevel: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -49,15 +51,15 @@ const JoinMeetingLevel: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <>
-      <StepBox meetingData={meetingData} />
+    <div className={styles.container}>
+      <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <LevelList onChangeLevel={setNewLevel} defaultLevelId={newLevel} />
       <SubmitButton
         onClick={handleForward}
         title={newLevel ? t('button.submit') : t('level.choose')}
         isActive={!!newLevel}
       />
-    </>
+    </div>
   );
 };
 

@@ -15,6 +15,8 @@ import {
 } from 'routing/routing.constants';
 import { CreateMeetingType } from 'screens/types';
 
+import styles from './CreateMeetingLevel.module.scss';
+
 const CreateMeetingLevel: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -53,15 +55,15 @@ const CreateMeetingLevel: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <>
-      <StepBox meetingData={meetingData} />
+    <div className={styles.container}>
+      <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <LevelList onChangeLevel={setNewLevel} defaultLevelId={newLevel} />
       <SubmitButton
         onClick={handleForward}
         title={newLevel ? t('button.submit') : t('level.choose')}
         isActive={!!newLevel}
       />
-    </>
+    </div>
   );
 };
 

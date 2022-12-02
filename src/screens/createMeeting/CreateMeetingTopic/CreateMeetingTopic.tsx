@@ -74,7 +74,7 @@ const CreateMeetingTopic: React.FC = () => {
 
   return (
     <div className={styles.container} ref={containerRef}>
-      <StepBox meetingData={meetingData} />
+      <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <TopicList
         ref={containerRef}
         onChangeTopic={handleChangeTopic}
