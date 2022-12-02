@@ -20,6 +20,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { CREATE_DATE_PATH, CREATE_SUCCESS, CREATE_TIME_PATH } from 'routing/routing.constants';
 import { CreateMeetingType } from 'screens/types';
 
+import styles from './CreateMeetingTime.module.scss';
+
 const CreateMeetingTime: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -110,8 +112,8 @@ const CreateMeetingTime: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <>
-      <StepBox meetingData={meetingData} />
+    <div className={styles.container}>
+      <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <Time
         defaultDate={meetingData?.date?.meetingDate}
         defaultTime={meetingTime}
@@ -123,7 +125,7 @@ const CreateMeetingTime: React.FC = () => {
         isActive={!!meetingTime}
         loading={createPending}
       />
-    </>
+    </div>
   );
 };
 

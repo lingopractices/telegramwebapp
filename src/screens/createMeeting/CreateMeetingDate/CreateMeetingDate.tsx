@@ -18,6 +18,8 @@ import {
 } from 'routing/routing.constants';
 import { CreateMeetingType } from 'screens/types';
 
+import styles from './CreateMeetingDate.module.scss';
+
 const CreateMeetingDate: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -93,7 +95,7 @@ const CreateMeetingDate: React.FC = () => {
 
   return (
     <>
-      <StepBox meetingData={meetingData} />
+      <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <DatePicker defaultDate={meetingDate} onChangeDate={handleChangeDate} />
     </>
   );

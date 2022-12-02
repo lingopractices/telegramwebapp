@@ -58,8 +58,8 @@ export const TopicList = React.forwardRef<HTMLDivElement, ITopicListProps>(
 
     useEffect(() => {
       setFilteredTopics(
-        topics.filter((item) =>
-          getClearString(item.name).includes(getClearString(searchStringText)),
+        topics.filter((topic) =>
+          getClearString(topic.name).includes(getClearString(searchStringText)),
         ),
       );
     }, [searchStringText, topics, setFilteredTopics]);
@@ -94,11 +94,7 @@ export const TopicList = React.forwardRef<HTMLDivElement, ITopicListProps>(
       <div className={styles.container}>
         <div className={styles.stickyHeader}>
           <h2>{t('topic.chooseTopic')}</h2>
-          <SearchBox
-            value={searchStringText}
-            onChange={handleChangeSearchString}
-            containerClassname={styles.search}
-          />
+          <SearchBox onChange={handleChangeSearchString} containerClassname={styles.search} />
         </div>
         <InfiniteScroll
           onReachBottom={loadMoreTopics}

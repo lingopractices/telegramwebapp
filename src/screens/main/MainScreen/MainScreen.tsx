@@ -1,9 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { ReactComponent as AccountIcon } from '@assets/account.svg';
 import { ReactComponent as LingoLogo } from '@assets/lingo-logo.svg';
@@ -110,12 +105,14 @@ const MainScreen: React.FC = () => {
         </div>
         <h3 className={styles.meetingsHeader}>{t('mainScreen.meetingsHeader')}</h3>
       </div>
-      <InfiniteScroll hasMore={hasMore} containerRef={infiniteContainer} onReachBottom={loadMore}>
-        {renderedMeetings}
-        {myMeetingsPending && (
-          <AnimatedLogo containerClass={styles.containerLoader} size={LogoSize.SMALL} />
-        )}
-      </InfiniteScroll>
+      <div className={styles.meetingsWrapper}>
+        <InfiniteScroll hasMore={hasMore} containerRef={infiniteContainer} onReachBottom={loadMore}>
+          {renderedMeetings}
+          {myMeetingsPending && (
+            <AnimatedLogo containerClass={styles.containerLoader} size={LogoSize.SMALL} />
+          )}
+        </InfiniteScroll>
+      </div>
     </div>
   );
 };

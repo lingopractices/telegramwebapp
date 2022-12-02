@@ -15,3 +15,5 @@ export const pendingUpdateUserSelector = (state: RootState) =>
   state.profile.requests.updateProfilePending;
 
 export const themeSelector = (state: RootState) => state.profile.theme;
+
+export const locationSelector = (state: RootState) => state.profile.profileInfo?.countryName;

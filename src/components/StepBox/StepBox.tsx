@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 
-import StepItem from '@components/StepItem/StepItem';
+import StepItem from '@components/StepBox/StepItem/StepItem';
+import classNames from 'classnames';
 import { useLocation } from 'react-router-dom';
 import { CreateMeetingType, JoinMeetingType, StepDataType } from 'screens/types';
 
@@ -8,9 +9,10 @@ import styles from './StepBox.module.scss';
 
 interface IStepBox {
   meetingData: CreateMeetingType | JoinMeetingType;
+  containerClass?: string;
 }
 
-const StepBox: React.FC<IStepBox> = ({ meetingData }) => {
+const StepBox: React.FC<IStepBox> = ({ meetingData, containerClass }) => {
   const location = useLocation();
 
   const mapMeetingDataToStep = useCallback(
@@ -39,7 +41,7 @@ const StepBox: React.FC<IStepBox> = ({ meetingData }) => {
   );
 
   return renderedSteps.length ? (
-    <div className={styles.container}>
+    <div className={classNames(styles.container, containerClass)}>
       {renderedSteps}
       <div className={styles.line} />
     </div>

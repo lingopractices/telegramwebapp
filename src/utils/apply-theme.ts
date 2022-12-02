@@ -23,6 +23,7 @@ function applyTheme(theme: Theme) {
     '--submit-button-bg': 'rgba(249, 249, 249, 0.94)',
     '--dt -dark-grey-wt-light-grey': '#728A96',
     '--calendar-day': '#728A96',
+    '--radio-line': '#DFDFDF',
   };
 
   const darkTheme: ThemeType = {
@@ -43,6 +44,7 @@ function applyTheme(theme: Theme) {
     '--submit-button-bg': '#2B2B2B',
     '--dt-dark-grey-wt-light-grey': '#515151',
     '--calendar-day': '#728A96',
+    '--radio-line': '#555555',
   };
 
   const root = document.documentElement;

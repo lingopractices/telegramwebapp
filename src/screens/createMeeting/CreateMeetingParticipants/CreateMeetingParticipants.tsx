@@ -12,6 +12,8 @@ import {
 } from 'routing/routing.constants';
 import { CreateMeetingType } from 'screens/types';
 
+import styles from './CreateMeetingParticipants.module.scss';
+
 const CreateMeetingParticipants: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -73,7 +75,7 @@ const CreateMeetingParticipants: React.FC = () => {
 
   return (
     <>
-      <StepBox meetingData={meetingData} />
+      <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <ParticipantsCount
         onChangeParticipiants={handleChangePeople}
         defaultParticipiants={peopleNumber}
