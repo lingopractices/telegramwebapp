@@ -4,6 +4,7 @@ import CheckedRadio from '@components/CheckedRadio/CheckedRadio';
 import SearchBox from '@components/SearchBox/SearchBox';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { TooltipType } from '@components/Tooltip/Tooltip';
+import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ICoutnry, useCountries } from '@hooks/use-countries';
@@ -21,7 +22,7 @@ import { ACCOUNT_PATH } from 'routing/routing.constants';
 import styles from './AccountLocation.module.scss';
 
 const AccountLocation = () => {
-  const { countries } = useCountries();
+  const { countries, isLoad } = useCountries();
   const [filteredCountries, setFilteredCountries] = useState<ICoutnry[]>(countries);
   const currentLocation = useSelector(locationSelector);
   const [selectedLocation, setSelectedLocation] = useState(currentLocation);
@@ -68,20 +69,24 @@ const AccountLocation = () => {
           practiceLanguageId: user.practiceLanguage.id,
           interfaceLanguageId: user.interfaceLanguage.id,
           countryName: selectedLocation,
-        }).then(() => {
-          handleBack();
-          setNotification({
-            id: dayjs().unix(),
-            type: TooltipType.SUCCESS,
-            text: t('account.location.changed'),
+        })
+          .then(() => {
+            handleBack();
+            setNotification({
+              id: dayjs().unix(),
+              type: TooltipType.SUCCESS,
+              text: t('account.location.changed'),
+            });
+          })
+          .catch(() => {
+            setNotification({
+              id: dayjs().unix(),
+              type: TooltipType.ERROR,
+              text: t('errors.location'),
+            });
           });
-        });
       } else {
-        setNotification({
-          id: dayjs().unix(),
-          type: TooltipType.ERROR,
-          text: t('errors.location'),
-        });
+        handleBack();
       }
     }
   }, [user, selectedLocation, currentLocation, handleBack, setNotification, updateLocation, t]);
@@ -115,6 +120,11 @@ const AccountLocation = () => {
         <h2>{t('account.location.setLocation')}</h2>
         <SearchBox onChange={handleSearchChange} containerClassname={styles.searchContainer} />
       </div>
+      {isLoad && (
+        <div className={styles.wrapLoad}>
+          <AnimatedLogo size={LogoSize.FULL} containerClass={styles.wrapLoad} />
+        </div>
+      )}
       <div className={styles.countriesWrapper}>{renderedCountries}</div>
       <SubmitButton
         title={selectedLocation ? t('button.submit') : t('account.location.chooseContry')}

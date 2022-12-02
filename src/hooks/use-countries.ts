@@ -10,21 +10,26 @@ export interface ICoutnry {
 
 export function useCountries() {
   const [countries, setCountries] = useState<ICoutnry[]>(new CountryService().countries || []);
+  const [isLoad, setIsLoad] = useState(false);
+
   useEffect(() => {
     (async () => {
       if (!countries.length) {
+        setIsLoad(true);
         try {
           const loadedCountriesResponse = await axios.get(`/countries.json`);
           setCountries(loadedCountriesResponse.data);
+          setIsLoad(false);
 
           const countriesService = new CountryService();
           countriesService.initializeOrUpdate(loadedCountriesResponse.data);
         } catch {
+          setIsLoad(false);
           // console.log()
         }
       }
     })();
-  }, [countries.length]);
+  }, [countries.length, setIsLoad]);
 
-  return { countries };
+  return { countries, isLoad };
 }

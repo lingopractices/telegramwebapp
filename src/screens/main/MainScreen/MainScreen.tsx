@@ -80,15 +80,13 @@ const MainScreen: React.FC = () => {
     [myMeetings, renderMeetings],
   );
 
-  const testRef = useRef<HTMLDivElement>(null);
-
   return (
     <div className={styles.container} ref={infiniteContainer}>
       <div className={styles.stickyHeader}>
         <Link to={ACCOUNT_PATH} className={styles.account}>
           <AccountIcon />
         </Link>
-        <div ref={testRef} className={styles.wrapSvg}>
+        <div className={styles.wrapSvg}>
           <LingoLogo className={styles.logo} />
         </div>
         <div className={styles.buttonWrapper}>

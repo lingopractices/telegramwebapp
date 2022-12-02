@@ -110,10 +110,10 @@
   "levels": {
     "1": "Beginner",
     "2": "Pre-Intermediate",
-    "3": "Intermediate",
-    "4": "Upper-Intermediate",
-    "5": "Advanced",
-    "6": "Proficiency"
+    "4": "Intermediate",
+    "8": "Upper-Intermediate",
+    "16": "Advanced",
+    "32": "Proficiency"
   },
 
   "gender": {

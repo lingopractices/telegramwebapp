@@ -1,4 +1,5 @@
 .outer {
+  display: flex;
   animation: loading 1s infinite ease-in-out;
 }
 
@@ -11,6 +12,10 @@
 
 .wrapper {
   position: relative;
+  width: fit-content;
+  height: fit-content;
+  background-color: white;
+  border-radius: 50%;
 
   &.small {
     & .outer {
