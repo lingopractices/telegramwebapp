@@ -13,6 +13,11 @@
       "location": "Location",
       "interfaceLang": "Interface language",
       "gender": "Gender"
+    },
+    "location": {
+      "setLocation": "Location",
+      "chooseContry": "Choose a Country",
+      "changed": "Country changed successfully"
     }
   },
 
@@ -127,6 +132,7 @@
     "joinMeeting": "Failed to join meeting. Please try again later.",
     "lang": "Failed to set language. Please try again later.",
     "level": "Failed to set level. Please try again later.",
-    "meetings": "Failed to load meetings. Please try again later."
+    "meetings": "Failed to load meetings. Please try again later.",
+    "location": "Failed to set location. Please try again later."
   }
 }
