@@ -21,6 +21,8 @@ import {
 } from 'routing/routing.constants';
 import { CreateMeetingType } from 'screens/types';
 
+import styles from './CreateMeetingLanguage.module.scss';
+
 const CreateMeetingLanguage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -72,7 +74,7 @@ const CreateMeetingLanguage: React.FC = () => {
   }, [topics.length, getTopics]);
 
   return (
-    <>
+    <div className={styles.container}>
       <StepBox meetingData={meetingData} />
       <LanguageList
         popularLanguagesIds={popularLanguagesIds}
@@ -86,7 +88,7 @@ const CreateMeetingLanguage: React.FC = () => {
         isActive={!!newLanguageId}
         loading={languagesPending}
       />
-    </>
+    </div>
   );
 };
 

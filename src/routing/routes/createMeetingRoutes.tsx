@@ -11,7 +11,7 @@ import {
 } from 'routing/routing.constants';
 import deleteLineFromPath from 'routing/utils/deleteLineFromPath';
 import CreateMeetingDate from 'screens/createMeeting/CreateMeetingDate';
-import CreateMeetingLanguage from 'screens/createMeeting/CreateMeetingLanguage';
+import CreateMeetingLanguage from 'screens/createMeeting/CreateMeetingLanguage/CreateMeetingLanguage';
 import CreateMeetingLevel from 'screens/createMeeting/CreateMeetingLevel';
 import CreateMeetingParticipants from 'screens/createMeeting/CreateMeetingParticipants';
 import CreateMeetingSuccess from 'screens/createMeeting/CreateMeetingSuccess/CreateMeetingSuccess';
