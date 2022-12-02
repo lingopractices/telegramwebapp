@@ -3,6 +3,7 @@ import React, { useCallback, useEffect } from 'react';
 import InfoItem from '@components/InfoItem/InfoItem';
 import { getProfileDataSelector } from '@store/profile/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
+import { LanguageLevel } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +11,7 @@ import {
   ACCOUNT_INTERFACE_LANGUAGES_PATH,
   ACCOUNT_LANGUAGES_PATH,
   ACCOUNT_LEVELS_PATH,
+  ACCOUNT_LOCATION_PATH,
   INSTANT_MAIN_PATH,
 } from 'routing/routing.constants';
 
@@ -45,6 +47,10 @@ const AccountScreen: React.FC = () => {
     navigate(ACCOUNT_LEVELS_PATH);
   }, [navigate]);
 
+  const openLocation = useCallback(() => {
+    navigate(ACCOUNT_LOCATION_PATH);
+  }, [navigate]);
+
   return (
     <div className={styles.container}>
       <div className={styles.upRow}>
@@ -60,14 +66,18 @@ const AccountScreen: React.FC = () => {
         />
         <InfoItem
           title={t('account.info.level')}
-          value={user?.languageLevel && t(`levels.${user.languageLevel}`)}
+          value={
+            user?.languageLevel !== LanguageLevel.None
+              ? t(`levels.${user?.languageLevel}`)
+              : t(`notSet`)
+          }
           onClick={openLevels}
           containerClass={styles.itemContainer}
         />
         <InfoItem
           title={t('account.info.location')}
           value={user?.countryName && user?.countryName}
-          onClick={() => {}}
+          onClick={openLocation}
           containerClass={styles.itemContainer}
         />
         <InfoItem

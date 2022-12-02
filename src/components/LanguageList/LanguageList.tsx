@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import RadioItem from '@components/RadioItem/RadioItem';
 import SearchBox from '@components/SearchBox/SearchBox';
@@ -23,7 +23,6 @@ const LanguageList: React.FC<ILanguageList> = ({
   onChangeLanguage,
 }) => {
   const { t } = useTranslation();
-  const [searchStringText, setSearchStringText] = useState('');
   const [filteredLanguages, setFilteredLanguages] = useState(languages);
 
   const handleChangeLanguage = useCallback(
@@ -35,24 +34,16 @@ const LanguageList: React.FC<ILanguageList> = ({
 
   const handleChangeSearchString = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchStringText(e.target.value);
+      const { value } = e.target;
+
+      setFilteredLanguages(
+        languages.filter((language) =>
+          getClearString(language.name).includes(getClearString(value)),
+        ),
+      );
     },
-    [setSearchStringText],
+    [languages, setFilteredLanguages],
   );
-
-  useEffect(() => {
-    if (defaultLanguageId) {
-      setSearchStringText('');
-    }
-  }, [defaultLanguageId, setSearchStringText]);
-
-  useEffect(() => {
-    setFilteredLanguages(
-      languages.filter((item) =>
-        getClearString(item.name).includes(getClearString(searchStringText)),
-      ),
-    );
-  }, [searchStringText, languages]);
 
   const renderLanguages = useCallback(
     (language: ILanguage) => (
@@ -101,11 +92,7 @@ const LanguageList: React.FC<ILanguageList> = ({
           )}
         </h2>
         {popularLanguagesIds && (
-          <SearchBox
-            onChange={handleChangeSearchString}
-            value={searchStringText}
-            containerClassname={styles.search}
-          />
+          <SearchBox onChange={handleChangeSearchString} containerClassname={styles.search} />
         )}
       </div>
       {renderedLanguages}

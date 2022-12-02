@@ -8,23 +8,16 @@ import styles from './SearchBox.module.scss';
 
 interface ISearchBoxProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string;
   containerClassname?: string;
 }
 
-const SearchBox: React.FC<ISearchBoxProps> = ({ value, containerClassname, onChange }) => {
+const SearchBox: React.FC<ISearchBoxProps> = ({ containerClassname, onChange }) => {
   const { t } = useTranslation();
 
   return (
     <div className={classNames(styles.container, { [`${containerClassname}`]: true })}>
       <SearchIcon />
-      <input
-        className={styles.input}
-        value={value}
-        type='text'
-        onChange={onChange}
-        placeholder={t('search')}
-      />
+      <input className={styles.input} type='text' onChange={onChange} placeholder={t('search')} />
     </div>
   );
 };

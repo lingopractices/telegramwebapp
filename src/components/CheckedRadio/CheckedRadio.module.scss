@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  cursor: pointer;
+  font-weight: 300;
+
+  &:not(:last-of-type) {
+    border-bottom: 1px solid var(--radio-line);
+  }
+
+  & input {
+    display: none;
+  }
+
+  svg {
+    color: var(--dt-white-wt-black);
+  }
+}
