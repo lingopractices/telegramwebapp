@@ -1,5 +1,4 @@
 .container {
-  position: relative;
   display: flex;
   height: 100vh;
   flex-flow: column nowrap;
@@ -26,13 +25,6 @@
   background-color: var(--base-bg-color);
 }
 
-.logo {
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  border-radius: 50%;
-}
-
 .buttonWrapper {
   display: flex;
   width: 100%;
@@ -48,19 +40,6 @@
 
 .meetingsWrapper {
   width: 100%;
-}
-
-.account {
-  position: absolute;
-  top: 24px;
-  right: 15px;
-  padding: 8px;
-  background-color: var(--secondary-bg-color);
-  border-radius: 8px;
-
-  & svg {
-    stroke: var(--base-color);
-  }
 }
 
 .createButton {
@@ -81,8 +60,110 @@
   margin: 8px 0;
 }
 
-.wrapSvg {
+.headerLine {
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-flow: column nowrap;
+  margin-bottom: 24px;
+
+  & .top {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  & .bottom {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.account {
+  padding: 8px;
+  background-color: var(--secondary-bg-color);
+  border-radius: 8px;
+
+  & svg {
+    stroke: var(--base-color);
+  }
+}
+
+.secondaryLogo {
+  opacity: 0;
+
+  &.hideSecondaryLogo {
+    animation: hide-secondary var(--animation-duraton) linear forwards;
+  }
+
+  &.showSecondaryLogo {
+    animation: show-secondary var(--animation-duraton) linear forwards;
+  }
+}
+
+.logo {
+  display: flex;
   width: 105px;
   height: 105px;
-  margin-bottom: 24px;
+  justify-content: center;
+  margin-top: -40px;
+  background-color: white;
+  border-radius: 50%;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  &.hideMainLogo {
+    animation: hide-main var(--animation-duraton) ease-out forwards;
+  }
+
+  &.showMainLogo {
+    animation: show-main var(--animation-duraton) ease-out forwards;
+  }
+}
+
+@keyframes hide-main {
+  from {
+    width: 105px;
+    height: 105px;
+  }
+
+  to {
+    width: 0;
+    height: 0;
+  }
+}
+
+@keyframes show-main {
+  from {
+    width: 0;
+    height: 0;
+  }
+
+  to {
+    width: 105px;
+    height: 105px;
+  }
+}
+
+@keyframes hide-secondary {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes show-secondary {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

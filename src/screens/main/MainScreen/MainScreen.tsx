@@ -5,6 +5,7 @@ import { ReactComponent as LingoLogo } from '@assets/lingo-logo.svg';
 import Button from '@components/Button/Button';
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
+import SecondaryLogo from '@components/SecondaryLogo/SecondaryLogo';
 import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getLanguagesAction } from '@store/languages/actions';
@@ -15,6 +16,7 @@ import {
   getMyMeetingsSelector,
   myMeetingsPendingSelector,
 } from '@store/meetings/selectors';
+import { SCROLL_DOWN, SCROLL_TOP } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { IMeeting } from 'lingopractices-models';
@@ -36,6 +38,9 @@ const MainScreen: React.FC = () => {
   const hasMore = useSelector(getMyMeetingHasMoreSelector);
   const languages = useSelector(languagesSelector);
   const myMeetingsPending = useSelector(myMeetingsPendingSelector);
+  const mainLogoRef = useRef<HTMLDivElement>(null);
+  const secondaryLogoRef = useRef<HTMLDivElement>(null);
+  const previousScrollTop = useRef(0);
   const getLanguages = useActionWithDispatch(getLanguagesAction);
   const getMeetings = useActionWithDispatch(getMyMeetingsAction);
   const navigate = useNavigate();
@@ -80,14 +85,44 @@ const MainScreen: React.FC = () => {
     [myMeetings, renderMeetings],
   );
 
+  const handleScroll = useCallback((event: React.UIEvent<HTMLDivElement>) => {
+    const target = event.target as HTMLDivElement;
+    const { scrollTop } = target;
+
+    if (scrollTop >= previousScrollTop.current) {
+      if (scrollTop >= SCROLL_TOP) {
+        mainLogoRef.current?.classList.remove(styles.showMainLogo);
+        mainLogoRef.current?.classList.add(styles.hideMainLogo);
+        secondaryLogoRef.current?.classList.add(styles.showSecondaryLogo);
+      }
+    } else if (scrollTop <= previousScrollTop.current) {
+      if (scrollTop === SCROLL_DOWN) {
+        mainLogoRef.current?.classList.add(styles.showMainLogo);
+        secondaryLogoRef.current?.classList.remove(styles.showSecondaryLogo);
+        secondaryLogoRef.current?.classList.add(styles.hideSecondaryLogo);
+      }
+    }
+
+    previousScrollTop.current = scrollTop;
+  }, []);
+
   return (
-    <div className={styles.container} ref={infiniteContainer}>
+    <div className={styles.container} ref={infiniteContainer} onScroll={handleScroll}>
       <div className={styles.stickyHeader}>
-        <Link to={ACCOUNT_PATH} className={styles.account}>
-          <AccountIcon />
-        </Link>
-        <div className={styles.wrapSvg}>
-          <LingoLogo className={styles.logo} />
+        <div className={styles.headerLine}>
+          <div className={styles.top}>
+            <div ref={secondaryLogoRef} className={styles.secondaryLogo}>
+              <SecondaryLogo />
+            </div>
+            <Link to={ACCOUNT_PATH} className={styles.account}>
+              <AccountIcon />
+            </Link>
+          </div>
+          <div className={styles.bottom}>
+            <div ref={mainLogoRef} className={styles.logo}>
+              <LingoLogo />
+            </div>
+          </div>
         </div>
         <div className={styles.buttonWrapper}>
           <Button

@@ -33,11 +33,11 @@
   transition-property: top;
 
   &.openTooltip {
-    animation: open-tooltip 0.2s ease-out forwards;
+    animation: open-tooltip var(--animation-duraton) ease-out forwards;
   }
 
   &.closeTooltip {
-    animation: close-tooltip 0.2s ease-out forwards;
+    animation: close-tooltip var(--animation-duraton) ease-out forwards;
   }
 }
 

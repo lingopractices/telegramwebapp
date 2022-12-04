@@ -44,11 +44,11 @@
   }
 
   &.toLight {
-    animation: to-light 0.2s ease-in-out forwards;
+    animation: to-light var(--animation-duraton) ease-in-out forwards;
   }
 
   &.toDark {
-    animation: to-dark 0.2s ease-in-out forwards;
+    animation: to-dark var(--animation-duraton) ease-in-out forwards;
   }
 
   & svg {

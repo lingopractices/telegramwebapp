@@ -1,0 +1,31 @@
+.container {
+  p {
+    margin-bottom: 7px;
+    font-weight: 700;
+  }
+}
+
+.lineWrapepr {
+  display: flex;
+
+  div {
+    width: 36px;
+    height: 2px;
+  }
+}
+
+.dark {
+  background-color: #324252;
+}
+
+.blueDark {
+  background-color: #567cbe;
+}
+
+.yellow {
+  background-color: #e7bf08;
+}
+
+.blueLight {
+  background-color: #48a3db;
+}
