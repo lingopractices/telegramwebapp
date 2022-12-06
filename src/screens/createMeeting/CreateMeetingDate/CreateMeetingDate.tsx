@@ -39,8 +39,6 @@ const CreateMeetingDate: React.FC = () => {
 
   const handleChangeDate = useCallback(
     (date: Dayjs | null) => {
-      setMeetingDate(date);
-
       if (!date && !availibleTimes.length) {
         setNotification({
           id: dayjs().unix(),
@@ -71,20 +69,6 @@ const CreateMeetingDate: React.FC = () => {
     [meetingData, availibleTimes.length, navigate, setMeetingDate, setNotification, t],
   );
 
-  useEffect(() => {
-    setMeetingData((prev) => ({
-      ...prev,
-      date: {
-        meetingDate,
-        data: {
-          path: CREATE_DATE_PATH,
-          title: t('meetingInfo.date'),
-          value: dayjs(meetingDate).format(DAY_MONTH_YAER),
-        },
-      },
-    }));
-  }, [meetingDate, setMeetingData, t]);
-
   const handleBack = useCallback(() => {
     navigate(CREATE_PARTICIPANTS_PATH, { state: { meetingData } });
   }, [meetingData, navigate]);
@@ -94,10 +78,10 @@ const CreateMeetingDate: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <>
+    <div className={styles.container}>
       <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <DatePicker defaultDate={meetingDate} onChangeDate={handleChangeDate} />
-    </>
+    </div>
   );
 };
 

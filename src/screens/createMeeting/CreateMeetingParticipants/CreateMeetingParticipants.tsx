@@ -25,7 +25,6 @@ const CreateMeetingParticipants: React.FC = () => {
 
   const handleChangePeople = useCallback(
     (count: number) => {
-      setPeopleNumber(count);
       navigate(CREATE_DATE_PATH, {
         state: {
           meetingData: {
@@ -42,28 +41,8 @@ const CreateMeetingParticipants: React.FC = () => {
         },
       });
     },
-    [setPeopleNumber, meetingData, navigate, t],
+    [meetingData, navigate, t],
   );
-
-  useEffect(() => {
-    setMeetingData((prev) => {
-      if (peopleNumber) {
-        return {
-          ...prev,
-          number: {
-            peopleNumber,
-            data: {
-              path: CREATE_PARTICIPANTS_PATH,
-              title: t('meetingInfo.participants'),
-              value: `${peopleNumber}`,
-            },
-          },
-        };
-      }
-
-      return prev;
-    });
-  }, [peopleNumber, setMeetingData, t]);
 
   const handleBack = useCallback(() => {
     navigate(CREATE_TOPICS_PATH, { state: { meetingData } });
@@ -74,13 +53,13 @@ const CreateMeetingParticipants: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <>
+    <div className={styles.container}>
       <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <ParticipantsCount
         onChangeParticipiants={handleChangePeople}
         defaultParticipiants={peopleNumber}
       />
-    </>
+    </div>
   );
 };
 

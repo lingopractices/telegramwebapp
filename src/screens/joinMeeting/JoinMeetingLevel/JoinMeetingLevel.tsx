@@ -53,6 +53,7 @@ const JoinMeetingLevel: React.FC = () => {
   return (
     <div className={styles.container}>
       <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
+      <h2>{t('level.chooseLevel')}</h2>
       <LevelList onChangeLevel={setNewLevel} defaultLevelId={newLevel} />
       <SubmitButton
         onClick={handleForward}

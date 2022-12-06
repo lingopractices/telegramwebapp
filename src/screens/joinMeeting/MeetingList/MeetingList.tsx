@@ -76,10 +76,10 @@ const MeetingList: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <div className={styles.container}>
-      <StepBox meetingData={meetingData} />
+    <div className={styles.container} ref={meetingsRef}>
+      <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <h2>{t('meetings.meetings')}</h2>
-      <div className={styles.meetingsWrapper} ref={meetingsRef}>
+      <div className={styles.meetingsWrapper}>
         <InfiniteScroll onReachBottom={loadMore} containerRef={meetingsRef} hasMore={hasMore}>
           {meetings.map((meeting) => (
             <MeetingItem

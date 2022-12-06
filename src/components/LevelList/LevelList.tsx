@@ -25,20 +25,17 @@ const LevelList: React.FC<ILevelList> = ({ defaultLevelId, onChangeLevel }) => {
 
   return (
     <div className={styles.container}>
-      <h2>{t('level.chooseLevel')}</h2>
-      <div className={styles.wrapper}>
-        {levels.map((level) => (
-          <RadioItem
-            id={level.id}
-            key={level.id}
-            radioGroupName='levels'
-            label={t(`levels.${level.id}`)}
-            onChange={handleChange}
-            containerClass={styles.item}
-            isSelected={level.id === defaultLevelId}
-          />
-        ))}
-      </div>
+      {levels.map((level) => (
+        <RadioItem
+          id={level.id}
+          key={level.id}
+          radioGroupName='levels'
+          label={t(`levels.${level.id}`)}
+          onChange={handleChange}
+          containerClass={styles.item}
+          isSelected={level.id === defaultLevelId}
+        />
+      ))}
     </div>
   );
 };

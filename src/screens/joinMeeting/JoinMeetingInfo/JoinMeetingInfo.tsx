@@ -17,6 +17,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { INSTANT_MAIN_PATH, JOIN_MEETINGS_PATH } from 'routing/routing.constants';
 import { JoinMeetingType } from 'screens/types';
 
+import styles from './JoinMeetingInfo.module.scss';
+
 const JoinMeetingInfo: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -66,7 +68,7 @@ const JoinMeetingInfo: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return meeting ? (
-    <>
+    <div className={styles.container}>
       <MeetingInfo
         id={meeting.id}
         meetingDate={meeting.meetingDate}
@@ -81,7 +83,7 @@ const JoinMeetingInfo: React.FC = () => {
         title={t('button.submit')}
         loading={pendingJoinMeeting}
       />
-    </>
+    </div>
   ) : (
     <div>no meeting</div>
   );
