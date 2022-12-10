@@ -89,19 +89,29 @@ const MainScreen: React.FC = () => {
   const handleScroll = useCallback((event: React.UIEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
     const { scrollTop } = target;
+    const secondaryLogo = secondaryLogoRef.current;
+    const mainLogo = mainLogoRef.current;
 
-    if (scrollTop >= previousScrollTop.current) {
-      if (scrollTop >= SCROLL_TOP) {
-        mainLogoRef.current?.classList.remove(styles.start);
-        mainLogoRef.current?.classList.remove(styles.showMainLogo);
-        mainLogoRef.current?.classList.add(styles.hideMainLogo);
-        secondaryLogoRef.current?.classList.add(styles.showSecondaryLogo);
-      }
-    } else if (scrollTop <= previousScrollTop.current) {
-      if (scrollTop === SCROLL_DOWN) {
-        mainLogoRef.current?.classList.add(styles.showMainLogo);
-        secondaryLogoRef.current?.classList.remove(styles.showSecondaryLogo);
-        secondaryLogoRef.current?.classList.add(styles.hideSecondaryLogo);
+    if (mainLogo && secondaryLogo) {
+      if (scrollTop >= previousScrollTop.current) {
+        if (scrollTop >= SCROLL_TOP && mainLogoRef.current) {
+          mainLogo.classList.remove(styles.start);
+          mainLogo.classList.remove(styles.showMainLogo);
+          mainLogo.classList.add(styles.hideMainLogo);
+          mainLogo.onanimationend = () => {
+            secondaryLogo.classList.add(styles.showSecondaryLogo);
+          };
+        }
+      } else if (scrollTop <= previousScrollTop.current) {
+        if (scrollTop === SCROLL_DOWN) {
+          mainLogo.classList.remove(styles.start);
+          mainLogo.classList.add(styles.showMainLogo);
+          secondaryLogo.classList.remove(styles.showSecondaryLogo);
+
+          mainLogo.onanimationend = () => {
+            secondaryLogo.classList.add(styles.hideSecondaryLogo);
+          };
+        }
       }
     }
 

@@ -92,14 +92,14 @@
 
 .secondaryLogo {
   opacity: 0;
+}
 
-  &.hideSecondaryLogo {
-    animation: hide-secondary var(--animation-duraton) linear forwards;
-  }
+.hideSecondaryLogo {
+  animation: hide-secondary 0.2s linear forwards;
+}
 
-  &.showSecondaryLogo {
-    animation: show-secondary var(--animation-duraton) linear forwards;
-  }
+.showSecondaryLogo {
+  animation: show-secondary 0.2s linear forwards;
 }
 
 .logo {
@@ -111,24 +111,25 @@
   margin-top: -40px;
   background-color: white;
   border-radius: 50%;
-
-  &.start {
-    width: 105px;
-    height: 105px;
-  }
+  transition: all 0.2s ease-out;
 
   svg {
     width: 100%;
     height: 100%;
   }
+}
 
-  &.hideMainLogo {
-    animation: hide-main var(--animation-duraton) ease-out forwards;
-  }
+.start {
+  width: 105px;
+  height: 105px;
+}
 
-  &.showMainLogo {
-    animation: show-main var(--animation-duraton) ease-out forwards;
-  }
+.hideMainLogo {
+  animation: hide-main 0.2s ease-out forwards;
+}
+
+.showMainLogo {
+  animation: show-main 0.15s ease-out forwards;
 }
 
 @keyframes hide-main {
