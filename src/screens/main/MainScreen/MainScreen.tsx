@@ -107,10 +107,8 @@ const MainScreen: React.FC = () => {
           mainLogo.classList.remove(styles.start);
           mainLogo.classList.add(styles.showMainLogo);
           secondaryLogo.classList.remove(styles.showSecondaryLogo);
-
-          mainLogo.onanimationend = () => {
-            secondaryLogo.classList.add(styles.hideSecondaryLogo);
-          };
+          secondaryLogo.classList.add(styles.hideSecondaryLogo);
+          mainLogo.onanimationend = () => {};
         }
       }
     }
