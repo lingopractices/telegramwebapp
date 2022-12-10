@@ -4,4 +4,13 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 16px;
+
+  &:last-of-type {
+    margin-bottom: 24px;
+  }
+
+  svg {
+    min-width: 24px;
+    min-height: 24px;
+  }
 }

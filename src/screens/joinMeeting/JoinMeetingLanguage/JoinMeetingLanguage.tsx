@@ -70,6 +70,7 @@ const JoinMeetingLanguage: React.FC = () => {
         languages={languages}
         onChangeLanguage={setNewLanguage}
         defaultLanguageId={newLaungageId}
+        title={t('language.choosePracticeLang')}
       />
       <SubmitButton
         onClick={handleForward}

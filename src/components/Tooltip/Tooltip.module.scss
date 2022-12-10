@@ -21,8 +21,9 @@
 .container {
   position: fixed;
   top: -60px;
+  right: 16px;
+  left: 16px;
   display: flex;
-  max-width: 70%;
   padding: 8px;
   border: 1px solid var(--base-color);
   background-color: var(--secondary-bg-color-without-alpha);
@@ -33,11 +34,11 @@
   transition-property: top;
 
   &.openTooltip {
-    animation: open-tooltip 0.2s ease-out forwards;
+    animation: open-tooltip var(--animation-duraton) ease-out forwards;
   }
 
   &.closeTooltip {
-    animation: close-tooltip 0.2s ease-out forwards;
+    animation: close-tooltip var(--animation-duraton) ease-out forwards;
   }
 }
 

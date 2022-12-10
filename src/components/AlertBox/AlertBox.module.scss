@@ -1,0 +1,32 @@
+.container {
+  padding: 16px;
+  margin-bottom: 31px;
+  background-color: var(--secondary-bg-color);
+  border-radius: 8px;
+}
+
+.topLine {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.tagWrapper {
+  display: flex;
+  flex-flow: row wrap;
+  margin-bottom: -10px;
+  margin-left: -10px;
+}
+
+.tagContainer {
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+
+.edit {
+  width: fit-content;
+  padding: 5px 10px;
+  background-color: var(--dt-white-wt-grey);
+  border-radius: 8px;
+  color: var(--dt-black-wt-white);
+}

@@ -1,6 +1,7 @@
 body {
   margin: 0;
   background-color: var(--base-bg-color);
+  color: var(--base-color);
   font-family: Mulish, sans-serif;
 }
 
@@ -90,4 +91,5 @@ input {
   font-size: 16px;
 
   --submit-button-height: 49px;
+  --animation-duraton: 0.2s;
 }

@@ -48,3 +48,9 @@ export type CreateMeetingType = {
     data: StepDataType;
   };
 };
+
+export type CreateAlertType = {
+  languageId?: string;
+  languageLevels?: LanguageLevel;
+  rootPath?: string;
+};

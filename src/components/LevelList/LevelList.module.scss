@@ -1,24 +1,21 @@
 .container {
-  padding: 24px 16px 0;
   margin-bottom: var(--submit-button-height);
   color: var(--base-color);
 
-  & h2 {
-    position: sticky;
-    top: 0;
+  & > h2:first-of-type {
+    z-index: 5;
+    margin-top: 24px;
     margin-bottom: 16px;
     background-color: var(--base-bg-color);
     color: var(--base-color);
   }
 }
 
-.wrapper {
-  display: flex;
-  flex-flow: column nowrap;
-  margin-bottom: -16px;
-}
-
 .item {
   height: 42px;
+  margin-bottom: 16px;
+}
+
+.mluti {
   margin-bottom: 16px;
 }

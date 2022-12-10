@@ -4,7 +4,9 @@ import LevelList from '@components/LevelList/LevelList';
 import StepBox from '@components/StepBox/StepBox';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { getLanguageLevelSelector } from '@store/profile/selectors';
+import { mapLevels } from '@utils/map-levels';
 import useTgBackButton from 'hooks/useTgBackButton';
+import { LanguageLevel } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -18,7 +20,9 @@ const JoinMeetingLevel: React.FC = () => {
   const navigate = useNavigate();
   const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
   const currentLevel = useSelector(getLanguageLevelSelector);
-  const [newLevel, setNewLevel] = useState(meetingData?.level?.languageLevel || currentLevel);
+  const [newLevel, setNewLevel] = useState(
+    meetingData?.level?.languageLevel || currentLevel || LanguageLevel.None,
+  );
   const { setBackButtonOnClick } = useTgBackButton(true);
   const { t } = useTranslation();
 
@@ -31,7 +35,9 @@ const JoinMeetingLevel: React.FC = () => {
           data: {
             path: JOIN_LEVELS_PATH,
             title: t('meetingInfo.level'),
-            value: t(`levels.${newLevel}`),
+            value: mapLevels(newLevel)
+              .map((level) => t(`levels.${level}`))
+              .join(', '),
           },
         },
       }));
@@ -53,7 +59,12 @@ const JoinMeetingLevel: React.FC = () => {
   return (
     <div className={styles.container}>
       <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
-      <LevelList onChangeLevel={setNewLevel} defaultLevelId={newLevel} />
+      <LevelList
+        onChangeLevel={setNewLevel}
+        defaultLevelId={newLevel}
+        title={t('level.chooseLevel')}
+        multiple={!!true}
+      />
       <SubmitButton
         onClick={handleForward}
         title={newLevel ? t('button.submit') : t('level.choose')}

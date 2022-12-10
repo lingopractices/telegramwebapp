@@ -1,18 +1,17 @@
 .container {
-  position: relative;
-  display: flex;
-  overflow: hidden;
-  height: calc(100vh - var(--submit-button-height));
-  flex-flow: column nowrap;
-  padding: 24px 16px 0;
-  color: var(--base-color);
+  height: 100vh;
+  padding: 0 16px;
+  overflow-y: auto;
 
-  h2 {
-    margin-bottom: 16px;
+  & h2 {
+    position: sticky;
+    top: 0;
+    margin-top: 24px;
+    margin-bottom: 20px;
+    background-color: var(--base-bg-color);
   }
 }
 
-.meetingsWrapper {
-  width: 100%;
-  overflow-y: auto;
+.stepBoxContainer {
+  margin-top: 24px;
 }

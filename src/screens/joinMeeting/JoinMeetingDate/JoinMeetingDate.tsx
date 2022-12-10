@@ -5,13 +5,13 @@ import StepBox from '@components/StepBox/StepBox';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { setNotificationAction } from '@store/app-notifications/actions';
 import {
   clearMeetingsAction,
   getMeetingDaysAction,
   getMeetingsAction,
 } from '@store/meetings/actions';
 import { getMeetingDaysPendingSelector, getMeetingsDaysSelector } from '@store/meetings/selectors';
-import { setNotificationAction } from '@store/notifications/actions';
 import { getMaxTimeOfDay, getMinTimeOfDay } from '@utils/date-utils';
 import { DAY_MONTH_YAER, FULL_DATE } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
@@ -49,15 +49,9 @@ const JoinMeetingDate: React.FC = () => {
           resultDate = getMinTimeOfDay(value);
         }
 
-        setMeetingFrom(resultDate);
+        if (meetingData?.language?.languageId && meetingData?.level.languageLevel) {
+          clearMeetings();
 
-        if (meetingData?.date?.from) {
-          if (resultDate.format(DAY_MONTH_YAER) !== meetingData.date.from.format(DAY_MONTH_YAER)) {
-            clearMeetings();
-          }
-        }
-
-        if (meetingData?.language?.languageId && meetingData?.level.languageLevel && resultDate) {
           getMeetings({
             languageId: meetingData.language.languageId,
             languageLevel: meetingData.level.languageLevel,
@@ -94,26 +88,6 @@ const JoinMeetingDate: React.FC = () => {
     [meetingData, navigate, getMeetings, setNotification, clearMeetings, t],
   );
 
-  useEffect(() => {
-    if (meetingFrom) {
-      setMeetingData((prev) => ({
-        ...prev,
-        date: {
-          from: meetingFrom,
-          data: {
-            path: JOIN_DATE_PATH,
-            title: t('meetingInfo.date'),
-            value: dayjs(meetingFrom).format(DAY_MONTH_YAER),
-          },
-        },
-      }));
-    }
-  }, [meetingFrom, setMeetingData, t]);
-
-  const handleBack = useCallback(() => {
-    navigate(JOIN_LEVELS_PATH, { state: { meetingData } });
-  }, [meetingData, navigate]);
-
   const loadDays = useCallback(
     (date: Dayjs) => {
       if (meetingData?.language?.languageId && meetingData?.level.languageLevel && date) {
@@ -141,12 +115,16 @@ const JoinMeetingDate: React.FC = () => {
 
   useEffect(() => loadDays(dayjs()), [loadDays]);
 
+  const handleBack = useCallback(() => {
+    navigate(JOIN_LEVELS_PATH, { state: { meetingData } });
+  }, [meetingData, navigate]);
+
   useEffect(() => {
     setBackButtonOnClick(handleBack);
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <>
+    <div className={styles.container}>
       <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <DatePicker
         onChangeMonth={loadDays}
@@ -154,7 +132,7 @@ const JoinMeetingDate: React.FC = () => {
         availableDays={meetingsDays}
         onChangeDate={handleChangeDate}
       />
-    </>
+    </div>
   );
 };
 

@@ -10,6 +10,10 @@
   border-radius: 8px;
   cursor: pointer;
   font-weight: 300;
+
+  span {
+    z-index: 1;
+  }
 }
 
 .selectedTopic {

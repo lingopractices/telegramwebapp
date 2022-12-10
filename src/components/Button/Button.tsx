@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
 import classNames from 'classnames';
@@ -6,11 +6,12 @@ import classNames from 'classnames';
 import styles from './Button.module.scss';
 
 interface IButtonProps {
-  title: string;
+  title?: string;
   containerClass?: string;
   loading?: boolean;
   disabled?: boolean;
   onClick: () => void;
+  children?: ReactNode;
 }
 
 const Button: React.FC<IButtonProps> = ({
@@ -19,6 +20,7 @@ const Button: React.FC<IButtonProps> = ({
   disabled,
   loading,
   onClick,
+  children,
 }) => (
   <button
     type='button'
@@ -26,7 +28,7 @@ const Button: React.FC<IButtonProps> = ({
     className={classNames(styles.container, containerClass)}
     onClick={onClick}
   >
-    <span className={styles.title}>{title}</span>
+    <span className={styles.title}>{title || children}</span>
     {loading && (
       <div className={styles.loader}>
         <AnimatedLogo size={LogoSize.SMALL} />

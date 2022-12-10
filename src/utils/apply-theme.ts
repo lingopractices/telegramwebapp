@@ -18,12 +18,16 @@ function applyTheme(theme: Theme) {
     '--change-theme': '#07A0EC',
     '--selected-item-bg': 'none',
     '--dt-white-wt-black': '#000000',
+    '--dt-black-wt-white': '#FFFFFF',
     '--dt-grey-color-wt-grey-light-color': '#728A96',
     '--info-close-bg': '#969696',
     '--submit-button-bg': 'rgba(249, 249, 249, 0.94)',
     '--dt -dark-grey-wt-light-grey': '#728A96',
     '--calendar-day': '#728A96',
     '--radio-line': '#DFDFDF',
+    '--dt-white-wt-grey': '#728A96',
+    '--dt-secondary-bg-wt-white': '#FFFFFF',
+    '--select-next': '#F7F9FB;',
   };
 
   const darkTheme: ThemeType = {
@@ -45,6 +49,10 @@ function applyTheme(theme: Theme) {
     '--dt-dark-grey-wt-light-grey': '#515151',
     '--calendar-day': '#728A96',
     '--radio-line': '#555555',
+    '--dt-white-wt-grey': '#FFFFFF',
+    '--dt-black-wt-white': '#000000',
+    '--dt-secondary-bg-wt-white': 'rgba(255, 255, 255, 0.08)',
+    '--select-next': '#414144',
   };
 
   const root = document.documentElement;

@@ -5,9 +5,9 @@ import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { setNotificationAction } from '@store/app-notifications/actions';
 import { joinMeetingAction } from '@store/meetings/actions';
 import { getMeetingByIdSelector, getMeetingJoinPendingSelector } from '@store/meetings/selectors';
-import { setNotificationAction } from '@store/notifications/actions';
 import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { IJoinMeetingResponse, JoinMeetingResult } from 'lingopractices-models';
@@ -16,6 +16,8 @@ import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { INSTANT_MAIN_PATH, JOIN_MEETINGS_PATH } from 'routing/routing.constants';
 import { JoinMeetingType } from 'screens/types';
+
+import styles from './JoinMeetingInfo.module.scss';
 
 const JoinMeetingInfo: React.FC = () => {
   const location = useLocation();
@@ -66,7 +68,7 @@ const JoinMeetingInfo: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return meeting ? (
-    <>
+    <div className={styles.container}>
       <MeetingInfo
         id={meeting.id}
         meetingDate={meeting.meetingDate}
@@ -81,7 +83,7 @@ const JoinMeetingInfo: React.FC = () => {
         title={t('button.submit')}
         loading={pendingJoinMeeting}
       />
-    </>
+    </div>
   ) : (
     <div>no meeting</div>
   );

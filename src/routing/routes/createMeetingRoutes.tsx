@@ -10,13 +10,13 @@ import {
   CREATE_TOPICS_PATH,
 } from 'routing/routing.constants';
 import deleteLineFromPath from 'routing/utils/deleteLineFromPath';
-import CreateMeetingDate from 'screens/createMeeting/CreateMeetingDate/CreateMeetingDate';
-import CreateMeetingLanguage from 'screens/createMeeting/CreateMeetingLanguage/CreateMeetingLanguage';
-import CreateMeetingLevel from 'screens/createMeeting/CreateMeetingLevel/CreateMeetingLevel';
-import CreateMeetingParticipants from 'screens/createMeeting/CreateMeetingParticipants/CreateMeetingParticipants';
-import CreateMeetingSuccess from 'screens/createMeeting/CreateMeetingSuccess/CreateMeetingSuccess';
-import CreateMeetingTime from 'screens/createMeeting/CreateMeetingTime/CreateMeetingTime';
-import CreateMeetingTopic from 'screens/createMeeting/CreateMeetingTopic/CreateMeetingTopic';
+import CreateMeetingDate from 'screens/createMeeting/Date/CreateMeetingDate';
+import CreateMeetingLanguage from 'screens/createMeeting/Language/CreateMeetingLanguage';
+import CreateMeetingLevel from 'screens/createMeeting/Level/CreateMeetingLevel';
+import CreateMeetingSuccess from 'screens/createMeeting/MeetingSuccess/CreateMeetingSuccess';
+import CreateMeetingParticipants from 'screens/createMeeting/Participants/CreateMeetingParticipants';
+import CreateMeetingTime from 'screens/createMeeting/Time/CreateMeetingTime';
+import CreateMeetingTopic from 'screens/createMeeting/Topic/CreateMeetingTopic';
 
 import { CreateRoutesEnum, CreateRoutesObject } from '../routing.types';
 

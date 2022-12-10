@@ -1,0 +1,60 @@
+.container {
+  width: 65px;
+  height: 32px;
+  padding: 2px;
+  background-color: var(--secondary-bg-color);
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+@keyframes to-light {
+  from {
+    left: 0%;
+  }
+
+  to {
+    left: 50%;
+  }
+}
+
+@keyframes to-dark {
+  from {
+    left: 50%;
+  }
+
+  to {
+    left: 0%;
+  }
+}
+
+.circle {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  background-color: var(--change-theme);
+  border-radius: 50%;
+  transition-property: left;
+
+  &.light {
+    left: 50%;
+  }
+
+  &.dark {
+    left: 0%;
+  }
+
+  &.toLight {
+    animation: to-light var(--animation-duraton) ease-in-out forwards;
+  }
+
+  &.toDark {
+    animation: to-dark var(--animation-duraton) ease-in-out forwards;
+  }
+
+  & svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

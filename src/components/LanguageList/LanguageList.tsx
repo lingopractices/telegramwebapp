@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import styles from './LanguageList.module.scss';
 
 interface ILanguageList {
+  title?: string;
   defaultLanguageId?: string;
   popularLanguagesIds?: string[];
   languages: ILanguage[];
@@ -17,6 +18,7 @@ interface ILanguageList {
 }
 
 const LanguageList: React.FC<ILanguageList> = ({
+  title,
   defaultLanguageId,
   popularLanguagesIds,
   languages,
@@ -84,13 +86,7 @@ const LanguageList: React.FC<ILanguageList> = ({
   return (
     <div className={styles.container}>
       <div className={styles.stickyHeader}>
-        <h2>
-          {t(
-            popularLanguagesIds?.length
-              ? 'language.choosePracticeLang'
-              : 'language.chooseInterfaceLang',
-          )}
-        </h2>
+        <h2>{title}</h2>
         {popularLanguagesIds && (
           <SearchBox onChange={handleChangeSearchString} containerClassname={styles.search} />
         )}
