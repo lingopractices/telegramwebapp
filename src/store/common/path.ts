@@ -13,4 +13,7 @@ export const MAIN_API = {
   CREATE_MEETING: `${ROOT_API}/meeting`,
   GET_MY_MEETINGS: `${ROOT_API}/user/meetings?userId=:userId&offset=:offset&limit=:limit`,
   LEAVE_MEETING: `${ROOT_API}/meetings/:meetingId/leave?userId=:userId`,
+  GET_NOTIFICATIONS_PREFERENCES: `${ROOT_API}/notification-preferences`,
+  CREATE_NOTIFICATIONS_PREFERENCES: `${ROOT_API}/notification-preferences`,
+  UPDATE_NOTIFICATIONS_PREFERENCES: `${ROOT_API}/notification-preferences`,
 };

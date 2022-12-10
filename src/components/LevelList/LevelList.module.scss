@@ -1,9 +1,21 @@
 .container {
   margin-bottom: var(--submit-button-height);
   color: var(--base-color);
+
+  & > h2:first-of-type {
+    z-index: 5;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    background-color: var(--base-bg-color);
+    color: var(--base-color);
+  }
 }
 
 .item {
   height: 42px;
+  margin-bottom: 16px;
+}
+
+.mluti {
   margin-bottom: 16px;
 }

@@ -5,13 +5,13 @@ import StepBox from '@components/StepBox/StepBox';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { setNotificationAction } from '@store/app-notifications/actions';
 import {
   clearMeetingsAction,
   getMeetingDaysAction,
   getMeetingsAction,
 } from '@store/meetings/actions';
 import { getMeetingDaysPendingSelector, getMeetingsDaysSelector } from '@store/meetings/selectors';
-import { setNotificationAction } from '@store/notifications/actions';
 import { getMaxTimeOfDay, getMinTimeOfDay } from '@utils/date-utils';
 import { DAY_MONTH_YAER, FULL_DATE } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';

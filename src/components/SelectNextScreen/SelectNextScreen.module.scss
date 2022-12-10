@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  background-color: var(--select-next);
+  border-radius: 8px;
+  color: var(--dt-grey-color-wt-grey-light-color);
+  font-size: 14px;
+
+  & svg {
+    stroke: var(--dt-grey-color-wt-grey-light-color);
+  }
+}

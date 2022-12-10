@@ -1,0 +1,26 @@
+.container {
+  padding: 0 16px;
+
+  h2 {
+    position: sticky;
+    top: 0;
+    margin: 24px 0 16px;
+    background-color: var(--base-bg-color);
+  }
+}
+
+.addNewContainer {
+  margin-bottom: 16px;
+  background-color: var(--dt-white-wt-black);
+}
+
+.childernContainer {
+  display: flex;
+  align-items: center;
+  color: var(--dt-black-wt-white);
+
+  & svg {
+    margin-right: 8px;
+    stroke: var(--dt-black-wt-white);
+  }
+}

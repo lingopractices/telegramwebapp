@@ -16,6 +16,7 @@ import {
   getMyMeetingsSelector,
   myMeetingsPendingSelector,
 } from '@store/meetings/selectors';
+import classNames from 'classnames';
 import { SCROLL_DOWN, SCROLL_TOP } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
@@ -91,6 +92,7 @@ const MainScreen: React.FC = () => {
 
     if (scrollTop >= previousScrollTop.current) {
       if (scrollTop >= SCROLL_TOP) {
+        mainLogoRef.current?.classList.remove(styles.start);
         mainLogoRef.current?.classList.remove(styles.showMainLogo);
         mainLogoRef.current?.classList.add(styles.hideMainLogo);
         secondaryLogoRef.current?.classList.add(styles.showSecondaryLogo);
@@ -119,7 +121,7 @@ const MainScreen: React.FC = () => {
             </Link>
           </div>
           <div className={styles.bottom}>
-            <div ref={mainLogoRef} className={styles.logo}>
+            <div ref={mainLogoRef} className={classNames(styles.logo, styles.start)}>
               <LingoLogo />
             </div>
           </div>

@@ -1,4 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
+import { GetAlerts } from '@store/alerts/features/get-alerts/get-alerts';
 import { AuthInit } from '@store/auth/features/init-auth/init-auth';
 import { GetMyMeetings } from '@store/meetings/features/get-my-meetings/get-my-meetings';
 import { AxiosResponse } from 'axios';
@@ -32,6 +33,7 @@ export class GetProfile {
       yield put(GetProfileSuccess.action(data));
       yield put(GetMyMeetings.action());
       yield put(AuthInit.action());
+      yield put(GetAlerts.action());
     };
   }
 

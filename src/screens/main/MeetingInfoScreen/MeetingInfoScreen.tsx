@@ -5,12 +5,12 @@ import MeetingInfo from '@components/MeetingInfo/MeetingInfo';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { setNotificationAction } from '@store/app-notifications/actions';
 import { leaveMeetingAction } from '@store/meetings/actions';
 import {
   getLeaveMeetingPendingSelector,
   getMyMeetingByIdSelector,
 } from '@store/meetings/selectors';
-import { setNotificationAction } from '@store/notifications/actions';
 import { getProfileDataSelector } from '@store/profile/selectors';
 import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';

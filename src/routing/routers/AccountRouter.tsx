@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Route, Routes } from 'react-router-dom';
-import AccountScreen from 'screens/account/AccountScreen/AccountScreen';
+import AccountScreen from 'screens/account/MainScreen/AccountScreen';
 
 import routes from '../routes/accountRoutes';
 import mapRoutes from '../utils/mapRoutes';
