@@ -3,7 +3,7 @@
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 15.9px 5px 16px;
+  padding: 7.5px 16px;
   background-color: var(--secondary-bg-color);
   border-radius: 8px;
   cursor: pointer;
@@ -31,6 +31,7 @@
 
 .date {
   color: var(--base-color);
+  font-size: 16px;
   line-height: 24px;
   text-align: left;
 }

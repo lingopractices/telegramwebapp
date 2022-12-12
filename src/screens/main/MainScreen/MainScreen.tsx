@@ -6,6 +6,7 @@ import Button from '@components/Button/Button';
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
 import SecondaryLogo from '@components/SecondaryLogo/SecondaryLogo';
+import SkeletItem from '@components/SkeletItem/SkeletItem';
 import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getLanguagesAction } from '@store/languages/actions';
@@ -16,11 +17,13 @@ import {
   getMyMeetingsSelector,
   myMeetingsPendingSelector,
 } from '@store/meetings/selectors';
+import { MY_MEETINGS_LIMITS } from '@utils/pagination-limits';
 import classNames from 'classnames';
 import { SCROLL_DOWN, SCROLL_TOP } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { IMeeting } from 'lingopractices-models';
+import { isEmpty } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -67,6 +70,12 @@ const MainScreen: React.FC = () => {
       getLanguages();
     }
   }, [languages, getLanguages]);
+
+  useEffect(() => {
+    if (isEmpty(myMeetings) && hasMore) {
+      loadMore();
+    }
+  }, [myMeetings, hasMore, loadMore]);
 
   const renderMeetings = useCallback(
     (meeting: IMeeting) => (
@@ -117,7 +126,13 @@ const MainScreen: React.FC = () => {
   }, []);
 
   return (
-    <div className={styles.container} ref={infiniteContainer} onScroll={handleScroll}>
+    <div
+      className={classNames(styles.container, {
+        [styles.pending]: !myMeetings.length && myMeetingsPending,
+      })}
+      ref={infiniteContainer}
+      onScroll={handleScroll}
+    >
       <div className={styles.stickyHeader}>
         <div className={styles.headerLine}>
           <div className={styles.top}>
@@ -148,13 +163,30 @@ const MainScreen: React.FC = () => {
         </div>
         <h3 className={styles.meetingsHeader}>{t('mainScreen.meetingsHeader')}</h3>
       </div>
+
       <div className={styles.meetingsWrapper}>
-        <InfiniteScroll hasMore={hasMore} containerRef={infiniteContainer} onReachBottom={loadMore}>
-          {renderedMeetings}
-          {myMeetingsPending && (
-            <AnimatedLogo containerClass={styles.containerLoader} size={LogoSize.SMALL} />
-          )}
-        </InfiniteScroll>
+        {myMeetings.length ? (
+          <InfiniteScroll
+            hasMore={hasMore}
+            containerRef={infiniteContainer}
+            onReachBottom={loadMore}
+          >
+            {renderedMeetings}
+            {myMeetingsPending && (
+              <AnimatedLogo containerClass={styles.containerLoader} size={LogoSize.SMALL} />
+            )}
+          </InfiniteScroll>
+        ) : null}
+
+        {!myMeetings.length && myMeetingsPending ? (
+          <SkeletItem
+            count={MY_MEETINGS_LIMITS * 2}
+            height='54px'
+            containerClass={styles.skeletContainer}
+          />
+        ) : null}
+
+        {!myMeetings.length && !hasMore ? <div>no meetings</div> : null}
       </div>
     </div>
   );

@@ -8,8 +8,9 @@ import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { setNotificationAction } from '@store/app-notifications/actions';
 import { getTopicsAction } from '@store/topics/actions';
-import { getTopicsSelector } from '@store/topics/selectors';
+import { getTopicsPendingSelector, getTopicsSelector } from '@store/topics/selectors';
 import { getTopicById } from '@utils/get-language-topic-by-id';
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { useTranslation } from 'react-i18next';
@@ -28,6 +29,7 @@ const CreateMeetingTopic: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const topics = useSelector(getTopicsSelector);
+  const topicsPending = useSelector(getTopicsPendingSelector);
   const getTopics = useActionWithDeferred(getTopicsAction);
   const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
   const { setBackButtonOnClick } = useTgBackButton(true);
@@ -73,7 +75,12 @@ const CreateMeetingTopic: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <div className={styles.container} ref={containerRef}>
+    <div
+      className={classNames(styles.container, {
+        [styles.pending]: topicsPending && !topics.length,
+      })}
+      ref={containerRef}
+    >
       <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <TopicList
         ref={containerRef}
@@ -84,7 +91,7 @@ const CreateMeetingTopic: React.FC = () => {
       <SubmitButton
         onClick={handleForward}
         title={meetingData?.topic?.topicId ? t('button.submit') : t('topic.choose')}
-        isActive={!!meetingData?.topic?.topicId}
+        isActive={!!meetingData?.topic?.topicId || !topicsPending}
       />
     </div>
   );

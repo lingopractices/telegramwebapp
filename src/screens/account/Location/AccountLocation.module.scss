@@ -6,6 +6,10 @@
   color: var(--base-color);
   overflow-y: auto;
 
+  &.pending {
+    overflow-y: hidden;
+  }
+
   h2 {
     margin-bottom: 16px;
   }
@@ -26,8 +30,7 @@
   background-color: var(--base-bg-color);
 }
 
-.wrapLoad {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.skeletContainer {
+  margin-bottom: 1px;
+  border-radius: 8px;
 }

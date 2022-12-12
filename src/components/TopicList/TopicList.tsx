@@ -3,6 +3,7 @@ import React, { useState, useCallback, useEffect, useMemo, RefObject } from 'rea
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import QuestionItem from '@components/QuestionItem/QuestionItem';
 import SearchBox from '@components/SearchBox/SearchBox';
+import SkeletItem from '@components/SkeletItem/SkeletItem';
 import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
 import {
   getTopicsHasMoreSelector,
@@ -10,6 +11,7 @@ import {
   getTopicsSelector,
 } from '@store/topics/selectors';
 import { getClearString } from '@utils/get-clear-string';
+import { TOPIC_LIMITS } from '@utils/pagination-limits';
 import { ITopic } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -96,16 +98,28 @@ export const TopicList = React.forwardRef<HTMLDivElement, ITopicListProps>(
           <h2>{t('topic.chooseTopic')}</h2>
           <SearchBox onChange={handleChangeSearchString} containerClassname={styles.search} />
         </div>
-        <InfiniteScroll
-          onReachBottom={loadMoreTopics}
-          containerRef={ref as RefObject<HTMLDivElement>}
-          hasMore={hasMore}
-        >
-          {renderedTopics}
-          {pendingGetTopics && (
-            <AnimatedLogo containerClass={styles.animatedLogo} size={LogoSize.SMALL} />
-          )}
-        </InfiniteScroll>
+
+        {pendingGetTopics && !topics.length ? (
+          <SkeletItem
+            count={TOPIC_LIMITS}
+            containerClass={styles.skeletContainer}
+            height='40px'
+            width='100%'
+          />
+        ) : (
+          <div>
+            <InfiniteScroll
+              onReachBottom={loadMoreTopics}
+              containerRef={ref as RefObject<HTMLDivElement>}
+              hasMore={hasMore}
+            >
+              {renderedTopics}
+              {pendingGetTopics && (
+                <AnimatedLogo containerClass={styles.animatedLogo} size={LogoSize.SMALL} />
+              )}
+            </InfiniteScroll>
+          </div>
+        )}
       </div>
     );
   },

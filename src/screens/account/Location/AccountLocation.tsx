@@ -2,9 +2,9 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import CheckedRadio from '@components/CheckedRadio/CheckedRadio';
 import SearchBox from '@components/SearchBox/SearchBox';
+import SkeletItem from '@components/SkeletItem/SkeletItem';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { TooltipType } from '@components/Tooltip/Tooltip';
-import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ICoutnry, useCountries } from '@hooks/use-countries';
@@ -13,6 +13,7 @@ import { setNotificationAction } from '@store/app-notifications/actions';
 import { updateProfileAction } from '@store/profile/actions';
 import { getProfileDataSelector, locationSelector } from '@store/profile/selectors';
 import { getClearString } from '@utils/get-clear-string';
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -115,17 +116,18 @@ const AccountLocation = () => {
   );
 
   return (
-    <div className={styles.container}>
+    <div className={classNames(styles.container, { [styles.pending]: isLoad })}>
       <div className={styles.stickyHeader}>
         <h2>{t('account.location.setLocation')}</h2>
         <SearchBox onChange={handleSearchChange} containerClassname={styles.searchContainer} />
       </div>
-      {isLoad && (
-        <div className={styles.wrapLoad}>
-          <AnimatedLogo size={LogoSize.FULL} containerClass={styles.wrapLoad} />
-        </div>
-      )}
-      <div className={styles.countriesWrapper}>{renderedCountries}</div>
+      <div className={styles.countriesWrapper}>
+        {isLoad ? (
+          <SkeletItem count={30} height='40px' containerClass={styles.skeletContainer} />
+        ) : (
+          renderedCountries
+        )}
+      </div>
       <SubmitButton
         title={selectedLocation ? t('button.submit') : t('account.location.chooseContry')}
         onClick={handleSubmit}

@@ -1,9 +1,11 @@
 .container {
   display: flex;
+  height: 40px;
   align-items: center;
   justify-content: space-between;
   padding: 8px 0;
   cursor: pointer;
+  font-size: 16px;
   font-weight: 300;
 
   &:not(:last-of-type) {

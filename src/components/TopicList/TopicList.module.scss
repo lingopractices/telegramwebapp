@@ -22,10 +22,6 @@
   margin-bottom: 24px;
 }
 
-.wrapperList {
-  overflow-y: auto;
-}
-
 .topicWrap {
   width: 100%;
   background-color: var(--dt-grey-opacity-wt-white-opaity);
@@ -46,5 +42,10 @@
 }
 
 .animatedLogo {
-  margin: 8px 0;
+  margin-bottom: 8px;
+}
+
+.skeletContainer {
+  margin-bottom: 16px;
+  border-radius: 8px;
 }
