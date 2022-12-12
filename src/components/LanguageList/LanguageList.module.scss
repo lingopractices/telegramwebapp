@@ -42,3 +42,10 @@
   top: 0;
   background-color: var(--base-bg-color);
 }
+
+.skeletContainer {
+  flex-grow: 1;
+  margin-bottom: 15px;
+  margin-left: 15px;
+  border-radius: 8px;
+}

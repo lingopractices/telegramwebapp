@@ -6,6 +6,7 @@ import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { languagePendingSelector, languagesSelector } from '@store/languages/selectors';
 import { getPracticeLanguageSelector } from '@store/profile/selectors';
 import { getLanguageById } from '@utils/get-language-topic-by-id';
+import classNames from 'classnames';
 import { popularLanguagesIds } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { useTranslation } from 'react-i18next';
@@ -63,7 +64,7 @@ const JoinMeetingLanguage: React.FC = () => {
   }, [handleBack, setBackButtonOnClick]);
 
   return (
-    <div className={styles.container}>
+    <div className={classNames(styles.container, { [styles.pending]: languagesPending })}>
       <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <LanguageList
         popularLanguagesIds={popularLanguagesIds}

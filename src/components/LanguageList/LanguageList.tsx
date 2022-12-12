@@ -1,11 +1,14 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import RadioItem from '@components/RadioItem/RadioItem';
 import SearchBox from '@components/SearchBox/SearchBox';
+import SkeletItem from '@components/SkeletItem/SkeletItem';
+import { languagePendingSelector } from '@store/languages/selectors';
 import { getClearString } from '@utils/get-clear-string';
 import { ILanguage } from 'lingopractices-models';
 import { differenceBy, intersectionWith } from 'lodash';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 import styles from './LanguageList.module.scss';
 
@@ -25,7 +28,12 @@ const LanguageList: React.FC<ILanguageList> = ({
   onChangeLanguage,
 }) => {
   const { t } = useTranslation();
+  const languagesPending = useSelector(languagePendingSelector);
   const [filteredLanguages, setFilteredLanguages] = useState(languages);
+
+  useEffect(() => {
+    setFilteredLanguages(languages);
+  }, [languages]);
 
   const handleChangeLanguage = useCallback(
     (languageId: number | string) => {
@@ -69,9 +77,35 @@ const LanguageList: React.FC<ILanguageList> = ({
         popularLanguagesIds,
         (a, b) => a.id === b,
       );
+
       const others = differenceBy(filteredLanguages, popular, 'id');
 
-      return (
+      return languagesPending ? (
+        <>
+          <h3>
+            <SkeletItem width='10%' count={1} />
+          </h3>
+          <div className={styles.wrapper}>
+            <SkeletItem
+              count={popularLanguagesIds.length}
+              width='164px'
+              height='42px'
+              containerClass={styles.skeletContainer}
+            />
+          </div>
+          <h3>
+            <SkeletItem width='10%' count={1} />
+          </h3>
+          <div className={styles.wrapper}>
+            <SkeletItem
+              count={popularLanguagesIds.length * 2}
+              width='164px'
+              height='42px'
+              containerClass={styles.skeletContainer}
+            />
+          </div>
+        </>
+      ) : (
         <>
           {!!popular.length && <h3>{t('language.popular')}</h3>}
           <div className={styles.wrapper}>{popular.map(renderLanguages)}</div>
@@ -80,8 +114,21 @@ const LanguageList: React.FC<ILanguageList> = ({
         </>
       );
     }
-    return <div className={styles.wrapper}>{filteredLanguages.map(renderLanguages)}</div>;
-  }, [popularLanguagesIds, filteredLanguages, renderLanguages, t]);
+    return (
+      <div className={styles.wrapper}>
+        {languagesPending ? (
+          <SkeletItem
+            count={filteredLanguages.length}
+            width='164px'
+            height='42px'
+            containerClass={styles.skeletContainer}
+          />
+        ) : (
+          filteredLanguages.map(renderLanguages)
+        )}
+      </div>
+    );
+  }, [popularLanguagesIds, languagesPending, filteredLanguages, renderLanguages, t]);
 
   return (
     <div className={styles.container}>

@@ -8,6 +8,10 @@
   color: var(--base-color);
   overflow-y: auto;
 
+  &.pending {
+    overflow-y: hidden;
+  }
+
   & h3 {
     width: 100%;
   }
@@ -15,6 +19,7 @@
 
 .stickyHeader {
   position: sticky;
+  z-index: 1;
   top: 0;
   display: flex;
   width: 100%;
@@ -94,11 +99,11 @@
   opacity: 0;
 
   &.hideSecondaryLogo {
-    animation: hide-secondary var(--animation-duraton) linear forwards;
+    animation: hide-secondary 0.2s linear forwards;
   }
 
   &.showSecondaryLogo {
-    animation: show-secondary var(--animation-duraton) linear forwards;
+    animation: show-secondary 0.2s linear forwards;
   }
 }
 
@@ -111,24 +116,25 @@
   margin-top: -40px;
   background-color: white;
   border-radius: 50%;
+  transition: all 0.2s ease-out;
 
-  &.start {
-    width: 105px;
-    height: 105px;
+  &.hideMainLogo {
+    animation: hide-main 0.2s ease-out forwards;
+  }
+
+  &.showMainLogo {
+    animation: show-main 0.15s ease-out forwards;
   }
 
   svg {
     width: 100%;
     height: 100%;
   }
+}
 
-  &.hideMainLogo {
-    animation: hide-main var(--animation-duraton) ease-out forwards;
-  }
-
-  &.showMainLogo {
-    animation: show-main var(--animation-duraton) ease-out forwards;
-  }
+.start {
+  width: 105px;
+  height: 105px;
 }
 
 @keyframes hide-main {
@@ -173,4 +179,9 @@
   to {
     opacity: 1;
   }
+}
+
+.skeletContainer {
+  margin-bottom: 8px;
+  border-radius: 8px;
 }

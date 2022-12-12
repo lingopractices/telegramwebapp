@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 
 import InfoItem from '@components/InfoItem/InfoItem';
-import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { getAlertsAction } from '@store/alerts/actions';
-import { alertsExistSelector } from '@store/alerts/selectors';
+import SkeletItem from '@components/SkeletItem/SkeletItem';
+import { alertsExistSelector, alertsPendingSelector } from '@store/alerts/selectors';
+import { languagePendingSelector } from '@store/languages/selectors';
 import { getProfileDataSelector } from '@store/profile/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { LanguageLevel } from 'lingopractices-models';
@@ -26,12 +26,19 @@ import styles from './AccountScreen.module.scss';
 const AccountScreen: React.FC = () => {
   const user = useSelector(getProfileDataSelector);
   const notificationsExist = useSelector(alertsExistSelector);
-  const getNotifications = useActionWithDeferred(getAlertsAction);
-
+  const languagesPending = useSelector(languagePendingSelector);
+  const alertsPending = useSelector(alertsPendingSelector);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
+
+  const skeletItem = useMemo(
+    () => (
+      <SkeletItem count={1} width='165px' height='103px' containerClass={styles.skeletContainer} />
+    ),
+    [],
+  );
 
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
@@ -68,12 +75,16 @@ const AccountScreen: React.FC = () => {
         <ChangeTheme />
       </div>
       <div className={styles.warpper}>
-        <InfoItem
-          title={t('account.info.practiceLang')}
-          value={user?.practiceLanguage && user.practiceLanguage.name}
-          onClick={openPracticeLanguages}
-          containerClass={styles.itemContainer}
-        />
+        {languagesPending ? (
+          skeletItem
+        ) : (
+          <InfoItem
+            title={t('account.info.practiceLang')}
+            value={user?.practiceLanguage && user.practiceLanguage.name}
+            onClick={openPracticeLanguages}
+            containerClass={styles.itemContainer}
+          />
+        )}
         <InfoItem
           title={t('account.info.level')}
           value={
@@ -90,24 +101,32 @@ const AccountScreen: React.FC = () => {
           onClick={openLocation}
           containerClass={styles.itemContainer}
         />
-        <InfoItem
-          title={t('account.info.interfaceLang')}
-          value={user?.interfaceLanguage && user.interfaceLanguage.name}
-          onClick={openInterfaceLanguages}
-          containerClass={styles.itemContainer}
-        />
+        {languagesPending ? (
+          skeletItem
+        ) : (
+          <InfoItem
+            title={t('account.info.interfaceLang')}
+            value={user?.interfaceLanguage && user.interfaceLanguage.name}
+            onClick={openInterfaceLanguages}
+            containerClass={styles.itemContainer}
+          />
+        )}
         <InfoItem
           title={t('account.info.gender')}
           value={user?.gender && t(`gender.${user.gender}`)}
           onClick={() => {}}
           containerClass={styles.itemContainer}
         />
-        <InfoItem
-          title={t('notifications.notifications')}
-          value={notificationsExist ? t('notifications.on') : t('notifications.off')}
-          onClick={openNotifications}
-          containerClass={styles.itemContainer}
-        />
+        {alertsPending ? (
+          skeletItem
+        ) : (
+          <InfoItem
+            title={t('notifications.notifications')}
+            value={notificationsExist ? t('notifications.on') : t('notifications.off')}
+            onClick={openNotifications}
+            containerClass={styles.itemContainer}
+          />
+        )}
       </div>
     </div>
   );
