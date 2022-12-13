@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 
 import InfoItem from '@components/InfoItem/InfoItem';
-import SkeletItems from '@components/SkeletItems/SkeletItems';
+import { Skeleton } from '@mui/material';
 import { alertsExistSelector, alertsPendingSelector } from '@store/alerts/selectors';
 import { languagePendingSelector } from '@store/languages/selectors';
 import { getProfileDataSelector } from '@store/profile/selectors';
@@ -33,11 +33,6 @@ const AccountScreen: React.FC = () => {
 
   const { setBackButtonOnClick } = useTgBackButton(true);
 
-  const skeletItem = useMemo(
-    () => <SkeletItems count={1} containerClass={styles.skeletContainer} />,
-    [],
-  );
-
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
   }, [navigate]);
@@ -65,6 +60,15 @@ const AccountScreen: React.FC = () => {
   const openNotifications = useCallback(() => {
     navigate(ACCOUNT_NOTIFICATIONS_PATH);
   }, [navigate]);
+
+  const skeletItem = useMemo(
+    () => (
+      <Skeleton className={styles.skeletContainer} animation='wave'>
+        <InfoItem title='' value='' onClick={openLocation} />
+      </Skeleton>
+    ),
+    [openLocation],
+  );
 
   return (
     <div className={styles.container}>

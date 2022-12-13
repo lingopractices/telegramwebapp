@@ -6,9 +6,9 @@ import Button from '@components/Button/Button';
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
 import SecondaryLogo from '@components/SecondaryLogo/SecondaryLogo';
-import SkeletItems from '@components/SkeletItems/SkeletItems';
 import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { Skeleton } from '@mui/material';
 import { getLanguagesAction } from '@store/languages/actions';
 import { languagesSelector } from '@store/languages/selectors';
 import { getMyMeetingsAction } from '@store/meetings/actions';
@@ -17,6 +17,7 @@ import {
   getMyMeetingsSelector,
   myMeetingsPendingSelector,
 } from '@store/meetings/selectors';
+import { createAndFillArray } from '@utils/create-fill-array';
 import { MY_MEETINGS_LIMITS } from '@utils/pagination-limits';
 import classNames from 'classnames';
 import { SCROLL_DOWN, SCROLL_TOP } from 'common/constants';
@@ -93,6 +94,20 @@ const MainScreen: React.FC = () => {
   const renderedMeetings = useMemo(
     () => myMeetings.map(renderMeetings),
     [myMeetings, renderMeetings],
+  );
+
+  const renderMeetingSkelet = useCallback(
+    (value: number) => (
+      <Skeleton key={value} className={styles.skeletContainer} animation='wave'>
+        <MeetingItem id={value} date='' mainRoute='' defaultText='' />
+      </Skeleton>
+    ),
+    [],
+  );
+
+  const renderedMeetinsSkelet = useMemo(
+    () => createAndFillArray(MY_MEETINGS_LIMITS * 2).map(renderMeetingSkelet),
+    [renderMeetingSkelet],
   );
 
   const handleScroll = useCallback((event: React.UIEvent<HTMLDivElement>) => {
@@ -178,9 +193,7 @@ const MainScreen: React.FC = () => {
           </InfiniteScroll>
         ) : null}
 
-        {!myMeetings.length && myMeetingsPending ? (
-          <SkeletItems count={MY_MEETINGS_LIMITS * 2} containerClass={styles.skeletContainer} />
-        ) : null}
+        {!myMeetings.length && myMeetingsPending ? renderedMeetinsSkelet : null}
 
         {!myMeetings.length && !hasMore ? <div>no meetings</div> : null}
       </div>

@@ -85,10 +85,14 @@ input {
   caret-color: currentcolor;
 }
 
-// variables
-
 :root {
   font-size: 16px;
+
+  & .MuiSkeleton-root {
+    max-width: none;
+    border-radius: 8px;
+    transform: none;
+  }
 
   --submit-button-height: 49px;
   --animation-duraton: 0.2s;
