@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import CheckedRadio from '@components/CheckedRadio/CheckedRadio';
 import SearchBox from '@components/SearchBox/SearchBox';
-import SkeletItem from '@components/SkeletItem/SkeletItem';
+import SkeletItems from '@components/SkeletItems/SkeletItems';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
@@ -123,7 +123,7 @@ const AccountLocation = () => {
       </div>
       <div className={styles.countriesWrapper}>
         {isLoad ? (
-          <SkeletItem count={30} height='40px' containerClass={styles.skeletContainer} />
+          <SkeletItems count={20} containerClass={styles.skeletContainer} />
         ) : (
           renderedCountries
         )}

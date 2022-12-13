@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import RadioItem from '@components/RadioItem/RadioItem';
 import SearchBox from '@components/SearchBox/SearchBox';
-import SkeletItem from '@components/SkeletItem/SkeletItem';
+import SkeletItem from '@components/SkeletItems/SkeletItems';
 import { languagePendingSelector } from '@store/languages/selectors';
 import { getClearString } from '@utils/get-clear-string';
 import { ILanguage } from 'lingopractices-models';
@@ -83,25 +83,25 @@ const LanguageList: React.FC<ILanguageList> = ({
       return languagesPending ? (
         <>
           <h3>
-            <SkeletItem width='10%' count={1} />
+            <SkeletItem count={1} containerClass={styles.headerSkelet}>
+              <p>{t('language.popular')}</p>
+            </SkeletItem>
           </h3>
           <div className={styles.wrapper}>
             <SkeletItem
               count={popularLanguagesIds.length}
-              width='164px'
-              height='42px'
-              containerClass={styles.skeletContainer}
+              containerClass={styles.paddingContainer}
             />
           </div>
           <h3>
-            <SkeletItem width='10%' count={1} />
+            <SkeletItem count={1} containerClass={styles.headerSkelet}>
+              <p>{t('language.other')}</p>
+            </SkeletItem>
           </h3>
           <div className={styles.wrapper}>
             <SkeletItem
-              count={popularLanguagesIds.length * 2}
-              width='164px'
-              height='42px'
-              containerClass={styles.skeletContainer}
+              count={popularLanguagesIds.length}
+              containerClass={styles.paddingContainer}
             />
           </div>
         </>
@@ -117,12 +117,7 @@ const LanguageList: React.FC<ILanguageList> = ({
     return (
       <div className={styles.wrapper}>
         {languagesPending ? (
-          <SkeletItem
-            count={filteredLanguages.length}
-            width='164px'
-            height='42px'
-            containerClass={styles.skeletContainer}
-          />
+          <SkeletItem count={filteredLanguages.length} containerClass={styles.paddingContainer} />
         ) : (
           filteredLanguages.map(renderLanguages)
         )}

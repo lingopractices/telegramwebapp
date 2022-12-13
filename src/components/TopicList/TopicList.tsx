@@ -3,7 +3,7 @@ import React, { useState, useCallback, useEffect, useMemo, RefObject } from 'rea
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import QuestionItem from '@components/QuestionItem/QuestionItem';
 import SearchBox from '@components/SearchBox/SearchBox';
-import SkeletItem from '@components/SkeletItem/SkeletItem';
+import SkeletItems from '@components/SkeletItems/SkeletItems';
 import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
 import {
   getTopicsHasMoreSelector,
@@ -100,12 +100,7 @@ export const TopicList = React.forwardRef<HTMLDivElement, ITopicListProps>(
         </div>
 
         {pendingGetTopics && !topics.length ? (
-          <SkeletItem
-            count={TOPIC_LIMITS}
-            containerClass={styles.skeletContainer}
-            height='40px'
-            width='100%'
-          />
+          <SkeletItems count={TOPIC_LIMITS} containerClass={styles.skeletContainer} />
         ) : (
           <div>
             <InfiniteScroll

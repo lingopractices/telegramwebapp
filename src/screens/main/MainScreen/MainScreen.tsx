@@ -6,7 +6,7 @@ import Button from '@components/Button/Button';
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
 import SecondaryLogo from '@components/SecondaryLogo/SecondaryLogo';
-import SkeletItem from '@components/SkeletItem/SkeletItem';
+import SkeletItems from '@components/SkeletItems/SkeletItems';
 import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getLanguagesAction } from '@store/languages/actions';
@@ -179,11 +179,7 @@ const MainScreen: React.FC = () => {
         ) : null}
 
         {!myMeetings.length && myMeetingsPending ? (
-          <SkeletItem
-            count={MY_MEETINGS_LIMITS * 2}
-            height='54px'
-            containerClass={styles.skeletContainer}
-          />
+          <SkeletItems count={MY_MEETINGS_LIMITS * 2} containerClass={styles.skeletContainer} />
         ) : null}
 
         {!myMeetings.length && !hasMore ? <div>no meetings</div> : null}

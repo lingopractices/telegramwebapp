@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 
 import InfoItem from '@components/InfoItem/InfoItem';
-import SkeletItem from '@components/SkeletItem/SkeletItem';
+import SkeletItems from '@components/SkeletItems/SkeletItems';
 import { alertsExistSelector, alertsPendingSelector } from '@store/alerts/selectors';
 import { languagePendingSelector } from '@store/languages/selectors';
 import { getProfileDataSelector } from '@store/profile/selectors';
@@ -34,9 +34,7 @@ const AccountScreen: React.FC = () => {
   const { setBackButtonOnClick } = useTgBackButton(true);
 
   const skeletItem = useMemo(
-    () => (
-      <SkeletItem count={1} width='165px' height='103px' containerClass={styles.skeletContainer} />
-    ),
+    () => <SkeletItems count={1} containerClass={styles.skeletContainer} />,
     [],
   );
 

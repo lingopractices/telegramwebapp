@@ -1,15 +1,25 @@
-import React, { useMemo } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 
 import { Skeleton } from '@mui/material';
+import classNames from 'classnames';
+
+import styles from './SkeletItems.module.scss';
 
 interface ISkeletItemProps {
   count: number;
   height?: string;
   width?: string;
   containerClass?: string;
+  children?: ReactNode;
 }
 
-const SkeletItem: React.FC<ISkeletItemProps> = ({ count, height, width, containerClass }) => {
+const SkeletItems: React.FC<ISkeletItemProps> = ({
+  count,
+  height,
+  width,
+  containerClass,
+  children,
+}) => {
   const meetingsArray = useMemo(
     () =>
       Array(count)
@@ -23,15 +33,15 @@ const SkeletItem: React.FC<ISkeletItemProps> = ({ count, height, width, containe
       {meetingsArray.map((item) => (
         <Skeleton
           variant='rectangular'
-          height={height}
-          width={width}
           animation='wave'
           key={item}
-          className={containerClass}
-        />
+          className={classNames(styles.container, containerClass)}
+        >
+          {children}
+        </Skeleton>
       ))}
     </>
   );
 };
 
-export default SkeletItem;
+export default SkeletItems;
