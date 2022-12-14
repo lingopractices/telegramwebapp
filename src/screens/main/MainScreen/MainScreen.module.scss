@@ -98,11 +98,11 @@
   opacity: 0;
 
   &.hideSecondaryLogo {
-    animation: hide-secondary 0.2s linear forwards;
+    animation: hide-secondary var(--animation-duraton) linear forwards;
   }
 
   &.showSecondaryLogo {
-    animation: show-secondary 0.2s linear forwards;
+    animation: show-secondary 0.1s linear forwards;
   }
 }
 
@@ -115,14 +115,13 @@
   margin-top: -40px;
   background-color: white;
   border-radius: 50%;
-  transition: all 0.2s ease-out;
 
   &.hideMainLogo {
-    animation: hide-main 0.2s ease-out forwards;
+    animation: hide-main var(--animation-duraton) ease-out forwards;
   }
 
   &.showMainLogo {
-    animation: show-main 0.15s ease-out forwards;
+    animation: show-main 0.1s ease-out forwards;
   }
 
   &.start {
