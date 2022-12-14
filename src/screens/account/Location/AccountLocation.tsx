@@ -2,16 +2,17 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import CheckedRadio from '@components/CheckedRadio/CheckedRadio';
 import SearchBox from '@components/SearchBox/SearchBox';
-import SkeletItem from '@components/SkeletItem/SkeletItem';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ICoutnry, useCountries } from '@hooks/use-countries';
 import useTgBackButton from '@hooks/useTgBackButton';
+import { Skeleton } from '@mui/material';
 import { setNotificationAction } from '@store/app-notifications/actions';
 import { updateProfileAction } from '@store/profile/actions';
 import { getProfileDataSelector, locationSelector } from '@store/profile/selectors';
+import { createAndFillArray } from '@utils/create-fill-array';
 import { getClearString } from '@utils/get-clear-string';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
@@ -115,6 +116,26 @@ const AccountLocation = () => {
     [filteredCountries, mapCountriesToCheckBox],
   );
 
+  const renderCountrySkelet = useCallback(
+    (value: number) => (
+      <Skeleton key={value} className={styles.skeletContainer} animation='wave'>
+        <CheckedRadio
+          label=''
+          id=''
+          radioGroupName=''
+          isSelected={false}
+          onChange={handleChangeCountry}
+        />
+      </Skeleton>
+    ),
+    [handleChangeCountry],
+  );
+
+  const renderedCountiresSkelet = useMemo(
+    () => createAndFillArray(20).map(renderCountrySkelet),
+    [renderCountrySkelet],
+  );
+
   return (
     <div className={classNames(styles.container, { [styles.pending]: isLoad })}>
       <div className={styles.stickyHeader}>
@@ -122,11 +143,7 @@ const AccountLocation = () => {
         <SearchBox onChange={handleSearchChange} containerClassname={styles.searchContainer} />
       </div>
       <div className={styles.countriesWrapper}>
-        {isLoad ? (
-          <SkeletItem count={30} height='40px' containerClass={styles.skeletContainer} />
-        ) : (
-          renderedCountries
-        )}
+        {isLoad ? renderedCountiresSkelet : renderedCountries}
       </div>
       <SubmitButton
         title={selectedLocation ? t('button.submit') : t('account.location.chooseContry')}

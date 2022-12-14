@@ -25,13 +25,17 @@ export class GetProfile {
 
   static get saga() {
     return function* (): SagaIterator {
-      const { data } = GetProfile.httpRequest.call(
-        yield call(() => GetProfile.httpRequest.generator()),
-      );
+      try {
+        const { data } = GetProfile.httpRequest.call(
+          yield call(() => GetProfile.httpRequest.generator()),
+        );
 
-      yield put(GetProfileSuccess.action(data));
-      yield put(AuthInit.action());
-      yield put(GetAlerts.action());
+        yield put(GetProfileSuccess.action(data));
+        yield put(AuthInit.action());
+        yield put(GetAlerts.action());
+      } catch (e) {
+        // console.log(e)
+      }
     };
   }
 

@@ -6,9 +6,9 @@ import Button from '@components/Button/Button';
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
 import SecondaryLogo from '@components/SecondaryLogo/SecondaryLogo';
-import SkeletItem from '@components/SkeletItem/SkeletItem';
 import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { Skeleton } from '@mui/material';
 import { getLanguagesAction } from '@store/languages/actions';
 import { languagesSelector } from '@store/languages/selectors';
 import { getMyMeetingsAction } from '@store/meetings/actions';
@@ -17,13 +17,13 @@ import {
   getMyMeetingsSelector,
   myMeetingsPendingSelector,
 } from '@store/meetings/selectors';
+import { createAndFillArray } from '@utils/create-fill-array';
 import { MY_MEETINGS_LIMITS } from '@utils/pagination-limits';
 import classNames from 'classnames';
 import { SCROLL_DOWN, SCROLL_TOP } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { IMeeting } from 'lingopractices-models';
-import { isEmpty } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -71,12 +71,6 @@ const MainScreen: React.FC = () => {
     }
   }, [languages, getLanguages]);
 
-  useEffect(() => {
-    if (isEmpty(myMeetings) && hasMore) {
-      loadMore();
-    }
-  }, [myMeetings, hasMore, loadMore]);
-
   const renderMeetings = useCallback(
     (meeting: IMeeting) => (
       <MeetingItem
@@ -95,6 +89,20 @@ const MainScreen: React.FC = () => {
     [myMeetings, renderMeetings],
   );
 
+  const renderMeetingSkelet = useCallback(
+    (value: number) => (
+      <Skeleton key={value} className={styles.skeletContainer} animation='wave'>
+        <MeetingItem id={value} date='' mainRoute='' defaultText='' />
+      </Skeleton>
+    ),
+    [],
+  );
+
+  const renderedMeetinsSkelet = useMemo(
+    () => createAndFillArray(MY_MEETINGS_LIMITS * 2).map(renderMeetingSkelet),
+    [renderMeetingSkelet],
+  );
+
   const handleScroll = useCallback((event: React.UIEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
     const { scrollTop } = target;
@@ -103,7 +111,7 @@ const MainScreen: React.FC = () => {
 
     if (mainLogo && secondaryLogo) {
       if (scrollTop >= previousScrollTop.current) {
-        if (scrollTop >= SCROLL_TOP && mainLogoRef.current) {
+        if (scrollTop >= SCROLL_TOP) {
           mainLogo.classList.remove(styles.start);
           mainLogo.classList.remove(styles.showMainLogo);
           mainLogo.classList.add(styles.hideMainLogo);
@@ -161,30 +169,18 @@ const MainScreen: React.FC = () => {
             containerClass={styles.joinButton}
           />
         </div>
-        <h3 className={styles.meetingsHeader}>{t('mainScreen.meetingsHeader')}</h3>
+        <h2 className={styles.meetingsHeader}>{t('mainScreen.meetingsHeader')}</h2>
       </div>
 
       <div className={styles.meetingsWrapper}>
-        {myMeetings.length ? (
-          <InfiniteScroll
-            hasMore={hasMore}
-            containerRef={infiniteContainer}
-            onReachBottom={loadMore}
-          >
-            {renderedMeetings}
-            {myMeetingsPending && (
-              <AnimatedLogo containerClass={styles.containerLoader} size={LogoSize.SMALL} />
-            )}
-          </InfiniteScroll>
-        ) : null}
+        <InfiniteScroll hasMore={hasMore} containerRef={infiniteContainer} onReachBottom={loadMore}>
+          {renderedMeetings}
+          {myMeetingsPending && myMeetings.length ? (
+            <AnimatedLogo containerClass={styles.containerLoader} size={LogoSize.SMALL} />
+          ) : null}
+        </InfiniteScroll>
 
-        {!myMeetings.length && myMeetingsPending ? (
-          <SkeletItem
-            count={MY_MEETINGS_LIMITS * 2}
-            height='54px'
-            containerClass={styles.skeletContainer}
-          />
-        ) : null}
+        {!myMeetings.length && myMeetingsPending ? renderedMeetinsSkelet : null}
 
         {!myMeetings.length && !hasMore ? <div>no meetings</div> : null}
       </div>

@@ -23,9 +23,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { JOIN_DATE_PATH, JOIN_MEETING_PATH } from 'routing/routing.constants';
 import { JoinMeetingType } from 'screens/types';
 
-import styles from './MeetingList.module.scss';
+import styles from './JoinMeetingList.module.scss';
 
-const MeetingList: React.FC = () => {
+const JoinMeetingList: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
@@ -79,23 +79,23 @@ const MeetingList: React.FC = () => {
     <div className={styles.container} ref={meetingsRef}>
       <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <h2>{t('meetings.meetings')}</h2>
-      <div className={styles.meetingsWrapper}>
-        <InfiniteScroll onReachBottom={loadMore} containerRef={meetingsRef} hasMore={hasMore}>
-          {meetings.map((meeting) => (
-            <MeetingItem
-              key={meeting.id}
-              id={meeting.id}
-              defaultText='Online Meeting'
-              date={meeting.meetingDate}
-              meetingData={meetingData}
-              mainRoute={JOIN_MEETING_PATH}
-            />
-          ))}
-          {pendingMeetings && <AnimatedLogo size={LogoSize.SMALL} />}
-        </InfiniteScroll>
-      </div>
+      <InfiniteScroll hasMore={hasMore} containerRef={meetingsRef} onReachBottom={loadMore}>
+        {meetings.map((meeting) => (
+          <MeetingItem
+            id={meeting.id}
+            key={meeting.id}
+            date={meeting.meetingDate}
+            mainRoute={JOIN_MEETING_PATH}
+            defaultText={t('meetings.meetingTitles.online')}
+            meetingData={meetingData}
+          />
+        ))}
+        {pendingMeetings && (
+          <AnimatedLogo containerClass={styles.containerLoader} size={LogoSize.SMALL} />
+        )}
+      </InfiniteScroll>
     </div>
   );
 };
 
-export default MeetingList;
+export default JoinMeetingList;

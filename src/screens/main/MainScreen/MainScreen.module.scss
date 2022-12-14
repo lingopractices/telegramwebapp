@@ -1,8 +1,5 @@
 .container {
-  display: flex;
   height: 100vh;
-  flex-flow: column nowrap;
-  align-items: center;
   padding: 0 15px;
   background-color: var(--base-bg-color);
   color: var(--base-color);
@@ -10,10 +7,6 @@
 
   &.pending {
     overflow-y: hidden;
-  }
-
-  & h3 {
-    width: 100%;
   }
 }
 
@@ -25,9 +18,12 @@
   width: 100%;
   flex-flow: column nowrap;
   align-items: center;
-  justify-content: center;
   padding-top: 24px;
   background-color: var(--base-bg-color);
+
+  & h2 {
+    width: 100%;
+  }
 }
 
 .buttonWrapper {
@@ -41,10 +37,6 @@
   & button {
     margin-left: 7px;
   }
-}
-
-.meetingsWrapper {
-  width: 100%;
 }
 
 .createButton {
@@ -61,12 +53,15 @@
   margin-bottom: 16px;
 }
 
+.meetingsWrapper {
+  width: 100%;
+}
+
 .containerLoader {
   margin: 8px 0;
 }
 
 .headerLine {
-  position: relative;
   display: flex;
   width: 100%;
   flex-flow: column nowrap;
@@ -99,11 +94,11 @@
   opacity: 0;
 
   &.hideSecondaryLogo {
-    animation: hide-secondary 0.2s linear forwards;
+    animation: hide-secondary var(--animation-duraton) linear forwards;
   }
 
   &.showSecondaryLogo {
-    animation: show-secondary 0.2s linear forwards;
+    animation: show-secondary 0.1s linear forwards;
   }
 }
 
@@ -116,25 +111,24 @@
   margin-top: -40px;
   background-color: white;
   border-radius: 50%;
-  transition: all 0.2s ease-out;
 
   &.hideMainLogo {
-    animation: hide-main 0.2s ease-out forwards;
+    animation: hide-main var(--animation-duraton) ease-out forwards;
   }
 
   &.showMainLogo {
-    animation: show-main 0.15s ease-out forwards;
+    animation: show-main 0.1s ease-out forwards;
+  }
+
+  &.start {
+    width: 105px;
+    height: 105px;
   }
 
   svg {
     width: 100%;
     height: 100%;
   }
-}
-
-.start {
-  width: 105px;
-  height: 105px;
 }
 
 @keyframes hide-main {
@@ -183,5 +177,4 @@
 
 .skeletContainer {
   margin-bottom: 8px;
-  border-radius: 8px;
 }

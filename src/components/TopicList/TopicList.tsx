@@ -3,13 +3,14 @@ import React, { useState, useCallback, useEffect, useMemo, RefObject } from 'rea
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import QuestionItem from '@components/QuestionItem/QuestionItem';
 import SearchBox from '@components/SearchBox/SearchBox';
-import SkeletItem from '@components/SkeletItem/SkeletItem';
 import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
+import { Skeleton } from '@mui/material';
 import {
   getTopicsHasMoreSelector,
   getTopicsPendingSelector,
   getTopicsSelector,
 } from '@store/topics/selectors';
+import { createAndFillArray } from '@utils/create-fill-array';
 import { getClearString } from '@utils/get-clear-string';
 import { TOPIC_LIMITS } from '@utils/pagination-limits';
 import { ITopic } from 'lingopractices-models';
@@ -92,6 +93,20 @@ export const TopicList = React.forwardRef<HTMLDivElement, ITopicListProps>(
       [filteredTopics, renderTopics],
     );
 
+    const renderTopicSkelet = useCallback(
+      (value: number) => (
+        <Skeleton key={value} className={styles.skeletContainer} animation='wave'>
+          <TopicItem id={0} name='' isSelected={false} onChange={handleChangeTopic} />
+        </Skeleton>
+      ),
+      [handleChangeTopic],
+    );
+
+    const renderedTopicsSkelet = useMemo(
+      () => createAndFillArray(TOPIC_LIMITS).map(renderTopicSkelet),
+      [renderTopicSkelet],
+    );
+
     return (
       <div className={styles.container}>
         <div className={styles.stickyHeader}>
@@ -100,12 +115,7 @@ export const TopicList = React.forwardRef<HTMLDivElement, ITopicListProps>(
         </div>
 
         {pendingGetTopics && !topics.length ? (
-          <SkeletItem
-            count={TOPIC_LIMITS}
-            containerClass={styles.skeletContainer}
-            height='40px'
-            width='100%'
-          />
+          renderedTopicsSkelet
         ) : (
           <div>
             <InfiniteScroll

@@ -91,7 +91,7 @@ const CreateMeetingTopic: React.FC = () => {
       <SubmitButton
         onClick={handleForward}
         title={meetingData?.topic?.topicId ? t('button.submit') : t('topic.choose')}
-        isActive={!!meetingData?.topic?.topicId || !topicsPending}
+        isActive={!!meetingData?.topic?.topicId}
       />
     </div>
   );

@@ -22,6 +22,7 @@ const Tooltip: React.FC = () => {
   const currentNotif = useSelector(currentNotificationSelector);
   const removeNotification = useActionWithDispatch(removeNotificationAction);
   const containerRef = useRef<HTMLDivElement>(null);
+  const notifTextRef = useRef<HTMLHeadingElement>(null);
 
   const animatedClose = useCallback(() => {
     if (currentNotif) {
@@ -44,8 +45,14 @@ const Tooltip: React.FC = () => {
     if (currentNotif) {
       containerRef.current?.classList.add(styles.openTooltip);
       closeToolTip();
+
+      if (notifTextRef.current) {
+        const paragraph = window.document.createElement('p');
+        paragraph.innerHTML = currentNotif.text;
+        notifTextRef.current.append(paragraph);
+      }
     }
-  }, [closeToolTip, currentNotif]);
+  }, [closeToolTip, currentNotif, notifTextRef]);
 
   return (
     <Portal>
@@ -53,7 +60,7 @@ const Tooltip: React.FC = () => {
         <div className={styles.icon}>
           <InfoIcon />
         </div>
-        <div className={styles.content}>{currentNotif?.text}</div>
+        <div ref={notifTextRef} className={styles.content} />
         <div className={styles.close}>
           <CloseIcon onClick={handleClose} />
         </div>

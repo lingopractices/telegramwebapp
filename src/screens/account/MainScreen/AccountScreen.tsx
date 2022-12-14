@@ -1,10 +1,15 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 
 import InfoItem from '@components/InfoItem/InfoItem';
-import SkeletItem from '@components/SkeletItem/SkeletItem';
+import { TooltipType } from '@components/Tooltip/Tooltip';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { Skeleton } from '@mui/material';
 import { alertsExistSelector, alertsPendingSelector } from '@store/alerts/selectors';
+import { setNotificationAction } from '@store/app-notifications/actions';
 import { languagePendingSelector } from '@store/languages/selectors';
 import { getProfileDataSelector } from '@store/profile/selectors';
+import { LINGO_PRACTICES_TELEGRAM_PATH } from 'common/constants';
+import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { LanguageLevel } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
@@ -29,16 +34,10 @@ const AccountScreen: React.FC = () => {
   const languagesPending = useSelector(languagePendingSelector);
   const alertsPending = useSelector(alertsPendingSelector);
   const navigate = useNavigate();
+  const setNotification = useActionWithDispatch(setNotificationAction);
   const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
-
-  const skeletItem = useMemo(
-    () => (
-      <SkeletItem count={1} width='165px' height='103px' containerClass={styles.skeletContainer} />
-    ),
-    [],
-  );
 
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
@@ -68,13 +67,29 @@ const AccountScreen: React.FC = () => {
     navigate(ACCOUNT_NOTIFICATIONS_PATH);
   }, [navigate]);
 
+  const changeGender = useCallback(() => {
+    setNotification({
+      id: dayjs().unix(),
+      text: `${t('gender.change')} <a href="${LINGO_PRACTICES_TELEGRAM_PATH}"> @lingopractices</a>`,
+      type: TooltipType.INFO,
+    });
+  }, [t, setNotification]);
+
+  const skeletItem = useMemo(
+    () => (
+      <Skeleton className={styles.skeletContainer} animation='wave'>
+        <InfoItem title='' value='' onClick={openLocation} />
+      </Skeleton>
+    ),
+    [openLocation],
+  );
   return (
     <div className={styles.container}>
       <div className={styles.upRow}>
         <h2>{t('account.myAccount')}</h2>
         <ChangeTheme />
       </div>
-      <div className={styles.warpper}>
+      <div className={styles.wrapper}>
         {languagesPending ? (
           skeletItem
         ) : (
@@ -114,7 +129,7 @@ const AccountScreen: React.FC = () => {
         <InfoItem
           title={t('account.info.gender')}
           value={user?.gender && t(`gender.${user.gender}`)}
-          onClick={() => {}}
+          onClick={changeGender}
           containerClass={styles.itemContainer}
         />
         {alertsPending ? (
