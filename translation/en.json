@@ -119,6 +119,7 @@
   },
 
   "gender": {
+    "change": "In order to change your gender, please contact",
     "1": "Not set",
     "2": "Male",
     "3": "Female"
