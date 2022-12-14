@@ -24,7 +24,9 @@ export const allLevels = [
 
 export const participantsCountIds: number[] = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 
+export const LINGO_PRACTICES_TELEGRAM_PATH = 'https://t.me/lingopractices';
+
 export const ANIMATION_DURATION = 200;
-export const NOTIFICATION_DURATON = 2000;
+export const NOTIFICATION_DURATON = 2500;
 export const SCROLL_TOP = 70;
 export const SCROLL_DOWN = 0;
