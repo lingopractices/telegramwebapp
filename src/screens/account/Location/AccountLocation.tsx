@@ -143,7 +143,7 @@ const AccountLocation = () => {
         <SearchBox onChange={handleSearchChange} containerClassname={styles.searchContainer} />
       </div>
       <div className={styles.countriesWrapper}>
-        {!isLoad ? renderedCountiresSkelet : renderedCountries}
+        {isLoad ? renderedCountiresSkelet : renderedCountries}
       </div>
       <SubmitButton
         title={selectedLocation ? t('button.submit') : t('account.location.chooseContry')}
