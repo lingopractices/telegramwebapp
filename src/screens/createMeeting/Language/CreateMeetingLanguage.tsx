@@ -76,7 +76,7 @@ const CreateMeetingLanguage: React.FC = () => {
       <SubmitButton
         onClick={handleForward}
         title={newLanguageId ? t('button.submit') : t('language.choose')}
-        isActive={!!newLanguageId || !languagesPending}
+        isActive={!!newLanguageId}
       />
     </div>
   );

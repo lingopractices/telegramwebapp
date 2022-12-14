@@ -6,7 +6,7 @@ import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { setNotificationAction } from '@store/app-notifications/actions';
-import { languagePendingSelector, languagesSelector } from '@store/languages/selectors';
+import { languagesSelector } from '@store/languages/selectors';
 import { updateProfileAction } from '@store/profile/actions';
 import {
   getPracticeLanguageSelector,
@@ -30,7 +30,6 @@ const AccountLanguage: React.FC = () => {
   const user = useSelector(getProfileDataSelector);
   const [newPracticeLanguageId, setNewPracticeLanguageId] = useState(practiceLanguage?.id);
   const languages = useSelector(languagesSelector);
-  const languagesPending = useSelector(languagePendingSelector);
   const pendingChangeLanguage = useSelector(pendingUpdateUserSelector);
   const updateProfile = useActionWithDeferred(updateProfileAction);
   const { t } = useTranslation();
@@ -95,7 +94,7 @@ const AccountLanguage: React.FC = () => {
         onClick={handleSubmit}
         title={newPracticeLanguageId ? t('button.submit') : t('language.choose')}
         isActive={!!newPracticeLanguageId}
-        loading={languagesPending || pendingChangeLanguage}
+        loading={pendingChangeLanguage}
       />
     </div>
   );

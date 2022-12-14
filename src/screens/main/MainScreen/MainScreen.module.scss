@@ -1,8 +1,5 @@
 .container {
-  display: flex;
   height: 100vh;
-  flex-flow: column nowrap;
-  align-items: center;
   padding: 0 15px;
   background-color: var(--base-bg-color);
   color: var(--base-color);
@@ -10,10 +7,6 @@
 
   &.pending {
     overflow-y: hidden;
-  }
-
-  & h2 {
-    width: 100%;
   }
 }
 
@@ -25,9 +18,12 @@
   width: 100%;
   flex-flow: column nowrap;
   align-items: center;
-  justify-content: center;
   padding-top: 24px;
   background-color: var(--base-bg-color);
+
+  & h2 {
+    width: 100%;
+  }
 }
 
 .buttonWrapper {
