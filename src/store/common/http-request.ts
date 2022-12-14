@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react';
 import axios, { AxiosRequestConfig } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
@@ -37,6 +38,7 @@ export function* httpRequest<TBody>(
   try {
     return yield call(axios.create().request, requestConfig);
   } catch (e: any) {
+    Sentry.captureEvent(e);
     if (e.message) {
       throw e;
     }

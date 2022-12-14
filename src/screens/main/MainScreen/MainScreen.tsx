@@ -111,7 +111,7 @@ const MainScreen: React.FC = () => {
 
     if (mainLogo && secondaryLogo) {
       if (scrollTop >= previousScrollTop.current) {
-        if (scrollTop >= SCROLL_TOP && mainLogoRef.current) {
+        if (scrollTop >= SCROLL_TOP) {
           mainLogo.classList.remove(styles.start);
           mainLogo.classList.remove(styles.showMainLogo);
           mainLogo.classList.add(styles.hideMainLogo);
