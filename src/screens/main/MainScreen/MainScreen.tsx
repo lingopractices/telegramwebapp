@@ -24,7 +24,6 @@ import { SCROLL_DOWN, SCROLL_TOP } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { IMeeting } from 'lingopractices-models';
-import { isEmpty } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -71,12 +70,6 @@ const MainScreen: React.FC = () => {
       getLanguages();
     }
   }, [languages, getLanguages]);
-
-  useEffect(() => {
-    if (isEmpty(myMeetings) && hasMore) {
-      loadMore();
-    }
-  }, [myMeetings, hasMore, loadMore]);
 
   const renderMeetings = useCallback(
     (meeting: IMeeting) => (
@@ -176,22 +169,16 @@ const MainScreen: React.FC = () => {
             containerClass={styles.joinButton}
           />
         </div>
-        <h3 className={styles.meetingsHeader}>{t('mainScreen.meetingsHeader')}</h3>
+        <h2 className={styles.meetingsHeader}>{t('mainScreen.meetingsHeader')}</h2>
       </div>
 
       <div className={styles.meetingsWrapper}>
-        {myMeetings.length ? (
-          <InfiniteScroll
-            hasMore={hasMore}
-            containerRef={infiniteContainer}
-            onReachBottom={loadMore}
-          >
-            {renderedMeetings}
-            {myMeetingsPending && (
-              <AnimatedLogo containerClass={styles.containerLoader} size={LogoSize.SMALL} />
-            )}
-          </InfiniteScroll>
-        ) : null}
+        <InfiniteScroll hasMore={hasMore} containerRef={infiniteContainer} onReachBottom={loadMore}>
+          {renderedMeetings}
+          {myMeetingsPending && myMeetings.length ? (
+            <AnimatedLogo containerClass={styles.containerLoader} size={LogoSize.SMALL} />
+          ) : null}
+        </InfiniteScroll>
 
         {!myMeetings.length && myMeetingsPending ? renderedMeetinsSkelet : null}
 
