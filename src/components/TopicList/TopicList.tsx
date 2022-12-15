@@ -124,9 +124,9 @@ export const TopicList = React.forwardRef<HTMLDivElement, ITopicListProps>(
               hasMore={hasMore}
             >
               {renderedTopics}
-              {pendingGetTopics && (
+              {pendingGetTopics && topics.length ? (
                 <AnimatedLogo containerClass={styles.animatedLogo} size={LogoSize.SMALL} />
-              )}
+              ) : null}
             </InfiniteScroll>
           </div>
         )}

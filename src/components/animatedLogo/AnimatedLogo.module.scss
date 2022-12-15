@@ -5,27 +5,30 @@
 
 .inner {
   position: absolute;
-  top: 54%;
-  left: 51%;
+  top: 53%;
+  left: 52%;
   transform: translate(-50%, -50%);
 }
 
 .wrapper {
   position: relative;
-  width: fit-content;
-  height: fit-content;
+  width: 105px;
+  height: 105px;
   background-color: white;
   border-radius: 50%;
 
   &.small {
+    width: 20px;
+    height: 20px;
+
     & .outer {
       width: 20px;
       height: 20px;
     }
 
     & .inner {
-      width: 10px;
-      height: 10px;
+      width: 12px;
+      height: 14px;
     }
   }
 }
