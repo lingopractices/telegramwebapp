@@ -121,7 +121,7 @@ const CreateMeetingTime: React.FC = () => {
       />
       <SubmitButton
         onClick={handleSubmit}
-        title={meetingTime ? t('button.submit') : t('time.choose')}
+        title={meetingTime ? t('button.continue') : t('time.choose')}
         isActive={!!meetingTime}
         loading={createPending}
       />

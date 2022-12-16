@@ -100,7 +100,8 @@
   "search": "Search",
 
   "button": {
-    "submit": "Continue",
+    "continue": "Continue",
+    "submit": "Submit",
     "leave": "Leave meeting",
     "join": "Join Google Meet Meeting",
     "save": "Save",

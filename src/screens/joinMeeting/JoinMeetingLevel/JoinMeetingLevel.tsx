@@ -67,7 +67,7 @@ const JoinMeetingLevel: React.FC = () => {
       />
       <SubmitButton
         onClick={handleForward}
-        title={newLevel ? t('button.submit') : t('level.choose')}
+        title={newLevel ? t('button.continue') : t('level.choose')}
         isActive={!!newLevel}
       />
     </div>
