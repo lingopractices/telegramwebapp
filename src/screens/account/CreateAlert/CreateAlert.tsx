@@ -97,7 +97,6 @@ const CreateAlert = () => {
   return (
     <div className={styles.container}>
       <h2>{t('notifications.addAlert')}</h2>
-      <p>{t('notifications.wilNotif')}</p>
       <h3>{t('notifications.chooseLang')}</h3>
       <SelectNextScreen
         title={language ? language.name : t('notifications.selectLang')}

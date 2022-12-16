@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 
 import { ReactComponent as Pluse } from '@assets/icons/pluse.svg';
 import AlertBox from '@components/AlertBox/AlertBox';
-import Button from '@components/Button/Button';
+import SubmitButton from '@components/SubmitButton/SubmitButton';
 import useTgBackButton from '@hooks/useTgBackButton';
 import { alertsSelector } from '@store/alerts/selectors';
 import { languagesSelector } from '@store/languages/selectors';
@@ -79,13 +79,14 @@ const AccountAlerts: React.FC = () => {
   return (
     <div className={styles.container}>
       <h2>{t('notifications.notifications')}</h2>
+      <p>{t('notifications.wilNotif')}</p>
       <div>{renderedAlertBox}</div>
-      <Button containerClass={styles.addNewContainer} onClick={handleAddNewAlert}>
+      <SubmitButton onClick={handleAddNewAlert} containerClass={styles.addNewContainer}>
         <span className={styles.childernContainer}>
           <Pluse />
           {t('notifications.addNew')}
         </span>
-      </Button>
+      </SubmitButton>
     </div>
   );
 };
