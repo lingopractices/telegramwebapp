@@ -15,7 +15,7 @@ interface IStepItem {
 const StepItem: React.FC<IStepItem> = ({ path, title, value, data }) => (
   <Link className={styles.container} to={path} state={{ meetingData: data }}>
     <div>
-      <span>{title}</span>: <span>{value}</span>{' '}
+      <span className={styles.title}>{title}:</span> <span className={styles.value}>{value}</span>
     </div>
     <EditIcon />
   </Link>

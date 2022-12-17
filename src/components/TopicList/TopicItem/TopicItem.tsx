@@ -23,8 +23,10 @@ const TopicItem: React.FC<ITopicItemProps> = ({ id, name, isSelected, onChange }
       onClick={handleClick}
       className={classNames(styles.container, { [styles.selectedTopic]: isSelected })}
     >
-      <span>{name}</span>
-      {isSelected ? <UpArrow className={styles.arrow} /> : <DownArrow className={styles.arrow} />}
+      <div className={styles.content}>
+        <span>{name}</span>
+        {isSelected ? <UpArrow className={styles.arrow} /> : <DownArrow className={styles.arrow} />}
+      </div>
     </li>
   );
 };

@@ -134,9 +134,7 @@ const LanguageList: React.FC<ILanguageList> = ({
     <div className={styles.container}>
       <div className={styles.stickyHeader}>
         <h2>{title}</h2>
-        {popularLanguagesIds && (
-          <SearchBox onChange={handleChangeSearchString} containerClassname={styles.search} />
-        )}
+        {popularLanguagesIds && <SearchBox onChange={handleChangeSearchString} />}
       </div>
       {renderedLanguages}
     </div>

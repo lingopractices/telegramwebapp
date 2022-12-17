@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import DatePicker from '@components/DatePicker/DatePicker';
 import StepBox from '@components/StepBox/StepBox';
+import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -11,7 +12,11 @@ import {
   getMeetingDaysAction,
   getMeetingsAction,
 } from '@store/meetings/actions';
-import { getMeetingDaysPendingSelector, getMeetingsDaysSelector } from '@store/meetings/selectors';
+import {
+  getMeetingDaysPendingSelector,
+  getMeetingsDaysSelector,
+  getMeetingsPendingSelector,
+} from '@store/meetings/selectors';
 import { getMaxTimeOfDay, getMinTimeOfDay } from '@utils/date-utils';
 import { DAY_MONTH_YAER, FULL_DATE } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
@@ -28,9 +33,10 @@ const JoinMeetingDate: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
-  const [meetingFrom, setMeetingFrom] = useState<Dayjs | null>(null);
+  const [meetingFrom, setMeetingFrom] = useState<Dayjs | null>(meetingData?.date?.from || null);
   const meetingsDays = useSelector(getMeetingsDaysSelector);
   const pendingLoadDays = useSelector(getMeetingDaysPendingSelector);
+  const pendingLoadMeetings = useSelector(getMeetingsPendingSelector);
   const getMeetings = useActionWithDeferred(getMeetingsAction);
   const getMeetingsDays = useActionWithDeferred(getMeetingDaysAction);
   const clearMeetings = useActionWithDispatch(clearMeetingsAction);
@@ -49,48 +55,60 @@ const JoinMeetingDate: React.FC = () => {
           resultDate = getMinTimeOfDay(value);
         }
 
-        if (meetingData?.language?.languageId && meetingData?.level.languageLevel) {
-          clearMeetings();
-
-          getMeetings({
-            languageId: meetingData.language.languageId,
-            languageLevel: meetingData.level.languageLevel,
-            from: resultDate,
-            to: getMaxTimeOfDay(resultDate),
-          })
-            .then(() => {
-              navigate(JOIN_MEETINGS_PATH, {
-                state: {
-                  meetingData: {
-                    ...meetingData,
-                    date: {
-                      from: resultDate,
-                      data: {
-                        path: JOIN_DATE_PATH,
-                        title: t('meetingInfo.date'),
-                        value: dayjs(resultDate).format(DAY_MONTH_YAER),
-                      },
-                    },
-                  },
-                },
-              });
-            })
-            .catch(() =>
-              setNotification({
-                id: dayjs().unix(),
-                type: TooltipType.ERROR,
-                text: t('errors.loadMeetings'),
-              }),
-            );
-        }
+        setMeetingFrom(resultDate);
       }
     },
-    [meetingData, navigate, getMeetings, setNotification, clearMeetings, t],
+    [setMeetingFrom],
   );
+
+  const handleSubmit = useCallback(() => {
+    if (meetingData?.language?.languageId && meetingData?.level?.languageLevel && meetingFrom) {
+      if (meetingFrom === meetingData?.date?.from) {
+        navigate(JOIN_MEETINGS_PATH, {
+          state: { meetingData },
+        });
+
+        return;
+      }
+
+      clearMeetings();
+
+      getMeetings({
+        languageId: meetingData.language.languageId,
+        languageLevel: meetingData.level.languageLevel,
+        from: meetingFrom,
+        to: getMaxTimeOfDay(meetingFrom),
+      })
+        .then(() => {
+          navigate(JOIN_MEETINGS_PATH, {
+            state: {
+              meetingData: {
+                ...meetingData,
+                date: {
+                  from: meetingFrom,
+                  data: {
+                    path: JOIN_DATE_PATH,
+                    title: t('meetingInfo.date'),
+                    value: dayjs(meetingFrom).format(DAY_MONTH_YAER),
+                  },
+                },
+              },
+            },
+          });
+        })
+        .catch(() =>
+          setNotification({
+            id: dayjs().unix(),
+            type: TooltipType.ERROR,
+            text: t('errors.loadMeetings'),
+          }),
+        );
+    }
+  }, [meetingData, meetingFrom, setNotification, clearMeetings, getMeetings, navigate, t]);
 
   const loadDays = useCallback(
     (date: Dayjs) => {
-      if (meetingData?.language?.languageId && meetingData?.level.languageLevel && date) {
+      if (meetingData?.language?.languageId && meetingData?.level?.languageLevel && date) {
         getMeetingsDays({
           languageId: meetingData.language.languageId,
           languageLevel: meetingData.level.languageLevel,
@@ -113,7 +131,11 @@ const JoinMeetingDate: React.FC = () => {
     ],
   );
 
-  useEffect(() => loadDays(dayjs()), [loadDays]);
+  useEffect(() => {
+    if (!meetingsDays.length) {
+      loadDays(dayjs());
+    }
+  }, [meetingsDays.length, loadDays]);
 
   const handleBack = useCallback(() => {
     navigate(JOIN_LEVELS_PATH, { state: { meetingData } });
@@ -131,6 +153,12 @@ const JoinMeetingDate: React.FC = () => {
         defaultDate={meetingFrom}
         availableDays={meetingsDays}
         onChangeDate={handleChangeDate}
+      />
+      <SubmitButton
+        title={t(meetingFrom ? 'button.continue' : 'date.choose')}
+        onClick={handleSubmit}
+        isActive={!!meetingFrom}
+        loading={pendingLoadDays || pendingLoadMeetings}
       />
     </div>
   );

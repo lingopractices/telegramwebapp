@@ -60,8 +60,9 @@
 
   "meetingInfo": {
     "createMeeting": "Создать встречу",
-    "practiceLang": "Язык практики",
+    "practiceLang": "Язык",
     "level": "Уровень",
+    "levels": "Уровни",
     "topic": "Тема",
     "participants": "Количество участников",
     "date": "Дата",

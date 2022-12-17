@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import DatePicker from '@components/DatePicker/DatePicker';
 import StepBox from '@components/StepBox/StepBox';
+import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { setNotificationAction } from '@store/app-notifications/actions';
@@ -50,27 +51,29 @@ const CreateMeetingDate: React.FC = () => {
         return;
       }
 
-      navigate(CREATE_TIME_PATH, {
-        state: {
-          meetingData: {
-            ...meetingData,
-            date: {
-              meetingDate: date,
-              data: {
-                path: CREATE_DATE_PATH,
-                title: t('meetingInfo.date'),
-                value: dayjs(date).format(DAY_MONTH_YAER),
-              },
-            },
+      setMeetingDate(date);
+
+      setMeetingData((prev) => ({
+        ...prev,
+        date: {
+          meetingDate: date,
+          data: {
+            path: CREATE_DATE_PATH,
+            title: t('meetingInfo.date'),
+            value: dayjs(date).format(DAY_MONTH_YAER),
           },
         },
-      });
+      }));
     },
-    [meetingData, availibleTimes.length, navigate, setMeetingDate, setNotification, t],
+    [availibleTimes.length, setMeetingDate, setNotification, t],
   );
 
   const handleBack = useCallback(() => {
     navigate(CREATE_PARTICIPANTS_PATH, { state: { meetingData } });
+  }, [meetingData, navigate]);
+
+  const handleSubmit = useCallback(() => {
+    navigate(CREATE_TIME_PATH, { state: { meetingData } });
   }, [meetingData, navigate]);
 
   useEffect(() => {
@@ -81,6 +84,11 @@ const CreateMeetingDate: React.FC = () => {
     <div className={styles.container}>
       <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <DatePicker defaultDate={meetingDate} onChangeDate={handleChangeDate} />
+      <SubmitButton
+        title={t(meetingDate ? 'button.continue' : 'date.choose')}
+        onClick={handleSubmit}
+        isActive={!!meetingDate}
+      />
     </div>
   );
 };

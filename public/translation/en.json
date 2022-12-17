@@ -60,8 +60,9 @@
 
   "meetingInfo": {
     "createMeeting": "Create meeting",
-    "practiceLang": "Practice language",
+    "practiceLang": "Language",
     "level": "Level",
+    "levels": "Levels",
     "topic": "Topic",
     "participants": "Participants number",
     "date": "Date",
