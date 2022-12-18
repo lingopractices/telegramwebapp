@@ -6,8 +6,10 @@ import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { setNotificationAction } from '@store/app-notifications/actions';
-import { joinMeetingAction } from '@store/meetings/actions';
+import { AxiosErros } from '@store/common/axios-errors';
+import { cancelJoinMeetingAction, joinMeetingAction } from '@store/meetings/actions';
 import { getMeetingByIdSelector, getMeetingJoinPendingSelector } from '@store/meetings/selectors';
+import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { IJoinMeetingResponse, JoinMeetingResult } from 'lingopractices-models';
@@ -31,6 +33,16 @@ const JoinMeetingInfo: React.FC = () => {
   const setNotification = useActionWithDispatch(setNotificationAction);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
+  const cancelJoinMeeting = useActionWithDispatch(cancelJoinMeetingAction);
+
+  useEffect(
+    () => () => {
+      if (pendingJoinMeeting && meetingId) {
+        cancelJoinMeeting(Number(meetingId));
+      }
+    },
+    [pendingJoinMeeting, meetingId, cancelJoinMeeting],
+  );
 
   const handleBack = useCallback(() => {
     navigate(JOIN_MEETINGS_PATH, { state: { meetingData } });
@@ -45,23 +57,51 @@ const JoinMeetingInfo: React.FC = () => {
       meetingId: Number(meetingId),
     })
       .then(({ result }) => {
-        if (result === JoinMeetingResult.Success) {
-          handleForward();
-          setNotification({
-            id: dayjs().unix(),
-            type: TooltipType.SUCCESS,
-            text: t('meeting.joined'),
-          });
+        switch (result) {
+          case JoinMeetingResult.Success:
+            handleForward();
+            setNotification({
+              id: dayjs().unix(),
+              type: TooltipType.SUCCESS,
+              text: t('meeting.joined'),
+            });
+            break;
+          case JoinMeetingResult.HasMeetingSameTime:
+            handleBack();
+            setNotification({
+              id: dayjs().unix(),
+              type: TooltipType.INFO,
+              text: t('errors.hasMeeting'),
+            });
+            break;
+          case JoinMeetingResult.AllSeatsAreTaken:
+            handleBack();
+            setNotification({
+              id: dayjs().unix(),
+              type: TooltipType.INFO,
+              text: t('meeting.notSeats'),
+            });
+            break;
+
+          default:
+            setNotification({
+              id: dayjs().unix(),
+              type: TooltipType.ERROR,
+              text: t('errors.joinMeeting'),
+            });
+            break;
         }
       })
-      .catch((e) =>
-        setNotification({
-          id: dayjs().unix(),
-          type: TooltipType.ERROR,
-          text: t('errors.joinMeeting'),
-        }),
-      );
-  }, [meetingId, joinMeeting, handleForward, setNotification, t]);
+      .catch((e: AxiosError) => {
+        if (e.code !== AxiosErros.Cancelled) {
+          setNotification({
+            id: dayjs().unix(),
+            type: TooltipType.ERROR,
+            text: t('errors.joinMeeting'),
+          });
+        }
+      });
+  }, [meetingId, joinMeeting, handleForward, handleBack, setNotification, t]);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);

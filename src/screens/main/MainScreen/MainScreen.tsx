@@ -114,18 +114,17 @@ const MainScreen: React.FC = () => {
         if (scrollTop >= SCROLL_TOP) {
           mainLogo.classList.remove(styles.start);
           mainLogo.classList.remove(styles.showMainLogo);
+          secondaryLogo.classList.remove(styles.hideSecondaryLogo);
           mainLogo.classList.add(styles.hideMainLogo);
-          mainLogo.onanimationend = () => {
-            secondaryLogo.classList.add(styles.showSecondaryLogo);
-          };
+          secondaryLogo.classList.add(styles.showSecondaryLogo);
         }
       } else if (scrollTop <= previousScrollTop.current) {
         if (scrollTop === SCROLL_DOWN) {
           mainLogo.classList.remove(styles.start);
-          mainLogo.classList.add(styles.showMainLogo);
           secondaryLogo.classList.remove(styles.showSecondaryLogo);
+          secondaryLogo.classList.remove(styles.showSecondaryLogo);
+          mainLogo.classList.add(styles.showMainLogo);
           secondaryLogo.classList.add(styles.hideSecondaryLogo);
-          mainLogo.onanimationend = () => {};
         }
       }
     }

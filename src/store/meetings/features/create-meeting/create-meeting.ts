@@ -5,7 +5,8 @@ import { MAIN_API } from '@store/common/path';
 import { IMeetingsState } from '@store/meetings/types';
 import { getProfileDataSelector } from '@store/profile/selectors';
 import { getTopicsSelector } from '@store/topics/selectors';
-import { AxiosResponse } from 'axios';
+import { addPendingRequest } from '@utils/cancel-request';
+import { AxiosResponse, CancelTokenSource } from 'axios';
 import {
   CreateMeetingResult,
   ICreateMeetingRequest,
@@ -34,12 +35,24 @@ export class CreateMeeting {
 
   static get saga() {
     return function* ({ payload, meta }: ReturnType<typeof CreateMeeting.action>): SagaIterator {
+      const { id: userId } = yield select(getProfileDataSelector);
+
       try {
+        const response = CreateMeeting.httpRequest.call(
+          yield call(() =>
+            CreateMeeting.httpRequest.generator(payload, (token: CancelTokenSource) =>
+              addPendingRequest(userId, token),
+            ),
+          ),
+        );
+
+        if (!response) {
+          return;
+        }
+
         const {
           data: { googleMeetLink, id, createMeetingResult },
-        } = CreateMeeting.httpRequest.call(
-          yield call(() => CreateMeeting.httpRequest.generator(payload)),
-        );
+        } = response;
 
         if (createMeetingResult === CreateMeetingResult.Success) {
           const userCreator: IUser = yield select(getProfileDataSelector);

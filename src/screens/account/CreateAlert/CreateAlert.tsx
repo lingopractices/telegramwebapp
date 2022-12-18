@@ -7,10 +7,12 @@ import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import useTgBackButton from '@hooks/useTgBackButton';
-import { createAlertAction } from '@store/alerts/actions';
+import { cancelCreateAlertAcion, createAlertAction } from '@store/alerts/actions';
 import { createAlertPendingSelector } from '@store/alerts/selectors';
 import { setNotificationAction } from '@store/app-notifications/actions';
+import { AxiosErros } from '@store/common/axios-errors';
 import { languageByIdSelector } from '@store/languages/selectors';
+import { AxiosError } from 'axios';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { LanguageLevel } from 'lingopractices-models';
@@ -35,6 +37,17 @@ const CreateAlert = () => {
   const { setBackButtonOnClick } = useTgBackButton(true);
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const cancelCreateAlert = useActionWithDispatch(cancelCreateAlertAcion);
+
+  useEffect(
+    () => () => {
+      if (createAlertPending) {
+        cancelCreateAlert();
+      }
+    },
+    [createAlertPending, cancelCreateAlert],
+  );
 
   const handleSelectLanguage = useCallback(() => {
     navigate(ACCOUNT_NOTIFICATIONS_LANGUAGES_PATH, { state: alertData });
@@ -71,12 +84,14 @@ const CreateAlert = () => {
             text: t('notifications.created'),
           });
         })
-        .catch(() => {
-          setNotification({
-            id: dayjs().unix(),
-            type: TooltipType.ERROR,
-            text: t('errors.notificationCreate'),
-          });
+        .catch((e: AxiosError) => {
+          if (e.code !== AxiosErros.Cancelled) {
+            setNotification({
+              id: dayjs().unix(),
+              type: TooltipType.ERROR,
+              text: t('errors.notificationCreate'),
+            });
+          }
         });
     }
   }, [alertData, createAlert, setNotification, handleBack, t]);
@@ -97,7 +112,6 @@ const CreateAlert = () => {
   return (
     <div className={styles.container}>
       <h2>{t('notifications.addAlert')}</h2>
-      <p>{t('notifications.wilNotif')}</p>
       <h3>{t('notifications.chooseLang')}</h3>
       <SelectNextScreen
         title={language ? language.name : t('notifications.selectLang')}

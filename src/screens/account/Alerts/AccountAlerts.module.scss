@@ -1,5 +1,6 @@
 .container {
   padding: 0 16px;
+  margin-bottom: var(--submit-button-height);
 
   h2 {
     position: sticky;
@@ -7,10 +8,15 @@
     margin: 24px 0 16px;
     background-color: var(--base-bg-color);
   }
+
+  p {
+    margin-bottom: 16px;
+    font-size: 14px;
+    text-align: justify;
+  }
 }
 
 .addNewContainer {
-  margin-bottom: 16px;
   background-color: var(--dt-white-wt-black);
 }
 

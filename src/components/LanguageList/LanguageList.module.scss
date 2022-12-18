@@ -11,8 +11,9 @@
 
   h3 {
     position: sticky;
-    top: 88px;
-    margin: 16px 0;
+    top: 80px;
+    padding-top: 24px;
+    margin-bottom: 16px;
     background-color: var(--base-bg-color);
   }
 }
@@ -22,10 +23,6 @@
   flex-flow: row wrap;
   margin-bottom: -15px;
   margin-left: -15px;
-}
-
-.search {
-  margin-bottom: 8px;
 }
 
 .paddingContainer {

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { ReactComponent as DownArrow } from '@assets/icons/down-arrow.svg';
 import { ReactComponent as LeftIcon } from '@assets/icons/left-arrow.svg';
@@ -33,17 +33,10 @@ const DatePicker: React.FC<IDatePicker> = ({
   const changeViewMonth = useCallback(
     (viewDate: Dayjs) => {
       if (onChangeMonth) onChangeMonth(viewDate);
-
       setIsFirstMonth(dayjs().month() === dayjs(viewDate).month());
     },
     [onChangeMonth, setIsFirstMonth],
   );
-
-  useEffect(() => {
-    if (defaultDate) {
-      changeViewMonth(defaultDate);
-    }
-  }, [defaultDate, changeViewMonth]);
 
   const checkDisabledDays = useCallback(
     (nextDate: Dayjs) => {

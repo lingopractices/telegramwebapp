@@ -4,6 +4,7 @@
   width: 165px;
   min-height: 103px;
   flex-flow: column nowrap;
+  flex-grow: 1;
   justify-content: space-between;
   padding: 8px 16px;
   background-color: var(--secondary-bg-color);

@@ -4,7 +4,8 @@ import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
 import { languagesSelector } from '@store/languages/selectors';
 import { IProfileState } from '@store/profile/types';
-import { AxiosResponse } from 'axios';
+import { addPendingRequest } from '@utils/cancel-request';
+import { AxiosResponse, CancelTokenSource } from 'axios';
 import { ILanguage, IUpdateUserRequest, IUser } from 'lingopractices-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
@@ -43,8 +44,12 @@ export class UpdateProfile {
       };
 
       try {
-        UpdateProfile.httpRequest.call(
-          yield call(() => UpdateProfile.httpRequest.generator(action.payload)),
+        const response = UpdateProfile.httpRequest.call(
+          yield call(() =>
+            UpdateProfile.httpRequest.generator(action.payload, (token: CancelTokenSource) =>
+              addPendingRequest(userId, token),
+            ),
+          ),
         );
 
         const profileInfo: IUser = {
@@ -62,12 +67,16 @@ export class UpdateProfile {
           languageLevel,
         };
 
+        if (!response) {
+          return;
+        }
+
         yield put(UpdateProfileSuccess.action(profileInfo));
 
         action.meta?.deferred.resolve();
       } catch (e) {
         yield put(UpdateProfileFailure.action());
-        action.meta?.deferred.reject();
+        action.meta?.deferred.reject(e);
       }
     };
   }

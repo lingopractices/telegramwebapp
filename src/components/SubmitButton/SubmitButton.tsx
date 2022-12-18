@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import Button from '@components/Button/Button';
 
@@ -6,9 +6,11 @@ import styles from './SubmitButton.module.scss';
 
 interface ISubmitButtonProps {
   onClick: () => void;
-  title: string;
+  title?: string;
   loading?: boolean;
   isActive?: boolean;
+  children?: ReactNode;
+  containerClass?: string;
 }
 
 const SubmitButton: React.FC<ISubmitButtonProps> = ({
@@ -16,9 +18,19 @@ const SubmitButton: React.FC<ISubmitButtonProps> = ({
   title,
   isActive = true,
   loading,
+  children,
+  containerClass,
 }) => (
   <div className={styles.submitButton}>
-    <Button onClick={onClick} title={title} disabled={!isActive} loading={loading} />
+    <Button
+      onClick={onClick}
+      title={title}
+      disabled={!isActive}
+      loading={loading}
+      containerClass={containerClass || styles.buttonClass}
+    >
+      {children}
+    </Button>
   </div>
 );
 

@@ -34,7 +34,7 @@ const JoinMeetingLevel: React.FC = () => {
           languageLevel: newLevel,
           data: {
             path: JOIN_LEVELS_PATH,
-            title: t('meetingInfo.level'),
+            title: t(newLevel > 1 ? 'meetingInfo.levels' : 'meetingInfo.level'),
             value: mapLevels(newLevel)
               .map((level) => t(`levels.${level}`))
               .join(', '),
@@ -67,7 +67,7 @@ const JoinMeetingLevel: React.FC = () => {
       />
       <SubmitButton
         onClick={handleForward}
-        title={newLevel ? t('button.submit') : t('level.choose')}
+        title={newLevel ? t('button.continue') : t('level.choose')}
         isActive={!!newLevel}
       />
     </div>

@@ -90,7 +90,7 @@ const CreateMeetingTopic: React.FC = () => {
       />
       <SubmitButton
         onClick={handleForward}
-        title={meetingData?.topic?.topicId ? t('button.submit') : t('topic.choose')}
+        title={meetingData?.topic?.topicId ? t('button.continue') : t('topic.choose')}
         isActive={!!meetingData?.topic?.topicId}
       />
     </div>

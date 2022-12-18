@@ -4,19 +4,25 @@
   align-items: center;
   color: var(--base-color);
   cursor: pointer;
+  font-size: 16px;
+  font-weight: 400;
 
   & input {
     display: none;
   }
 }
 
-.checkWrap {
+.radioWrap {
   position: relative;
   margin-right: 12px;
 }
 
 .outer {
-  stroke: var(--base-color);
+  stroke: var(--radio-outer);
+
+  &.selected {
+    stroke: var(--radio-outer-selcted);
+  }
 }
 
 .inner {

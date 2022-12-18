@@ -1,5 +1,6 @@
+import axios, { CancelTokenSource } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { call } from 'redux-saga/effects';
+import { call, cancelled } from 'redux-saga/effects';
 
 import { getAuthHeader } from './getAuthHeader';
 import { httpRequest } from './http-request';
@@ -11,16 +12,37 @@ export const httpRequestFactory = <TResponse, TBody>(
   method: HttpRequestMethod,
   headers?: HttpHeaders,
 ) => {
-  function* generator(body?: TBody): SagaIterator {
-    let finalUrl = url as string;
+  function* generator(
+    body?: TBody,
+    assignCancelToken?: (token: CancelTokenSource) => void,
+  ): SagaIterator {
+    let cancelTokenSource: CancelTokenSource | null = null;
 
-    if (body && typeof url === 'function') {
-      finalUrl = (url as UrlGenerator<TBody>)(body);
+    try {
+      let finalUrl = url as string;
+
+      if (body && typeof url === 'function') {
+        finalUrl = (url as UrlGenerator<TBody>)(body);
+      }
+
+      const authHeader = yield call(getAuthHeader);
+      cancelTokenSource = axios.CancelToken.source();
+
+      if (assignCancelToken) {
+        assignCancelToken(cancelTokenSource);
+      }
+
+      return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, {
+        ...headers,
+        ...authHeader,
+      });
+    } finally {
+      if (yield cancelled()) {
+        if (cancelTokenSource) {
+          cancelTokenSource.cancel();
+        }
+      }
     }
-
-    const authHeader = yield call(getAuthHeader);
-
-    return yield call(httpRequest, finalUrl, method, body, { ...headers, ...authHeader });
   }
 
   return {
