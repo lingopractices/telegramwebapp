@@ -6,8 +6,10 @@ import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { setNotificationAction } from '@store/app-notifications/actions';
-import { joinMeetingAction } from '@store/meetings/actions';
+import { AxiosErros } from '@store/common/axios-errors';
+import { cancelJoinMeetingAction, joinMeetingAction } from '@store/meetings/actions';
 import { getMeetingByIdSelector, getMeetingJoinPendingSelector } from '@store/meetings/selectors';
+import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { IJoinMeetingResponse, JoinMeetingResult } from 'lingopractices-models';
@@ -31,6 +33,16 @@ const JoinMeetingInfo: React.FC = () => {
   const setNotification = useActionWithDispatch(setNotificationAction);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
+  const cancelJoinMeeting = useActionWithDispatch(cancelJoinMeetingAction);
+
+  useEffect(
+    () => () => {
+      if (pendingJoinMeeting && meetingId) {
+        cancelJoinMeeting(Number(meetingId));
+      }
+    },
+    [pendingJoinMeeting, meetingId, cancelJoinMeeting],
+  );
 
   const handleBack = useCallback(() => {
     navigate(JOIN_MEETINGS_PATH, { state: { meetingData } });
@@ -54,13 +66,15 @@ const JoinMeetingInfo: React.FC = () => {
           });
         }
       })
-      .catch((e) =>
-        setNotification({
-          id: dayjs().unix(),
-          type: TooltipType.ERROR,
-          text: t('errors.joinMeeting'),
-        }),
-      );
+      .catch((e: AxiosError) => {
+        if (e.code !== AxiosErros.Cancelled) {
+          setNotification({
+            id: dayjs().unix(),
+            type: TooltipType.ERROR,
+            text: t('errors.joinMeeting'),
+          });
+        }
+      });
   }, [meetingId, joinMeeting, handleForward, setNotification, t]);
 
   useEffect(() => {

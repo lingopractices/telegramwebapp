@@ -7,9 +7,11 @@ import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { setNotificationAction } from '@store/app-notifications/actions';
-import { createMeetingAction } from '@store/meetings/actions';
+import { AxiosErros } from '@store/common/axios-errors';
+import { cancelCreateMeetingAction, createMeetingAction } from '@store/meetings/actions';
 import { getCreateMeetingPendingSelector } from '@store/meetings/selectors';
 import { mergeDateAndTime } from '@utils/date-utils';
+import { AxiosError } from 'axios';
 import { HOUR_MINUTE } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
@@ -33,6 +35,17 @@ const CreateMeetingTime: React.FC = () => {
   const createMeeting = useActionWithDeferred(createMeetingAction);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
+
+  const cancelCreateMeeting = useActionWithDispatch(cancelCreateMeetingAction);
+
+  useEffect(
+    () => () => {
+      if (createPending) {
+        cancelCreateMeeting();
+      }
+    },
+    [createPending, cancelCreateMeeting],
+  );
 
   const handleChangeTime = useCallback(
     (time: Dayjs) => {
@@ -84,18 +97,20 @@ const CreateMeetingTime: React.FC = () => {
           .then(() => {
             handleForward();
           })
-          .catch((e: CreateMeetingResult) => {
-            let textError: string;
-            switch (e) {
-              case CreateMeetingResult.HasMeetingSameTime:
-                textError = t('errors.hasMeeting');
-                break;
-              default:
-                textError = t('errors.otherCreateMeeting');
-                break;
-            }
+          .catch((e: CreateMeetingResult & AxiosError) => {
+            if (e.code !== AxiosErros.Cancelled) {
+              let textError: string;
+              switch (e) {
+                case CreateMeetingResult.HasMeetingSameTime:
+                  textError = t('errors.hasMeeting');
+                  break;
+                default:
+                  textError = t('errors.otherCreateMeeting');
+                  break;
+              }
 
-            setNotification({ id: dayjs().unix(), type: TooltipType.ERROR, text: textError });
+              setNotification({ id: dayjs().unix(), type: TooltipType.ERROR, text: textError });
+            }
           });
       } else {
         setNotification({

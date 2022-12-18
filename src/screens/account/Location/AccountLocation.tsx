@@ -10,10 +10,16 @@ import { ICoutnry, useCountries } from '@hooks/use-countries';
 import useTgBackButton from '@hooks/useTgBackButton';
 import { Skeleton } from '@mui/material';
 import { setNotificationAction } from '@store/app-notifications/actions';
-import { updateProfileAction } from '@store/profile/actions';
-import { getProfileDataSelector, locationSelector } from '@store/profile/selectors';
+import { AxiosErros } from '@store/common/axios-errors';
+import { cancelUpdateProfileAction, updateProfileAction } from '@store/profile/actions';
+import {
+  getProfileDataSelector,
+  locationSelector,
+  pendingUpdateUserSelector,
+} from '@store/profile/selectors';
 import { createAndFillArray } from '@utils/create-fill-array';
 import { getClearString } from '@utils/get-clear-string';
+import { AxiosError } from 'axios';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
@@ -31,9 +37,20 @@ const AccountLocation = () => {
   const user = useSelector(getProfileDataSelector);
   const { setBackButtonOnClick } = useTgBackButton(true);
   const updateLocation = useActionWithDeferred(updateProfileAction);
+  const pendingUpdateProfile = useSelector(pendingUpdateUserSelector);
   const navigate = useNavigate();
   const setNotification = useActionWithDispatch(setNotificationAction);
   const { t } = useTranslation();
+  const cancelUpdateProfile = useActionWithDispatch(cancelUpdateProfileAction);
+
+  useEffect(
+    () => () => {
+      if (pendingUpdateProfile) {
+        cancelUpdateProfile();
+      }
+    },
+    [pendingUpdateProfile, cancelUpdateProfile],
+  );
 
   useEffect(() => {
     if (countries) {
@@ -80,12 +97,14 @@ const AccountLocation = () => {
               text: t('account.location.changed'),
             });
           })
-          .catch(() => {
-            setNotification({
-              id: dayjs().unix(),
-              type: TooltipType.ERROR,
-              text: t('errors.location'),
-            });
+          .catch((e: AxiosError) => {
+            if (e.code !== AxiosErros.Cancelled) {
+              setNotification({
+                id: dayjs().unix(),
+                type: TooltipType.ERROR,
+                text: t('errors.location'),
+              });
+            }
           });
       } else {
         handleBack();
@@ -148,6 +167,7 @@ const AccountLocation = () => {
       <SubmitButton
         title={selectedLocation ? t('button.submit') : t('account.location.chooseContry')}
         onClick={handleSubmit}
+        loading={pendingUpdateProfile}
       />
     </div>
   );

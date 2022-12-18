@@ -6,10 +6,12 @@ import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import useTgBackButton from '@hooks/useTgBackButton';
-import { updateAlertAction } from '@store/alerts/actions';
+import { cancelUpdateAlertAcion, updateAlertAction } from '@store/alerts/actions';
 import { alertByLanguageIdSelector, updateAlertPendingSelector } from '@store/alerts/selectors';
 import { setNotificationAction } from '@store/app-notifications/actions';
+import { AxiosErros } from '@store/common/axios-errors';
 import { languageByIdSelector } from '@store/languages/selectors';
+import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import { LanguageLevel } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
@@ -33,6 +35,16 @@ const EditAlert = () => {
   const setNotification = useActionWithDispatch(setNotificationAction);
   const { setBackButtonOnClick } = useTgBackButton(true);
   const { t } = useTranslation();
+  const cancelUpdateAlert = useActionWithDispatch(cancelUpdateAlertAcion);
+
+  useEffect(
+    () => () => {
+      if (updateAlertPending && alert?.id) {
+        cancelUpdateAlert(alert.id);
+      }
+    },
+    [updateAlertPending, alert?.id, cancelUpdateAlert],
+  );
 
   const handleBack = useCallback(() => {
     if (alertData.rootPath) {
@@ -59,12 +71,14 @@ const EditAlert = () => {
             text: t(languageLevels ? 'notifications.editLevels' : 'notifications.editDeleted'),
           });
         })
-        .catch((e) => {
-          setNotification({
-            id: dayjs().unix(),
-            type: TooltipType.ERROR,
-            text: t('errors.notificationEdit'),
-          });
+        .catch((e: AxiosError) => {
+          if (e.code !== AxiosErros.Cancelled) {
+            setNotification({
+              id: dayjs().unix(),
+              type: TooltipType.ERROR,
+              text: t('errors.notificationEdit'),
+            });
+          }
         });
     }
   }, [languageId, alert, languageLevels, updateAlert, setNotification, navigate, t]);

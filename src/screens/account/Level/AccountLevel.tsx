@@ -6,12 +6,14 @@ import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { setNotificationAction } from '@store/app-notifications/actions';
-import { updateProfileAction } from '@store/profile/actions';
+import { AxiosErros } from '@store/common/axios-errors';
+import { cancelUpdateProfileAction, updateProfileAction } from '@store/profile/actions';
 import {
   getLanguageLevelSelector,
   getProfileDataSelector,
   pendingUpdateUserSelector,
 } from '@store/profile/selectors';
+import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { LanguageLevel } from 'lingopractices-models';
@@ -32,6 +34,16 @@ const AccountLevel: React.FC = () => {
   const updateProfile = useActionWithDeferred(updateProfileAction);
   const { t } = useTranslation();
   const setNotification = useActionWithDispatch(setNotificationAction);
+  const cancelUpdateProfile = useActionWithDispatch(cancelUpdateProfileAction);
+
+  useEffect(
+    () => () => {
+      if (pendingChangeLevel) {
+        cancelUpdateProfile();
+      }
+    },
+    [pendingChangeLevel, cancelUpdateProfile],
+  );
 
   const handleBack = useCallback(() => {
     navigate(ACCOUNT_PATH);
@@ -55,13 +67,15 @@ const AccountLevel: React.FC = () => {
               text: t('level.changed'),
             });
           })
-          .catch((e) =>
-            setNotification({
-              id: dayjs().unix(),
-              type: TooltipType.ERROR,
-              text: t('errors.level'),
-            }),
-          );
+          .catch((e: AxiosError) => {
+            if (e.code !== AxiosErros.Cancelled) {
+              setNotification({
+                id: dayjs().unix(),
+                type: TooltipType.ERROR,
+                text: t('errors.level'),
+              });
+            }
+          });
       } else {
         handleBack();
       }

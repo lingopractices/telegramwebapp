@@ -13,6 +13,7 @@ import { GetMeetingsSuccess } from './features/get-meetings/get-meetings-success
 import { GetMyMeetings } from './features/get-my-meetings/get-my-meetings';
 import { GetMyMeetingsSuccess } from './features/get-my-meetings/get-my-meetings-success';
 import { JoinMeeting } from './features/join-meeting/join-meeting';
+import { JoinMeetingFailure } from './features/join-meeting/join-meeting-failure';
 import { JoinMeetingSuccess } from './features/join-meeting/join-meeting-success';
 import { LeaveMeeting } from './features/leave-meeting/leave-meeting';
 import { LeaveMeetingFailure } from './features/leave-meeting/leave-meeting-failure';
@@ -58,7 +59,8 @@ const reducer = createReducer(initialState, (builder) =>
     .addCase(CreateMeeting.action, CreateMeeting.reducer)
     .addCase(CreateMeetingSuccess.action, CreateMeetingSuccess.reducer)
     .addCase(CreateMeetingFailure.action, CreateMeetingFailure.reducer)
-    .addCase(ClearMeetings.action, ClearMeetings.reducer),
+    .addCase(ClearMeetings.action, ClearMeetings.reducer)
+    .addCase(JoinMeetingFailure.action, JoinMeetingFailure.reducer),
 );
 
 export default reducer;

@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/react';
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig, CancelToken } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
@@ -11,11 +11,13 @@ export function* httpRequest<TBody>(
   url: string,
   method: HttpRequestMethod,
   body?: TBody,
+  token?: CancelToken,
   headers?: HttpHeaders,
 ): SagaIterator {
   const requestConfig: AxiosRequestConfig = {
     url,
     method,
+    cancelToken: token,
     responseType: 'json',
     headers,
   };

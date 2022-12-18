@@ -3,7 +3,8 @@ import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory } from '@store/common/http-request-factory';
 import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
-import { AxiosResponse } from 'axios';
+import { addPendingRequest } from '@utils/cancel-request';
+import { AxiosResponse, CancelTokenSource } from 'axios';
 import { IUpdateNotificationPreference } from 'lingopractices-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
@@ -29,8 +30,16 @@ export class UpdateAlert {
     return function* ({ payload, meta }: ReturnType<typeof UpdateAlert.action>): SagaIterator {
       try {
         const resposne = UpdateAlert.httpRequest.call(
-          yield call(() => UpdateAlert.httpRequest.generator(payload)),
+          yield call(() =>
+            UpdateAlert.httpRequest.generator(payload, (token: CancelTokenSource) =>
+              addPendingRequest(payload.id, token),
+            ),
+          ),
         );
+
+        if (!resposne) {
+          return;
+        }
 
         if (resposne.status === 200) {
           yield put(UpdateAlertSuccess.action(payload));
