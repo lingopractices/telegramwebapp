@@ -8,7 +8,7 @@ function applyTheme(theme: Theme) {
   const lightTheme: ThemeType = {
     '--base-bg-color': '#FFFFFF',
     '--secondary-bg-color': 'rgba(63, 138, 224, 0.08)',
-    '--secondary-bg-color-without-alpha': 'rgb(63, 138, 224)',
+    '--secondary-bg-color-without-alpha': '#EBF3FB',
     '--base-color': '#000000',
     '--secondary-color': '#728A96',
     '--grey-bg': 'rgba(63, 138, 224, 0.08)',
