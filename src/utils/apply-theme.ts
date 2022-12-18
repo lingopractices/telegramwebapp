@@ -30,6 +30,10 @@ function applyTheme(theme: Theme) {
     '--select-next': '#F7F9FB;',
     '--radio-outer': '#969696',
     '--radio-outer-selcted': '#0088CC',
+    '--light-red': '#E04A4A',
+    '--dt-grey-wt-white': '#FFFFFF',
+    '--dt-white-wt-light-blue': 'rgba(0, 136, 204, 0.08)',
+    '--dt-white-wt-blue': '#0088CC',
   };
 
   const darkTheme: ThemeType = {
@@ -57,6 +61,10 @@ function applyTheme(theme: Theme) {
     '--select-next': '#414144',
     '--radio-outer': '#969696',
     '--radio-outer-selcted': '#0088CC',
+    '--light-red': '#E04A4A',
+    '--dt-grey-wt-white': '#555555',
+    '--dt-white-wt-light-blue': '#FFFFFF',
+    '--dt-white-wt-blue': '#FFFFFF',
   };
 
   const root = document.documentElement;

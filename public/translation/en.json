@@ -31,7 +31,8 @@
   },
 
   "level": {
-    "chooseLevel": "Choose meeting language levels",
+    "chooseLevel": "Choose meeting language level",
+    "chooseLevels": "Choose meeting language levels",
     "choose": "Choose a level",
     "changed": "Practice level changed successfully !"
   },

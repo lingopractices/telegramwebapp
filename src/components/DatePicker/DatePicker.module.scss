@@ -1,5 +1,6 @@
 .container {
   padding-top: 24px;
+  margin-bottom: var(--submit-button-height);
   color: var(--base-color);
 
   & h2 {

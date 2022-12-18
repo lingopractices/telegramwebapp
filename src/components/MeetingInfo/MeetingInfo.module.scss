@@ -46,6 +46,6 @@
 
   &:not(:last-of-type) {
     padding-bottom: 8px;
-    border-bottom: 1px solid #555;
+    border-bottom: 1px solid var(--dt-grey-wt-white);
   }
 }

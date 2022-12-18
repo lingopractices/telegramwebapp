@@ -132,10 +132,8 @@ const JoinMeetingDate: React.FC = () => {
   );
 
   useEffect(() => {
-    if (!meetingsDays.length) {
-      loadDays(dayjs());
-    }
-  }, [meetingsDays.length, loadDays]);
+    loadDays(dayjs());
+  }, [loadDays]);
 
   const handleBack = useCallback(() => {
     navigate(JOIN_LEVELS_PATH, { state: { meetingData } });
@@ -155,9 +153,9 @@ const JoinMeetingDate: React.FC = () => {
         onChangeDate={handleChangeDate}
       />
       <SubmitButton
-        title={t(meetingFrom ? 'button.continue' : 'date.choose')}
+        title={t(meetingFrom && !!meetingsDays.length ? 'button.continue' : 'date.choose')}
         onClick={handleSubmit}
-        isActive={!!meetingFrom}
+        isActive={!!meetingFrom && !!meetingsDays.length}
         loading={pendingLoadDays || pendingLoadMeetings}
       />
     </div>

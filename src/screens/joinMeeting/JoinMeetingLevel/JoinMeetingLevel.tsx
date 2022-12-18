@@ -34,7 +34,9 @@ const JoinMeetingLevel: React.FC = () => {
           languageLevel: newLevel,
           data: {
             path: JOIN_LEVELS_PATH,
-            title: t(newLevel > 1 ? 'meetingInfo.levels' : 'meetingInfo.level'),
+            title: t(
+              newLevel > LanguageLevel.Beginner ? 'meetingInfo.levels' : 'meetingInfo.level',
+            ),
             value: mapLevels(newLevel)
               .map((level) => t(`levels.${level}`))
               .join(', '),
