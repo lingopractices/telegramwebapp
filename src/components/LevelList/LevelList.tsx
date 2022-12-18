@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 
 import CheckBox from '@components/CheckBox/CheckBox';
-import RadioItem from '@components/RadioItem/RadioItem';
+import RadioBox from '@components/RadioBox/RadioBox';
 import { allLevels } from 'common/constants';
 import { LanguageLevel } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
@@ -54,7 +54,7 @@ const LevelList: React.FC<ILevelList> = ({ defaultLevelId, multiple, title, onCh
             />
           ))
         : levels.map((level) => (
-            <RadioItem
+            <RadioBox
               id={level.id}
               key={level.id}
               radioGroupName='levels'

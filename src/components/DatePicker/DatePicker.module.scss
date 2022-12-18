@@ -17,6 +17,7 @@
     height: 32px;
     background-color: none;
     color: var(--base-color);
+    font-size: 16px;
 
     &[aria-selected='true'] {
       background-color: var(--secondary-bg-color);

@@ -57,13 +57,39 @@ const JoinMeetingInfo: React.FC = () => {
       meetingId: Number(meetingId),
     })
       .then(({ result }) => {
-        if (result === JoinMeetingResult.Success) {
-          handleForward();
-          setNotification({
-            id: dayjs().unix(),
-            type: TooltipType.SUCCESS,
-            text: t('meeting.joined'),
-          });
+        switch (result) {
+          case JoinMeetingResult.Success:
+            handleForward();
+            setNotification({
+              id: dayjs().unix(),
+              type: TooltipType.SUCCESS,
+              text: t('meeting.joined'),
+            });
+            break;
+          case JoinMeetingResult.HasMeetingSameTime:
+            handleBack();
+            setNotification({
+              id: dayjs().unix(),
+              type: TooltipType.INFO,
+              text: t('errors.hasMeeting'),
+            });
+            break;
+          case JoinMeetingResult.AllSeatsAreTaken:
+            handleBack();
+            setNotification({
+              id: dayjs().unix(),
+              type: TooltipType.INFO,
+              text: t('meeting.notSeats'),
+            });
+            break;
+
+          default:
+            setNotification({
+              id: dayjs().unix(),
+              type: TooltipType.ERROR,
+              text: t('errors.joinMeeting'),
+            });
+            break;
         }
       })
       .catch((e: AxiosError) => {
@@ -75,7 +101,7 @@ const JoinMeetingInfo: React.FC = () => {
           });
         }
       });
-  }, [meetingId, joinMeeting, handleForward, setNotification, t]);
+  }, [meetingId, joinMeeting, handleForward, handleBack, setNotification, t]);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);

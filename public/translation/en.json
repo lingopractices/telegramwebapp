@@ -89,7 +89,8 @@
     "questions": "Questions",
     "leaveSuccess": "You left the meeting !",
     "joined": "You joined the meeting !",
-    "expiredTime": "Only future date available"
+    "expiredTime": "Only future date available",
+    "notSeats": "All seats are taken! Please, choose another meeting"
   },
 
   "createSuccess": {
