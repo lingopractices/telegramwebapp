@@ -60,8 +60,9 @@
 
   "meetingInfo": {
     "createMeeting": "Create meeting",
-    "practiceLang": "Practice language",
+    "practiceLang": "Language",
     "level": "Level",
+    "levels": "Levels",
     "topic": "Topic",
     "participants": "Participants number",
     "date": "Date",
@@ -88,7 +89,8 @@
     "questions": "Questions",
     "leaveSuccess": "You left the meeting !",
     "joined": "You joined the meeting !",
-    "expiredTime": "Only future date available"
+    "expiredTime": "Only future date available",
+    "notSeats": "All seats are taken! Please, choose another meeting"
   },
 
   "createSuccess": {
@@ -100,7 +102,8 @@
   "search": "Search",
 
   "button": {
-    "submit": "Continue",
+    "continue": "Continue",
+    "submit": "Submit",
     "leave": "Leave meeting",
     "join": "Join Google Meet Meeting",
     "save": "Save",
@@ -149,6 +152,7 @@
     "leaveMeeting": "Failed to leave the meeting. Please try again later.",
     "getTopics": "Failed to load topics. Please try again later.",
     "hasMeeting": "You already have a meeting at this time.",
+    "tokenError": "Could not create google meet meeting. Try to re-authorize with Google",
     "otherCreateMeeting": "Failed to create the meeting. Please try again later.",
     "loadDyays": "Failed to load available meeting dates. Please try again later.",
     "loadMeetings": "Failed to load meetings. Please try again later.",
