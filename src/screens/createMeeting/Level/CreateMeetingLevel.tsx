@@ -37,9 +37,7 @@ const CreateMeetingLevel: React.FC = () => {
           languageLevel: newLevel,
           data: {
             path: CREATE_LEVELS_PATH,
-            title: t(
-              newLevel > LanguageLevel.Beginner ? 'meetingInfo.levels' : 'meetingInfo.level',
-            ),
+            title: t('meetingInfo.level'),
             value: t(`levels.${newLevel}`),
           },
         },

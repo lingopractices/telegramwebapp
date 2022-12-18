@@ -48,6 +48,8 @@ export class JoinMeeting {
 
         if (result === JoinMeetingResult.Success) {
           yield put(JoinMeetingSuccess.action(payload.meetingId));
+        } else {
+          yield put(JoinMeetingFailure.action());
         }
 
         meta?.deferred.resolve({ result });

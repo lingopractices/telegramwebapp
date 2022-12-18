@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import LevelList from '@components/LevelList/LevelList';
 import StepBox from '@components/StepBox/StepBox';
@@ -25,6 +25,7 @@ const JoinMeetingLevel: React.FC = () => {
   );
   const { setBackButtonOnClick } = useTgBackButton(true);
   const { t } = useTranslation();
+  const mappedLevels = useMemo(() => mapLevels(newLevel), [newLevel]);
 
   useEffect(() => {
     if (newLevel) {
@@ -34,17 +35,13 @@ const JoinMeetingLevel: React.FC = () => {
           languageLevel: newLevel,
           data: {
             path: JOIN_LEVELS_PATH,
-            title: t(
-              newLevel > LanguageLevel.Beginner ? 'meetingInfo.levels' : 'meetingInfo.level',
-            ),
-            value: mapLevels(newLevel)
-              .map((level) => t(`levels.${level}`))
-              .join(', '),
+            title: t(mappedLevels.length > 1 ? 'meetingInfo.levels' : 'meetingInfo.level'),
+            value: mappedLevels.map((level) => t(`levels.${level}`)).join(', '),
           },
         },
       }));
     }
-  }, [newLevel, setMeetingData, t]);
+  }, [newLevel, mappedLevels, setMeetingData, t]);
 
   const handleBack = useCallback(() => {
     navigate(JOIN_LANGUAGES_PATH, { state: { meetingData } });

@@ -57,6 +57,7 @@
   }
 
   & div:not(div[role='row'] > div) {
+    position: relative;
     overflow: hidden;
     width: 100%;
     padding-right: 0;
