@@ -5,6 +5,7 @@ import MeetingInfo from '@components/MeetingInfo/MeetingInfo';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { useBackSwipe } from '@hooks/use-swipe';
 import { setNotificationAction } from '@store/app-notifications/actions';
 import { leaveMeetingAction } from '@store/meetings/actions';
 import {
@@ -35,6 +36,8 @@ const MeetingInfoScreen: React.FC = () => {
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
   }, [navigate]);
+
+  useBackSwipe(handleBack);
 
   const handleLeaveMeeting = useCallback(() => {
     if (user && meeting) {

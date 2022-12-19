@@ -5,6 +5,7 @@ import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { useBackSwipe } from '@hooks/use-swipe';
 import { setNotificationAction } from '@store/app-notifications/actions';
 import { AxiosErros } from '@store/common/axios-errors';
 import { languagesSelector } from '@store/languages/selectors';
@@ -50,6 +51,8 @@ const AccountLanguage: React.FC = () => {
   const handleBack = useCallback(() => {
     navigate(ACCOUNT_PATH);
   }, [navigate]);
+
+  useBackSwipe(handleBack);
 
   const handleSubmit = useCallback(() => {
     if (user && newPracticeLanguageId) {

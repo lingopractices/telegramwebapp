@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import ParticipantsCount from '@components/ParticipantsCount/ParticipantsCount';
 import StepBox from '@components/StepBox/StepBox';
+import { useBackSwipe } from '@hooks/use-swipe';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -47,6 +48,8 @@ const CreateMeetingParticipants: React.FC = () => {
   const handleBack = useCallback(() => {
     navigate(CREATE_TOPICS_PATH, { state: { meetingData } });
   }, [meetingData, navigate]);
+
+  useBackSwipe(handleBack);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);

@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { ReactComponent as Pluse } from '@assets/icons/pluse.svg';
 import AlertBox from '@components/AlertBox/AlertBox';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
+import { useBackSwipe } from '@hooks/use-swipe';
 import useTgBackButton from '@hooks/useTgBackButton';
 import { alertsSelector } from '@store/alerts/selectors';
 import { languagesSelector } from '@store/languages/selectors';
@@ -36,6 +37,8 @@ const AccountAlerts: React.FC = () => {
   const handleBack = useCallback(() => {
     navigate(ACCOUNT_PATH);
   }, [navigate]);
+
+  useBackSwipe(handleBack);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);
@@ -80,7 +83,7 @@ const AccountAlerts: React.FC = () => {
     <div className={styles.container}>
       <h2>{t('notifications.notifications')}</h2>
       <p>{t('notifications.wilNotif')}</p>
-      <div>{renderedAlertBox}</div>
+      <div className={styles.alertsContainer}>{renderedAlertBox}</div>
       <SubmitButton onClick={handleAddNewAlert} containerClass={styles.addNewContainer}>
         <span className={styles.childernContainer}>
           <Pluse />

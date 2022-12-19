@@ -1,8 +1,9 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 
 import { ReactComponent as Moon } from '@assets/icons/moon.svg';
 import { ReactComponent as Sun } from '@assets/icons/sun.svg';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { useSwipe } from '@hooks/use-swipe';
 import { changeThemeAction } from '@store/profile/actions';
 import { Theme } from '@store/profile/features/models/theme';
 import { themeSelector } from '@store/profile/selectors';
@@ -18,6 +19,8 @@ const ChangeTheme: React.FC = () => {
   const themeRef = useRef<HTMLDivElement>(null);
   const changeTheme = useActionWithDispatch(changeThemeAction);
 
+  const { rightSwipe, leftSwipe, resetSwipe } = useSwipe(themeRef);
+
   const handleToggleTheme = useCallback(() => {
     let newTheme: Theme;
 
@@ -31,6 +34,26 @@ const ChangeTheme: React.FC = () => {
 
     debounce((t: Theme) => changeTheme(t), ANIMATION_DURATION)(newTheme);
   }, [theme, changeTheme]);
+
+  const toDarkTheme = useCallback(() => {
+    themeRef.current?.classList.add(styles.toDark);
+    debounce((t: Theme) => changeTheme(t), ANIMATION_DURATION)(Theme.DARK);
+  }, [changeTheme]);
+
+  const toLightTheme = useCallback(() => {
+    themeRef.current?.classList.add(styles.toLight);
+    debounce((t: Theme) => changeTheme(t), ANIMATION_DURATION)(Theme.LIGHT);
+  }, [changeTheme]);
+
+  useEffect(() => {
+    if (rightSwipe) {
+      toLightTheme();
+    } else if (leftSwipe) {
+      toDarkTheme();
+    }
+
+    resetSwipe();
+  }, [rightSwipe, leftSwipe, toLightTheme, toDarkTheme, resetSwipe]);
 
   return (
     <div className={styles.container} onClick={handleToggleTheme}>

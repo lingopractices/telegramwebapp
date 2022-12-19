@@ -5,6 +5,7 @@ import StepBox from '@components/StepBox/StepBox';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { useBackSwipe } from '@hooks/use-swipe';
 import { setNotificationAction } from '@store/app-notifications/actions';
 import { getAvailableTimes } from '@utils/date-utils';
 import { DAY_MONTH_YAER } from 'common/constants';
@@ -71,6 +72,8 @@ const CreateMeetingDate: React.FC = () => {
   const handleBack = useCallback(() => {
     navigate(CREATE_PARTICIPANTS_PATH, { state: { meetingData } });
   }, [meetingData, navigate]);
+
+  useBackSwipe(handleBack);
 
   const handleSubmit = useCallback(() => {
     navigate(CREATE_TIME_PATH, { state: { meetingData } });
