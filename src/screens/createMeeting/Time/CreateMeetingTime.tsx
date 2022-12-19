@@ -6,6 +6,7 @@ import Time from '@components/Time/Time';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { useBackSwipe } from '@hooks/use-swipe';
 import { setNotificationAction } from '@store/app-notifications/actions';
 import { AxiosErros } from '@store/common/axios-errors';
 import { cancelCreateMeetingAction, createMeetingAction } from '@store/meetings/actions';
@@ -68,6 +69,8 @@ const CreateMeetingTime: React.FC = () => {
   const handleBack = useCallback(() => {
     navigate(CREATE_DATE_PATH, { state: { meetingData } });
   }, [meetingData, navigate]);
+
+  useBackSwipe(handleBack);
 
   const handleForward = useCallback(() => {
     navigate(CREATE_SUCCESS, { state: { meetingData } });

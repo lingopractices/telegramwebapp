@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import InfoItem from '@components/InfoItem/InfoItem';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { useBackSwipe } from '@hooks/use-swipe';
 import { Skeleton } from '@mui/material';
 import { alertsExistSelector, alertsPendingSelector } from '@store/alerts/selectors';
 import { setNotificationAction } from '@store/app-notifications/actions';
@@ -42,6 +43,8 @@ const AccountScreen: React.FC = () => {
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
   }, [navigate]);
+
+  useBackSwipe(handleBack);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);
@@ -83,6 +86,7 @@ const AccountScreen: React.FC = () => {
     ),
     [openLocation],
   );
+
   return (
     <div className={styles.container}>
       <div className={styles.upRow}>

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import LanguageList from '@components/LanguageList/LanguageList';
+import { useBackSwipe } from '@hooks/use-swipe';
 import useTgBackButton from '@hooks/useTgBackButton';
 import { alertsSelector } from '@store/alerts/selectors';
 import { languagesSelector } from '@store/languages/selectors';
@@ -30,6 +31,8 @@ const LanguageAlert = () => {
   const handleBack = useCallback(() => {
     navigate(ACCOUNT_NOTIFICATIONS_CREATE_PATH, { state: alertData });
   }, [alertData, navigate]);
+
+  useBackSwipe(handleBack);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);

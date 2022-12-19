@@ -6,6 +6,7 @@ import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { useBackSwipe } from '@hooks/use-swipe';
 import useTgBackButton from '@hooks/useTgBackButton';
 import { cancelCreateAlertAcion, createAlertAction } from '@store/alerts/actions';
 import { createAlertPendingSelector } from '@store/alerts/selectors';
@@ -63,6 +64,8 @@ const CreateAlert = () => {
   const handleBack = useCallback(() => {
     navigate(ACCOUNT_NOTIFICATIONS_PATH);
   }, [navigate]);
+
+  useBackSwipe(handleBack);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);

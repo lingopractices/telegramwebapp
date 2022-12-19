@@ -7,6 +7,7 @@ import { TooltipType } from '@components/Tooltip/Tooltip';
 import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { useBackSwipe } from '@hooks/use-swipe';
 import { setNotificationAction } from '@store/app-notifications/actions';
 import { getMeetingsAction } from '@store/meetings/actions';
 import {
@@ -70,6 +71,8 @@ const JoinMeetingList: React.FC = () => {
   const handleBack = useCallback(() => {
     navigate(JOIN_DATE_PATH, { state: { meetingData } });
   }, [meetingData, navigate]);
+
+  useBackSwipe(handleBack);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);

@@ -6,6 +6,7 @@ import { TooltipType } from '@components/Tooltip/Tooltip';
 import TopicList from '@components/TopicList/TopicList';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { useBackSwipe } from '@hooks/use-swipe';
 import { setNotificationAction } from '@store/app-notifications/actions';
 import { getTopicsAction } from '@store/topics/actions';
 import { getTopicsPendingSelector, getTopicsSelector } from '@store/topics/selectors';
@@ -65,6 +66,8 @@ const CreateMeetingTopic: React.FC = () => {
   const handleBack = useCallback(() => {
     navigate(CREATE_LEVELS_PATH, { state: { meetingData } });
   }, [meetingData, navigate]);
+
+  useBackSwipe(handleBack);
 
   const handleForward = useCallback(() => {
     navigate(CREATE_PARTICIPANTS_PATH, { state: { meetingData } });

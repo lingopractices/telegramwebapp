@@ -45,7 +45,8 @@ export class UpdateAlert {
           yield put(UpdateAlertSuccess.action(payload));
           meta?.deferred.resolve();
         } else {
-          meta?.deferred.resolve();
+          yield put(UpdateAlertFailure.action());
+          meta?.deferred.reject();
         }
       } catch (e) {
         yield put(UpdateAlertFailure.action());

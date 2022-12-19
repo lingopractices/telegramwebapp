@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import LevelList from '@components/LevelList/LevelList';
 import StepBox from '@components/StepBox/StepBox';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
+import { useBackSwipe } from '@hooks/use-swipe';
 import { getLanguageLevelSelector } from '@store/profile/selectors';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { LanguageLevel } from 'lingopractices-models';
@@ -48,6 +49,8 @@ const CreateMeetingLevel: React.FC = () => {
   const handleBack = useCallback(() => {
     navigate(CREATE_LANGUAGES_PATH, { state: { meetingData } });
   }, [meetingData, navigate]);
+
+  useBackSwipe(handleBack);
 
   const handleForward = useCallback(() => {
     navigate(CREATE_TOPICS_PATH, { state: { meetingData } });

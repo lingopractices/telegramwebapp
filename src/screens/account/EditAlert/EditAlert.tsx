@@ -5,6 +5,7 @@ import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { useBackSwipe } from '@hooks/use-swipe';
 import useTgBackButton from '@hooks/useTgBackButton';
 import { cancelUpdateAlertAcion, updateAlertAction } from '@store/alerts/actions';
 import { alertByLanguageIdSelector, updateAlertPendingSelector } from '@store/alerts/selectors';
@@ -51,6 +52,8 @@ const EditAlert = () => {
       navigate(alertData.rootPath);
     }
   }, [alertData, navigate]);
+
+  useBackSwipe(handleBack);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);

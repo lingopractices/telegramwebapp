@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import LanguageList from '@components/LanguageList/LanguageList';
 import StepBox from '@components/StepBox/StepBox';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
+import { useBackSwipe } from '@hooks/use-swipe';
 import { languagePendingSelector, languagesSelector } from '@store/languages/selectors';
 import { getPracticeLanguageSelector } from '@store/profile/selectors';
 import { getLanguageById } from '@utils/get-language-topic-by-id';
@@ -54,6 +55,8 @@ const JoinMeetingLanguage: React.FC = () => {
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
   }, [navigate]);
+
+  useBackSwipe(handleBack);
 
   const handleForward = useCallback(() => {
     navigate(JOIN_LEVELS_PATH, { state: { meetingData } });
