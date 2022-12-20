@@ -1,5 +1,7 @@
 .container {
+  height: 100vh;
   padding: 24px 16px 0;
+  overflow-y: auto;
 
   h2 {
     position: sticky;

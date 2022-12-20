@@ -7,6 +7,7 @@ import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ICoutnry, useCountries } from '@hooks/use-countries';
+import { useBackSwipe } from '@hooks/use-swipe';
 import useTgBackButton from '@hooks/useTgBackButton';
 import { Skeleton } from '@mui/material';
 import { setNotificationAction } from '@store/app-notifications/actions';
@@ -78,6 +79,8 @@ const AccountLocation = () => {
   const handleBack = useCallback(() => {
     navigate(ACCOUNT_PATH);
   }, [navigate]);
+
+  useBackSwipe(handleBack);
 
   const handleSubmit = useCallback(() => {
     if (user && selectedLocation) {
