@@ -1,5 +1,7 @@
 import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 
+import { SWIPE_WIDTH } from 'common/constants';
+
 function getTouches(evt: TouchEvent) {
   return evt.touches;
 }
@@ -81,7 +83,7 @@ export function useBackSwipe(fn: () => void) {
   const { rightSwipe, xDown } = useSwipe(htmlRef);
 
   useEffect(() => {
-    if (xDown < 20 && rightSwipe) {
+    if (xDown < SWIPE_WIDTH && rightSwipe) {
       fn();
     }
   }, [rightSwipe, xDown, fn]);

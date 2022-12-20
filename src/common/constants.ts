@@ -30,3 +30,4 @@ export const ANIMATION_DURATION = 200;
 export const NOTIFICATION_DURATON = 2500;
 export const SCROLL_TOP = 70;
 export const SCROLL_DOWN = 0;
+export const SWIPE_WIDTH = 30;

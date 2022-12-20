@@ -58,8 +58,8 @@
 
   & div:not(div[role='row'] > div) {
     position: relative;
-    overflow: hidden;
     width: 100%;
+    min-width: auto;
     padding-right: 0;
     padding-left: 0;
     margin-top: 0;
