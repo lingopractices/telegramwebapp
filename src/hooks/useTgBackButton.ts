@@ -8,13 +8,25 @@ type BackButtonType = {
   hideBackButton: () => void;
 };
 
+let btnClickHandlerFn: () => void = () => {};
+
 const useTgBackButton = (isVisibleBackButton: boolean): BackButtonType => {
-  const setBackButtonOnClick = useCallback((fn: () => void) => {
-    window.Telegram.WebApp.onEvent('backButtonClicked', fn);
+  const handleBackBtnClicked = useCallback(() => {
+    if (btnClickHandlerFn) {
+      btnClickHandlerFn();
+    }
+  }, []);
+
+  useEffect(() => {
+    window.Telegram.WebApp.onEvent('backButtonClicked', handleBackBtnClicked);
 
     return () => {
-      window.Telegram.WebApp.offEvent('backButtonClicked', fn);
+      window.Telegram.WebApp.offEvent('backButtonClicked', handleBackBtnClicked);
     };
+  }, [handleBackBtnClicked]);
+
+  const setBackButtonOnClick = useCallback((fn: () => void) => {
+    btnClickHandlerFn = fn;
   }, []);
 
   const showBackButton = useCallback(() => {
