@@ -26,7 +26,7 @@ import styles from './EditAlert.module.scss';
 const EditAlert = () => {
   const { id: languageId } = useParams();
   const location = useLocation();
-  const [alertData, setAlertData] = useState<CreateAlertType>(location.state);
+  const alertData: CreateAlertType = location?.state;
   const language = useSelector(languageByIdSelector(languageId));
   const alert = useSelector(alertByLanguageIdSelector(languageId));
   const [languageLevels, setLanguageLevels] = useState(alert?.languageLevel || LanguageLevel.None);
@@ -48,7 +48,7 @@ const EditAlert = () => {
   );
 
   const handleBack = useCallback(() => {
-    if (alertData.rootPath) {
+    if (alertData?.rootPath) {
       navigate(alertData.rootPath);
     }
   }, [alertData, navigate]);

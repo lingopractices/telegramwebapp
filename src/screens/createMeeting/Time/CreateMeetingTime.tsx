@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import StepBox from '@components/StepBox/StepBox';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
@@ -14,7 +14,7 @@ import { getCreateMeetingPendingSelector } from '@store/meetings/selectors';
 import { mergeDateAndTime } from '@utils/date-utils';
 import { AxiosError } from 'axios';
 import { HOUR_MINUTE } from 'common/constants';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { CreateMeetingResult } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
@@ -26,14 +26,14 @@ import { CreateMeetingType } from 'screens/types';
 import styles from './CreateMeetingTime.module.scss';
 
 const CreateMeetingTime: React.FC = () => {
-  const navigate = useNavigate();
-  const { t } = useTranslation();
   const location = useLocation();
-  const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
+  const meetingData: CreateMeetingType = location?.state;
   const [meetingTime, setMeetingTime] = useState(meetingData?.time?.meetingTime);
   const createPending = useSelector(getCreateMeetingPendingSelector);
   const setNotification = useActionWithDispatch(setNotificationAction);
   const createMeeting = useActionWithDeferred(createMeetingAction);
+  const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { setBackButtonOnClick } = useTgBackButton(true);
 
@@ -48,36 +48,36 @@ const CreateMeetingTime: React.FC = () => {
     [createPending, cancelCreateMeeting],
   );
 
-  const handleChangeTime = useCallback(
-    (time: Dayjs) => {
-      setMeetingTime(time);
-      setMeetingData((prev) => ({
-        ...prev,
+  const locationData = useMemo(() => {
+    if (meetingTime) {
+      return {
+        ...meetingData,
         time: {
-          meetingTime: time,
+          meetingTime,
           data: {
             path: CREATE_TIME_PATH,
             title: t('meetingInfo.time'),
-            value: dayjs(time).format(HOUR_MINUTE),
+            value: dayjs(meetingTime).format(HOUR_MINUTE),
           },
         },
-      }));
-    },
-    [setMeetingTime, setMeetingData, t],
-  );
+      };
+    }
+
+    return meetingData;
+  }, [meetingData, meetingTime, t]);
 
   const handleBack = useCallback(() => {
-    navigate(CREATE_DATE_PATH, { state: { meetingData } });
-  }, [meetingData, navigate]);
+    navigate(CREATE_DATE_PATH, { state: { ...locationData } });
+  }, [locationData, navigate]);
 
   useBackSwipe(handleBack);
 
   const handleForward = useCallback(() => {
-    navigate(CREATE_SUCCESS, { state: { meetingData } });
-  }, [meetingData, navigate]);
+    navigate(CREATE_SUCCESS, { state: { ...locationData } });
+  }, [locationData, navigate]);
 
   const handleSubmit = useCallback(() => {
-    const { language, level, topic, number, date, time } = meetingData;
+    const { language, level, topic, number, date } = meetingData;
 
     if (
       language?.languageId &&
@@ -85,9 +85,9 @@ const CreateMeetingTime: React.FC = () => {
       topic?.topicId &&
       number?.peopleNumber &&
       date?.meetingDate &&
-      time?.meetingTime
+      meetingTime
     ) {
-      const meetingAt = mergeDateAndTime(date.meetingDate, time.meetingTime);
+      const meetingAt = mergeDateAndTime(date.meetingDate, meetingTime);
 
       if (meetingAt > dayjs()) {
         createMeeting({
@@ -123,7 +123,7 @@ const CreateMeetingTime: React.FC = () => {
         });
       }
     }
-  }, [meetingData, createMeeting, handleForward, setNotification, t]);
+  }, [meetingData, meetingTime, createMeeting, handleForward, setNotification, t]);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);
@@ -131,11 +131,11 @@ const CreateMeetingTime: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
+      <StepBox meetingData={locationData} containerClass={styles.stepBoxContainer} />
       <Time
         defaultDate={meetingData?.date?.meetingDate}
         defaultTime={meetingTime}
-        onChangeTime={handleChangeTime}
+        onChangeTime={setMeetingTime}
       />
       <SubmitButton
         onClick={handleSubmit}

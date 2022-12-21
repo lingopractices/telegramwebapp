@@ -13,7 +13,7 @@ interface IStepItem {
   data?: CreateMeetingType | JoinMeetingType;
 }
 const StepItem: React.FC<IStepItem> = ({ path, title, value, data }) => (
-  <Link className={styles.container} to={path} state={{ meetingData: data }}>
+  <Link className={styles.container} to={path} state={{ ...data }}>
     <div>
       <span className={styles.title}>{title}:</span> <span className={styles.value}>{value}</span>
     </div>

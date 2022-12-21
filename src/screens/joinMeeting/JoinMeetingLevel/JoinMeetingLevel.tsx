@@ -18,20 +18,21 @@ import styles from './JoinMeetingLevel.module.scss';
 
 const JoinMeetingLevel: React.FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
+  const meetingData: JoinMeetingType = location?.state;
   const currentLevel = useSelector(getLanguageLevelSelector);
   const [newLevel, setNewLevel] = useState(
     meetingData?.level?.languageLevel || currentLevel || LanguageLevel.None,
   );
-  const { setBackButtonOnClick } = useTgBackButton(true);
+  const navigate = useNavigate();
   const { t } = useTranslation();
+  const { setBackButtonOnClick } = useTgBackButton(true);
+
   const mappedLevels = useMemo(() => mapLevels(newLevel), [newLevel]);
 
-  useEffect(() => {
+  const locationData = useMemo(() => {
     if (newLevel) {
-      setMeetingData((prev) => ({
-        ...prev,
+      return {
+        ...meetingData,
         level: {
           languageLevel: newLevel,
           data: {
@@ -40,19 +41,21 @@ const JoinMeetingLevel: React.FC = () => {
             value: mappedLevels.map((level) => t(`levels.${level}`)).join(', '),
           },
         },
-      }));
+      };
     }
-  }, [newLevel, mappedLevels, setMeetingData, t]);
+
+    return meetingData;
+  }, [newLevel, meetingData, mappedLevels, t]);
 
   const handleBack = useCallback(() => {
-    navigate(JOIN_LANGUAGES_PATH, { state: { meetingData } });
-  }, [meetingData, navigate]);
+    navigate(JOIN_LANGUAGES_PATH, { state: { ...locationData } });
+  }, [locationData, navigate]);
 
   useBackSwipe(handleBack);
 
   const handleForward = useCallback(() => {
-    navigate(JOIN_DATE_PATH, { state: { meetingData } });
-  }, [meetingData, navigate]);
+    navigate(JOIN_DATE_PATH, { state: { ...locationData } });
+  }, [locationData, navigate]);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);
@@ -60,7 +63,7 @@ const JoinMeetingLevel: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
+      <StepBox meetingData={locationData} containerClass={styles.stepBoxContainer} />
       <LevelList
         onChangeLevel={setNewLevel}
         defaultLevelId={newLevel}

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import LevelList from '@components/LevelList/LevelList';
 import StepBox from '@components/StepBox/StepBox';
@@ -21,19 +21,19 @@ import styles from './CreateMeetingLevel.module.scss';
 
 const CreateMeetingLevel: React.FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
+  const meetingData: CreateMeetingType = location?.state;
   const currentLevel = useSelector(getLanguageLevelSelector);
   const [newLevel, setNewLevel] = useState(
     meetingData?.level?.languageLevel || currentLevel || LanguageLevel.None,
   );
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { setBackButtonOnClick } = useTgBackButton(true);
 
-  useEffect(() => {
+  const locationData = useMemo(() => {
     if (newLevel) {
-      setMeetingData((prev) => ({
-        ...prev,
+      return {
+        ...meetingData,
         level: {
           languageLevel: newLevel,
           data: {
@@ -42,19 +42,21 @@ const CreateMeetingLevel: React.FC = () => {
             value: t(`levels.${newLevel}`),
           },
         },
-      }));
+      };
     }
-  }, [newLevel, setMeetingData, t]);
+
+    return meetingData;
+  }, [newLevel, meetingData, t]);
 
   const handleBack = useCallback(() => {
-    navigate(CREATE_LANGUAGES_PATH, { state: { meetingData } });
-  }, [meetingData, navigate]);
+    navigate(CREATE_LANGUAGES_PATH, { state: { ...locationData } });
+  }, [locationData, navigate]);
 
   useBackSwipe(handleBack);
 
   const handleForward = useCallback(() => {
-    navigate(CREATE_TOPICS_PATH, { state: { meetingData } });
-  }, [meetingData, navigate]);
+    navigate(CREATE_TOPICS_PATH, { state: { ...locationData } });
+  }, [locationData, navigate]);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);
@@ -62,7 +64,7 @@ const CreateMeetingLevel: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
+      <StepBox meetingData={locationData} containerClass={styles.stepBoxContainer} />
       <LevelList
         onChangeLevel={setNewLevel}
         defaultLevelId={newLevel}

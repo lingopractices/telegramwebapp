@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import DatePicker from '@components/DatePicker/DatePicker';
 import StepBox from '@components/StepBox/StepBox';
@@ -31,9 +31,8 @@ import { JoinMeetingType } from 'screens/types';
 import styles from './JoinMeetingDate.module.scss';
 
 const JoinMeetingDate: React.FC = () => {
-  const navigate = useNavigate();
   const location = useLocation();
-  const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
+  const meetingData: JoinMeetingType = location?.state;
   const [meetingFrom, setMeetingFrom] = useState<Dayjs | null>(meetingData?.date?.from || null);
   const meetingsDays = useSelector(getMeetingsDaysSelector);
   const pendingLoadDays = useSelector(getMeetingDaysPendingSelector);
@@ -41,10 +40,29 @@ const JoinMeetingDate: React.FC = () => {
   const getMeetings = useActionWithDeferred(getMeetingsAction);
   const getMeetingsDays = useActionWithDeferred(getMeetingDaysAction);
   const clearMeetings = useActionWithDispatch(clearMeetingsAction);
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const setNotification = useActionWithDispatch(setNotificationAction);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
+
+  const locationData = useMemo(() => {
+    if (meetingFrom) {
+      return {
+        ...meetingData,
+        date: {
+          from: meetingFrom,
+          data: {
+            path: JOIN_DATE_PATH,
+            title: t('meetingInfo.date'),
+            value: dayjs(meetingFrom).format(DAY_MONTH_YAER),
+          },
+        },
+      };
+    }
+
+    return meetingData;
+  }, [meetingFrom, meetingData, t]);
 
   const handleChangeDate = useCallback(
     (value: Dayjs | null) => {
@@ -66,7 +84,7 @@ const JoinMeetingDate: React.FC = () => {
     if (meetingData?.language?.languageId && meetingData?.level?.languageLevel && meetingFrom) {
       if (meetingFrom === meetingData?.date?.from) {
         navigate(JOIN_MEETINGS_PATH, {
-          state: { meetingData },
+          state: { ...locationData },
         });
 
         return;
@@ -82,19 +100,7 @@ const JoinMeetingDate: React.FC = () => {
       })
         .then(() => {
           navigate(JOIN_MEETINGS_PATH, {
-            state: {
-              meetingData: {
-                ...meetingData,
-                date: {
-                  from: meetingFrom,
-                  data: {
-                    path: JOIN_DATE_PATH,
-                    title: t('meetingInfo.date'),
-                    value: dayjs(meetingFrom).format(DAY_MONTH_YAER),
-                  },
-                },
-              },
-            },
+            state: { ...locationData },
           });
         })
         .catch(() =>
@@ -105,7 +111,16 @@ const JoinMeetingDate: React.FC = () => {
           }),
         );
     }
-  }, [meetingData, meetingFrom, setNotification, clearMeetings, getMeetings, navigate, t]);
+  }, [
+    meetingData,
+    meetingFrom,
+    locationData,
+    setNotification,
+    clearMeetings,
+    getMeetings,
+    navigate,
+    t,
+  ]);
 
   const loadDays = useCallback(
     (date: Dayjs) => {
@@ -137,8 +152,8 @@ const JoinMeetingDate: React.FC = () => {
   }, [loadDays]);
 
   const handleBack = useCallback(() => {
-    navigate(JOIN_LEVELS_PATH, { state: { meetingData } });
-  }, [meetingData, navigate]);
+    navigate(JOIN_LEVELS_PATH, { state: { ...locationData } });
+  }, [locationData, navigate]);
 
   useBackSwipe(handleBack);
 
@@ -148,7 +163,7 @@ const JoinMeetingDate: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
+      <StepBox meetingData={locationData} containerClass={styles.stepBoxContainer} />
       <DatePicker
         onChangeMonth={loadDays}
         defaultDate={meetingFrom}

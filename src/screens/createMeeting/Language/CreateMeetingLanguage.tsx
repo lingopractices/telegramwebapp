@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import LanguageList from '@components/LanguageList/LanguageList';
 import StepBox from '@components/StepBox/StepBox';
@@ -24,22 +24,21 @@ import styles from './CreateMeetingLanguage.module.scss';
 
 const CreateMeetingLanguage: React.FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
+  const languages = useSelector(languagesSelector);
   const currentLanguage = useSelector(getPracticeLanguageSelector);
-  const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
+  const languagesPending = useSelector(languagePendingSelector);
+  const meetingData: CreateMeetingType = location?.state;
   const [newLanguageId, setNewLanguage] = useState(
     meetingData?.language?.languageId || currentLanguage?.id,
   );
-  const languages = useSelector(languagesSelector);
-  const languagesPending = useSelector(languagePendingSelector);
+  const navigate = useNavigate();
   const { t } = useTranslation();
-
   const { setBackButtonOnClick } = useTgBackButton(true);
 
-  useEffect(() => {
+  const locationData = useMemo(() => {
     if (newLanguageId) {
-      setMeetingData((prev) => ({
-        ...prev,
+      return {
+        ...meetingData,
         language: {
           languageId: newLanguageId,
           data: {
@@ -48,9 +47,11 @@ const CreateMeetingLanguage: React.FC = () => {
             value: getLanguageById(languages, newLanguageId)?.name,
           },
         },
-      }));
+      };
     }
-  }, [newLanguageId, languages, setMeetingData, t]);
+
+    return meetingData;
+  }, [languages, meetingData, newLanguageId, t]);
 
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
@@ -59,8 +60,8 @@ const CreateMeetingLanguage: React.FC = () => {
   useBackSwipe(handleBack);
 
   const handleForward = useCallback(() => {
-    navigate(CREATE_LEVELS_PATH, { state: { meetingData } });
-  }, [meetingData, navigate]);
+    navigate(CREATE_LEVELS_PATH, { state: { ...locationData } });
+  }, [locationData, navigate]);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);
@@ -68,7 +69,7 @@ const CreateMeetingLanguage: React.FC = () => {
 
   return (
     <div className={classNames(styles.container, { [styles.pending]: languagesPending })}>
-      <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
+      <StepBox meetingData={locationData} containerClass={styles.stepBoxContainer} />
       <LanguageList
         popularLanguagesIds={popularLanguagesIds}
         languages={languages}

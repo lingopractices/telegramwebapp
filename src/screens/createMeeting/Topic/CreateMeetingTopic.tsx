@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import StepBox from '@components/StepBox/StepBox';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
@@ -28,34 +28,34 @@ import styles from './CreateMeetingTopic.module.scss';
 
 const CreateMeetingTopic: React.FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const topics = useSelector(getTopicsSelector);
   const topicsPending = useSelector(getTopicsPendingSelector);
+  const meetingData: CreateMeetingType = location?.state;
+  const [newTopicId, setNewTopicId] = useState(meetingData?.topic?.topicId);
   const getTopics = useActionWithDeferred(getTopicsAction);
-  const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
+  const navigate = useNavigate();
   const { setBackButtonOnClick } = useTgBackButton(true);
   const { t } = useTranslation();
   const setNotification = useActionWithDispatch(setNotificationAction);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleChangeTopic = useCallback(
-    (topicId: number) => {
-      if (typeof topicId === 'number') {
-        setMeetingData((prev) => ({
-          ...prev,
-          topic: {
-            topicId,
-            data: {
-              path: CREATE_TOPICS_PATH,
-              title: t('meetingInfo.topic'),
-              value: getTopicById(topics, topicId)?.name,
-            },
+  const locationData = useMemo(() => {
+    if (newTopicId) {
+      return {
+        ...meetingData,
+        topic: {
+          topicId: newTopicId,
+          data: {
+            path: CREATE_TOPICS_PATH,
+            title: t('meetingInfo.topic'),
+            value: getTopicById(topics, newTopicId)?.name,
           },
-        }));
-      }
-    },
-    [topics, setMeetingData, t],
-  );
+        },
+      };
+    }
+
+    return meetingData;
+  }, [topics, meetingData, newTopicId, t]);
 
   const loadMoreTopics = useCallback(() => {
     getTopics().catch(() => {
@@ -64,14 +64,14 @@ const CreateMeetingTopic: React.FC = () => {
   }, [getTopics, setNotification, t]);
 
   const handleBack = useCallback(() => {
-    navigate(CREATE_LEVELS_PATH, { state: { meetingData } });
-  }, [meetingData, navigate]);
+    navigate(CREATE_LEVELS_PATH, { state: { ...locationData } });
+  }, [locationData, navigate]);
 
   useBackSwipe(handleBack);
 
   const handleForward = useCallback(() => {
-    navigate(CREATE_PARTICIPANTS_PATH, { state: { meetingData } });
-  }, [meetingData, navigate]);
+    navigate(CREATE_PARTICIPANTS_PATH, { state: { ...locationData } });
+  }, [locationData, navigate]);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);
@@ -84,17 +84,17 @@ const CreateMeetingTopic: React.FC = () => {
       })}
       ref={containerRef}
     >
-      <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
+      <StepBox meetingData={locationData} containerClass={styles.stepBoxContainer} />
       <TopicList
         ref={containerRef}
-        onChangeTopic={handleChangeTopic}
+        onChangeTopic={setNewTopicId}
         loadMoreTopics={loadMoreTopics}
-        defaultTopicId={meetingData?.topic?.topicId}
+        defaultTopicId={newTopicId}
       />
       <SubmitButton
         onClick={handleForward}
-        title={meetingData?.topic?.topicId ? t('button.continue') : t('topic.choose')}
-        isActive={!!meetingData?.topic?.topicId}
+        title={newTopicId ? t('button.continue') : t('topic.choose')}
+        isActive={!!newTopicId}
       />
     </div>
   );
