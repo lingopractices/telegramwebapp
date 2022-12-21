@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import MeetingInfo from '@components/MeetingInfo/MeetingInfo';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
@@ -24,12 +24,12 @@ import styles from './JoinMeetingInfo.module.scss';
 
 const JoinMeetingInfo: React.FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const { id: meetingId } = useParams();
-  const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
+  const meetingData: JoinMeetingType = location?.state;
   const meeting = useSelector(getMeetingByIdSelector(Number(meetingId)));
   const pendingJoinMeeting = useSelector(getMeetingJoinPendingSelector);
   const joinMeeting = useActionWithDeferred(joinMeetingAction);
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const setNotification = useActionWithDispatch(setNotificationAction);
 
@@ -46,7 +46,7 @@ const JoinMeetingInfo: React.FC = () => {
   );
 
   const handleBack = useCallback(() => {
-    navigate(JOIN_MEETINGS_PATH, { state: { meetingData } });
+    navigate(JOIN_MEETINGS_PATH, { state: { ...meetingData } });
   }, [meetingData, navigate]);
 
   useBackSwipe(handleBack);

@@ -30,7 +30,7 @@ const MeetingItem: React.FC<IMeetingItemProps> = ({
   return (
     <Link
       to={replaceInUrl(mainRoute, ['id', id])}
-      state={{ meetingData }}
+      state={{ ...meetingData }}
       className={styles.container}
     >
       <div className={styles.info}>

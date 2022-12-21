@@ -42,13 +42,7 @@ export const TopicList = React.forwardRef<HTMLDivElement, ITopicListProps>(
     }, [currentTopicId, onChangeTopic]);
 
     const handleChangeTopic = useCallback(
-      (topicId: number) => {
-        if (topicId !== currentTopicId) {
-          setCurrentTopicId(topicId);
-        } else {
-          setCurrentTopicId(0);
-        }
-      },
+      (topicId: number) => setCurrentTopicId(topicId !== currentTopicId ? topicId : 0),
       [setCurrentTopicId, currentTopicId],
     );
 

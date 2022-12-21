@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
@@ -28,16 +28,16 @@ import styles from './JoinMeetingList.module.scss';
 
 const JoinMeetingList: React.FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const [meetingData, setMeetingData] = useState<JoinMeetingType>(location?.state?.meetingData);
+  const meetingData: JoinMeetingType = location?.state;
   const meetings = useSelector(getMeetingsSelector);
   const meetingsRef = useRef<HTMLDivElement>(null);
   const hasMore = useSelector(getMeetingHasMoreSelector);
   const pendingMeetings = useSelector(getMeetingsPendingSelector);
+  const navigate = useNavigate();
   const getMeetings = useActionWithDeferred(getMeetingsAction);
-  const { t } = useTranslation();
   const setNotification = useActionWithDispatch(setNotificationAction);
 
+  const { t } = useTranslation();
   const { setBackButtonOnClick } = useTgBackButton(true);
 
   const loadMore = useCallback(() => {
@@ -69,7 +69,7 @@ const JoinMeetingList: React.FC = () => {
   ]);
 
   const handleBack = useCallback(() => {
-    navigate(JOIN_DATE_PATH, { state: { meetingData } });
+    navigate(JOIN_DATE_PATH, { state: { ...meetingData } });
   }, [meetingData, navigate]);
 
   useBackSwipe(handleBack);

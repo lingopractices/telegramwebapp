@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import ParticipantsCount from '@components/ParticipantsCount/ParticipantsCount';
 import StepBox from '@components/StepBox/StepBox';
@@ -16,11 +16,10 @@ import { CreateMeetingType } from 'screens/types';
 import styles from './CreateMeetingParticipants.module.scss';
 
 const CreateMeetingParticipants: React.FC = () => {
+  const location = useLocation();
+  const meetingData: CreateMeetingType = location?.state;
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const location = useLocation();
-  const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
-  const [peopleNumber, setPeopleNumber] = useState(meetingData?.number?.peopleNumber);
 
   const { setBackButtonOnClick } = useTgBackButton(true);
 
@@ -28,15 +27,13 @@ const CreateMeetingParticipants: React.FC = () => {
     (count: number) => {
       navigate(CREATE_DATE_PATH, {
         state: {
-          meetingData: {
-            ...meetingData,
-            number: {
-              peopleNumber: count,
-              data: {
-                path: CREATE_PARTICIPANTS_PATH,
-                title: t('meetingInfo.participants'),
-                value: `${count}`,
-              },
+          ...meetingData,
+          number: {
+            peopleNumber: count,
+            data: {
+              path: CREATE_PARTICIPANTS_PATH,
+              title: t('meetingInfo.participants'),
+              value: `${count}`,
             },
           },
         },
@@ -46,7 +43,7 @@ const CreateMeetingParticipants: React.FC = () => {
   );
 
   const handleBack = useCallback(() => {
-    navigate(CREATE_TOPICS_PATH, { state: { meetingData } });
+    navigate(CREATE_TOPICS_PATH, { state: { ...meetingData } });
   }, [meetingData, navigate]);
 
   useBackSwipe(handleBack);
@@ -60,7 +57,7 @@ const CreateMeetingParticipants: React.FC = () => {
       <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
       <ParticipantsCount
         onChangeParticipiants={handleChangePeople}
-        defaultParticipiants={peopleNumber}
+        defaultParticipiants={meetingData.number?.peopleNumber}
       />
     </div>
   );

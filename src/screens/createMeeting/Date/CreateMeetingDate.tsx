@@ -23,61 +23,58 @@ import { CreateMeetingType } from 'screens/types';
 import styles from './CreateMeetingDate.module.scss';
 
 const CreateMeetingDate: React.FC = () => {
-  const navigate = useNavigate();
-  const { t } = useTranslation();
   const location = useLocation();
-  const [meetingData, setMeetingData] = useState<CreateMeetingType>(location?.state?.meetingData);
+  const meetingData: CreateMeetingType = location?.state;
   const [meetingDate, setMeetingDate] = useState<Dayjs | null>(meetingData.date?.meetingDate);
   const setNotification = useActionWithDispatch(setNotificationAction);
+  const navigate = useNavigate();
+  const { t } = useTranslation();
   const { setBackButtonOnClick } = useTgBackButton(true);
 
   const availibleTimes = useMemo(() => {
     if (meetingDate) {
-      return getAvailableTimes(meetingDate);
+      return getAvailableTimes(dayjs(meetingDate));
     }
-
     return [];
   }, [meetingDate]);
 
-  const handleChangeDate = useCallback(
-    (date: Dayjs | null) => {
-      if (!date && !availibleTimes.length) {
-        setNotification({
-          id: dayjs().unix(),
-          type: TooltipType.INFO,
-          text: t('time.anotherTime'),
-        });
-        setMeetingDate(dayjs());
-
-        return;
-      }
-
-      setMeetingDate(date);
-
-      setMeetingData((prev) => ({
-        ...prev,
+  const locationDate = useMemo(() => {
+    if (meetingDate) {
+      return {
+        ...meetingData,
         date: {
-          meetingDate: date,
+          meetingDate,
           data: {
             path: CREATE_DATE_PATH,
             title: t('meetingInfo.date'),
-            value: dayjs(date).format(DAY_MONTH_YAER),
+            value: dayjs(meetingDate).format(DAY_MONTH_YAER),
           },
         },
-      }));
-    },
-    [availibleTimes.length, setMeetingDate, setNotification, t],
-  );
+      };
+    }
+
+    return meetingData;
+  }, [meetingDate, meetingData, t]);
 
   const handleBack = useCallback(() => {
-    navigate(CREATE_PARTICIPANTS_PATH, { state: { meetingData } });
-  }, [meetingData, navigate]);
+    navigate(CREATE_PARTICIPANTS_PATH, { state: { ...locationDate } });
+  }, [locationDate, navigate]);
 
   useBackSwipe(handleBack);
 
   const handleSubmit = useCallback(() => {
-    navigate(CREATE_TIME_PATH, { state: { meetingData } });
-  }, [meetingData, navigate]);
+    if (!availibleTimes.length) {
+      setNotification({
+        id: dayjs().unix(),
+        type: TooltipType.INFO,
+        text: t('date.anotherDate'),
+      });
+      setMeetingDate(dayjs());
+
+      return;
+    }
+    navigate(CREATE_TIME_PATH, { state: { ...locationDate } });
+  }, [availibleTimes.length, locationDate, navigate, setNotification, t]);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);
@@ -85,12 +82,12 @@ const CreateMeetingDate: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <StepBox meetingData={meetingData} containerClass={styles.stepBoxContainer} />
-      <DatePicker defaultDate={meetingDate} onChangeDate={handleChangeDate} />
+      <StepBox meetingData={locationDate} containerClass={styles.stepBoxContainer} />
+      <DatePicker defaultDate={meetingDate} onChangeDate={setMeetingDate} />
       <SubmitButton
-        title={t(meetingDate ? 'button.continue' : 'date.choose')}
+        title={t(meetingDate && availibleTimes.length ? 'button.continue' : 'date.choose')}
         onClick={handleSubmit}
-        isActive={!!meetingDate}
+        isActive={!!meetingDate && !!availibleTimes.length}
       />
     </div>
   );
