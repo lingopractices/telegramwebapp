@@ -35,7 +35,7 @@ export class CreateMeeting {
 
   static get saga() {
     return function* ({ payload, meta }: ReturnType<typeof CreateMeeting.action>): SagaIterator {
-      const { id: userId } = yield select(getProfileDataSelector);
+      const { id: userId, gender, countryName: country } = yield select(getProfileDataSelector);
 
       try {
         const response = CreateMeeting.httpRequest.call(
@@ -63,8 +63,16 @@ export class CreateMeeting {
             id,
             meetingDate: payload.meetingAt,
             googleMeetLink,
-            maxParticipantsCount: payload.peopleNumber,
-            participantsCount: 1,
+            languageId: payload.languageId,
+            languageLevel: payload.languageLevel,
+            participants: [
+              {
+                userId,
+                gender,
+                country,
+                firstName: window.Telegram.WebApp.initDataUnsafe.user?.first_name || '',
+              },
+            ],
             topic: {
               id: payload.topicId,
               name: meetingTopic?.name || '',

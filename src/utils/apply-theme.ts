@@ -27,7 +27,7 @@ function applyTheme(theme: Theme) {
     '--radio-line': '#DFDFDF',
     '--dt-white-wt-grey': '#728A96',
     '--dt-secondary-bg-wt-white': '#FFFFFF',
-    '--select-next': '#F7F9FB;',
+    '--select-next': 'rgba(63, 138, 224, 0.08)',
     '--radio-outer': '#969696',
     '--radio-outer-selcted': '#0088CC',
     '--light-red': '#E04A4A',

@@ -65,7 +65,8 @@
     "level": "Level",
     "levels": "Levels",
     "topic": "Topic",
-    "participants": "Participants number",
+    "participants": "Participants",
+    "you": "You",
     "date": "Date",
     "time": "Time"
   },
