@@ -27,7 +27,7 @@
   stroke: var(--base-color);
 }
 
-.paseted {
+.value {
   font-weight: 300;
 }
 
@@ -35,8 +35,7 @@
   margin-top: 8px;
 }
 
-.questions {
-  width: fit-content;
+.clickable {
   cursor: pointer;
 }
 
@@ -48,4 +47,12 @@
     padding-bottom: 8px;
     border-bottom: 1px solid var(--dt-grey-wt-white);
   }
+
+  &.opened {
+    border-bottom: none;
+  }
+}
+
+.participantClass {
+  margin-bottom: 8px;
 }

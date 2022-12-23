@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  width: 100%;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.item {
+  flex: 1;
+  color: var(--secondary-color);
+  font-weight: 400;
+  text-align: center;
+
+  &:first-of-type {
+    color: var(--dt-blue-dark-wt-blue-light);
+    font-weight: 600;
+    text-align: left;
+  }
+
+  &:last-of-type {
+    text-align: right;
+  }
+}

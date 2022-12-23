@@ -112,15 +112,7 @@ const JoinMeetingInfo: React.FC = () => {
 
   return meeting ? (
     <div className={styles.container}>
-      <MeetingInfo
-        id={meeting.id}
-        meetingDate={meeting.meetingDate}
-        topic={meeting.topic}
-        participantsCount={meeting.participantsCount}
-        maxParticipantsCount={meeting.maxParticipantsCount}
-        userCreator={meeting.userCreator}
-        googleMeetLink={meeting.googleMeetLink}
-      />
+      <MeetingInfo meeting={meeting} />
       <SubmitButton
         onClick={handleSubmit}
         title={t('button.submit')}

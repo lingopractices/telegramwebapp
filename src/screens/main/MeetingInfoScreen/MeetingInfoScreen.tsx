@@ -23,15 +23,15 @@ import { INSTANT_MAIN_PATH } from 'routing/routing.constants';
 import styles from './MeetingInfoScreen.module.scss';
 
 const MeetingInfoScreen: React.FC = () => {
-  const { setBackButtonOnClick } = useTgBackButton(true);
-  const navigate = useNavigate();
   const { id: meetingId } = useParams();
   const user = useSelector(getProfileDataSelector);
   const meeting = useSelector(getMyMeetingByIdSelector(Number(meetingId)));
   const pendingLeaveMeeting = useSelector(getLeaveMeetingPendingSelector);
   const leaveMeeting = useActionWithDeferred(leaveMeetingAction);
-  const { t } = useTranslation();
+  const navigate = useNavigate();
   const setNotification = useActionWithDispatch(setNotificationAction);
+  const { setBackButtonOnClick } = useTgBackButton(true);
+  const { t } = useTranslation();
 
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
@@ -73,15 +73,7 @@ const MeetingInfoScreen: React.FC = () => {
 
   return meeting ? (
     <div className={styles.container}>
-      <MeetingInfo
-        id={meeting.id}
-        meetingDate={meeting.meetingDate}
-        topic={meeting.topic}
-        participantsCount={meeting.participantsCount}
-        maxParticipantsCount={meeting.maxParticipantsCount}
-        userCreator={meeting.userCreator}
-        googleMeetLink={meeting.googleMeetLink}
-      />
+      <MeetingInfo meeting={meeting} />
       <div className={styles.buttons}>
         <Button
           onClick={handleJoinMeeting}
