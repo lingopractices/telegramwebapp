@@ -6,13 +6,16 @@ function getTouches(evt: TouchEvent) {
   return evt.touches;
 }
 
-export function useSwipe(element: RefObject<HTMLElement>) {
+export function useSwipe(
+  element: RefObject<HTMLElement>,
+  onTop?: () => void,
+  onDown?: () => void,
+  onLeft?: () => void,
+  onRight?: () => void,
+  rangeOffset?: number,
+) {
   const [xDown, setXDown] = useState(0);
   const [yDown, setYDown] = useState(0);
-  const [rightSwipe, setRightSwipe] = useState(false);
-  const [leftSwipe, setLeftSwipe] = useState(false);
-  const [upSwipe, setUpSwipe] = useState(false);
-  const [downSwipe, setDownSwipe] = useState(false);
 
   const handleTouchStart = useCallback((evt: TouchEvent) => {
     const firstTouch = getTouches(evt)[0];
@@ -33,21 +36,57 @@ export function useSwipe(element: RefObject<HTMLElement>) {
       const yDiff = yDown - yUp;
 
       if (Math.abs(xDiff) > Math.abs(yDiff)) {
-        if (xDiff > 0) {
-          setLeftSwipe(true);
+        if (xDiff > 0 && onLeft) {
+          if (rangeOffset) {
+            if (xDown < rangeOffset) {
+              onLeft();
+            }
+
+            return;
+          }
+
+          onLeft();
         } else {
-          setRightSwipe(true);
+          if (onRight) {
+            if (rangeOffset) {
+              if (xDown < rangeOffset) {
+                onRight();
+              }
+
+              return;
+            }
+
+            onRight();
+          }
         }
       } else {
         /* eslint no-lonely-if: 0 */
-        if (yDiff > 0) {
-          setUpSwipe(true);
+        if (yDiff > 0 && onTop) {
+          if (rangeOffset) {
+            if (yDown < rangeOffset) {
+              onTop();
+            }
+
+            return;
+          }
+
+          onTop();
         } else {
-          setDownSwipe(true);
+          if (onDown) {
+            if (rangeOffset) {
+              if (yDown < rangeOffset) {
+                onDown();
+              }
+
+              return;
+            }
+
+            onDown();
+          }
         }
       }
     },
-    [xDown, yDown],
+    [xDown, yDown, rangeOffset, onTop, onDown, onRight, onLeft],
   );
 
   useEffect(() => {
@@ -63,28 +102,11 @@ export function useSwipe(element: RefObject<HTMLElement>) {
       currentElement?.removeEventListener('touchmove', handleTouchMove);
     };
   }, [element, handleTouchStart, handleTouchMove]);
-
-  const resetSwipe = useCallback(() => {
-    setRightSwipe(false);
-    setLeftSwipe(false);
-    setDownSwipe(false);
-    setUpSwipe(false);
-    setXDown(0);
-    setYDown(0);
-  }, []);
-
-  return { rightSwipe, leftSwipe, upSwipe, downSwipe, xDown, yDown, resetSwipe };
 }
 
 export function useBackSwipe(fn: () => void) {
   const html = document.querySelector('html');
   const htmlRef = useRef(html);
 
-  const { rightSwipe, xDown } = useSwipe(htmlRef);
-
-  useEffect(() => {
-    if (xDown < SWIPE_WIDTH && rightSwipe) {
-      fn();
-    }
-  }, [rightSwipe, xDown, fn]);
+  useSwipe(htmlRef, undefined, undefined, undefined, fn, SWIPE_WIDTH);
 }
