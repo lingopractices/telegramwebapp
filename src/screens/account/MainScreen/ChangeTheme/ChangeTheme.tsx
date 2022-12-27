@@ -19,20 +19,6 @@ const ChangeTheme: React.FC = () => {
   const themeRef = useRef<HTMLDivElement>(null);
   const changeTheme = useActionWithDispatch(changeThemeAction);
 
-  const handleToggleTheme = useCallback(() => {
-    let newTheme: Theme;
-
-    if (theme === Theme.LIGHT) {
-      themeRef.current?.classList.add(styles.toDark);
-      newTheme = Theme.DARK;
-    } else {
-      themeRef.current?.classList.add(styles.toLight);
-      newTheme = Theme.LIGHT;
-    }
-
-    debounce((t: Theme) => changeTheme(t), ANIMATION_DURATION)(newTheme);
-  }, [theme, changeTheme]);
-
   const toDarkTheme = useCallback(() => {
     themeRef.current?.classList.add(styles.toDark);
     debounce((t: Theme) => changeTheme(t), ANIMATION_DURATION)(Theme.DARK);
@@ -44,6 +30,11 @@ const ChangeTheme: React.FC = () => {
   }, [changeTheme]);
 
   useSwipe(themeRef, undefined, undefined, toDarkTheme, toLightTheme);
+
+  const handleToggleTheme = useCallback(
+    () => (theme === Theme.LIGHT ? toDarkTheme() : toLightTheme()),
+    [theme, toDarkTheme, toLightTheme],
+  );
 
   return (
     <div className={styles.container} onClick={handleToggleTheme}>

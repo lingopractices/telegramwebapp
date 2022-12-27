@@ -72,10 +72,9 @@ const CreateMeetingLanguage: React.FC = () => {
       <StepBox meetingData={locationData} containerClass={styles.stepBoxContainer} />
       <LanguageList
         popularLanguagesIds={popularLanguagesIds}
-        languages={languages}
-        onChangeLanguage={setNewLanguage}
         defaultLanguageId={newLanguageId}
         title={t('language.choosePracticeLang')}
+        onChangeLanguage={setNewLanguage}
       />
       <SubmitButton
         onClick={handleForward}

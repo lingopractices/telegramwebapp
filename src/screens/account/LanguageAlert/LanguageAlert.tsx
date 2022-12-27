@@ -4,7 +4,6 @@ import LanguageList from '@components/LanguageList/LanguageList';
 import { useBackSwipe } from '@hooks/use-swipe';
 import useTgBackButton from '@hooks/useTgBackButton';
 import { alertsSelector } from '@store/alerts/selectors';
-import { languagesSelector } from '@store/languages/selectors';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { popularLanguagesIds } from 'common/constants';
 import { useTranslation } from 'react-i18next';
@@ -22,7 +21,6 @@ import styles from './LanguageAlert.module.scss';
 const LanguageAlert = () => {
   const location = useLocation();
   const [alertData, setAlertData] = useState<CreateAlertType>(location.state);
-  const languages = useSelector(languagesSelector);
   const alertPreferences = useSelector(alertsSelector);
   const { setBackButtonOnClick } = useTgBackButton(true);
   const navigate = useNavigate();
@@ -67,7 +65,6 @@ const LanguageAlert = () => {
     <div className={styles.container}>
       <LanguageList
         defaultLanguageId={alertData?.languageId}
-        languages={languages}
         popularLanguagesIds={popularLanguagesIds}
         onChangeLanguage={handleChangeLanguage}
         title={t('notifications.selectLang')}

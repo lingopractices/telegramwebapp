@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 
 import { ReactComponent as AccountIcon } from '@assets/account.svg';
 import { ReactComponent as LingoLogo } from '@assets/lingo-logo.svg';
@@ -9,8 +9,6 @@ import SecondaryLogo from '@components/SecondaryLogo/SecondaryLogo';
 import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { Skeleton } from '@mui/material';
-import { getLanguagesAction } from '@store/languages/actions';
-import { languagesSelector } from '@store/languages/selectors';
 import { getMyMeetingsAction } from '@store/meetings/actions';
 import {
   getMyMeetingHasMoreSelector,
@@ -40,12 +38,10 @@ const MainScreen: React.FC = () => {
   const myMeetings = useSelector(getMyMeetingsSelector);
   const infiniteContainer = useRef<HTMLDivElement>(null);
   const hasMore = useSelector(getMyMeetingHasMoreSelector);
-  const languages = useSelector(languagesSelector);
   const myMeetingsPending = useSelector(myMeetingsPendingSelector);
   const mainLogoRef = useRef<HTMLDivElement>(null);
   const secondaryLogoRef = useRef<HTMLDivElement>(null);
   const previousScrollTop = useRef(0);
-  const getLanguages = useActionWithDispatch(getLanguagesAction);
   const getMeetings = useActionWithDispatch(getMyMeetingsAction);
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -64,12 +60,6 @@ const MainScreen: React.FC = () => {
   const joinMeeting = useCallback(() => {
     navigate(JOIN_LANGUAGES_PATH);
   }, [navigate]);
-
-  useEffect(() => {
-    if (!languages.length) {
-      getLanguages();
-    }
-  }, [languages, getLanguages]);
 
   const renderMeetings = useCallback(
     (meeting: IMeeting) => (

@@ -8,7 +8,6 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useBackSwipe } from '@hooks/use-swipe';
 import { setNotificationAction } from '@store/app-notifications/actions';
 import { AxiosErros } from '@store/common/axios-errors';
-import { languagesSelector } from '@store/languages/selectors';
 import { cancelUpdateProfileAction, updateProfileAction } from '@store/profile/actions';
 import {
   getPracticeLanguageSelector,
@@ -32,7 +31,6 @@ const AccountLanguage: React.FC = () => {
   const practiceLanguage = useSelector(getPracticeLanguageSelector);
   const user = useSelector(getProfileDataSelector);
   const [newPracticeLanguageId, setNewPracticeLanguageId] = useState(practiceLanguage?.id);
-  const languages = useSelector(languagesSelector);
   const pendingChangeLanguage = useSelector(pendingUpdateUserSelector);
   const updateProfile = useActionWithDeferred(updateProfileAction);
   const { t } = useTranslation();
@@ -102,7 +100,6 @@ const AccountLanguage: React.FC = () => {
     <div className={styles.container}>
       <LanguageList
         popularLanguagesIds={popularLanguagesIds}
-        languages={languages}
         onChangeLanguage={setNewPracticeLanguageId}
         defaultLanguageId={newPracticeLanguageId}
         title={t('language.choosePracticeLang')}

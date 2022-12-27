@@ -2,11 +2,13 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import RadioItem from '@components/RadioItem/RadioItem';
 import SearchBox from '@components/SearchBox/SearchBox';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { Skeleton } from '@mui/material';
-import { languagePendingSelector } from '@store/languages/selectors';
+import { getLanguagesAction } from '@store/languages/actions';
+import { languagePendingSelector, languagesSelector } from '@store/languages/selectors';
 import { getClearString } from '@utils/get-clear-string';
 import { ILanguage } from 'lingopractices-models';
-import { differenceBy, intersectionWith } from 'lodash';
+import { differenceBy, intersectionWith, isEmpty } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -16,7 +18,7 @@ interface ILanguageList {
   title?: string;
   defaultLanguageId?: string;
   popularLanguagesIds?: string[];
-  languages: ILanguage[];
+  languages?: ILanguage[];
   onChangeLanguage: (languageId: string) => void;
 }
 
@@ -28,12 +30,22 @@ const LanguageList: React.FC<ILanguageList> = ({
   onChangeLanguage,
 }) => {
   const { t } = useTranslation();
+  const allLanguages = useSelector(languagesSelector);
   const languagesPending = useSelector(languagePendingSelector);
-  const [filteredLanguages, setFilteredLanguages] = useState(languages);
+  const [filteredLanguages, setFilteredLanguages] = useState<ILanguage[]>(
+    languages || allLanguages,
+  );
+  const getLanguages = useActionWithDispatch(getLanguagesAction);
 
   useEffect(() => {
-    setFilteredLanguages(languages);
-  }, [languages]);
+    if (isEmpty(allLanguages)) {
+      getLanguages();
+    }
+
+    if (!languages && isEmpty(filteredLanguages) && !isEmpty(allLanguages)) {
+      setFilteredLanguages(allLanguages);
+    }
+  }, [languages, allLanguages, filteredLanguages, getLanguages]);
 
   const handleChangeLanguage = useCallback(
     (languageId: number | string) => {
@@ -47,12 +59,12 @@ const LanguageList: React.FC<ILanguageList> = ({
       const { value } = e.target;
 
       setFilteredLanguages(
-        languages.filter((language) =>
+        allLanguages.filter((language) =>
           getClearString(language.name).includes(getClearString(value)),
         ),
       );
     },
-    [languages, setFilteredLanguages],
+    [allLanguages, setFilteredLanguages],
   );
 
   const renderLanguages = useCallback(
@@ -120,7 +132,13 @@ const LanguageList: React.FC<ILanguageList> = ({
       );
     }
 
-    return <div className={styles.wrapper}>{filteredLanguages.map(renderLanguages)}</div>;
+    return languagesPending ? (
+      <div className={styles.wrapper}>
+        {filteredLanguages.map((langauge) => langauge.id).map(renderSkeletLanguage)}
+      </div>
+    ) : (
+      <div className={styles.wrapper}>{filteredLanguages.map(renderLanguages)}</div>
+    );
   }, [
     popularLanguagesIds,
     languagesPending,

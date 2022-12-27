@@ -72,7 +72,6 @@ const JoinMeetingLanguage: React.FC = () => {
       <StepBox meetingData={locationData} containerClass={styles.stepBoxContainer} />
       <LanguageList
         popularLanguagesIds={popularLanguagesIds}
-        languages={languages}
         onChangeLanguage={setNewLanguage}
         defaultLanguageId={newLaungageId}
         title={t('language.choosePracticeLang')}
