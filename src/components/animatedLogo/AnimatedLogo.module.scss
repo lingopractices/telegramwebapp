@@ -1,5 +1,7 @@
 .outer {
   display: flex;
+  width: 105px;
+  height: 105px;
   animation: loading 1s infinite ease-in-out;
 }
 
@@ -12,6 +14,7 @@
 
 .wrapper {
   position: relative;
+  overflow: hidden;
   width: 105px;
   height: 105px;
   background-color: white;
