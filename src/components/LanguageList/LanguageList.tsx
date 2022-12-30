@@ -2,11 +2,15 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import RadioItem from '@components/RadioItem/RadioItem';
 import SearchBox from '@components/SearchBox/SearchBox';
+import { TooltipType } from '@components/Tooltip/Tooltip';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { Skeleton } from '@mui/material';
+import { setNotificationAction } from '@store/app-notifications/actions';
 import { getLanguagesAction } from '@store/languages/actions';
 import { languagePendingSelector, languagesSelector } from '@store/languages/selectors';
 import { getClearString } from '@utils/get-clear-string';
+import dayjs from 'dayjs';
 import { ILanguage } from 'lingopractices-models';
 import { differenceBy, intersectionWith, isEmpty } from 'lodash';
 import { useTranslation } from 'react-i18next';
@@ -29,23 +33,30 @@ const LanguageList: React.FC<ILanguageList> = ({
   languages,
   onChangeLanguage,
 }) => {
-  const { t } = useTranslation();
   const allLanguages = useSelector(languagesSelector);
   const languagesPending = useSelector(languagePendingSelector);
   const [filteredLanguages, setFilteredLanguages] = useState<ILanguage[]>(
     languages || allLanguages,
   );
-  const getLanguages = useActionWithDispatch(getLanguagesAction);
+  const getLanguages = useActionWithDeferred(getLanguagesAction);
+  const setNotification = useActionWithDispatch(setNotificationAction);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (isEmpty(allLanguages)) {
-      getLanguages();
+      getLanguages().catch((e) => {
+        setNotification({
+          id: dayjs().unix(),
+          type: TooltipType.ERROR,
+          text: t('errors.getLanguages'),
+        });
+      });
     }
 
     if (!languages && isEmpty(filteredLanguages) && !isEmpty(allLanguages)) {
       setFilteredLanguages(allLanguages);
     }
-  }, [languages, allLanguages, filteredLanguages, getLanguages]);
+  }, [languages, allLanguages, filteredLanguages, getLanguages, setNotification, t]);
 
   const handleChangeLanguage = useCallback(
     (languageId: number | string) => {

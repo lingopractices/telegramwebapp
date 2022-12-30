@@ -1,4 +1,4 @@
-import { createAction } from '@reduxjs/toolkit';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory } from '@store/common/http-request-factory';
 import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
@@ -8,11 +8,12 @@ import { ILanguage } from 'lingopractices-models';
 import { call, put } from 'redux-saga/effects';
 import { LanguageService } from 'services/LanguageService';
 
+import { GetLanguagesFailure } from './get-languages-failure';
 import { GetLanguagesSuccess } from './get-languages-success';
 
 export class GetLanguages {
   static get action() {
-    return createAction('languages/GET_LANGUAGES');
+    return createDeferredAction('languages/GET_LANGUAGES');
   }
 
   static get reducer() {
@@ -24,7 +25,7 @@ export class GetLanguages {
   }
 
   static get saga() {
-    return function* () {
+    return function* ({ meta }: ReturnType<typeof GetLanguages.action>) {
       const languages: ILanguage[] = new LanguageService().languages || [];
 
       if (!languages.length) {
@@ -35,7 +36,8 @@ export class GetLanguages {
 
           yield put(GetLanguagesSuccess.action(data));
         } catch (e) {
-          // console.log(e)
+          yield put(GetLanguagesFailure.action());
+          meta?.deferred.reject(e);
         }
       } else {
         yield put(GetLanguagesSuccess.action(languages));

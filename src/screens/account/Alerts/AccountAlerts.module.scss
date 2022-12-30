@@ -16,6 +16,10 @@
     font-size: 14px;
     text-align: justify;
   }
+
+  &.pending {
+    overflow-y: hidden;
+  }
 }
 
 .alertsContainer {
@@ -35,4 +39,8 @@
     margin-right: 8px;
     stroke: var(--dt-black-wt-white);
   }
+}
+
+.skeletContainer {
+  margin-bottom: 31px;
 }

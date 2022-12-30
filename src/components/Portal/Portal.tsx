@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 const Portal = ({ children }: { children: ReactNode }) => {
   const rootPortal = document.getElementById('root-portal');
   const element = document.createElement('div');
-  element.style.cssText = 'display: flex; justify-content: center;';
+  element.style.cssText = 'display: flex; justify-content: center; z-Index: 100000000';
 
   useEffect(() => {
     rootPortal?.appendChild(element);

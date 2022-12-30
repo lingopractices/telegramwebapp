@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useMemo, RefObject } from 'react';
+import React, { useState, useCallback, useEffect, useMemo, RefObject, useRef } from 'react';
 
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import QuestionItem from '@components/QuestionItem/QuestionItem';
@@ -14,6 +14,7 @@ import { createAndFillArray } from '@utils/create-fill-array';
 import { getClearString } from '@utils/get-clear-string';
 import { TOPIC_LIMITS } from '@utils/pagination-limits';
 import { ITopic } from 'lingopractices-models';
+import { isEmpty } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -33,38 +34,44 @@ export const TopicList = React.forwardRef<HTMLDivElement, ITopicListProps>(
     const hasMore = useSelector(getTopicsHasMoreSelector);
     const [filteredTopics, setFilteredTopics] = useState(topics);
     const [currentTopicId, setCurrentTopicId] = useState(defaultTopicId || 0);
-    const [searchStringText, setSearchStringText] = useState('');
     const pendingGetTopics = useSelector(getTopicsPendingSelector);
     const { t } = useTranslation();
+    const selectedTopicRef = useRef<HTMLLIElement>(null);
 
     useEffect(() => {
-      onChangeTopic(currentTopicId);
-    }, [currentTopicId, onChangeTopic]);
+      selectedTopicRef.current?.scrollIntoView();
+    }, []);
+
+    useEffect(() => {
+      if (!isEmpty(topics)) {
+        setFilteredTopics(topics);
+      }
+    }, [topics, setFilteredTopics]);
 
     const handleChangeTopic = useCallback(
-      (topicId: number) => setCurrentTopicId(topicId !== currentTopicId ? topicId : 0),
-      [setCurrentTopicId, currentTopicId],
+      (topicId: number) => {
+        setCurrentTopicId(topicId !== currentTopicId ? topicId : 0);
+        onChangeTopic(topicId);
+      },
+      [setCurrentTopicId, onChangeTopic, currentTopicId],
     );
 
     const handleChangeSearchString = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchStringText(e.target.value);
+        setFilteredTopics(
+          topics.filter((topic) =>
+            getClearString(topic.name).includes(getClearString(e.target.value)),
+          ),
+        );
       },
-      [setSearchStringText],
+      [topics],
     );
-
-    useEffect(() => {
-      setFilteredTopics(
-        topics.filter((topic) =>
-          getClearString(topic.name).includes(getClearString(searchStringText)),
-        ),
-      );
-    }, [searchStringText, topics, setFilteredTopics]);
 
     const renderTopics = useCallback(
       (topic: ITopic) => (
         <div key={topic.id} className={styles.topicWrap}>
           <TopicItem
+            ref={currentTopicId === topic.id ? selectedTopicRef : null}
             id={topic.id}
             name={topic.name}
             isSelected={topic.id === currentTopicId}

@@ -6,10 +6,10 @@ export const alertsPendingSelector = (state: RootState) =>
   state.alerts.requests.getNotificationsPending;
 
 export const alertsExistSelector = (state: RootState) =>
-  state.alerts.notificationsPreferecnces.some((alert) => alert.languageLevel);
+  state.alerts.notificationsPreferecnces?.some((alert) => alert.languageLevel);
 
 export const alertByLanguageIdSelector = (languageId?: string) => (state: RootState) =>
-  state.alerts.notificationsPreferecnces.find((alertItem) => alertItem.languageId === languageId);
+  state.alerts.notificationsPreferecnces?.find((alertItem) => alertItem.languageId === languageId);
 
 export const createAlertPendingSelector = (state: RootState) =>
   state.alerts.requests.createNotificationsPending;

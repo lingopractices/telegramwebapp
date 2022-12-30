@@ -60,6 +60,10 @@ const EditAlert = () => {
   }, [setBackButtonOnClick, handleBack]);
 
   const handleSaveChanges = useCallback(() => {
+    if (alert?.languageLevel === languageLevels) {
+      return;
+    }
+
     if (languageId && alert?.id) {
       updateAlert({
         id: alert.id,

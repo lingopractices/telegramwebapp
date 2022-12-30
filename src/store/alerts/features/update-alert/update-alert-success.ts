@@ -13,14 +13,19 @@ export class UpdateAlertSuccess {
   static get reducer() {
     return (draft: IAlertState, { payload }: ReturnType<typeof UpdateAlertSuccess.action>) => {
       draft.requests.updateNotificationsPending = false;
-      if (payload.languageLevel) {
-        const alertIndex = draft.notificationsPreferecnces.findIndex(
-          (item) => item.id === payload.id,
-        );
 
-        draft.notificationsPreferecnces[alertIndex] = payload;
+      if (payload.languageLevel) {
+        if (draft.notificationsPreferecnces) {
+          const alertIndex = draft.notificationsPreferecnces.findIndex(
+            (item) => item.id === payload.id,
+          );
+
+          draft.notificationsPreferecnces[alertIndex] = payload;
+        } else {
+          draft.notificationsPreferecnces = [payload];
+        }
       } else {
-        draft.notificationsPreferecnces = draft.notificationsPreferecnces.filter(
+        draft.notificationsPreferecnces = draft.notificationsPreferecnces?.filter(
           (alert) => alert.id !== payload.id,
         );
       }

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import LanguageList from '@components/LanguageList/LanguageList';
 import { useBackSwipe } from '@hooks/use-swipe';
@@ -20,7 +20,7 @@ import styles from './LanguageAlert.module.scss';
 
 const LanguageAlert = () => {
   const location = useLocation();
-  const [alertData, setAlertData] = useState<CreateAlertType>(location.state);
+  const alertData: CreateAlertType = location.state;
   const alertPreferences = useSelector(alertsSelector);
   const { setBackButtonOnClick } = useTgBackButton(true);
   const navigate = useNavigate();
@@ -46,7 +46,9 @@ const LanguageAlert = () => {
         newAlertData = { languageId };
       }
 
-      if (alertPreferences.some((alertItem) => alertItem.languageId === newAlertData?.languageId)) {
+      if (
+        alertPreferences?.some((alertItem) => alertItem.languageId === newAlertData?.languageId)
+      ) {
         if (newAlertData?.languageId) {
           navigate(replaceInUrl(ACCOUNT_NOTIFICATIONS_EDIT_PATH, ['id', newAlertData.languageId]), {
             state: { rootPath: ACCOUNT_NOTIFICATIONS_LANGUAGES_PATH },

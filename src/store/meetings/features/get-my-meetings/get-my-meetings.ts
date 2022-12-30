@@ -1,4 +1,4 @@
-import { createAction } from '@reduxjs/toolkit';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory } from '@store/common/http-request-factory';
 import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
@@ -11,11 +11,12 @@ import { IMeeting, IPaginationParams } from 'lingopractices-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
+import { GetMyMeetingsFailure } from './get-my-meeting-failure';
 import { GetMyMeetingsSuccess } from './get-my-meetings-success';
 
 export class GetMyMeetings {
   static get action() {
-    return createAction('meetings/GET_MY_MEETINGS');
+    return createDeferredAction('meetings/GET_MY_MEETINGS');
   }
 
   static get reducer() {
@@ -26,7 +27,7 @@ export class GetMyMeetings {
   }
 
   static get saga() {
-    return function* (): SagaIterator {
+    return function* ({ meta }: ReturnType<typeof GetMyMeetings.action>): SagaIterator {
       const myMeetingList = yield select(getMyMeetingsSelector);
 
       const page: IPaginationParams = {
@@ -43,7 +44,8 @@ export class GetMyMeetings {
 
         yield put(GetMyMeetingsSuccess.action({ data, hasMore }));
       } catch (e) {
-        // console.log(e);
+        yield put(GetMyMeetingsFailure.action());
+        meta?.deferred.reject(e);
       }
     };
   }

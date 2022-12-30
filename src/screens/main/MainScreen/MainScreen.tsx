@@ -6,9 +6,12 @@ import Button from '@components/Button/Button';
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import MeetingItem from '@components/MeetingItem/MeetingItem';
 import SecondaryLogo from '@components/SecondaryLogo/SecondaryLogo';
+import { TooltipType } from '@components/Tooltip/Tooltip';
 import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { Skeleton } from '@mui/material';
+import { setNotificationAction } from '@store/app-notifications/actions';
 import { getMyMeetingsAction } from '@store/meetings/actions';
 import {
   getMyMeetingHasMoreSelector,
@@ -19,6 +22,7 @@ import { createAndFillArray } from '@utils/create-fill-array';
 import { MY_MEETINGS_LIMITS } from '@utils/pagination-limits';
 import classNames from 'classnames';
 import { SCROLL_DOWN, SCROLL_TOP } from 'common/constants';
+import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import useTgMainButton from 'hooks/useTgMainButton';
 import { IMeeting } from 'lingopractices-models';
@@ -42,7 +46,9 @@ const MainScreen: React.FC = () => {
   const mainLogoRef = useRef<HTMLDivElement>(null);
   const secondaryLogoRef = useRef<HTMLDivElement>(null);
   const previousScrollTop = useRef(0);
-  const getMeetings = useActionWithDispatch(getMyMeetingsAction);
+
+  const getMeetings = useActionWithDeferred(getMyMeetingsAction);
+  const setNotification = useActionWithDispatch(setNotificationAction);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -50,8 +56,14 @@ const MainScreen: React.FC = () => {
   useTgMainButton(false, false);
 
   const loadMore = useCallback(() => {
-    getMeetings();
-  }, [getMeetings]);
+    getMeetings().catch((e) => {
+      setNotification({
+        id: dayjs().unix(),
+        text: t('errors.meetings'),
+        type: TooltipType.ERROR,
+      });
+    });
+  }, [getMeetings, setNotification, t]);
 
   const createMeeting = useCallback(() => {
     navigate(CREATE_LANGUAGES_PATH);
@@ -109,7 +121,7 @@ const MainScreen: React.FC = () => {
           secondaryLogo.classList.add(styles.showSecondaryLogo);
         }
       } else if (scrollTop <= previousScrollTop.current) {
-        if (scrollTop === SCROLL_DOWN) {
+        if (scrollTop <= SCROLL_DOWN) {
           mainLogo.classList.remove(styles.start);
           secondaryLogo.classList.remove(styles.showSecondaryLogo);
           secondaryLogo.classList.remove(styles.showSecondaryLogo);
@@ -132,18 +144,20 @@ const MainScreen: React.FC = () => {
     >
       <div className={styles.stickyHeader}>
         <div className={styles.headerLine}>
-          <div className={styles.top}>
+          <div className={styles.item}>
             <div ref={secondaryLogoRef} className={styles.secondaryLogo}>
               <SecondaryLogo />
             </div>
-            <Link to={ACCOUNT_PATH} className={styles.account}>
-              <AccountIcon />
-            </Link>
           </div>
-          <div className={styles.bottom}>
+          <div className={styles.item}>
             <div ref={mainLogoRef} className={classNames(styles.logo, styles.start)}>
               <LingoLogo />
             </div>
+          </div>
+          <div className={styles.item}>
+            <Link to={ACCOUNT_PATH} className={styles.account}>
+              <AccountIcon />
+            </Link>
           </div>
         </div>
         <div className={styles.buttonWrapper}>

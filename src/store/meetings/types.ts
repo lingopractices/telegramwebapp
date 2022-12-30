@@ -10,7 +10,6 @@ export interface IMeetingsState {
     hasMore: boolean;
   };
   meetingDays: string[];
-  selectedMeeting?: IMeeting;
   requests: {
     getMeetingsPending: boolean;
     getMyMeetingsPending: boolean;

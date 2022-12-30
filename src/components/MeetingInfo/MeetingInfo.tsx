@@ -22,6 +22,7 @@ const MeetingInfo: React.FC<{ meeting: IMeeting }> = ({ meeting }) => {
   const [isOpenParticipants, , , toggleOpenParticipants] = useToggledState(false);
   const language = useSelector(languageByIdSelector(meeting?.languageId));
   const user = useSelector(getProfileDataSelector);
+  const freePlaces = meeting.maxParticipantsCount - meeting.participants.length;
   const { t } = useTranslation();
 
   return (
@@ -45,6 +46,15 @@ const MeetingInfo: React.FC<{ meeting: IMeeting }> = ({ meeting }) => {
         <span className={styles.line}>
           {t('meetingInfo.time')}:{' '}
           <span className={styles.value}>{dayjs(meeting.meetingDate).format(HOUR_MINUTE)}</span>
+        </span>
+        <span className={styles.line}>
+          {t('meetingInfo.participants')}:{' '}
+          <span className={styles.value}>{meeting.maxParticipantsCount}</span>
+        </span>
+        <span className={styles.line}>
+          {t('meeting.free')}: <span className={styles.value}>{freePlaces}</span>
+          {t('meeting.from')}: <span className={styles.value}>{meeting.maxParticipantsCount}</span>
+          {t('meeting.places')}
         </span>
         <span
           className={classNames(styles.line, styles.clickable, {

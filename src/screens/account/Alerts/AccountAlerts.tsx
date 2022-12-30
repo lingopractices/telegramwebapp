@@ -3,14 +3,18 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { ReactComponent as Pluse } from '@assets/icons/pluse.svg';
 import AlertBox from '@components/AlertBox/AlertBox';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useBackSwipe } from '@hooks/use-swipe';
 import useTgBackButton from '@hooks/useTgBackButton';
+import { Skeleton } from '@mui/material';
 import { alertsSelector } from '@store/alerts/selectors';
-import { languagesSelector } from '@store/languages/selectors';
+import { getLanguagesAction } from '@store/languages/actions';
+import { languagePendingSelector, languagesSelector } from '@store/languages/selectors';
 import { mapLevels } from '@utils/map-levels';
 import { replaceInUrl } from '@utils/replace-in-url';
+import classNames from 'classnames';
 import { INotificationPreferenceDto } from 'lingopractices-models';
-import { find } from 'lodash';
+import { find, isEmpty } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -26,9 +30,17 @@ import styles from './AccountAlerts.module.scss';
 const AccountAlerts: React.FC = () => {
   const alerts = useSelector(alertsSelector);
   const languages = useSelector(languagesSelector);
+  const languagesPending = useSelector(languagePendingSelector);
+  const getLanguages = useActionWithDeferred(getLanguagesAction);
   const { setBackButtonOnClick } = useTgBackButton(true);
   const { t } = useTranslation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isEmpty(languages)) {
+      getLanguages();
+    }
+  }, [languages, getLanguages]);
 
   const handleAddNewAlert = useCallback(() => {
     navigate(ACCOUNT_NOTIFICATIONS_CREATE_PATH);
@@ -51,6 +63,21 @@ const AccountAlerts: React.FC = () => {
       });
     },
     [navigate],
+  );
+
+  const mapToSkelet = useCallback(
+    (alert: INotificationPreferenceDto) => (
+      <Skeleton className={styles.skeletContainer} animation='wave'>
+        <AlertBox
+          id={alert.languageId}
+          title='fill'
+          tags={['']}
+          key={alert.id}
+          onEdit={handleEditAlert}
+        />
+      </Skeleton>
+    ),
+    [handleEditAlert],
   );
 
   const mapAlertToBox = useCallback(
@@ -77,13 +104,16 @@ const AccountAlerts: React.FC = () => {
     [languages, alerts, handleEditAlert, t],
   );
 
-  const renderedAlertBox = useMemo(() => alerts.map(mapAlertToBox), [alerts, mapAlertToBox]);
+  const renderedAlertBox = useMemo(() => alerts?.map(mapAlertToBox), [alerts, mapAlertToBox]);
+  const renderedSkelet = useMemo(() => alerts?.map(mapToSkelet), [alerts, mapToSkelet]);
 
   return (
-    <div className={styles.container}>
+    <div className={classNames(styles.container, { [styles.pending]: languagesPending })}>
       <h2>{t('notifications.notifications')}</h2>
       <p>{t('notifications.wilNotif')}</p>
-      <div className={styles.alertsContainer}>{renderedAlertBox}</div>
+      <div className={styles.alertsContainer}>
+        {languagesPending ? renderedSkelet : renderedAlertBox}
+      </div>
       <SubmitButton onClick={handleAddNewAlert} containerClass={styles.addNewContainer}>
         <span className={styles.childernContainer}>
           <Pluse />

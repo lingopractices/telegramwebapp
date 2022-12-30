@@ -14,7 +14,12 @@ export class CreateAlertSuccess {
   static get reducer() {
     return (draft: IAlertState, { payload }: ReturnType<typeof CreateAlertSuccess.action>) => {
       draft.requests.createNotificationsPending = false;
-      draft.notificationsPreferecnces = [...draft.notificationsPreferecnces, payload];
+
+      if (!draft.notificationsPreferecnces) {
+        draft.notificationsPreferecnces = [payload];
+      } else {
+        draft.notificationsPreferecnces = [...draft.notificationsPreferecnces, payload];
+      }
     };
   }
 
