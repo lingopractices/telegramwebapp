@@ -30,17 +30,25 @@ interface ITopicListProps {
 
 export const TopicList = React.forwardRef<HTMLDivElement, ITopicListProps>(
   ({ defaultTopicId, onChangeTopic, loadMoreTopics }, ref) => {
+    const selectedTopicRef = useRef<HTMLLIElement>(null);
+    const containerRef = ref as RefObject<HTMLDivElement>;
     const topics = useSelector(getTopicsSelector);
     const hasMore = useSelector(getTopicsHasMoreSelector);
     const [filteredTopics, setFilteredTopics] = useState(topics);
     const [currentTopicId, setCurrentTopicId] = useState(defaultTopicId || 0);
     const pendingGetTopics = useSelector(getTopicsPendingSelector);
     const { t } = useTranslation();
-    const selectedTopicRef = useRef<HTMLLIElement>(null);
 
     useEffect(() => {
-      selectedTopicRef.current?.scrollIntoView();
-    }, []);
+      if (containerRef.current && selectedTopicRef.current) {
+        containerRef.current.scrollTo(
+          0,
+          selectedTopicRef.current.offsetTop -
+            containerRef.current.offsetHeight / 2 +
+            selectedTopicRef.current.offsetHeight / 2,
+        );
+      }
+    }, [containerRef, selectedTopicRef]);
 
     useEffect(() => {
       if (!isEmpty(topics)) {
