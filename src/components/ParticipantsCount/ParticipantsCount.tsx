@@ -1,8 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
 
-import RadioItem from '@components/RadioItem/RadioItem';
 import { participantsCountIds } from 'common/constants';
 import { useTranslation } from 'react-i18next';
+
+import ParticipantItem from './ParticipantItem/ParticipantItem';
 
 import styles from './ParticipantsCount.module.scss';
 
@@ -19,8 +20,8 @@ const ParticipantsCount: React.FC<IParticipiantsCount> = ({
   const { t } = useTranslation();
 
   const handleChangeParticipantsCount = useCallback(
-    (id: number | string) => {
-      onChangeParticipiants(Number(id));
+    (count: number) => {
+      onChangeParticipiants(count);
     },
     [onChangeParticipiants],
   );
@@ -30,14 +31,11 @@ const ParticipantsCount: React.FC<IParticipiantsCount> = ({
       <h2>{t('participants.chooseParticipants')}</h2>
       <div className={styles.countWrapper}>
         {participiants.map((count) => (
-          <RadioItem
-            id={count}
+          <ParticipantItem
+            count={count}
+            selected={count === defaultParticipiants}
+            onChangeParticipant={handleChangeParticipantsCount}
             key={count}
-            containerClass={styles.item}
-            radioGroupName='languages'
-            label={count.toString()}
-            onChange={handleChangeParticipantsCount}
-            isSelected={count === defaultParticipiants}
           />
         ))}
       </div>

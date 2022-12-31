@@ -30,7 +30,7 @@ const AccountLanguage: React.FC = () => {
   const { setBackButtonOnClick } = useTgBackButton(true);
   const practiceLanguage = useSelector(getPracticeLanguageSelector);
   const user = useSelector(getProfileDataSelector);
-  const [newPracticeLanguageId, setNewPracticeLanguageId] = useState(practiceLanguage?.id);
+  const [newPracticeLanguage, setNewPracticeLanguage] = useState(practiceLanguage);
   const pendingChangeLanguage = useSelector(pendingUpdateUserSelector);
   const updateProfile = useActionWithDeferred(updateProfileAction);
   const { t } = useTranslation();
@@ -53,12 +53,12 @@ const AccountLanguage: React.FC = () => {
   useBackSwipe(handleBack);
 
   const handleSubmit = useCallback(() => {
-    if (user && newPracticeLanguageId) {
-      if (newPracticeLanguageId !== practiceLanguage?.id) {
+    if (user && newPracticeLanguage) {
+      if (newPracticeLanguage.id !== practiceLanguage?.id) {
         updateProfile({
           ...user,
           userId: user.id,
-          practiceLanguageId: newPracticeLanguageId,
+          practiceLanguageId: newPracticeLanguage.id,
           interfaceLanguageId: user.interfaceLanguage.id,
         })
           .then(() => {
@@ -84,7 +84,7 @@ const AccountLanguage: React.FC = () => {
     }
   }, [
     user,
-    newPracticeLanguageId,
+    newPracticeLanguage,
     practiceLanguage?.id,
     handleBack,
     updateProfile,
@@ -100,14 +100,14 @@ const AccountLanguage: React.FC = () => {
     <div className={styles.container}>
       <LanguageList
         popularLanguagesIds={popularLanguagesIds}
-        onChangeLanguage={setNewPracticeLanguageId}
-        defaultLanguageId={newPracticeLanguageId}
+        onChangeLanguage={setNewPracticeLanguage}
+        defaultLanguage={newPracticeLanguage}
         title={t('language.choosePracticeLang')}
       />
       <SubmitButton
         onClick={handleSubmit}
-        title={newPracticeLanguageId ? t('button.submit') : t('language.choose')}
-        isActive={!!newPracticeLanguageId}
+        title={newPracticeLanguage ? t('button.submit') : t('language.choose')}
+        isActive={!!newPracticeLanguage}
         loading={pendingChangeLanguage}
       />
     </div>

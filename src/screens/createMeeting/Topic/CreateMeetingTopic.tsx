@@ -2,17 +2,10 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import StepBox from '@components/StepBox/StepBox';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
-import { TooltipType } from '@components/Tooltip/Tooltip';
 import TopicList from '@components/TopicList/TopicList';
-import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useBackSwipe } from '@hooks/use-swipe';
-import { setNotificationAction } from '@store/app-notifications/actions';
-import { getTopicsAction } from '@store/topics/actions';
 import { getTopicsPendingSelector, getTopicsSelector } from '@store/topics/selectors';
-import { getTopicById } from '@utils/get-language-topic-by-id';
 import classNames from 'classnames';
-import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -31,37 +24,29 @@ const CreateMeetingTopic: React.FC = () => {
   const topics = useSelector(getTopicsSelector);
   const topicsPending = useSelector(getTopicsPendingSelector);
   const meetingData: CreateMeetingType = location?.state;
-  const [newTopicId, setNewTopicId] = useState(meetingData?.topic?.topicId);
-  const getTopics = useActionWithDeferred(getTopicsAction);
+  const [newTopic, setNewTopic] = useState(meetingData?.topic?.currentTopic);
   const navigate = useNavigate();
   const { setBackButtonOnClick } = useTgBackButton(true);
   const { t } = useTranslation();
-  const setNotification = useActionWithDispatch(setNotificationAction);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const locationData = useMemo(() => {
-    if (newTopicId) {
+    if (newTopic) {
       return {
         ...meetingData,
         topic: {
-          topicId: newTopicId,
+          currentTopic: newTopic,
           data: {
             path: CREATE_TOPICS_PATH,
             title: t('meetingInfo.topic'),
-            value: getTopicById(topics, newTopicId)?.name,
+            value: newTopic.name,
           },
         },
       };
     }
 
     return meetingData;
-  }, [topics, meetingData, newTopicId, t]);
-
-  const loadMoreTopics = useCallback(() => {
-    getTopics().catch(() => {
-      setNotification({ id: dayjs().unix(), type: TooltipType.ERROR, text: t('errors.getTopics') });
-    });
-  }, [getTopics, setNotification, t]);
+  }, [meetingData, newTopic, t]);
 
   const handleBack = useCallback(() => {
     navigate(CREATE_LEVELS_PATH, { state: { ...locationData } });
@@ -85,16 +70,11 @@ const CreateMeetingTopic: React.FC = () => {
       ref={containerRef}
     >
       <StepBox meetingData={locationData} containerClass={styles.stepBoxContainer} />
-      <TopicList
-        ref={containerRef}
-        onChangeTopic={setNewTopicId}
-        loadMoreTopics={loadMoreTopics}
-        defaultTopicId={newTopicId}
-      />
+      <TopicList ref={containerRef} onChangeTopic={setNewTopic} defaultTopic={newTopic} />
       <SubmitButton
         onClick={handleForward}
-        title={newTopicId ? t('button.continue') : t('topic.choose')}
-        isActive={!!newTopicId}
+        title={newTopic ? t('button.continue') : t('topic.choose')}
+        isActive={!!newTopic}
       />
     </div>
   );

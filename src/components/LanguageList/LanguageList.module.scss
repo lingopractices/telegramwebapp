@@ -2,7 +2,6 @@
   display: flex;
   flex-flow: column nowrap;
   padding-top: 24px;
-  margin-bottom: var(--submit-button-height);
   color: var(--base-color);
 
   h2 {
@@ -23,15 +22,6 @@
   flex-flow: row wrap;
   margin-bottom: -15px;
   margin-left: -15px;
-}
-
-.paddingContainer {
-  width: 164px;
-  height: 42px;
-  flex-grow: 1;
-  padding: 10px 0;
-  margin-bottom: 15px;
-  margin-left: 15px;
 }
 
 .stickyHeader {

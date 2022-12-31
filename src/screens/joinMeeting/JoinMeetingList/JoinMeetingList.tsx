@@ -43,11 +43,11 @@ const JoinMeetingList: React.FC = () => {
   const loadMore = useCallback(() => {
     if (
       meetingData?.date?.from &&
-      meetingData?.language?.languageId &&
+      meetingData?.language?.currentLanguage &&
       meetingData?.level?.languageLevel
     ) {
       getMeetings({
-        languageId: meetingData.language.languageId,
+        languageId: meetingData.language.currentLanguage.id,
         languageLevel: meetingData.level.languageLevel,
         from: meetingData.date.from,
         to: getMaxTimeOfDay(meetingData.date.from),
@@ -61,7 +61,7 @@ const JoinMeetingList: React.FC = () => {
     }
   }, [
     meetingData?.date?.from,
-    meetingData?.language?.languageId,
+    meetingData?.language?.currentLanguage,
     meetingData?.level?.languageLevel,
     getMeetings,
     setNotification,

@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import RadioItem from '@components/RadioItem/RadioItem';
 import SearchBox from '@components/SearchBox/SearchBox';
 import { TooltipType } from '@components/Tooltip/Tooltip';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
@@ -16,19 +15,21 @@ import { differenceBy, intersectionWith, isEmpty } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
+import LanguageItem from './LanguageItem/LanguageItem';
+
 import styles from './LanguageList.module.scss';
 
 interface ILanguageList {
   title?: string;
-  defaultLanguageId?: string;
+  defaultLanguage?: ILanguage;
   popularLanguagesIds?: string[];
   languages?: ILanguage[];
-  onChangeLanguage: (languageId: string) => void;
+  onChangeLanguage: (language: ILanguage) => void;
 }
 
 const LanguageList: React.FC<ILanguageList> = ({
   title,
-  defaultLanguageId,
+  defaultLanguage,
   popularLanguagesIds,
   languages,
   onChangeLanguage,
@@ -58,13 +59,6 @@ const LanguageList: React.FC<ILanguageList> = ({
     }
   }, [languages, allLanguages, filteredLanguages, getLanguages, setNotification, t]);
 
-  const handleChangeLanguage = useCallback(
-    (languageId: number | string) => {
-      onChangeLanguage(String(languageId));
-    },
-    [onChangeLanguage],
-  );
-
   const handleChangeSearchString = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value } = e.target;
@@ -80,32 +74,28 @@ const LanguageList: React.FC<ILanguageList> = ({
 
   const renderLanguages = useCallback(
     (language: ILanguage) => (
-      <RadioItem
-        id={language.id}
+      <LanguageItem
+        language={language}
+        onChangeLanguage={onChangeLanguage}
+        selected={language.id === defaultLanguage?.id}
         key={language.id}
-        radioGroupName='languages'
-        label={language.name}
-        onChange={handleChangeLanguage}
-        isSelected={language.id === defaultLanguageId}
-        containerClass={styles.paddingContainer}
       />
     ),
-    [defaultLanguageId, handleChangeLanguage],
+    [defaultLanguage, onChangeLanguage],
   );
 
   const renderSkeletLanguage = useCallback(
     (value: string) => (
       <Skeleton key={value} className={styles.paddingContainer} animation='wave'>
-        <RadioItem
-          id=''
-          radioGroupName=''
-          label=''
-          onChange={handleChangeLanguage}
-          isSelected={false}
+        <LanguageItem
+          language={{ id: '', name: '' }}
+          onChangeLanguage={onChangeLanguage}
+          containerClass={styles.paddingContainer}
+          selected={false}
         />
       </Skeleton>
     ),
-    [handleChangeLanguage],
+    [onChangeLanguage],
   );
 
   const renderedLanguages = useMemo(() => {

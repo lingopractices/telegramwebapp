@@ -52,8 +52,8 @@ const MeetingInfo: React.FC<{ meeting: IMeeting }> = ({ meeting }) => {
           <span className={styles.value}>{meeting.maxParticipantsCount}</span>
         </span>
         <span className={styles.line}>
-          {t('meeting.free')}: <span className={styles.value}>{freePlaces}</span>
-          {t('meeting.from')}: <span className={styles.value}>{meeting.maxParticipantsCount}</span>
+          {t('meeting.free')}: <span className={styles.value}>{freePlaces}</span>{' '}
+          {t('meeting.from')}: <span className={styles.value}>{meeting.maxParticipantsCount}</span>{' '}
           {t('meeting.places')}
         </span>
         <span

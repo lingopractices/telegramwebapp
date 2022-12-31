@@ -64,9 +64,9 @@ const JoinMeetingLevel: React.FC = () => {
   useBackSwipe(handleBack);
 
   const handleForward = useCallback(() => {
-    if (meetingData?.language?.languageId && newLevel) {
+    if (meetingData?.language?.currentLanguage && newLevel) {
       getMeetingsDays<string[]>({
-        languageId: meetingData.language.languageId,
+        languageId: meetingData.language.currentLanguage.id,
         languageLevel: newLevel,
         from: dayjs().format(FULL_DATE),
       })
@@ -91,7 +91,7 @@ const JoinMeetingLevel: React.FC = () => {
         );
     }
   }, [
-    meetingData?.language?.languageId,
+    meetingData?.language?.currentLanguage,
     locationData,
     newLevel,
     getMeetingsDays,

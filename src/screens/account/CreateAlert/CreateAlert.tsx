@@ -12,7 +12,6 @@ import { cancelCreateAlertAcion, createAlertAction } from '@store/alerts/actions
 import { createAlertPendingSelector } from '@store/alerts/selectors';
 import { setNotificationAction } from '@store/app-notifications/actions';
 import { AxiosErros } from '@store/common/axios-errors';
-import { languageByIdSelector } from '@store/languages/selectors';
 import { AxiosError } from 'axios';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
@@ -31,7 +30,7 @@ import styles from './CreateAlert.module.scss';
 const CreateAlert = () => {
   const location = useLocation();
   const [alertData, setAlertData] = useState<CreateAlertType>(location.state);
-  const language = useSelector(languageByIdSelector(alertData?.languageId));
+  const language = alertData?.language;
   const createAlertPending = useSelector(createAlertPendingSelector);
   const createAlert = useActionWithDeferred(createAlertAction);
   const setNotification = useActionWithDispatch(setNotificationAction);
@@ -72,11 +71,11 @@ const CreateAlert = () => {
   }, [setBackButtonOnClick, handleBack]);
 
   const handleCreateAlert = useCallback(() => {
-    const { languageId, languageLevels } = alertData;
+    const { language: newLaguage, languageLevels } = alertData;
 
-    if (languageId && languageLevels) {
+    if (newLaguage && languageLevels) {
       createAlert({
-        languageId,
+        languageId: newLaguage.id,
         languageLevel: languageLevels,
       })
         .then(() => {
@@ -101,7 +100,7 @@ const CreateAlert = () => {
 
   const buttonTitle = useMemo(() => {
     let resultTitle: string;
-    if (!alertData?.languageId) {
+    if (!alertData?.language) {
       resultTitle = t('notifications.chooseLanguage');
     } else if (!alertData?.languageLevels) {
       resultTitle = t('notifications.atLeastLevel');
@@ -119,7 +118,7 @@ const CreateAlert = () => {
       <SelectNextScreen
         title={language ? language.name : t('notifications.selectLang')}
         containerClass={classNames(styles.selectContainer, {
-          [styles.chosenLanguage]: !!alertData?.languageId,
+          [styles.chosenLanguage]: !!alertData?.language,
         })}
         onClick={handleSelectLanguage}
       />
@@ -133,7 +132,12 @@ const CreateAlert = () => {
           />
         </>
       )}
-      <SubmitButton onClick={handleCreateAlert} title={buttonTitle} loading={createAlertPending} />
+      <SubmitButton
+        onClick={handleCreateAlert}
+        title={buttonTitle}
+        loading={createAlertPending}
+        isActive={!!alertData?.language && !!alertData?.languageLevels}
+      />
     </div>
   );
 };

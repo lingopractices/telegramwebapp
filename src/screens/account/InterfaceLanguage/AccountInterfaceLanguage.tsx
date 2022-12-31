@@ -30,7 +30,7 @@ const AccountInterfaceLanguage: React.FC = () => {
   const { setBackButtonOnClick } = useTgBackButton(true);
   const interfaceLanguage = useSelector(getInterfaceLanguageSelector);
   const user = useSelector(getProfileDataSelector);
-  const [newInterfaceLanguageId, setNewInterfaceLanguageId] = useState(interfaceLanguage?.id);
+  const [newInterfaceLanguage, setNewInterfaceLanguage] = useState(interfaceLanguage);
   const pendingChangeLanguage = useSelector(pendingUpdateUserSelector);
   const updateProfile = useActionWithDeferred(updateProfileAction);
   const { t, i18n } = useTranslation();
@@ -53,16 +53,16 @@ const AccountInterfaceLanguage: React.FC = () => {
   useBackSwipe(handleBack);
 
   const handleSubmit = useCallback(() => {
-    if (user && newInterfaceLanguageId) {
-      if (newInterfaceLanguageId !== interfaceLanguage?.id) {
+    if (user && newInterfaceLanguage) {
+      if (newInterfaceLanguage.id !== interfaceLanguage?.id) {
         updateProfile({
           ...user,
           userId: user.id,
           practiceLanguageId: user.practiceLanguage.id,
-          interfaceLanguageId: newInterfaceLanguageId,
+          interfaceLanguageId: newInterfaceLanguage.id,
         })
           .then(() => {
-            i18n?.changeLanguage(newInterfaceLanguageId);
+            i18n?.changeLanguage(newInterfaceLanguage.id);
             handleBack();
             setNotification({
               id: dayjs().unix(),
@@ -86,7 +86,7 @@ const AccountInterfaceLanguage: React.FC = () => {
   }, [
     i18n,
     user,
-    newInterfaceLanguageId,
+    newInterfaceLanguage,
     interfaceLanguage?.id,
     updateProfile,
     handleBack,
@@ -102,14 +102,14 @@ const AccountInterfaceLanguage: React.FC = () => {
     <div className={styles.container}>
       <LanguageList
         languages={interfaceLanguages}
-        onChangeLanguage={setNewInterfaceLanguageId}
-        defaultLanguageId={newInterfaceLanguageId}
+        onChangeLanguage={setNewInterfaceLanguage}
+        defaultLanguage={newInterfaceLanguage}
         title={t('language.chooseInterfaceLang')}
       />
       <SubmitButton
         onClick={handleSubmit}
-        title={newInterfaceLanguageId ? t('button.submit') : t('language.choose')}
-        isActive={!!newInterfaceLanguageId}
+        title={newInterfaceLanguage ? t('button.submit') : t('language.choose')}
+        isActive={!!newInterfaceLanguage}
         loading={pendingChangeLanguage}
       />
     </div>

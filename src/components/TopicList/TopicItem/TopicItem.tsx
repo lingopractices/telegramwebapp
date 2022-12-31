@@ -3,21 +3,21 @@ import React, { RefObject, useCallback } from 'react';
 import { ReactComponent as DownArrow } from '@assets/icons/down-arrow.svg';
 import { ReactComponent as UpArrow } from '@assets/icons/up-arrow.svg';
 import classNames from 'classnames';
+import { ITopic } from 'lingopractices-models';
 
 import styles from './TopicItem.module.scss';
 
 interface ITopicItemProps {
-  id: number;
-  name: string;
+  topic: ITopic;
   isSelected: boolean;
-  onChange: (topicId: number) => void;
+  onChange: (topic: ITopic) => void;
 }
 
 const TopicItem = React.forwardRef<HTMLLIElement, ITopicItemProps>(
-  ({ id, name, isSelected, onChange }, ref) => {
+  ({ topic, isSelected, onChange }, ref) => {
     const handleClick = useCallback(() => {
-      onChange(id);
-    }, [onChange, id]);
+      onChange(topic);
+    }, [onChange, topic]);
 
     return (
       <li
@@ -26,7 +26,7 @@ const TopicItem = React.forwardRef<HTMLLIElement, ITopicItemProps>(
         className={classNames(styles.container, { [styles.selectedTopic]: isSelected })}
       >
         <div className={styles.content}>
-          <span>{name}</span>
+          <span>{topic.name}</span>
           {isSelected ? (
             <UpArrow className={styles.arrow} />
           ) : (
