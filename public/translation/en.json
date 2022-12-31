@@ -148,7 +148,8 @@
     "atLeastLevel": "Choose one level at least",
     "created": "Notification has been created",
     "editLevels": "Notification has been changed",
-    "editDeleted": "Notification has been deleted"
+    "editDeleted": "Notification has been deleted",
+    "emptyDays": "There aren't any meetings by the preferences. Please try again later"
   },
 
   "errors": {

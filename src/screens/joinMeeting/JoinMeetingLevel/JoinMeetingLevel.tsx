@@ -3,11 +3,19 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import LevelList from '@components/LevelList/LevelList';
 import StepBox from '@components/StepBox/StepBox';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
+import { TooltipType } from '@components/Tooltip/Tooltip';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useBackSwipe } from '@hooks/use-swipe';
+import { setNotificationAction } from '@store/app-notifications/actions';
+import { getMeetingDaysAction } from '@store/meetings/actions';
 import { getLanguageLevelSelector } from '@store/profile/selectors';
 import { mapLevels } from '@utils/map-levels';
+import { FULL_DATE } from 'common/constants';
+import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { LanguageLevel } from 'lingopractices-models';
+import { isEmpty } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -23,6 +31,8 @@ const JoinMeetingLevel: React.FC = () => {
   const [newLevel, setNewLevel] = useState(
     meetingData?.level?.languageLevel || currentLevel || LanguageLevel.None,
   );
+  const getMeetingsDays = useActionWithDeferred(getMeetingDaysAction);
+  const setNotification = useActionWithDispatch(setNotificationAction);
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { setBackButtonOnClick } = useTgBackButton(true);
@@ -54,8 +64,41 @@ const JoinMeetingLevel: React.FC = () => {
   useBackSwipe(handleBack);
 
   const handleForward = useCallback(() => {
-    navigate(JOIN_DATE_PATH, { state: { ...locationData } });
-  }, [locationData, navigate]);
+    if (meetingData?.language?.languageId && newLevel) {
+      getMeetingsDays<string[]>({
+        languageId: meetingData.language.languageId,
+        languageLevel: newLevel,
+        from: dayjs().format(FULL_DATE),
+      })
+        .then((data: string[]) => {
+          if (isEmpty(data)) {
+            setNotification({
+              id: dayjs().unix(),
+              type: TooltipType.INFO,
+              text: t('notifications.emptyDays'),
+            });
+
+            return;
+          }
+          navigate(JOIN_DATE_PATH, { state: { ...locationData } });
+        })
+        .catch((e) =>
+          setNotification({
+            id: dayjs().unix(),
+            type: TooltipType.ERROR,
+            text: t('errors.loadDyays'),
+          }),
+        );
+    }
+  }, [
+    meetingData?.language?.languageId,
+    locationData,
+    newLevel,
+    getMeetingsDays,
+    setNotification,
+    navigate,
+    t,
+  ]);
 
   useEffect(() => {
     setBackButtonOnClick(handleBack);

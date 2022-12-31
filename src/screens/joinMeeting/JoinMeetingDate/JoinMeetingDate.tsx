@@ -147,10 +147,6 @@ const JoinMeetingDate: React.FC = () => {
     ],
   );
 
-  useEffect(() => {
-    loadDays(dayjs());
-  }, [loadDays]);
-
   const handleBack = useCallback(() => {
     navigate(JOIN_LEVELS_PATH, { state: { ...locationData } });
   }, [locationData, navigate]);
