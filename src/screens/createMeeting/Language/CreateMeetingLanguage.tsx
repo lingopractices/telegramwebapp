@@ -72,6 +72,7 @@ const CreateMeetingLanguage: React.FC = () => {
         popularLanguagesIds={popularLanguagesIds}
         defaultLanguage={newLanguage}
         title={t('language.choosePracticeLang')}
+        containerClass={styles.listClass}
         onChangeLanguage={setNewLanguage}
       />
       <SubmitButton

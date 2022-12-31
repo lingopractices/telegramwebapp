@@ -9,6 +9,7 @@ import { setNotificationAction } from '@store/app-notifications/actions';
 import { getLanguagesAction } from '@store/languages/actions';
 import { languagePendingSelector, languagesSelector } from '@store/languages/selectors';
 import { getClearString } from '@utils/get-clear-string';
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { ILanguage } from 'lingopractices-models';
 import { differenceBy, intersectionWith, isEmpty } from 'lodash';
@@ -24,6 +25,7 @@ interface ILanguageList {
   defaultLanguage?: ILanguage;
   popularLanguagesIds?: string[];
   languages?: ILanguage[];
+  containerClass?: string;
   onChangeLanguage: (language: ILanguage) => void;
 }
 
@@ -32,6 +34,7 @@ const LanguageList: React.FC<ILanguageList> = ({
   defaultLanguage,
   popularLanguagesIds,
   languages,
+  containerClass,
   onChangeLanguage,
 }) => {
   const allLanguages = useSelector(languagesSelector);
@@ -150,7 +153,7 @@ const LanguageList: React.FC<ILanguageList> = ({
   ]);
 
   return (
-    <div className={styles.container}>
+    <div className={classNames(styles.container, containerClass)}>
       <div className={styles.stickyHeader}>
         <h2>{title}</h2>
         {popularLanguagesIds && <SearchBox onChange={handleChangeSearchString} />}

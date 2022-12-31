@@ -103,6 +103,7 @@ const AccountLanguage: React.FC = () => {
         onChangeLanguage={setNewPracticeLanguage}
         defaultLanguage={newPracticeLanguage}
         title={t('language.choosePracticeLang')}
+        containerClass={styles.listClass}
       />
       <SubmitButton
         onClick={handleSubmit}

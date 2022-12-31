@@ -72,15 +72,6 @@
   & .item {
     display: flex;
     flex: 1;
-    justify-content: center;
-
-    &:last-of-type {
-      justify-content: right;
-    }
-
-    &:first-of-type {
-      justify-content: left;
-    }
   }
 }
 
@@ -88,6 +79,7 @@
   width: fit-content;
   height: fit-content;
   padding: 8px;
+  margin-left: auto;
   background-color: var(--secondary-bg-color);
   border-radius: 8px;
 
@@ -111,6 +103,7 @@
 .logo {
   width: 0;
   height: 0;
+  margin: auto;
 
   &.hideMainLogo {
     animation: hide-main var(--animation-duraton) ease-out forwards;

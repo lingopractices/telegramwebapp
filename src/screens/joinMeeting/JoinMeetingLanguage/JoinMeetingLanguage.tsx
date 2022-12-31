@@ -73,6 +73,7 @@ const JoinMeetingLanguage: React.FC = () => {
         onChangeLanguage={setNewLanguage}
         defaultLanguage={newLanguage}
         title={t('language.choosePracticeLang')}
+        containerClass={styles.listClass}
       />
       <SubmitButton
         onClick={handleForward}
