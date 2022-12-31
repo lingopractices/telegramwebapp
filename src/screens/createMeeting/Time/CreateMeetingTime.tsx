@@ -80,9 +80,9 @@ const CreateMeetingTime: React.FC = () => {
     const { language, level, topic, number, date } = meetingData;
 
     if (
-      language?.languageId &&
+      language?.currentLanguage &&
       level?.languageLevel &&
-      topic?.topicId &&
+      topic?.currentTopic &&
       number?.peopleNumber &&
       date?.meetingDate &&
       meetingTime
@@ -91,10 +91,10 @@ const CreateMeetingTime: React.FC = () => {
 
       if (meetingAt > dayjs()) {
         createMeeting({
-          languageId: language.languageId,
+          languageId: language.currentLanguage.id,
           languageLevel: level.languageLevel,
           meetingAt: meetingAt.toJSON(),
-          topicId: topic.topicId,
+          topicId: topic.currentTopic.id,
           peopleNumber: number.peopleNumber,
         })
           .then(() => {

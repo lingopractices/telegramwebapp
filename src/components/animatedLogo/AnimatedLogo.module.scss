@@ -1,17 +1,20 @@
 .outer {
   display: flex;
+  width: 105px;
+  height: 105px;
   animation: loading 1s infinite ease-in-out;
 }
 
 .inner {
   position: absolute;
-  top: 53%;
-  left: 52%;
+  top: 54%;
+  left: 51%;
   transform: translate(-50%, -50%);
 }
 
 .wrapper {
   position: relative;
+  overflow: hidden;
   width: 105px;
   height: 105px;
   background-color: white;
@@ -27,6 +30,8 @@
     }
 
     & .inner {
+      top: 54%;
+      left: 50%;
       width: 12px;
       height: 14px;
     }

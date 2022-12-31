@@ -10,11 +10,11 @@ type MainButtonType = {
 
 let btnClickHandlerFn: () => void = () => {};
 
-const useTgMainButton = (
+function useTgMainButton(
   isVisibleMainButton: boolean,
   isEnabledMainButton: boolean,
   defaultTextMainButton?: string,
-): MainButtonType => {
+): MainButtonType {
   const handleMainBtnClicked = useCallback(() => {
     if (btnClickHandlerFn) {
       btnClickHandlerFn();
@@ -67,6 +67,6 @@ const useTgMainButton = (
     setMainButtonParams,
     setLoadingMainButton,
   };
-};
+}
 
 export default useTgMainButton;

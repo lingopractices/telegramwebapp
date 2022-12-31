@@ -3,6 +3,7 @@ import axios, { AxiosRequestConfig, CancelToken } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
+import { retryOnNetworkConnectionError } from './decorators/retry-on-network-connection-error';
 import { HttpRequestMethod } from './http-request-method';
 
 import type { HttpHeaders } from './types';
@@ -37,14 +38,21 @@ export function* httpRequest<TBody>(
       throw new Error('Unknown method.');
   }
 
-  try {
-    return yield call(axios.create().request, requestConfig);
-  } catch (e: any) {
-    Sentry.captureEvent(e);
-    if (e.message) {
-      throw e;
-    }
-  }
+  return yield call(retryOnNetworkConnectionError, function* () {
+    try {
+      return yield call(axios.create().request, requestConfig);
+    } catch (e: any) {
+      if (e.message) {
+        Sentry.captureEvent(e);
 
-  return undefined;
+        if (requestConfig.method === HttpRequestMethod.Get) {
+          return yield call(axios.create().request, requestConfig);
+        }
+
+        throw e;
+      }
+    }
+
+    return undefined;
+  });
 }

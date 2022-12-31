@@ -81,7 +81,11 @@ const JoinMeetingDate: React.FC = () => {
   );
 
   const handleSubmit = useCallback(() => {
-    if (meetingData?.language?.languageId && meetingData?.level?.languageLevel && meetingFrom) {
+    if (
+      meetingData?.language?.currentLanguage &&
+      meetingData?.level?.languageLevel &&
+      meetingFrom
+    ) {
       if (meetingFrom === meetingData?.date?.from) {
         navigate(JOIN_MEETINGS_PATH, {
           state: { ...locationData },
@@ -93,7 +97,7 @@ const JoinMeetingDate: React.FC = () => {
       clearMeetings();
 
       getMeetings({
-        languageId: meetingData.language.languageId,
+        languageId: meetingData.language.currentLanguage.id,
         languageLevel: meetingData.level.languageLevel,
         from: meetingFrom,
         to: getMaxTimeOfDay(meetingFrom),
@@ -124,9 +128,9 @@ const JoinMeetingDate: React.FC = () => {
 
   const loadDays = useCallback(
     (date: Dayjs) => {
-      if (meetingData?.language?.languageId && meetingData?.level?.languageLevel && date) {
+      if (meetingData?.language?.currentLanguage && meetingData?.level?.languageLevel && date) {
         getMeetingsDays({
-          languageId: meetingData.language.languageId,
+          languageId: meetingData.language.currentLanguage.id,
           languageLevel: meetingData.level.languageLevel,
           from: dayjs(date).format(FULL_DATE),
         }).catch(() =>
@@ -139,17 +143,13 @@ const JoinMeetingDate: React.FC = () => {
       }
     },
     [
-      meetingData?.language?.languageId,
+      meetingData?.language?.currentLanguage,
       meetingData?.level?.languageLevel,
       getMeetingsDays,
       setNotification,
       t,
     ],
   );
-
-  useEffect(() => {
-    loadDays(dayjs());
-  }, [loadDays]);
 
   const handleBack = useCallback(() => {
     navigate(JOIN_LEVELS_PATH, { state: { ...locationData } });

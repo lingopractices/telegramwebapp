@@ -10,7 +10,7 @@ type BackButtonType = {
 
 let btnClickHandlerFn: () => void = () => {};
 
-const useTgBackButton = (isVisibleBackButton: boolean): BackButtonType => {
+function useTgBackButton(isVisibleBackButton: boolean): BackButtonType {
   const handleBackBtnClicked = useCallback(() => {
     if (btnClickHandlerFn) {
       btnClickHandlerFn();
@@ -51,6 +51,6 @@ const useTgBackButton = (isVisibleBackButton: boolean): BackButtonType => {
     showBackButton,
     hideBackButton,
   };
-};
+}
 
 export default useTgBackButton;

@@ -10,6 +10,7 @@ import { GetMeetingDaysFailure } from './features/get-meeting-days/get-meetings-
 import { GetMeetings } from './features/get-meetings/get-meetings';
 import { GetMeetingsFailure } from './features/get-meetings/get-meetings-failure';
 import { GetMeetingsSuccess } from './features/get-meetings/get-meetings-success';
+import { GetMyMeetingsFailure } from './features/get-my-meetings/get-my-meeting-failure';
 import { GetMyMeetings } from './features/get-my-meetings/get-my-meetings';
 import { GetMyMeetingsSuccess } from './features/get-my-meetings/get-my-meetings-success';
 import { JoinMeeting } from './features/join-meeting/join-meeting';
@@ -30,7 +31,6 @@ const initialState: IMeetingsState = {
     hasMore: true,
   },
   meetingDays: [],
-  selectedMeeting: undefined,
   requests: {
     getMeetingsPending: false,
     getMeetingDaysPending: false,
@@ -47,6 +47,7 @@ const reducer = createReducer(initialState, (builder) =>
     .addCase(GetMeetingsSuccess.action, GetMeetingsSuccess.reducer)
     .addCase(GetMeetingsFailure.action, GetMeetingsFailure.reducer)
     .addCase(GetMyMeetings.action, GetMyMeetings.reducer)
+    .addCase(GetMyMeetingsFailure.action, GetMyMeetingsFailure.reducer)
     .addCase(GetMyMeetingsSuccess.action, GetMyMeetingsSuccess.reducer)
     .addCase(GetMeetingDays.action, GetMeetingDays.reducer)
     .addCase(GetMeetingDaysSuccess.action, GetMeetingDaysSuccess.reducer)

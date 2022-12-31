@@ -115,6 +115,7 @@
   "notSet": "not set",
 
   "levels": {
+    "0": "Not set",
     "1": "Beginner",
     "2": "Pre-Intermediate",
     "4": "Intermediate",
@@ -147,7 +148,8 @@
     "atLeastLevel": "Choose one level at least",
     "created": "Notification has been created",
     "editLevels": "Notification has been changed",
-    "editDeleted": "Notification has been deleted"
+    "editDeleted": "Notification has been deleted",
+    "emptyDays": "There aren't any meetings by the preferences. Please try again later"
   },
 
   "errors": {
@@ -164,6 +166,8 @@
     "meetings": "Failed to load meetings. Please try again later.",
     "location": "Failed to set location. Please try again later.",
     "notificationCreate": "Failed to create alert. Please try again later.",
-    "notificationEdit": "Filed to edit alert. Please try again later."
+    "notifications": "Failed to load alerts. Please try again later.",
+    "notificationEdit": "Filed to edit alert. Please try again later.",
+    "getLanguages": "Filed to load languages. Please try again later."
   }
 }

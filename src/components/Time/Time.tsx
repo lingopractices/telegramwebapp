@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import RadioItem from '@components/RadioItem/RadioItem';
 import { getAvailableTimes } from '@utils/date-utils';
-import { HOUR_MINUTE } from 'common/constants';
 import dayjs, { Dayjs } from 'dayjs';
 import { useTranslation } from 'react-i18next';
+
+import TimeItem from './TimeItem/TimeItem';
 
 import styles from './Time.module.scss';
 
@@ -25,8 +25,8 @@ const Time: React.FC<ITime> = ({ defaultTime, defaultDate, onChangeTime }) => {
   }, [defaultDate, setTimes]);
 
   const handleChangeTime = useCallback(
-    (id: number | string) => {
-      onChangeTime(dayjs.unix(Number(id)));
+    (id: number) => {
+      onChangeTime(dayjs.unix(id));
     },
     [onChangeTime],
   );
@@ -36,14 +36,12 @@ const Time: React.FC<ITime> = ({ defaultTime, defaultDate, onChangeTime }) => {
       <h2>{t('time.chooseTime')}</h2>
       <div className={styles.wrapper}>
         {times.map((item) => (
-          <RadioItem
+          <TimeItem
+            key={String(item.unix())}
             id={item.unix()}
-            key={item.unix()}
-            label={item.format(HOUR_MINUTE)}
-            radioGroupName='time'
-            isSelected={dayjs(defaultTime).unix() === item.unix()}
-            onChange={handleChangeTime}
-            containerClass={styles.itemContainer}
+            time={item}
+            selected={dayjs(defaultTime).unix() === item.unix()}
+            onChangeTime={handleChangeTime}
           />
         ))}
       </div>

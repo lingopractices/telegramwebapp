@@ -1,5 +1,6 @@
 .container {
   height: 100vh;
   padding: 0 16px;
+  margin-bottom: var(--submit-button-height);
   overflow-y: auto;
 }

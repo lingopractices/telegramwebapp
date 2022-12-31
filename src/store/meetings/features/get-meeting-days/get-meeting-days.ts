@@ -31,7 +31,7 @@ export class GetMeetingDays {
         );
 
         yield put(GetMeetingDaysSuccess.action(data));
-        meta?.deferred.resolve();
+        meta?.deferred.resolve(data);
       } catch (e) {
         yield put(GetMeetingDaysFailure.action());
         meta?.deferred.reject(e);

@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import LanguageList from '@components/LanguageList/LanguageList';
 import { useBackSwipe } from '@hooks/use-swipe';
 import useTgBackButton from '@hooks/useTgBackButton';
 import { alertsSelector } from '@store/alerts/selectors';
-import { languagesSelector } from '@store/languages/selectors';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { popularLanguagesIds } from 'common/constants';
+import { ILanguage } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -21,8 +21,7 @@ import styles from './LanguageAlert.module.scss';
 
 const LanguageAlert = () => {
   const location = useLocation();
-  const [alertData, setAlertData] = useState<CreateAlertType>(location.state);
-  const languages = useSelector(languagesSelector);
+  const alertData: CreateAlertType = location.state;
   const alertPreferences = useSelector(alertsSelector);
   const { setBackButtonOnClick } = useTgBackButton(true);
   const navigate = useNavigate();
@@ -39,20 +38,25 @@ const LanguageAlert = () => {
   }, [setBackButtonOnClick, handleBack]);
 
   const handleChangeLanguage = useCallback(
-    (languageId: string) => {
+    (language: ILanguage) => {
       let newAlertData: CreateAlertType;
 
-      if (alertData?.languageId === languageId) {
-        newAlertData = { ...alertData, languageId };
+      if (alertData?.language === language) {
+        newAlertData = { ...alertData, language };
       } else {
-        newAlertData = { languageId };
+        newAlertData = { language };
       }
 
-      if (alertPreferences.some((alertItem) => alertItem.languageId === newAlertData?.languageId)) {
-        if (newAlertData?.languageId) {
-          navigate(replaceInUrl(ACCOUNT_NOTIFICATIONS_EDIT_PATH, ['id', newAlertData.languageId]), {
-            state: { rootPath: ACCOUNT_NOTIFICATIONS_LANGUAGES_PATH },
-          });
+      if (
+        alertPreferences?.some((alertItem) => alertItem.languageId === newAlertData?.language?.id)
+      ) {
+        if (newAlertData?.language) {
+          navigate(
+            replaceInUrl(ACCOUNT_NOTIFICATIONS_EDIT_PATH, ['id', newAlertData.language.id]),
+            {
+              state: { rootPath: ACCOUNT_NOTIFICATIONS_LANGUAGES_PATH },
+            },
+          );
         }
       } else {
         navigate(ACCOUNT_NOTIFICATIONS_CREATE_PATH, {
@@ -66,8 +70,7 @@ const LanguageAlert = () => {
   return (
     <div className={styles.container}>
       <LanguageList
-        defaultLanguageId={alertData?.languageId}
-        languages={languages}
+        defaultLanguage={alertData?.language}
         popularLanguagesIds={popularLanguagesIds}
         onChangeLanguage={handleChangeLanguage}
         title={t('notifications.selectLang')}

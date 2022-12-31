@@ -65,6 +65,7 @@ export class CreateMeeting {
             googleMeetLink,
             languageId: payload.languageId,
             languageLevel: payload.languageLevel,
+            maxParticipantsCount: payload.peopleNumber,
             participants: [
               {
                 userId,

@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs';
-import { LanguageLevel } from 'lingopractices-models';
+import { ILanguage, ITopic, LanguageLevel } from 'lingopractices-models';
 
 export type StepDataType = {
   path: string;
@@ -9,7 +9,7 @@ export type StepDataType = {
 
 export type JoinMeetingType = {
   language: {
-    languageId?: string;
+    currentLanguage?: ILanguage;
     data: StepDataType;
   };
   level: {
@@ -24,7 +24,7 @@ export type JoinMeetingType = {
 
 export type CreateMeetingType = {
   language: {
-    languageId?: string;
+    currentLanguage?: ILanguage;
     data: StepDataType;
   };
   level: {
@@ -32,7 +32,7 @@ export type CreateMeetingType = {
     data: StepDataType;
   };
   topic: {
-    topicId?: number;
+    currentTopic?: ITopic;
     data: StepDataType;
   };
   number: {
@@ -50,7 +50,7 @@ export type CreateMeetingType = {
 };
 
 export type CreateAlertType = {
-  languageId?: string;
+  language?: ILanguage;
   languageLevels?: LanguageLevel;
   rootPath?: string;
 };

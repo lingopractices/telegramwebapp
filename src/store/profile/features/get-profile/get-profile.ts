@@ -1,5 +1,4 @@
 import { createAction } from '@reduxjs/toolkit';
-import { GetAlerts } from '@store/alerts/features/get-alerts/get-alerts';
 import { AuthInit } from '@store/auth/features/init-auth/init-auth';
 import { AxiosResponse } from 'axios';
 import { IUser } from 'lingopractices-models';
@@ -32,7 +31,6 @@ export class GetProfile {
 
         yield put(GetProfileSuccess.action(data));
         yield put(AuthInit.action());
-        yield put(GetAlerts.action());
       } catch (e) {
         // console.log(e)
       }

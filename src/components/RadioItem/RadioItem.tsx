@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import classNames from 'classnames';
 
@@ -10,7 +10,7 @@ interface IRadioItemProps {
   label: string;
   isSelected: boolean;
   containerClass?: string;
-  onChange: (id: number | string) => void;
+  onChange: () => void;
 }
 
 const RadioItem: React.FC<IRadioItemProps> = ({
@@ -20,30 +20,24 @@ const RadioItem: React.FC<IRadioItemProps> = ({
   isSelected,
   containerClass,
   onChange,
-}) => {
-  const handleChange = useCallback(() => {
-    onChange(id);
-  }, [id, onChange]);
-
-  return (
-    <label
-      onClick={handleChange}
-      htmlFor={label}
-      className={classNames(styles.container, containerClass, {
-        [`${styles.selected}`]: isSelected,
-      })}
-    >
-      <input
-        readOnly
-        type='radio'
-        name={radioGroupName}
-        id={String(id)}
-        value={label}
-        checked={isSelected}
-      />
-      {label}
-    </label>
-  );
-};
+}) => (
+  <label
+    onClick={onChange}
+    htmlFor={label}
+    className={classNames(styles.container, containerClass, {
+      [`${styles.selected}`]: isSelected,
+    })}
+  >
+    <input
+      readOnly
+      type='radio'
+      name={radioGroupName}
+      id={String(id)}
+      value={label}
+      checked={isSelected}
+    />
+    {label}
+  </label>
+);
 
 export default React.memo(RadioItem);

@@ -4,9 +4,8 @@ import LanguageList from '@components/LanguageList/LanguageList';
 import StepBox from '@components/StepBox/StepBox';
 import SubmitButton from '@components/SubmitButton/SubmitButton';
 import { useBackSwipe } from '@hooks/use-swipe';
-import { languagePendingSelector, languagesSelector } from '@store/languages/selectors';
+import { languagePendingSelector } from '@store/languages/selectors';
 import { getPracticeLanguageSelector } from '@store/profile/selectors';
-import { getLanguageById } from '@utils/get-language-topic-by-id';
 import classNames from 'classnames';
 import { popularLanguagesIds } from 'common/constants';
 import useTgBackButton from 'hooks/useTgBackButton';
@@ -24,34 +23,33 @@ import styles from './CreateMeetingLanguage.module.scss';
 
 const CreateMeetingLanguage: React.FC = () => {
   const location = useLocation();
-  const languages = useSelector(languagesSelector);
   const currentLanguage = useSelector(getPracticeLanguageSelector);
   const languagesPending = useSelector(languagePendingSelector);
   const meetingData: CreateMeetingType = location?.state;
-  const [newLanguageId, setNewLanguage] = useState(
-    meetingData?.language?.languageId || currentLanguage?.id,
+  const [newLanguage, setNewLanguage] = useState(
+    meetingData?.language?.currentLanguage || currentLanguage,
   );
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { setBackButtonOnClick } = useTgBackButton(true);
 
   const locationData = useMemo(() => {
-    if (newLanguageId) {
+    if (newLanguage) {
       return {
         ...meetingData,
         language: {
-          languageId: newLanguageId,
+          currentLanguage: newLanguage,
           data: {
             path: CREATE_LANGUAGES_PATH,
             title: t('meetingInfo.practiceLang'),
-            value: getLanguageById(languages, newLanguageId)?.name,
+            value: newLanguage.name,
           },
         },
       };
     }
 
     return meetingData;
-  }, [languages, meetingData, newLanguageId, t]);
+  }, [meetingData, newLanguage, t]);
 
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
@@ -72,15 +70,14 @@ const CreateMeetingLanguage: React.FC = () => {
       <StepBox meetingData={locationData} containerClass={styles.stepBoxContainer} />
       <LanguageList
         popularLanguagesIds={popularLanguagesIds}
-        languages={languages}
-        onChangeLanguage={setNewLanguage}
-        defaultLanguageId={newLanguageId}
+        defaultLanguage={newLanguage}
         title={t('language.choosePracticeLang')}
+        onChangeLanguage={setNewLanguage}
       />
       <SubmitButton
         onClick={handleForward}
-        title={newLanguageId ? t('button.continue') : t('language.choose')}
-        isActive={!!newLanguageId}
+        title={newLanguage ? t('button.continue') : t('language.choose')}
+        isActive={!!newLanguage}
       />
     </div>
   );

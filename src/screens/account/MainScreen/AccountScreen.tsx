@@ -2,17 +2,21 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 
 import InfoItem from '@components/InfoItem/InfoItem';
 import { TooltipType } from '@components/Tooltip/Tooltip';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useBackSwipe } from '@hooks/use-swipe';
 import { Skeleton } from '@mui/material';
-import { alertsExistSelector, alertsPendingSelector } from '@store/alerts/selectors';
+import { getAlertsAction } from '@store/alerts/actions';
+import {
+  alertsExistSelector,
+  alertsPendingSelector,
+  alertsSelector,
+} from '@store/alerts/selectors';
 import { setNotificationAction } from '@store/app-notifications/actions';
-import { languagePendingSelector } from '@store/languages/selectors';
 import { getProfileDataSelector } from '@store/profile/selectors';
 import { LINGO_PRACTICES_TELEGRAM_PATH } from 'common/constants';
 import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
-import { LanguageLevel } from 'lingopractices-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -32,13 +36,25 @@ import styles from './AccountScreen.module.scss';
 const AccountScreen: React.FC = () => {
   const user = useSelector(getProfileDataSelector);
   const notificationsExist = useSelector(alertsExistSelector);
-  const languagesPending = useSelector(languagePendingSelector);
   const alertsPending = useSelector(alertsPendingSelector);
+  const alerts = useSelector(alertsSelector);
   const navigate = useNavigate();
   const setNotification = useActionWithDispatch(setNotificationAction);
+  const getAlerts = useActionWithDeferred(getAlertsAction);
   const { t } = useTranslation();
-
   const { setBackButtonOnClick } = useTgBackButton(true);
+
+  useEffect(() => {
+    if (!alerts) {
+      getAlerts().catch((e) => {
+        setNotification({
+          id: dayjs().unix(),
+          text: t('errors.notifications'),
+          type: TooltipType.INFO,
+        });
+      });
+    }
+  }, [alerts, getAlerts, setNotification, t]);
 
   const handleBack = useCallback(() => {
     navigate(INSTANT_MAIN_PATH);
@@ -81,7 +97,12 @@ const AccountScreen: React.FC = () => {
   const skeletItem = useMemo(
     () => (
       <Skeleton className={styles.skeletContainer} animation='wave'>
-        <InfoItem title='' value='' onClick={openLocation} />
+        <InfoItem
+          title='fillasdsadfsdfsdfsdf'
+          value='fill'
+          onClick={openLocation}
+          containerClass={styles.itemContainer}
+        />
       </Skeleton>
     ),
     [openLocation],
@@ -94,23 +115,15 @@ const AccountScreen: React.FC = () => {
         <ChangeTheme />
       </div>
       <div className={styles.wrapper}>
-        {languagesPending ? (
-          skeletItem
-        ) : (
-          <InfoItem
-            title={t('account.info.practiceLang')}
-            value={user?.practiceLanguage && user.practiceLanguage.name}
-            onClick={openPracticeLanguages}
-            containerClass={styles.itemContainer}
-          />
-        )}
+        <InfoItem
+          title={t('account.info.practiceLang')}
+          value={(user?.practiceLanguage && user.practiceLanguage.name) || t('notSet')}
+          onClick={openPracticeLanguages}
+          containerClass={styles.itemContainer}
+        />
         <InfoItem
           title={t('account.info.level')}
-          value={
-            user?.languageLevel !== LanguageLevel.None
-              ? t(`levels.${user?.languageLevel}`)
-              : t(`notSet`)
-          }
+          value={t(`levels.${user?.languageLevel}`)}
           onClick={openLevels}
           containerClass={styles.itemContainer}
         />
@@ -120,16 +133,13 @@ const AccountScreen: React.FC = () => {
           onClick={openLocation}
           containerClass={styles.itemContainer}
         />
-        {languagesPending ? (
-          skeletItem
-        ) : (
-          <InfoItem
-            title={t('account.info.interfaceLang')}
-            value={user?.interfaceLanguage && user.interfaceLanguage.name}
-            onClick={openInterfaceLanguages}
-            containerClass={styles.itemContainer}
-          />
-        )}
+
+        <InfoItem
+          title={t('account.info.interfaceLang')}
+          value={(user?.interfaceLanguage && user.interfaceLanguage.name) || t('notSet')}
+          onClick={openInterfaceLanguages}
+          containerClass={styles.itemContainer}
+        />
         <InfoItem
           title={t('account.info.gender')}
           value={user?.gender && t(`gender.${user.gender}`)}

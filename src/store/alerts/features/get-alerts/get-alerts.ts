@@ -1,5 +1,5 @@
-import { createAction } from '@reduxjs/toolkit';
 import { IAlertState } from '@store/alerts/types';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory } from '@store/common/http-request-factory';
 import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
@@ -12,7 +12,7 @@ import { GetAlertsSuccess } from './get-alerts-success';
 
 export class GetAlerts {
   static get action() {
-    return createAction('notifications/GET_NOTIFICATION_PREFERENCES');
+    return createDeferredAction('notifications/GET_NOTIFICATION_PREFERENCES');
   }
 
   static get reducer() {
@@ -24,7 +24,7 @@ export class GetAlerts {
   }
 
   static get saga() {
-    return function* (): SagaIterator {
+    return function* ({ meta }: ReturnType<typeof GetAlerts.action>): SagaIterator {
       try {
         const { data } = GetAlerts.httpRequest.call(
           yield call(() => GetAlerts.httpRequest.generator()),
@@ -32,7 +32,7 @@ export class GetAlerts {
 
         yield put(GetAlertsSuccess.action(data));
       } catch (e) {
-        // log
+        meta?.deferred.reject(e);
       }
     };
   }

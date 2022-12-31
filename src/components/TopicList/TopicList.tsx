@@ -1,10 +1,15 @@
-import React, { useState, useCallback, useEffect, useMemo, RefObject } from 'react';
+import React, { useState, useCallback, useEffect, useMemo, RefObject, useRef } from 'react';
 
 import InfiniteScroll from '@components/InfinteScroll/InfiniteScroll';
 import QuestionItem from '@components/QuestionItem/QuestionItem';
 import SearchBox from '@components/SearchBox/SearchBox';
+import { TooltipType } from '@components/Tooltip/Tooltip';
 import AnimatedLogo, { LogoSize } from '@components/animatedLogo/AnimatedLogo';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { Skeleton } from '@mui/material';
+import { setNotificationAction } from '@store/app-notifications/actions';
+import { getTopicsAction } from '@store/topics/actions';
 import {
   getTopicsHasMoreSelector,
   getTopicsPendingSelector,
@@ -13,7 +18,9 @@ import {
 import { createAndFillArray } from '@utils/create-fill-array';
 import { getClearString } from '@utils/get-clear-string';
 import { TOPIC_LIMITS } from '@utils/pagination-limits';
+import dayjs from 'dayjs';
 import { ITopic } from 'lingopractices-models';
+import { isEmpty } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -22,55 +29,80 @@ import TopicItem from './TopicItem/TopicItem';
 import styles from './TopicList.module.scss';
 
 interface ITopicListProps {
-  defaultTopicId?: number;
-  loadMoreTopics: () => void;
-  onChangeTopic: (topicId: number) => void;
+  defaultTopic?: ITopic;
+
+  onChangeTopic: (topic: ITopic) => void;
 }
 
 export const TopicList = React.forwardRef<HTMLDivElement, ITopicListProps>(
-  ({ defaultTopicId, onChangeTopic, loadMoreTopics }, ref) => {
+  ({ defaultTopic, onChangeTopic }, ref) => {
+    const selectedTopicRef = useRef<HTMLLIElement>(null);
+    const containerRef = ref as RefObject<HTMLDivElement>;
     const topics = useSelector(getTopicsSelector);
     const hasMore = useSelector(getTopicsHasMoreSelector);
     const [filteredTopics, setFilteredTopics] = useState(topics);
-    const [currentTopicId, setCurrentTopicId] = useState(defaultTopicId || 0);
-    const [searchStringText, setSearchStringText] = useState('');
+    const [currentTopic, setCurrentTopic] = useState(defaultTopic);
     const pendingGetTopics = useSelector(getTopicsPendingSelector);
+    const setNotification = useActionWithDispatch(setNotificationAction);
+    const getTopics = useActionWithDeferred(getTopicsAction);
     const { t } = useTranslation();
 
     useEffect(() => {
-      onChangeTopic(currentTopicId);
-    }, [currentTopicId, onChangeTopic]);
+      if (containerRef.current && selectedTopicRef.current) {
+        containerRef.current.scrollTo(
+          0,
+          selectedTopicRef.current.offsetTop -
+            containerRef.current.offsetHeight / 2 +
+            selectedTopicRef.current.offsetHeight / 2,
+        );
+      }
+    }, [containerRef, selectedTopicRef]);
+
+    useEffect(() => {
+      if (!isEmpty(topics)) {
+        setFilteredTopics(topics);
+      }
+    }, [topics, setFilteredTopics]);
+
+    const loadMoreTopics = useCallback(() => {
+      getTopics().catch(() => {
+        setNotification({
+          id: dayjs().unix(),
+          type: TooltipType.ERROR,
+          text: t('errors.getTopics'),
+        });
+      });
+    }, [getTopics, setNotification, t]);
 
     const handleChangeTopic = useCallback(
-      (topicId: number) => setCurrentTopicId(topicId !== currentTopicId ? topicId : 0),
-      [setCurrentTopicId, currentTopicId],
+      (topic: ITopic) => {
+        setCurrentTopic(topic.id !== currentTopic?.id ? topic : undefined);
+        onChangeTopic(topic);
+      },
+      [setCurrentTopic, onChangeTopic, currentTopic],
     );
 
     const handleChangeSearchString = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchStringText(e.target.value);
+        setFilteredTopics(
+          topics.filter((topic) =>
+            getClearString(topic.name).includes(getClearString(e.target.value)),
+          ),
+        );
       },
-      [setSearchStringText],
+      [topics],
     );
-
-    useEffect(() => {
-      setFilteredTopics(
-        topics.filter((topic) =>
-          getClearString(topic.name).includes(getClearString(searchStringText)),
-        ),
-      );
-    }, [searchStringText, topics, setFilteredTopics]);
 
     const renderTopics = useCallback(
       (topic: ITopic) => (
         <div key={topic.id} className={styles.topicWrap}>
           <TopicItem
-            id={topic.id}
-            name={topic.name}
-            isSelected={topic.id === currentTopicId}
+            ref={currentTopic?.id === topic.id ? selectedTopicRef : null}
+            topic={topic}
+            isSelected={topic.id === currentTopic?.id}
             onChange={handleChangeTopic}
           />
-          {currentTopicId === topic.id && (
+          {currentTopic?.id === topic.id && (
             <ul className={styles.questions}>
               {topic.questions.map((question) => (
                 <QuestionItem key={question} label={question} />
@@ -79,7 +111,7 @@ export const TopicList = React.forwardRef<HTMLDivElement, ITopicListProps>(
           )}
         </div>
       ),
-      [currentTopicId, handleChangeTopic],
+      [currentTopic, handleChangeTopic],
     );
 
     const renderedTopics = useMemo(
@@ -90,7 +122,11 @@ export const TopicList = React.forwardRef<HTMLDivElement, ITopicListProps>(
     const renderTopicSkelet = useCallback(
       (value: number) => (
         <Skeleton key={value} className={styles.skeletContainer} animation='wave'>
-          <TopicItem id={0} name='' isSelected={false} onChange={handleChangeTopic} />
+          <TopicItem
+            topic={{ id: 0, name: '', questions: [] }}
+            isSelected={false}
+            onChange={handleChangeTopic}
+          />
         </Skeleton>
       ),
       [handleChangeTopic],
