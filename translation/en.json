@@ -2,7 +2,8 @@
   "mainScreen": {
     "create": "Create meeting",
     "join": "Join meeting",
-    "meetingsHeader": "Your meetings"
+    "meetingsHeader": "Your meetings",
+    "noMeetings": "No meetings"
   },
 
   "account": {
@@ -34,6 +35,7 @@
     "chooseLevel": "Choose meeting language level",
     "chooseLevels": "Choose meeting language levels",
     "choose": "Choose a level",
+    "chooseLvls": "Choose levels",
     "changed": "Practice level changed successfully !"
   },
 
@@ -66,6 +68,7 @@
     "levels": "Levels",
     "topic": "Topic",
     "participants": "Participants",
+    "maxParticipants": "Max participants count",
     "you": "You",
     "date": "Date",
     "time": "Time"
@@ -83,7 +86,6 @@
 
   "meeting": {
     "meeting": "Meeting",
-    "participants": "Participants",
     "free": "Free",
     "from": "from",
     "places": "places",

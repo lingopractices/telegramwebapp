@@ -2,7 +2,8 @@
   "mainScreen": {
     "create": "Создать",
     "join": "Найти",
-    "meetingsHeader": "Ваши встречи"
+    "meetingsHeader": "Ваши встречи",
+    "noMeetings": "Встреч нет"
   },
 
   "account": {
@@ -34,6 +35,7 @@
     "chooseLevel": "Выберите уровни языка",
     "chooseLevels": "Выберите уровень языка",
     "choose": "Выберите уровень",
+    "chooseLvls": "Выберите уровни",
     "changed": "Уровень изменен успешно !"
   },
 
@@ -66,6 +68,7 @@
     "levels": "Уровни",
     "topic": "Тема",
     "participants": "Участники",
+    "maxParticipants": "Максимальное количество участников",
     "you": "Вы",
     "date": "Дата",
     "time": "Время"
@@ -83,7 +86,6 @@
 
   "meeting": {
     "meeting": "Встреча",
-    "participants": "Участников",
     "free": "Свободно",
     "from": "из",
     "places": "мест",
