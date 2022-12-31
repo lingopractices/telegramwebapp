@@ -73,6 +73,10 @@
     display: flex;
     flex: 1;
   }
+
+  & .logoWrapper {
+    justify-content: center;
+  }
 }
 
 .account {
@@ -103,7 +107,6 @@
 .logo {
   width: 0;
   height: 0;
-  margin: 0 auto;
 
   &.hideMainLogo {
     animation: hide-main var(--animation-duraton) ease-out forwards;

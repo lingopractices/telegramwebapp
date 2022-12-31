@@ -149,7 +149,7 @@ const MainScreen: React.FC = () => {
               <SecondaryLogo />
             </div>
           </div>
-          <div className={styles.item}>
+          <div className={classNames(styles.item, styles.logoWrapper)}>
             <div ref={mainLogoRef} className={classNames(styles.logo, styles.start)}>
               <LingoLogo />
             </div>
