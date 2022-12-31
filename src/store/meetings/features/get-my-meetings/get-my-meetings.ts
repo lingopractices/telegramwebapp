@@ -27,7 +27,7 @@ export class GetMyMeetings {
   }
 
   static get saga() {
-    return function* ({ meta }: ReturnType<typeof GetMyMeetings.action>): SagaIterator {
+    return function* (): SagaIterator {
       const myMeetingList = yield select(getMyMeetingsSelector);
 
       const page: IPaginationParams = {
@@ -45,7 +45,6 @@ export class GetMyMeetings {
         yield put(GetMyMeetingsSuccess.action({ data, hasMore }));
       } catch (e) {
         yield put(GetMyMeetingsFailure.action());
-        meta?.deferred.reject(e);
       }
     };
   }

@@ -39,7 +39,6 @@ const ChangeTheme: React.FC = () => {
   return (
     <div className={styles.container} onClick={handleToggleTheme}>
       <div
-        onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
         className={classNames(styles.circle, {
           [`${styles.light}`]: theme === Theme.LIGHT,
           [`${styles.dark}`]: theme === Theme.DARK,

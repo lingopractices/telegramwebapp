@@ -10,7 +10,6 @@ import { useBackSwipe } from '@hooks/use-swipe';
 import { setNotificationAction } from '@store/app-notifications/actions';
 import { getMeetingDaysAction } from '@store/meetings/actions';
 import { getLanguageLevelSelector } from '@store/profile/selectors';
-import { getNextMonthDate } from '@utils/date-utils';
 import { mapLevels } from '@utils/map-levels';
 import { FULL_DATE } from 'common/constants';
 import dayjs from 'dayjs';
@@ -79,23 +78,15 @@ const JoinMeetingLevel: React.FC = () => {
       })
         .then((data: string[]) => {
           if (isEmpty(data)) {
-            getMeetingsDays<string[]>({
-              languageId,
-              languageLevel: newLevel,
-              from: getNextMonthDate(now).format(FULL_DATE),
-            }).then((nextMonthData: string[]) => {
-              if (isEmpty(nextMonthData)) {
-                setNotification({
-                  id: dayjs().unix(),
-                  type: TooltipType.INFO,
-                  text: t('notifications.emptyDays'),
-                });
-
-                return;
-              }
-              navigate(JOIN_DATE_PATH, { state: { ...locationData } });
+            setNotification({
+              id: dayjs().unix(),
+              type: TooltipType.INFO,
+              text: t('notifications.emptyDays'),
             });
+
+            return;
           }
+          navigate(JOIN_DATE_PATH, { state: { ...locationData } });
         })
         .catch((e) =>
           setNotification({
@@ -133,7 +124,7 @@ const JoinMeetingLevel: React.FC = () => {
       />
       <SubmitButton
         onClick={handleForward}
-        title={newLevel ? t('button.continue') : t('level.choose')}
+        title={newLevel ? t('button.continue') : t('level.chooseLvls')}
         isActive={!!newLevel}
         loading={fetchingDays}
       />

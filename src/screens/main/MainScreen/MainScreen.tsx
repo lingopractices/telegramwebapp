@@ -185,7 +185,7 @@ const MainScreen: React.FC = () => {
 
         {!myMeetings.length && myMeetingsPending ? renderedMeetinsSkelet : null}
 
-        {!myMeetings.length && !hasMore ? <div>no meetings</div> : null}
+        {!myMeetings.length && !hasMore ? <div>{t('mainScreen.noMeetings')}</div> : null}
       </div>
     </div>
   );

@@ -82,6 +82,7 @@ const LanguageList: React.FC<ILanguageList> = ({
         onChangeLanguage={onChangeLanguage}
         selected={language.id === defaultLanguage?.id}
         key={language.id}
+        containerClass={styles.paddingContainer}
       />
     ),
     [defaultLanguage, onChangeLanguage],
@@ -89,7 +90,11 @@ const LanguageList: React.FC<ILanguageList> = ({
 
   const renderSkeletLanguage = useCallback(
     (value: string) => (
-      <Skeleton key={value} className={styles.paddingContainer} animation='wave'>
+      <Skeleton
+        key={value}
+        className={classNames(styles.paddingContainer, styles.skeletContainer)}
+        animation='wave'
+      >
         <LanguageItem
           language={{ id: '', name: '' }}
           onChangeLanguage={onChangeLanguage}

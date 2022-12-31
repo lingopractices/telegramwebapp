@@ -30,8 +30,7 @@ import styles from './TopicList.module.scss';
 
 interface ITopicListProps {
   defaultTopic?: ITopic;
-
-  onChangeTopic: (topic: ITopic) => void;
+  onChangeTopic: (topic: ITopic | undefined) => void;
 }
 
 export const TopicList = React.forwardRef<HTMLDivElement, ITopicListProps>(
@@ -76,8 +75,13 @@ export const TopicList = React.forwardRef<HTMLDivElement, ITopicListProps>(
 
     const handleChangeTopic = useCallback(
       (topic: ITopic) => {
-        setCurrentTopic(topic.id !== currentTopic?.id ? topic : undefined);
-        onChangeTopic(topic);
+        if (topic.id !== currentTopic?.id) {
+          setCurrentTopic(topic);
+          onChangeTopic(topic);
+        } else {
+          onChangeTopic(undefined);
+          setCurrentTopic(undefined);
+        }
       },
       [setCurrentTopic, onChangeTopic, currentTopic],
     );

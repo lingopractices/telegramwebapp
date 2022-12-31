@@ -3,7 +3,8 @@ import React from 'react';
 import { ReactComponent as DownArrow } from '@assets/icons/down-arrow.svg';
 import { ReactComponent as UpArrow } from '@assets/icons/up-arrow.svg';
 import QuestionItem from '@components/QuestionItem/QuestionItem';
-import { languageByIdSelector } from '@store/languages/selectors';
+import { Skeleton } from '@mui/material';
+import { languageByIdSelector, languagePendingSelector } from '@store/languages/selectors';
 import { getProfileDataSelector } from '@store/profile/selectors';
 import classNames from 'classnames';
 import { DAY_MONTH_YAER, HOUR_MINUTE } from 'common/constants';
@@ -23,6 +24,7 @@ const MeetingInfo: React.FC<{ meeting: IMeeting }> = ({ meeting }) => {
   const language = useSelector(languageByIdSelector(meeting?.languageId));
   const user = useSelector(getProfileDataSelector);
   const freePlaces = meeting.maxParticipantsCount - meeting.participants.length;
+  const languagesPending = useSelector(languagePendingSelector);
   const { t } = useTranslation();
 
   return (
@@ -33,7 +35,14 @@ const MeetingInfo: React.FC<{ meeting: IMeeting }> = ({ meeting }) => {
       </h2>
       <div className={styles.content}>
         <span className={styles.line}>
-          {t('meetingInfo.practiceLang')}: <span className={styles.value}>{language?.name}</span>
+          {t('meetingInfo.practiceLang')}:{'  '}
+          {languagesPending ? (
+            <Skeleton animation='wave' className={styles.skeletSpace}>
+              <span className={styles.value}>{language?.name}</span>
+            </Skeleton>
+          ) : (
+            <span className={styles.value}>{language?.name}</span>
+          )}
         </span>
         <span className={styles.line}>
           {t('meetingInfo.level')}:{' '}
@@ -48,12 +57,12 @@ const MeetingInfo: React.FC<{ meeting: IMeeting }> = ({ meeting }) => {
           <span className={styles.value}>{dayjs(meeting.meetingDate).format(HOUR_MINUTE)}</span>
         </span>
         <span className={styles.line}>
-          {t('meetingInfo.participants')}:{' '}
+          {t('meetingInfo.maxParticipants')}:{' '}
           <span className={styles.value}>{meeting.maxParticipantsCount}</span>
         </span>
         <span className={styles.line}>
           {t('meeting.free')}: <span className={styles.value}>{freePlaces}</span>{' '}
-          {t('meeting.from')}: <span className={styles.value}>{meeting.maxParticipantsCount}</span>{' '}
+          {t('meeting.from')} <span className={styles.value}>{meeting.maxParticipantsCount}</span>{' '}
           {t('meeting.places')}
         </span>
         <span
@@ -62,7 +71,7 @@ const MeetingInfo: React.FC<{ meeting: IMeeting }> = ({ meeting }) => {
           })}
           onClick={toggleOpenParticipants}
         >
-          {t('meeting.participants')}:{' '}
+          {t('meetingInfo.participants')}:{' '}
           {isOpenParticipants ? (
             <UpArrow className={styles.arrow} />
           ) : (

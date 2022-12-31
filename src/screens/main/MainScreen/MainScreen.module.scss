@@ -103,7 +103,7 @@
 .logo {
   width: 0;
   height: 0;
-  margin: auto;
+  margin: 0 auto;
 
   &.hideMainLogo {
     animation: hide-main var(--animation-duraton) ease-out forwards;
@@ -126,6 +126,7 @@
 
 .skeletContainer {
   margin-bottom: 8px;
+  background-color: var(--secondary-bg-color-without-alpha);
 }
 
 @keyframes hide-main {

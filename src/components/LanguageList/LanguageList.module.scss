@@ -30,6 +30,19 @@
   background-color: var(--base-bg-color);
 }
 
+.paddingContainer {
+  width: 164px;
+  height: 42px;
+  flex-grow: 1;
+  margin-bottom: 15px;
+  margin-left: 15px;
+}
+
+.skeletContainer {
+  background-color: var(--secondary-bg-color-without-alpha);
+}
+
 .headerSkelet {
   width: min-content;
+  background-color: var(--secondary-bg-color-without-alpha);
 }
