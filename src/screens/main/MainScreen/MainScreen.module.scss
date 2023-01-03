@@ -70,6 +70,7 @@
   margin-bottom: 24px;
 
   & .item {
+    position: relative;
     flex: 1;
   }
 }
@@ -88,6 +89,9 @@
 }
 
 .secondaryLogo {
+  position: absolute;
+  top: 0;
+  left: 0;
   opacity: 0;
 
   &.hideSecondaryLogo {
