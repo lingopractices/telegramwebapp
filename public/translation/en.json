@@ -28,7 +28,7 @@
     "popular": "Popular",
     "other": "Other",
     "choose": "Choose a language",
-    "changed": "Language changed successfully !"
+    "changed": "Language changed successfully!"
   },
 
   "level": {
@@ -36,7 +36,7 @@
     "chooseLevels": "Choose meeting language levels",
     "choose": "Choose a level",
     "chooseLvls": "Choose levels",
-    "changed": "Practice level changed successfully !"
+    "changed": "Practice level changed successfully!"
   },
 
   "topic": {
@@ -91,8 +91,8 @@
     "places": "places",
     "creatorFrom": "Creator from",
     "questions": "Questions",
-    "leaveSuccess": "You left the meeting !",
-    "joined": "You joined the meeting !",
+    "leaveSuccess": "You left the meeting!",
+    "joined": "You joined the meeting!",
     "expiredTime": "Only future date available",
     "notSeats": "All seats are taken! Please, choose another meeting"
   },
