@@ -10,6 +10,7 @@ import { useBackSwipe } from '@hooks/use-swipe';
 import { setNotificationAction } from '@store/app-notifications/actions';
 import { getMeetingDaysAction } from '@store/meetings/actions';
 import { getLanguageLevelSelector } from '@store/profile/selectors';
+import { getNextMonthDate } from '@utils/date-utils';
 import { mapLevels } from '@utils/map-levels';
 import { FULL_DATE } from 'common/constants';
 import dayjs from 'dayjs';
@@ -58,13 +59,17 @@ const JoinMeetingLevel: React.FC = () => {
     return meetingData;
   }, [newLevel, meetingData, mappedLevels, t]);
 
+  const handleForward = useCallback(() => {
+    navigate(JOIN_DATE_PATH, { state: { ...locationData } });
+  }, [navigate, locationData]);
+
   const handleBack = useCallback(() => {
     navigate(JOIN_LANGUAGES_PATH, { state: { ...locationData } });
   }, [locationData, navigate]);
 
   useBackSwipe(handleBack);
 
-  const handleForward = useCallback(() => {
+  const handleSubmit = useCallback(() => {
     if (meetingData?.language?.currentLanguage && newLevel) {
       const now = dayjs();
       const languageId = meetingData.language.currentLanguage.id;
@@ -78,15 +83,31 @@ const JoinMeetingLevel: React.FC = () => {
       })
         .then((data: string[]) => {
           if (isEmpty(data)) {
-            setNotification({
-              id: dayjs().unix(),
-              type: TooltipType.INFO,
-              text: t('notifications.emptyDays'),
-            });
+            getMeetingsDays<string[]>({
+              languageId,
+              languageLevel: newLevel,
+              from: getNextMonthDate(now).format(FULL_DATE),
+            })
+              .then((nextMonthData: string[]) => {
+                if (isEmpty(nextMonthData)) {
+                  setNotification({
+                    id: dayjs().unix(),
+                    type: TooltipType.INFO,
+                    text: t('notifications.emptyDays'),
+                  });
+
+                  return;
+                }
+                handleForward();
+              })
+              .catch((e) => {
+                throw e;
+              });
 
             return;
           }
-          navigate(JOIN_DATE_PATH, { state: { ...locationData } });
+
+          handleForward();
         })
         .catch((e) =>
           setNotification({
@@ -101,11 +122,10 @@ const JoinMeetingLevel: React.FC = () => {
     }
   }, [
     meetingData?.language?.currentLanguage,
-    locationData,
     newLevel,
+    handleForward,
     getMeetingsDays,
     setNotification,
-    navigate,
     t,
   ]);
 
@@ -123,7 +143,7 @@ const JoinMeetingLevel: React.FC = () => {
         multiple={!!true}
       />
       <SubmitButton
-        onClick={handleForward}
+        onClick={handleSubmit}
         title={newLevel ? t('button.continue') : t('level.chooseLvls')}
         isActive={!!newLevel}
         loading={fetchingDays}
