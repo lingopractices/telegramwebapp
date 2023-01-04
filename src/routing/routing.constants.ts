@@ -2,6 +2,7 @@ export const MAIN_PATH = '/';
 export const INSTANT_MAIN_PATH = '/main';
 export const MEETING_PATH = '/meeting/:id';
 export const CREATE_PATH = '/create';
+export const WITH_GOOGLE_PATH = '/google';
 export const CREATE_LANGUAGES_PATH = `${CREATE_PATH}/languages`;
 export const CREATE_LEVELS_PATH = `${CREATE_PATH}/levels`;
 export const CREATE_TOPICS_PATH = `${CREATE_PATH}/topics`;

@@ -25,7 +25,9 @@ import styles from './CreateMeetingDate.module.scss';
 const CreateMeetingDate: React.FC = () => {
   const location = useLocation();
   const meetingData: CreateMeetingType = location?.state;
-  const [meetingDate, setMeetingDate] = useState<Dayjs | null>(meetingData.date?.meetingDate);
+  const [meetingDate, setMeetingDate] = useState<Dayjs | null>(
+    meetingData.date?.meetingDate || dayjs(),
+  );
   const setNotification = useActionWithDispatch(setNotificationAction);
   const navigate = useNavigate();
   const { t } = useTranslation();

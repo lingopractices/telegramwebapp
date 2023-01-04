@@ -18,6 +18,7 @@ export enum MainRoutesEnum {
   ACCOUNT = 'ACCOUNT',
   CREATE = 'CREATE',
   JOIN = 'JOIN',
+  WITHGOOGLE = 'WITHGOOGLE',
 }
 
 export enum AccountRoutesEnum {

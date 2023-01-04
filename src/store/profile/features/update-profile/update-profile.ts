@@ -33,6 +33,8 @@ export class UpdateProfile {
         languageLevel,
         practiceLanguageId,
         userId,
+        timeZoneId,
+        city,
       } = action.payload;
 
       const languages: ILanguage[] = yield select(languagesSelector);
@@ -65,6 +67,8 @@ export class UpdateProfile {
           countryName,
           gender,
           languageLevel,
+          timeZoneId,
+          city,
         };
 
         if (!response) {

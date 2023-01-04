@@ -4,6 +4,7 @@ import CreateMeetingRouter from 'routing/routers/CreateMeetingRouter';
 import JoinMeetingRouter from 'routing/routers/JoinMeetingRouter';
 import MainScreen from 'screens/main/MainScreen/MainScreen';
 import MeetingInfoScreen from 'screens/main/MeetingInfoScreen/MeetingInfoScreen';
+import WithGoogle from 'screens/main/WithGoogle/WithGoogle';
 
 import {
   ACCOUNT_PATH,
@@ -11,6 +12,7 @@ import {
   INSTANT_MAIN_PATH,
   JOIN_PATH,
   MEETING_PATH,
+  WITH_GOOGLE_PATH,
 } from '../routing.constants';
 import { MainRoutesEnum, MainRoutesObject } from '../routing.types';
 
@@ -36,6 +38,13 @@ const MainRoutes: MainRoutesObject = {
     pageName: 'Account',
     props: {
       element: AccountRouter,
+    },
+  },
+  [MainRoutesEnum.WITHGOOGLE]: {
+    path: WITH_GOOGLE_PATH,
+    pageName: 'Google',
+    props: {
+      element: WithGoogle,
     },
   },
   [MainRoutesEnum.CREATE]: {

@@ -133,6 +133,11 @@
     "3": "Female"
   },
 
+  "google": {
+    "sign": "To be able to create a meeting, please sign in to your Google account and make sure you provide access to your calendar.",
+    "withGoogle": "Continue with Google"
+  },
+
   "notifications": {
     "notifications": "Alerts",
     "on": "On",

@@ -169,6 +169,7 @@ const JoinMeetingDate: React.FC = () => {
         defaultDate={meetingFrom}
         availableDays={meetingsDays}
         onChangeDate={handleChangeDate}
+        defaultMonth={dayjs(meetingsDays[0])}
       />
       <SubmitButton
         title={t(meetingFrom && !!meetingsDays.length ? 'button.continue' : 'date.choose')}

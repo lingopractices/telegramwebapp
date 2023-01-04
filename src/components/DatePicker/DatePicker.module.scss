@@ -20,13 +20,19 @@
     color: var(--base-color);
     font-size: 16px;
 
-    &[aria-selected='true'] {
-      background-color: var(--secondary-bg-color);
+    &[aria-selected='true']:focus {
+      background-color: var(--dt-blue-dark-wt-blue-light);
+      color: var(--base-color);
+    }
+
+    &[aria-selected='true']:not(:focus) {
+      background-color: var(--dt-blue-dark-wt-blue-light);
+      color: var(--base-color);
     }
 
     &[aria-current='date'] {
       border: 1px solid var(--dt-blue-dark-wt-blue-light);
-      background-color: var(--secondary-bg-color);
+      background-color: none;
     }
 
     &[disabled] {

@@ -17,6 +17,7 @@ import styles from './DatePicker.module.scss';
 interface IDatePicker {
   defaultDate?: Dayjs | null;
   availableDays?: string[];
+  defaultMonth?: Dayjs;
   onChangeDate: (value: Dayjs | null) => void;
   onChangeMonth?: (date: Dayjs) => void;
 }
@@ -24,6 +25,7 @@ interface IDatePicker {
 const DatePicker: React.FC<IDatePicker> = ({
   defaultDate,
   availableDays,
+  defaultMonth,
   onChangeDate,
   onChangeMonth,
 }) => {
@@ -64,6 +66,7 @@ const DatePicker: React.FC<IDatePicker> = ({
             className={styles.picker}
             displayStaticWrapperAs='desktop'
             openTo='day'
+            defaultCalendarMonth={defaultMonth}
             onMonthChange={changeViewMonth}
             value={defaultDate}
             onChange={onChangeDate}
