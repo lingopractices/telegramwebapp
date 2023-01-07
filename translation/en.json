@@ -163,7 +163,7 @@
     "leaveMeeting": "Failed to leave the meeting. Please try again later.",
     "getTopics": "Failed to load topics. Please try again later.",
     "hasMeeting": "You already have a meeting at this time.",
-    "tokenError": "Could not create google meet meeting. Try to re-authorize with Google",
+    "tokenError": "Could not create google meet meeting. Try to re-authorize with",
     "otherCreateMeeting": "Failed to create the meeting. Please try again later.",
     "loadDyays": "Failed to load available meeting dates. Please try again later.",
     "loadMeetings": "Failed to load meetings. Please try again later.",
@@ -175,6 +175,7 @@
     "notificationCreate": "Failed to create alert. Please try again later.",
     "notifications": "Failed to load alerts. Please try again later.",
     "notificationEdit": "Filed to edit alert. Please try again later.",
-    "getLanguages": "Filed to load languages. Please try again later."
+    "getLanguages": "Filed to load languages. Please try again later.",
+    "reauthLink": "Failed to load necessary data. Please try again later."
   }
 }
