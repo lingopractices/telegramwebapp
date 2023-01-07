@@ -41,16 +41,14 @@ export const getAvailableTimes = (date: Dayjs) => {
   return availableTimes;
 };
 
-export const getNextMonthDate = (date: Dayjs): Dayjs => {
+export const getNextMonthLastDate = (date: Dayjs) => {
   const lastMonth = 11;
-
   const currentMonth = date.month();
   const currentYear = date.year();
 
-  return getMinTimeOfDay(
+  return getMaxTimeOfDay(
     date
       .set('year', currentMonth === lastMonth ? currentYear + 1 : currentYear)
-      .set('month', currentMonth === lastMonth ? 0 : currentMonth + 1)
-      .set('date', 1),
-  );
+      .set('month', currentMonth === lastMonth ? 0 : currentMonth + 1),
+  ).endOf('month');
 };

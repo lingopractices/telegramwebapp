@@ -46,7 +46,7 @@ export class UpdateProfile {
       };
 
       try {
-        const response = UpdateProfile.httpRequest.call(
+        UpdateProfile.httpRequest.call(
           yield call(() =>
             UpdateProfile.httpRequest.generator(action.payload, (token: CancelTokenSource) =>
               addPendingRequest(userId, token),
@@ -70,10 +70,6 @@ export class UpdateProfile {
           timeZoneId,
           city,
         };
-
-        if (!response) {
-          return;
-        }
 
         yield put(UpdateProfileSuccess.action(profileInfo));
 

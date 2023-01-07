@@ -4,6 +4,7 @@ const ROOT_API = `https://api-development-plha2.ondigitalocean.app/api`;
 export const MAIN_API = {
   SEARCH_MEETINGS: `${ROOT_API}/meetings/search`,
   JOIN_MEETING: `${ROOT_API}/meetings/join`,
+  GOOGLE_REAUTH: `${ROOT_API}/?user-google-info/login`,
   GET_MEETING_DAYS_BY_PREFERENCES: `${ROOT_API}/meetings/days`,
   SEARCH_TOPICS: `${ROOT_API}/topics/search`,
   GET_QUESTIONS_BY_TOPIC_ID: `${ROOT_API}/topic/:topicId/questions`,

@@ -11,8 +11,8 @@ import { setNotificationAction } from '@store/app-notifications/actions';
 import { AxiosErros } from '@store/common/axios-errors';
 import { cancelCreateMeetingAction, createMeetingAction } from '@store/meetings/actions';
 import { getCreateMeetingPendingSelector } from '@store/meetings/selectors';
+import { CreateMeetingError } from '@store/meetings/types';
 import { mergeDateAndTime } from '@utils/date-utils';
-import { AxiosError } from 'axios';
 import { HOUR_MINUTE } from 'common/constants';
 import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
@@ -30,13 +30,12 @@ const CreateMeetingTime: React.FC = () => {
   const meetingData: CreateMeetingType = location?.state;
   const [meetingTime, setMeetingTime] = useState(meetingData?.time?.meetingTime);
   const createPending = useSelector(getCreateMeetingPendingSelector);
-  const setNotification = useActionWithDispatch(setNotificationAction);
+
   const createMeeting = useActionWithDeferred(createMeetingAction);
   const navigate = useNavigate();
   const { t } = useTranslation();
-
+  const setNotification = useActionWithDispatch(setNotificationAction);
   const { setBackButtonOnClick } = useTgBackButton(true);
-
   const cancelCreateMeeting = useActionWithDispatch(cancelCreateMeetingAction);
 
   useEffect(
@@ -100,12 +99,15 @@ const CreateMeetingTime: React.FC = () => {
           .then(() => {
             handleForward();
           })
-          .catch((e: CreateMeetingResult & AxiosError) => {
-            if (e.code !== AxiosErros.Cancelled) {
+          .catch(({ e, url }: CreateMeetingError) => {
+            if (e?.code !== AxiosErros.Cancelled) {
               let textError: string;
               switch (e) {
                 case CreateMeetingResult.HasMeetingSameTime:
                   textError = t('errors.hasMeeting');
+                  break;
+                case CreateMeetingResult.TokenHasBeenExpiredOrRevoked:
+                  textError = `${t('errors.tokenError')} <a href="${url}">Google</a>`;
                   break;
                 default:
                   textError = t('errors.otherCreateMeeting');
