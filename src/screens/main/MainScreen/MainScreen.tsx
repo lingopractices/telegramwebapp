@@ -18,6 +18,7 @@ import {
   getMyMeetingsSelector,
   myMeetingsPendingSelector,
 } from '@store/meetings/selectors';
+import { getProfileDataSelector } from '@store/profile/selectors';
 import { createAndFillArray } from '@utils/create-fill-array';
 import { MY_MEETINGS_LIMITS } from '@utils/pagination-limits';
 import classNames from 'classnames';
@@ -34,6 +35,7 @@ import {
   CREATE_LANGUAGES_PATH,
   JOIN_LANGUAGES_PATH,
   MEETING_PATH,
+  WITH_GOOGLE_PATH,
 } from 'routing/routing.constants';
 
 import styles from './MainScreen.module.scss';
@@ -46,6 +48,7 @@ const MainScreen: React.FC = () => {
   const mainLogoRef = useRef<HTMLDivElement>(null);
   const secondaryLogoRef = useRef<HTMLDivElement>(null);
   const previousScrollTop = useRef(0);
+  const user = useSelector(getProfileDataSelector);
 
   const getMeetings = useActionWithDeferred(getMyMeetingsAction);
   const setNotification = useActionWithDispatch(setNotificationAction);
@@ -66,8 +69,15 @@ const MainScreen: React.FC = () => {
   }, [getMeetings, setNotification, t]);
 
   const createMeeting = useCallback(() => {
-    navigate(CREATE_LANGUAGES_PATH);
-  }, [navigate]);
+    let path = '';
+    if (user?.countryName) {
+      path = CREATE_LANGUAGES_PATH;
+    } else {
+      path = WITH_GOOGLE_PATH;
+    }
+
+    navigate(path);
+  }, [user?.countryName, navigate]);
 
   const joinMeeting = useCallback(() => {
     navigate(JOIN_LANGUAGES_PATH);

@@ -1,4 +1,5 @@
-import { IMeeting } from 'lingopractices-models';
+import { AxiosError } from 'axios';
+import { CreateMeetingResult, IMeeting } from 'lingopractices-models';
 
 export interface IMeetingsState {
   meetings: {
@@ -19,3 +20,8 @@ export interface IMeetingsState {
     leaveMeetingPending: boolean;
   };
 }
+
+export type CreateMeetingError = {
+  e: CreateMeetingResult & AxiosError;
+  url?: string;
+};

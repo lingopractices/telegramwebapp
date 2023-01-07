@@ -3,6 +3,7 @@ import { httpRequestFactory } from '@store/common/http-request-factory';
 import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
 import { IMeetingsState } from '@store/meetings/types';
+import { GoogleReauth } from '@store/profile/features/google-reauth/google-reauth';
 import { getProfileDataSelector } from '@store/profile/selectors';
 import { getTopicsSelector } from '@store/topics/selectors';
 import { addPendingRequest } from '@utils/cancel-request';
@@ -54,38 +55,60 @@ export class CreateMeeting {
           data: { googleMeetLink, id, createMeetingResult },
         } = response;
 
-        if (createMeetingResult === CreateMeetingResult.Success) {
-          const userCreator: IUser = yield select(getProfileDataSelector);
-          const topics: ITopic[] = yield select(getTopicsSelector);
-          const meetingTopic = topics.find((topic) => topic.id === payload.topicId);
-          const questions = topics.find((topic) => topic.id === payload.topicId);
-          const createdMeeting: IMeeting = {
-            id,
-            meetingDate: payload.meetingAt,
-            googleMeetLink,
-            languageId: payload.languageId,
-            languageLevel: payload.languageLevel,
-            maxParticipantsCount: payload.peopleNumber,
-            participants: [
-              {
-                userId,
-                gender,
-                country,
-                firstName: window.Telegram.WebApp.initDataUnsafe.user?.first_name || '',
+        switch (createMeetingResult) {
+          case CreateMeetingResult.Success: {
+            const userCreator: IUser = yield select(getProfileDataSelector);
+            const topics: ITopic[] = yield select(getTopicsSelector);
+            const meetingTopic = topics.find((topic) => topic.id === payload.topicId);
+            const questions = topics.find((topic) => topic.id === payload.topicId);
+            const createdMeeting: IMeeting = {
+              id,
+              meetingDate: payload.meetingAt,
+              googleMeetLink,
+              languageId: payload.languageId,
+              languageLevel: payload.languageLevel,
+              maxParticipantsCount: payload.peopleNumber,
+              participants: [
+                {
+                  userId,
+                  gender,
+                  country,
+                  firstName: window.Telegram.WebApp.initDataUnsafe.user?.first_name || '',
+                },
+              ],
+              topic: {
+                id: payload.topicId,
+                name: meetingTopic?.name || '',
+                questions: questions?.questions || [],
               },
-            ],
-            topic: {
-              id: payload.topicId,
-              name: meetingTopic?.name || '',
-              questions: questions?.questions || [],
-            },
-            userCreator,
-          };
-          yield put(CreateMeetingSuccess.action(createdMeeting));
-          meta?.deferred.resolve();
-        } else {
-          yield put(CreateMeetingFailure.action());
-          meta?.deferred.reject(createMeetingResult);
+              userCreator,
+            };
+
+            yield put(CreateMeetingSuccess.action(createdMeeting));
+            meta?.deferred.resolve();
+            break;
+          }
+          case CreateMeetingResult.TokenHasBeenExpiredOrRevoked: {
+            try {
+              const { data } = GoogleReauth.httpPrequest.call(
+                yield call(() => GoogleReauth.httpPrequest.generator()),
+              );
+
+              const { logInUrl } = data;
+
+              if (logInUrl) {
+                meta?.deferred.reject({ e: createMeetingResult, url: logInUrl });
+                yield put(CreateMeetingFailure.action());
+              }
+            } catch (e) {
+              meta?.deferred.reject(createMeetingResult);
+              yield put(CreateMeetingFailure.action());
+            }
+            break;
+          }
+          default:
+            meta?.deferred.reject(createMeetingResult);
+            yield put(CreateMeetingFailure.action());
         }
       } catch (e) {
         yield put(CreateMeetingFailure.action());

@@ -10,9 +10,8 @@ import { useBackSwipe } from '@hooks/use-swipe';
 import { setNotificationAction } from '@store/app-notifications/actions';
 import { getMeetingDaysAction } from '@store/meetings/actions';
 import { getLanguageLevelSelector } from '@store/profile/selectors';
-import { getNextMonthDate } from '@utils/date-utils';
+import { getNextMonthLastDate } from '@utils/date-utils';
 import { mapLevels } from '@utils/map-levels';
-import { FULL_DATE } from 'common/constants';
 import dayjs from 'dayjs';
 import useTgBackButton from 'hooks/useTgBackButton';
 import { LanguageLevel } from 'lingopractices-models';
@@ -79,30 +78,16 @@ const JoinMeetingLevel: React.FC = () => {
       getMeetingsDays<string[]>({
         languageId,
         languageLevel: newLevel,
-        from: now.format(FULL_DATE),
+        from: now.toJSON(),
+        to: getNextMonthLastDate(now).toJSON(),
       })
         .then((data: string[]) => {
           if (isEmpty(data)) {
-            getMeetingsDays<string[]>({
-              languageId,
-              languageLevel: newLevel,
-              from: getNextMonthDate(now).format(FULL_DATE),
-            })
-              .then((nextMonthData: string[]) => {
-                if (isEmpty(nextMonthData)) {
-                  setNotification({
-                    id: dayjs().unix(),
-                    type: TooltipType.INFO,
-                    text: t('notifications.emptyDays'),
-                  });
-
-                  return;
-                }
-                handleForward();
-              })
-              .catch((e) => {
-                throw e;
-              });
+            setNotification({
+              id: dayjs().unix(),
+              type: TooltipType.INFO,
+              text: t('notifications.emptyDays'),
+            });
 
             return;
           }
@@ -139,7 +124,7 @@ const JoinMeetingLevel: React.FC = () => {
       <LevelList
         onChangeLevel={setNewLevel}
         defaultLevelId={newLevel}
-        title={t('level.chooseLevel')}
+        title={t('level.chooseLevels')}
         multiple={!!true}
       />
       <SubmitButton
