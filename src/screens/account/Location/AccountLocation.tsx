@@ -46,6 +46,10 @@ const AccountLocation = () => {
 
   useBackSwipe(handleBack);
 
+  useEffect(() => {
+    setBackButtonOnClick(handleBack);
+  }, [handleBack, setBackButtonOnClick]);
+
   const handleSubmit = useCallback(
     ({ city, countryName, timeZoneId }: GetLocationResponseType) => {
       if (user && user.city !== city) {
@@ -82,23 +86,12 @@ const AccountLocation = () => {
     [user, handleBack, setNotification, updateLocation, t],
   );
 
-  const handleChangeLocation = useCallback(
-    (locationData: GetLocationResponseType) => {
-      handleSubmit(locationData);
-    },
-    [handleSubmit],
-  );
-
-  useEffect(() => {
-    setBackButtonOnClick(handleBack);
-  }, [handleBack, setBackButtonOnClick]);
-
   return (
     <div className={classNames(styles.container)}>
       <h2>{t('account.location.newLocation')}</h2>
       <p className={styles.text}>{t('account.location.text')}</p>
       <CountriesAutocomplete
-        onChangeLocation={handleChangeLocation}
+        onChangeLocation={handleSubmit}
         defaultCity={user?.city}
         defaultCountry={user?.countryName}
       />

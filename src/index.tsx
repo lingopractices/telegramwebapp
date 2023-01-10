@@ -8,11 +8,13 @@ import { store } from 'store/store';
 
 import App from './App';
 
-Sentry.init({
-  dsn: import.meta.env.VITE_SENTRY_DSN,
-  integrations: [new BrowserTracing()],
-  tracesSampleRate: 1.0,
-});
+if (import.meta.env.PROD) {
+  Sentry.init({
+    dsn: import.meta.env.VITE_SENTRY_DSN,
+    integrations: [new BrowserTracing()],
+    tracesSampleRate: 1.0,
+  });
+}
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <StyledEngineProvider injectFirst>
