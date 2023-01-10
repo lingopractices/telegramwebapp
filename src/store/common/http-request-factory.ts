@@ -34,9 +34,7 @@ export const httpRequestFactory = <TResponse, TBody>(
       }
 
       if (thirdPartyApi) {
-        return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, {
-          ...headers,
-        });
+        return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token);
       }
 
       return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, {

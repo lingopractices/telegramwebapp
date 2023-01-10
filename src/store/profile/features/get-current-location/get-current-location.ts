@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react';
 import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory } from '@store/common/http-request-factory';
 import { HttpRequestMethod } from '@store/common/http-request-method';
@@ -23,7 +24,8 @@ export class GetCurrentLocation {
         const { city, country: countryName, timezone } = data;
 
         meta?.deferred.resolve({ city, countryName, timeZoneId: timezone.name });
-      } catch (e) {
+      } catch (e: any) {
+        Sentry.captureEvent(e.message, import.meta.env.VITE_ABSTRACT_API_KEY);
         meta?.deferred.reject(e);
       }
     };
@@ -33,6 +35,8 @@ export class GetCurrentLocation {
     return httpRequestFactory<AxiosResponse<IAbstractResponse>, undefined>(
       ABSTRACT_API,
       HttpRequestMethod.Get,
+      undefined,
+      true,
     );
   }
 }
