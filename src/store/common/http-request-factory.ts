@@ -11,6 +11,7 @@ export const httpRequestFactory = <TResponse, TBody>(
   url: string | UrlGenerator<TBody>,
   method: HttpRequestMethod,
   headers?: HttpHeaders,
+  thirdPartyApi?: boolean,
 ) => {
   function* generator(
     body?: TBody,
@@ -30,6 +31,12 @@ export const httpRequestFactory = <TResponse, TBody>(
 
       if (assignCancelToken) {
         assignCancelToken(cancelTokenSource);
+      }
+
+      if (thirdPartyApi) {
+        return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, {
+          ...headers,
+        });
       }
 
       return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, {

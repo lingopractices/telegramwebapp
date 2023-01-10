@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  list-style-type: none;
+
+  &:not(:last-of-type) {
+    margin-bottom: 8px;
+  }
+
+  & svg {
+    min-width: 24px;
+    min-height: 24px;
+    margin-right: 8px;
+    stroke: var(--dt-white-wt-black);
+  }
+}

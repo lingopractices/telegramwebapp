@@ -16,9 +16,13 @@
       "gender": "Gender"
     },
     "location": {
+      "newLocation": "Enter new location",
+      "text": "Your location is used to determine your country which is displayed to your partners and to display meetings dates and times in your timezone",
+      "useCurrent": "Use current location",
       "setLocation": "Location",
       "chooseContry": "Choose a Country",
-      "changed": "Country changed successfully"
+      "changed": "Country changed successfully",
+      "placeholder": "Start writing"
     }
   },
 
@@ -114,7 +118,7 @@
     "delete": "Delete"
   },
 
-  "notSet": "not set",
+  "notSet": "Not set",
 
   "levels": {
     "0": "Not set",
@@ -172,10 +176,12 @@
     "level": "Failed to set level. Please try again later.",
     "meetings": "Failed to load meetings. Please try again later.",
     "location": "Failed to set location. Please try again later.",
+    "loadLocation": "Failed to load location. Please try again later.",
     "notificationCreate": "Failed to create alert. Please try again later.",
     "notifications": "Failed to load alerts. Please try again later.",
     "notificationEdit": "Filed to edit alert. Please try again later.",
     "getLanguages": "Filed to load languages. Please try again later.",
-    "reauthLink": "Failed to load necessary data. Please try again later."
+    "reauthLink": "Failed to load necessary data. Please try again later.",
+    "useCurrent": "Failed to define current location. Please try to use the field above"
   }
 }

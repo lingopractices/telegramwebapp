@@ -3,7 +3,7 @@ import { httpRequestFactory } from '@store/common/http-request-factory';
 import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
 import { IMeetingsState } from '@store/meetings/types';
-import { GoogleReauth } from '@store/profile/features/google-reauth/google-reauth';
+import { GoogleReAuth } from '@store/profile/features/google-reauth/google-reauth';
 import { getProfileDataSelector } from '@store/profile/selectors';
 import { getTopicsSelector } from '@store/topics/selectors';
 import { addPendingRequest } from '@utils/cancel-request';
@@ -90,8 +90,8 @@ export class CreateMeeting {
           }
           case CreateMeetingResult.TokenHasBeenExpiredOrRevoked: {
             try {
-              const { data } = GoogleReauth.httpPrequest.call(
-                yield call(() => GoogleReauth.httpPrequest.generator()),
+              const { data } = GoogleReAuth.httpRequest.call(
+                yield call(() => GoogleReAuth.httpRequest.generator()),
               );
 
               const { logInUrl } = data;

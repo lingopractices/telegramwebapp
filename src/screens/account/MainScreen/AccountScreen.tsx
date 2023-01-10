@@ -98,7 +98,7 @@ const AccountScreen: React.FC = () => {
     () => (
       <Skeleton className={styles.skeletContainer} animation='wave'>
         <InfoItem
-          title='fillasdsadfsdfsdfsdf'
+          title='fill'
           value='fill'
           onClick={openLocation}
           containerClass={styles.itemContainer}
@@ -129,7 +129,7 @@ const AccountScreen: React.FC = () => {
         />
         <InfoItem
           title={t('account.info.location')}
-          value={user?.countryName && user?.countryName}
+          value={user?.countryName ? user.countryName : t('notSet')}
           onClick={openLocation}
           containerClass={styles.itemContainer}
         />
@@ -142,7 +142,7 @@ const AccountScreen: React.FC = () => {
         />
         <InfoItem
           title={t('account.info.gender')}
-          value={user?.gender && t(`gender.${user.gender}`)}
+          value={user?.gender ? t(`gender.${user.gender}`) : t('notSet')}
           onClick={changeGender}
           containerClass={styles.itemContainer}
         />
