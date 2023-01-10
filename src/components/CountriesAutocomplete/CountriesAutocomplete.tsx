@@ -173,6 +173,7 @@ const CountriesAutocomplete: React.FC<ICountriesAutocompleteProps> = ({
 
       {!ready && <Skeleton animation='wave' className={styles.skeletUseCurrent} />}
 
+      {`${import.meta.env.VITE_GOOGLE_TIME_ZONE_KEY}`}
       {!value && !filteredPlaces.length && ready && (
         <Button
           onClick={useCurrentLocation}
