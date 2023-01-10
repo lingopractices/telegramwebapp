@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 import { ReactComponent as AccountIcon } from '@assets/account.svg';
 import { ReactComponent as LingoLogo } from '@assets/lingo-logo.svg';
@@ -84,35 +84,27 @@ const MainScreen: React.FC = () => {
   }, [navigate]);
 
   const renderMeetings = useCallback(
-    (meeting: IMeeting) => (
-      <MeetingItem
-        id={meeting.id}
-        key={meeting.id}
-        date={meeting.meetingDate}
-        mainRoute={MEETING_PATH}
-        defaultText={t('meetings.meetingTitles.meeting')}
-      />
-    ),
-    [t],
-  );
-
-  const renderedMeetings = useMemo(
-    () => myMeetings.map(renderMeetings),
-    [myMeetings, renderMeetings],
+    () =>
+      myMeetings.map((meeting: IMeeting) => (
+        <MeetingItem
+          id={meeting.id}
+          key={meeting.id}
+          date={meeting.meetingDate}
+          mainRoute={MEETING_PATH}
+          defaultText={t('meetings.meetingTitles.meeting')}
+        />
+      )),
+    [myMeetings, t],
   );
 
   const renderMeetingSkelet = useCallback(
-    (value: number) => (
-      <Skeleton key={value} className={styles.skeletContainer} animation='wave'>
-        <MeetingItem id={value} date='' mainRoute='' defaultText='' />
-      </Skeleton>
-    ),
+    () =>
+      createAndFillArray(MY_MEETINGS_LIMITS * 2).map((value: number) => (
+        <Skeleton key={value} className={styles.skeletContainer} animation='wave'>
+          <MeetingItem id={value} date='' mainRoute='' defaultText='' />
+        </Skeleton>
+      )),
     [],
-  );
-
-  const renderedMeetinsSkelet = useMemo(
-    () => createAndFillArray(MY_MEETINGS_LIMITS * 2).map(renderMeetingSkelet),
-    [renderMeetingSkelet],
   );
 
   const handleScroll = useCallback((event: React.UIEvent<HTMLDivElement>) => {
@@ -187,13 +179,13 @@ const MainScreen: React.FC = () => {
 
       <div className={styles.meetingsWrapper}>
         <InfiniteScroll hasMore={hasMore} containerRef={infiniteContainer} onReachBottom={loadMore}>
-          {renderedMeetings}
+          {renderMeetings()}
           {myMeetingsPending && myMeetings.length ? (
             <AnimatedLogo containerClass={styles.containerLoader} size={LogoSize.SMALL} />
           ) : null}
         </InfiniteScroll>
 
-        {!myMeetings.length && myMeetingsPending ? renderedMeetinsSkelet : null}
+        {!myMeetings.length && myMeetingsPending ? renderMeetingSkelet() : null}
 
         {!myMeetings.length && !hasMore ? <div>{t('mainScreen.noMeetings')}</div> : null}
       </div>

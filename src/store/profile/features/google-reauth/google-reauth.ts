@@ -7,16 +7,16 @@ import { IGoogleLogInInfo } from 'lingopractices-models';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
-export class GoogleReauth {
+export class GoogleReAuth {
   static get action() {
     return createDeferredAction('profile/GOOGLE_REAUTH');
   }
 
   static get saga() {
-    return function* ({ meta }: ReturnType<typeof GoogleReauth.action>): SagaIterator {
+    return function* ({ meta }: ReturnType<typeof GoogleReAuth.action>): SagaIterator {
       try {
-        const { data } = GoogleReauth.httpPrequest.call(
-          yield call(() => GoogleReauth.httpPrequest.generator()),
+        const { data } = GoogleReAuth.httpRequest.call(
+          yield call(() => GoogleReAuth.httpRequest.generator()),
         );
 
         const { logInUrl } = data;
@@ -28,7 +28,7 @@ export class GoogleReauth {
     };
   }
 
-  static get httpPrequest() {
+  static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IGoogleLogInInfo>, undefined>(
       MAIN_API.GOOGLE_REAUTH,
       HttpRequestMethod.Get,

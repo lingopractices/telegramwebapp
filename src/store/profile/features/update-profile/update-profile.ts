@@ -72,7 +72,6 @@ export class UpdateProfile {
         };
 
         yield put(UpdateProfileSuccess.action(profileInfo));
-
         action.meta?.deferred.resolve();
       } catch (e) {
         yield put(UpdateProfileFailure.action());

@@ -34,6 +34,8 @@ function applyTheme(theme: Theme) {
     '--dt-grey-wt-white': '#FFFFFF',
     '--dt-white-wt-light-blue': 'rgba(0, 136, 204, 0.08)',
     '--dt-white-wt-blue': '#0088CC',
+    '--dt-light-black-wt-white': '#FFFFFF',
+    '--dt-secondary-wt-white': '#FFFFFF',
   };
 
   const darkTheme: ThemeType = {
@@ -65,6 +67,8 @@ function applyTheme(theme: Theme) {
     '--dt-grey-wt-white': '#555555',
     '--dt-white-wt-light-blue': '#FFFFFF',
     '--dt-white-wt-blue': '#FFFFFF',
+    '--dt-light-black-wt-white': '#292D32',
+    '--dt-secondary-wt-white': 'rgba(255, 255, 255, 0.08)',
   };
 
   const root = document.documentElement;
