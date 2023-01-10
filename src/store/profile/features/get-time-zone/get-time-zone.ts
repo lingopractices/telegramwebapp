@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react';
 import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory } from '@store/common/http-request-factory';
 import { HttpRequestMethod } from '@store/common/http-request-method';
@@ -27,7 +28,9 @@ export class GetTimeZone {
         const { timeZoneId } = data;
 
         meta?.deferred.resolve(timeZoneId);
-      } catch (e) {
+      } catch (e: any) {
+        Sentry.captureEvent(e);
+        Sentry.captureEvent(import.meta.env.VITE_GOOGLE_TIME_ZONE_KEY);
         meta?.deferred.reject(e);
       }
     };
@@ -37,7 +40,7 @@ export class GetTimeZone {
     return httpRequestFactory<AxiosResponse<TimeZoneResponseType>, { lat: number; lng: number }>(
       ({ lat, lng }: { lat: number; lng: number }) =>
         `${GOOGLE_API.GET_TIMEZONE}${lat}%2C${lng}&timestamp=${dayjs().unix()}&key=${
-          import.meta.env.VITE_GOOGLE_API_KEY
+          import.meta.env.VITE_GOOGLE_TIME_ZONE_KEY
         }`,
       HttpRequestMethod.Get,
       undefined,

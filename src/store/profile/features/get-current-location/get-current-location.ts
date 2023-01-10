@@ -25,7 +25,8 @@ export class GetCurrentLocation {
 
         meta?.deferred.resolve({ city, countryName, timeZoneId: timezone.name });
       } catch (e: any) {
-        Sentry.captureEvent(e.message, import.meta.env.VITE_ABSTRACT_API_KEY);
+        Sentry.captureEvent(e);
+        Sentry.captureEvent(import.meta.env.VITE_ABSTRACT_API_KEY);
         meta?.deferred.reject(e);
       }
     };
