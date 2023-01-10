@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/react';
 import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory } from '@store/common/http-request-factory';
 import { HttpRequestMethod } from '@store/common/http-request-method';
@@ -29,8 +28,6 @@ export class GetTimeZone {
 
         meta?.deferred.resolve(timeZoneId);
       } catch (e: any) {
-        Sentry.captureEvent(e);
-        Sentry.captureEvent(import.meta.env.VITE_GOOGLE_TIME_ZONE_KEY);
         meta?.deferred.reject(e);
       }
     };
