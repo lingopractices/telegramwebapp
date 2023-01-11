@@ -83,8 +83,8 @@ const CountriesAutocomplete: React.FC<ICountriesAutocompleteProps> = ({
           const { lat, lng } = getLatLng(results[0]);
           const formattedStringAddress = results[0].formatted_address.split(',');
 
-          const city = formattedStringAddress[0];
-          const countryName = formattedStringAddress[formattedStringAddress.length - 1];
+          const city = formattedStringAddress[0].trim();
+          const countryName = formattedStringAddress[formattedStringAddress.length - 1].trim();
 
           getTimeZone({ lat, lng })
             .then((timeZoneId?: string) => {
