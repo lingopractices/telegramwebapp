@@ -39,7 +39,7 @@ export class GetAlerts {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<INotificationPreferenceDto[]>, undefined>(
-      MAIN_API.GET_NOTIFICATIONS_PREFERENCES,
+      MAIN_API.NOTIFICATIONS_PREFERENCES,
       HttpRequestMethod.Get,
     );
   }

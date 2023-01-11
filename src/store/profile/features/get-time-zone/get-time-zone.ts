@@ -2,6 +2,7 @@ import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory } from '@store/common/http-request-factory';
 import { HttpRequestMethod } from '@store/common/http-request-method';
 import { GOOGLE_API } from '@store/common/path';
+import { replaceInUrl } from '@utils/replace-in-url';
 import { AxiosResponse } from 'axios';
 import dayjs from 'dayjs';
 import { SagaIterator } from 'redux-saga';
@@ -21,7 +22,14 @@ export class GetTimeZone {
       const { lat, lng } = payload;
       try {
         const { data } = GetTimeZone.httpRequest.call(
-          yield call(() => GetTimeZone.httpRequest.generator({ lat, lng })),
+          yield call(() =>
+            GetTimeZone.httpRequest.generator({
+              lat,
+              lng,
+              timeStamp: dayjs().unix(),
+              apiKey: import.meta.env.VITE_GOOGLE_TIME_ZONE_KEY,
+            }),
+          ),
         );
 
         const { timeZoneId } = data;
@@ -34,11 +42,18 @@ export class GetTimeZone {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<TimeZoneResponseType>, { lat: number; lng: number }>(
-      ({ lat, lng }: { lat: number; lng: number }) =>
-        `${GOOGLE_API.GET_TIMEZONE}${lat}%2C${lng}&timestamp=${dayjs().unix()}&key=${
-          import.meta.env.VITE_GOOGLE_TIME_ZONE_KEY
-        }`,
+    return httpRequestFactory<
+      AxiosResponse<TimeZoneResponseType>,
+      { lat: number; lng: number; timeStamp: number; apiKey: string }
+    >(
+      ({ lat, lng, timeStamp, apiKey }) =>
+        replaceInUrl(
+          GOOGLE_API.GET_TIMEZONE,
+          ['lat', lat],
+          ['lng', lng],
+          ['timeStamp', timeStamp],
+          ['apiKey', apiKey],
+        ),
       HttpRequestMethod.Get,
       undefined,
       true,

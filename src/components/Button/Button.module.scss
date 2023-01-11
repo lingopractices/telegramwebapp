@@ -3,7 +3,6 @@
   display: flex;
   width: 100%;
   align-items: center;
-  justify-content: center;
   padding: 12px 0;
   border-radius: 40px;
   font-size: 16px;
@@ -12,9 +11,20 @@
 }
 
 .loader {
-  position: absolute;
   z-index: 10;
-  top: 50%;
-  left: 83%;
-  transform: translate(-50%, -50%);
+  display: flex;
+  margin-left: 10px;
+  justify-self: end;
+}
+
+.title {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  &.loading {
+    margin-left: 30px;
+  }
 }
