@@ -23,7 +23,7 @@ export class GetCurrentLocation {
         const { city, country: countryName, timezone } = data;
 
         meta?.deferred.resolve({ city, countryName, timeZoneId: timezone.name });
-      } catch (e) {
+      } catch (e: any) {
         meta?.deferred.reject(e);
       }
     };
@@ -33,6 +33,8 @@ export class GetCurrentLocation {
     return httpRequestFactory<AxiosResponse<IAbstractResponse>, undefined>(
       ABSTRACT_API,
       HttpRequestMethod.Get,
+      undefined,
+      true,
     );
   }
 }

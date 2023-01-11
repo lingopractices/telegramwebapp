@@ -35,7 +35,7 @@ export class GetTimeZone {
         const { timeZoneId } = data;
 
         meta?.deferred.resolve(timeZoneId);
-      } catch (e) {
+      } catch (e: any) {
         meta?.deferred.reject(e);
       }
     };
