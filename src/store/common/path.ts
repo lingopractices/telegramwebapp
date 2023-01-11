@@ -14,9 +14,8 @@ export const MAIN_API = {
   CREATE_MEETING: `${ROOT_API}/meeting`,
   GET_MY_MEETINGS: `${ROOT_API}/user/meetings?userId=:userId&offset=:offset&limit=:limit`,
   LEAVE_MEETING: `${ROOT_API}/meetings/:meetingId/leave?userId=:userId`,
-  GET_NOTIFICATIONS_PREFERENCES: `${ROOT_API}/notification-preferences`,
-  CREATE_NOTIFICATIONS_PREFERENCES: `${ROOT_API}/notification-preferences`,
-  UPDATE_NOTIFICATIONS_PREFERENCES: `${ROOT_API}/notification-preferences`,
+  NOTIFICATIONS_PREFERENCES: `${ROOT_API}/notification-preferences`,
+  GET_CREATE_MEETING_CONTENT: `${ROOT_API}/content/messages/create-meeting?locale=:locale`,
 };
 
 export const ABSTRACT_API = `https://ipgeolocation.abstractapi.com/v1/?api_key=${
@@ -26,5 +25,5 @@ export const ABSTRACT_API = `https://ipgeolocation.abstractapi.com/v1/?api_key=$
 const MAIN_GOOGLE_API = 'https:/maps.googleapis.com/maps/api/';
 
 export const GOOGLE_API = {
-  GET_TIMEZONE: `${MAIN_GOOGLE_API}timezone/json?location=`,
+  GET_TIMEZONE: `${MAIN_GOOGLE_API}timezone/json?location=:lat%2C:lng&timestamp=:timeStamp&key=:apiKey`,
 };

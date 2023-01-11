@@ -65,7 +65,7 @@ export class CreateAlert {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<number>, ICreateNotificationPreference>(
-      MAIN_API.CREATE_NOTIFICATIONS_PREFERENCES,
+      MAIN_API.NOTIFICATIONS_PREFERENCES,
       HttpRequestMethod.Post,
     );
   }

@@ -58,6 +58,8 @@
   color: var(--dt-black-wt-white);
 
   & svg {
+    min-width: 24px;
+    min-height: 24px;
     margin-right: 8px;
     stroke: var(--dt-light-black-wt-white);
   }

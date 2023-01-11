@@ -54,7 +54,7 @@ export class UpdateAlert {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<undefined>, IUpdateNotificationPreference>(
-      MAIN_API.UPDATE_NOTIFICATIONS_PREFERENCES,
+      MAIN_API.NOTIFICATIONS_PREFERENCES,
       HttpRequestMethod.Put,
     );
   }

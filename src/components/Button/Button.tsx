@@ -28,12 +28,14 @@ const Button: React.FC<IButtonProps> = ({
     className={classNames(styles.container, containerClass)}
     onClick={onClick}
   >
-    <span className={styles.title}>{title || children}</span>
-    {loading && (
-      <div className={styles.loader}>
-        <AnimatedLogo size={LogoSize.SMALL} />
-      </div>
-    )}
+    <span className={classNames(styles.title, { [styles.loading]: loading })}>
+      {title || children}
+      {loading && (
+        <div className={styles.loader}>
+          <AnimatedLogo size={LogoSize.SMALL} />
+        </div>
+      )}
+    </span>
   </button>
 );
 

@@ -3,6 +3,7 @@ import { httpRequestFactory } from '@store/common/http-request-factory';
 import { HttpRequestMethod } from '@store/common/http-request-method';
 import { MAIN_API } from '@store/common/path';
 import { IMeetingsState } from '@store/meetings/types';
+import { GetSpeeches } from '@store/profile/features/get-speeches/get-speeches';
 import { GoogleReAuth } from '@store/profile/features/google-reauth/google-reauth';
 import { getProfileDataSelector } from '@store/profile/selectors';
 import { getTopicsSelector } from '@store/topics/selectors';
@@ -17,7 +18,7 @@ import {
   IUser,
 } from 'lingopractices-models';
 import { SagaIterator } from 'redux-saga';
-import { call, put, select } from 'redux-saga/effects';
+import { call, put, select, spawn } from 'redux-saga/effects';
 
 import { CreateMeetingFailure } from './create-meeting-failure';
 import { CreateMeetingSuccess } from './create-meeting-success';
@@ -37,6 +38,8 @@ export class CreateMeeting {
   static get saga() {
     return function* ({ payload, meta }: ReturnType<typeof CreateMeeting.action>): SagaIterator {
       const { id: userId, gender, countryName: country } = yield select(getProfileDataSelector);
+
+      yield spawn(GetSpeeches.saga);
 
       try {
         const response = CreateMeeting.httpRequest.call(

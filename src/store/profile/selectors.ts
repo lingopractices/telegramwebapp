@@ -17,3 +17,8 @@ export const pendingUpdateUserSelector = (state: RootState) =>
 export const themeSelector = (state: RootState) => state.profile.theme;
 
 export const locationSelector = (state: RootState) => state.profile.profileInfo?.countryName;
+
+export const speechesSelector = (state: RootState) => state.profile.speeches;
+
+export const speechesByLocaleSelector = (locale?: string) => (state: RootState) =>
+  state.profile.speeches[locale || ''];

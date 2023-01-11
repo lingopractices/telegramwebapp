@@ -40,7 +40,7 @@ export class GetMeetings {
 
   static get saga() {
     return function* ({ payload, meta }: ReturnType<typeof GetMeetings.action>): SagaIterator {
-      const { from: dayjsFrom, to: dayjsTo } = payload;
+      const { from, to } = payload;
 
       const meetingsList = yield select(getMeetingsSelector);
 
@@ -55,8 +55,8 @@ export class GetMeetings {
             GetMeetings.httpRequest.generator({
               ...payload,
               page,
-              from: dayjsFrom?.toJSON(),
-              to: dayjsTo?.toJSON(),
+              from: from?.toJSON(),
+              to: to?.toJSON(),
             }),
           ),
         );
