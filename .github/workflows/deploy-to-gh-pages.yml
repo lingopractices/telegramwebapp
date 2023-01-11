@@ -4,7 +4,13 @@ on:
   push:
     branches:
       - main
-
+env:
+  VITE_ABSTRACT_API_KEY: ${{ secrets.VITE_ABSTRACT_API_KEY }}
+  VITE_GOOGLE_API_KEY: ${{ secrets.VITE_GOOGLE_API_KEY }}
+  VITE_GOOGLE_TIME_ZONE_KEY: ${{ secrets.VITE_GOOGLE_TIME_ZONE_KEY }}
+  VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN }}
+  VITE_TG_TOKEN: ${{ secrets.VITE_TG_TOKEN }}
+  
 jobs:
   deploy:
     runs-on: ubuntu-22.04
@@ -23,15 +29,11 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
-          VITE_ABSTRACT_API_KEY: ${{ secrets.VITE_ABSTRACT_API_KEY }}
-          VITE_GOOGLE_API_KEY: ${{ secrets.VITE_GOOGLE_API_KEY }}
-          VITE_GOOGLE_TIME_ZONE_KEY: ${{ secrets.VITE_GOOGLE_TIME_ZONE_KEY }}
-          VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN }}
-          VITE_TG_TOKEN: ${{ secrets.VITE_TG_TOKEN }}
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+            
       - run: yarn
       - run: yarn build
 
